@@ -1,0 +1,102 @@
+@import 'variables';
+@import 'mixins';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: $font-size-base;
+}
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: 1.6;
+  color: $dark-color;
+  background-color: white;
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-heading;
+  font-weight: $font-weight-bold;
+  line-height: 1.2;
+  margin-bottom: $spacing-md;
+}
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.75rem; }
+h4 { font-size: 1.5rem; }
+h5 { font-size: 1.25rem; }
+h6 { font-size: 1rem; }
+
+p {
+  margin-bottom: $spacing-md;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color $transition-base;
+  
+  &:hover {
+    color: $secondary-color;
+  }
+}
+
+// Form Elements
+input, select, textarea {
+  font-family: inherit;
+  font-size: $font-size-base;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+  }
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-md;
+  transition: all $transition-base;
+}
+
+// Utilities
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+}
+
+.text-center { text-align: center; }
+.text-primary { color: $primary-color; }
+.text-secondary { color: $secondary-color; }
+.text-muted { color: $gray-color; }
+
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: $spacing-sm; }
+.mt-2 { margin-top: $spacing-md; }
+.mt-3 { margin-top: $spacing-lg; }
+.mt-4 { margin-top: $spacing-xl; }
+.mt-5 { margin-top: $spacing-2xl; }
+
+.mb-0 { margin-bottom: 0; }
+.mb-1 { margin-bottom: $spacing-sm; }
+.mb-2 { margin-bottom: $spacing-md; }
+.mb-3 { margin-bottom: $spacing-lg; }
+.mb-4 { margin-bottom: $spacing-xl; }
+.mb-5 { margin-bottom: $spacing-2xl; }
+
+.py-5 { padding: $spacing-2xl 0; }

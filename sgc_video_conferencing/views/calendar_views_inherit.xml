@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="calendar_event_form_view_inherit_video" model="ir.ui.view">
+        <field name="name">calendar.event.form.video.inherit</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='description']" position="after">
+                <group string="Video Conferencing" name="video_conferencing">
+                    <field name="is_video_meeting" widget="boolean_toggle"/>
+                    <field name="video_provider_id"
+                           required="is_video_meeting" invisible="not is_video_meeting"/>
+                    <field name="video_join_url" widget="url"
+                           invisible="not is_video_meeting"/>
+                    <div class="mt8" invisible="not is_video_meeting">
+                        <button name="action_join_video_meeting" type="object"
+                                string="Join Meeting" class="btn-success btn-sm"/>
+                        <button name="action_start_video_meeting" type="object"
+                                string="Start Meeting" class="btn-primary btn-sm"/>
+                    </div>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="calendar_event_search_view_inherit_video" model="ir.ui.view">
+        <field name="name">calendar.event.search.video.inherit</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='recurrent']" position="after">
+                <separator/>
+                <filter string="Video Meeting" name="video_meeting" domain="[('is_video_meeting','=',True)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

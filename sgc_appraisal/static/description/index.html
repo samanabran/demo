@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGC - Employee Appraisal</title>
+    <style>
+        :root {
+            --navy: #1B3A57;
+            --gold: #C9A961;
+            --cream: #F5F3EE;
+            --white: #FFFFFF;
+            --text: #2C2C2C;
+            --border: #E6E2D8;
+            --success: #2E7D32;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background-color: var(--white);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: Georgia, Cambria, 'Times New Roman', serif;
+            color: var(--navy);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-cream {
+            background-color: var(--cream);
+        }
+
+        /* Defensive word-break: Odoo's app-store sanitizer can apply word-break: break-all
+           to descendant text, splitting words char-by-char into narrow grid cards. */
+        body, .container, .card, .card h3, .card p, .stat, .workflow-step,
+        .checklist li, .role-card, h1, h2, h3, h4, .intro-text {
+            word-break: normal;
+            overflow-wrap: break-word;
+            hyphens: none;
+        }
+
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--navy);
+            color: var(--white);
+            text-align: center;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .hero-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .hero-content {
+            padding: 60px 20px;
+            background-color: var(--white);
+        }
+
+        .hero-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin: 10px 0;
+            color: var(--navy);
+        }
+
+        .hero-summary {
+            font-size: 1.25rem;
+            color: var(--text);
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-value {
+            font-weight: bold;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-gold {
+            background-color: var(--gold);
+            color: var(--navy);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--navy);
+            color: var(--navy);
+        }
+
+        /* Introduction */
+        .intro-text {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .gold-highlight {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* Feature Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        /* Workflow */
+        .workflow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            gap: 20px;
+        }
+
+        .workflow-step {
+            background: var(--white);
+            padding: 20px 30px;
+            border-radius: 50px;
+            border: 2px solid var(--gold);
+            font-weight: bold;
+            color: var(--navy);
+            position: relative;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .workflow-arrow {
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .checklist li {
+            padding-left: 35px;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .checklist li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+
+        /* Screenshots */
+        .screenshot-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+            border: 1px solid var(--border);
+        }
+
+        .screenshot-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .screenshot-info {
+            padding: 25px;
+        }
+
+        /* Roles */
+        .role-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .role-card {
+            background: var(--navy);
+            color: var(--white);
+            padding: 20px 40px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .role-card h4 {
+            color: var(--gold);
+            margin: 0;
+        }
+
+        /* Technical Table */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .tech-table th, .tech-table td {
+            padding: 15px 25px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tech-table th {
+            background-color: var(--navy);
+            color: var(--white);
+            font-family: 'Segoe UI', sans-serif;
+            width: 30%;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .footer-tagline {
+            color: var(--gold);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .btn-group { flex-direction: column; }
+            .workflow { flex-direction: column; }
+            .workflow-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <img src="banner.png" alt="SGC - Employee Appraisal Banner" class="hero-banner">
+    <div class="hero-content">
+        <div class="container">
+            <img src="icon.png" alt="Icon" class="hero-icon">
+            <span class="hero-value">Premium HR Solution</span>
+            <h1>SGC - Employee Appraisal</h1>
+            <p class="hero-summary">Roll out appraisal plans and get the best of your workforce with structured 360° feedback and goal alignment.</p>
+            <div class="btn-group">
+                <a href="#features" class="btn btn-gold">Explore Features</a>
+                <a href="#contact" class="btn btn-outline">Get Started</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section-white">
+    <div class="container">
+        <div class="intro-text">
+            <h2>Transform Performance Reviews into <span class="gold-highlight">Strategic Growth</span></h2>
+            <p>Traditional appraisals are often seen as a compliance hurdle. SGC Employee Appraisal redefines this process as a continuous journey of development. By combining <span class="gold-highlight">360° feedback</span> with real-time goal tracking, you empower your employees and managers to have meaningful conversations grounded in data and actual accomplishments.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 id="features" style="text-align: center; margin-bottom: 50px;">Key Features</h2>
+        <div class="grid">
+            <div class="card">
+                <span class="card-icon">📅</span>
+                <h3>Structured Appraisal Plans</h3>
+                <p>Create and manage cyclical appraisal plans with defined timelines, ensuring no review is ever missed.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🔄</span>
+                <h3>360° Comprehensive Feedback</h3>
+                <p>Gather insights from self-assessments, managers, peers, and subordinates for a holistic view of performance.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🎯</span>
+                <h3>Goal Alignment & Tracking</h3>
+                <p>Define SMART goals within the appraisal cycle and monitor progress with visual progress bars.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">📝</span>
+                <h3>Survey-Based Questionnaires</h3>
+                <p>Leverage Odoo's powerful survey engine to create customized, easy-to-fill appraisal forms.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">📄</span>
+                <h3>Professional PDF Reports</h3>
+                <p>Generate beautifully branded appraisal reports with full summaries and signature blocks for record-keeping.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🚦</span>
+                <h3>Workflow Automation</h3>
+                <p>Guided states from Draft to Done ensure a smooth progression through the appraisal lifecycle.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">The Appraisal Workflow</h2>
+        <div class="workflow">
+            <div class="workflow-step">Draft</div>
+            <div class="workflow-arrow">➤</div>
+            <div class="workflow-step">Submitted</div>
+            <div class="workflow-arrow">➤</div>
+            <div class="workflow-step">Approved</div>
+            <div class="workflow-arrow">➤</div>
+            <div class="workflow-step">Done</div>
+        </div>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">What You Get</h2>
+        <ul class="checklist">
+            <li>Interactive Appraisal Dashboards</li>
+            <li>Multi-level Security Groups</li>
+            <li>Customizable Appraisal Stages</li>
+            <li>Goal Management System</li>
+            <li>Internal Peer Comments</li>
+            <li>Survey Integration</li>
+            <li>Automated Reference Numbering</li>
+            <li>Smart Buttons for Quick Access</li>
+            <li>Multi-company Support</li>
+        </ul>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">Module Screenshots</h2>
+
+        <div class="screenshot-card">
+            <img src="screenshots/00_preview.png" alt="Appraisal Dashboard">
+            <div class="screenshot-info">
+                <h3>Appraisal Dashboard Overview</h3>
+                <p>Get a bird's-eye view of all ongoing appraisals, their status, and assigned managers at a glance.</p>
+            </div>
+        </div>
+
+        <div class="screenshot-card">
+            <img src="screenshots/screenshot.png" alt="Appraisal Form View">
+            <div class="screenshot-info">
+                <h3>Detailed Appraisal Form</h3>
+                <p>Manage goals, collect comments, and track the entire appraisal lifecycle in a single, clean interface.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">Business Benefits</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Increased Transparency</h3>
+                <p>Clear goals and multi-source feedback ensure fairness and build trust between employees and the organization.</p>
+            </div>
+            <div class="card">
+                <h3>Enhanced Productivity</h3>
+                <p>By aligning individual efforts with company objectives, you ensure everyone is working towards the same vision.</p>
+            </div>
+            <div class="card">
+                <h3>Data-Driven HR</h3>
+                <p>Move away from gut feelings to structured data for promotions, training needs, and performance improvements.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 40px;">Who Uses This Module</h2>
+        <div class="role-grid">
+            <div class="role-card">
+                <h4>Employee</h4>
+                <p>Self-assessment & goal tracking</p>
+            </div>
+            <div class="role-card">
+                <h4>Manager</h4>
+                <p>Team reviews & approvals</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 40px;">Technical Information</h2>
+        <table class="tech-table">
+            <tr>
+                <th>Module</th>
+                <td>sgc_appraisal</td>
+            </tr>
+            <tr>
+                <th>Version</th>
+                <td>19.0.1.0.0</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>Human Resources</td>
+            </tr>
+            <tr>
+                <th>License</th>
+                <td>OPL-1</td>
+            </tr>
+            <tr>
+                <th>Dependencies</th>
+                <td>hr, survey</td>
+            </tr>
+            <tr>
+                <th>Supported Odoo Version</th>
+                <td>19.0+</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container" style="text-align: center;">
+        <h2>Why Choose SGC TECH AI?</h2>
+        <p class="intro-text">Our modules are built with <strong>Enterprise Readiness</strong> in mind. We focus on clean code, seamless integration, and superior UI/UX to ensure that your Odoo experience is not just functional, but exceptional. Each SGC module undergoes rigorous testing to guarantee reliability and performance in high-stakes environments.</p>
+    </div>
+</section>
+
+<footer id="contact">
+    <div class="container">
+        <div class="footer-logo">SGC TECH AI</div>
+        <div class="footer-tagline">Finance. Systems. Technology.</div>
+    </div>
+</footer>
+
+</body>
+</html>

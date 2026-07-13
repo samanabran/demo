@@ -1,0 +1,56 @@
+/* SGC Video Conferencing Module Styles */
+
+.o_video_meeting_button {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 3px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.o_video_meeting_button:hover {
+    opacity: 0.9;
+}
+
+.o_video_meeting_status_scheduled {
+    color: #e67e22;
+}
+
+.o_video_meeting_status_ongoing {
+    color: #27ae60;
+}
+
+.o_video_meeting_status_completed {
+    color: #7f8c8d;
+}
+
+.o_video_meeting_status_cancelled {
+    color: #e74c3c;
+}
+
+/* Dashboard card styling */
+.o_video_dashboard_card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.o_video_dashboard_card:hover {
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.o_video_dashboard_stat {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a73e8;
+}
+
+.o_video_dashboard_label {
+    font-size: 13px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}

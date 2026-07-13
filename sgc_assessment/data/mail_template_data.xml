@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- Assessment Invitation Mail Template -->
+        <record id="mail_template_assessment_invitation" model="mail.template">
+            <field name="name">Assessment: Candidate Invitation</field>
+            <field name="model_id" ref="model_assessment_candidate"/>
+            <field name="email_from">${object.company_id.email or ''}</field>
+            <field name="subject">Assessment Invitation - ${object.candidate_name}</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="body_html"><![CDATA[
+                <p>Dear ${object.candidate_name},</p>
+                <p>You have been invited to complete an assessment.</p>
+                <p>Please click the link below to start your assessment:</p>
+                <p><a href="${object.assessment_url}">Start Assessment</a></p>
+                <p>Best regards,<br/>${object.company_id.name or ''}</p>
+            ]]></field>
+        </record>
+</odoo>

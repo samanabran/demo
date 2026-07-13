@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_form_view_inherit_video" model="ir.ui.view">
+        <field name="name">res.partner.form.video.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="video_meetings" string="Video Meetings">
+                    <group>
+                        <group string="Statistics">
+                            <field name="video_meeting_count"/>
+                            <field name="video_meeting_attended_count"/>
+                        </group>
+                    </group>
+                    <field name="upcoming_video_meeting_ids">
+                        <list string="Upcoming Meetings">
+                            <field name="name"/>
+                            <field name="start_time"/>
+                            <field name="provider_id"/>
+                            <field name="join_url" widget="url"/>
+                        </list>
+                    </field>
+                    <field name="video_meeting_ids">
+                        <list string="Meeting History">
+                            <field name="meeting_id"/>
+                            <field name="attended"/>
+                            <field name="attendance_duration_minutes"/>
+                            <field name="response_status"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

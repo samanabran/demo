@@ -1,0 +1,58 @@
+// Color Variables
+$primary-color: #1E3A8A;
+$secondary-color: #10B981;
+$accent-color: #F59E0B;
+$dark-color: #1F2937;
+$light-color: #F9FAFB;
+$gray-color: #9CA3AF;
+$border-color: #E5E7EB;
+$danger-color: #EF4444;
+
+// Gradient Colors
+$gradient-primary: linear-gradient(135deg, #1E3A8A, #3B82F6);
+$gradient-success: linear-gradient(135deg, #10B981, #34D399);
+$gradient-warning: linear-gradient(135deg, #F59E0B, #FBBF24);
+
+// Typography
+$font-family-base: 'Inter', 'Open Sans', sans-serif;
+$font-family-heading: 'Poppins', 'Montserrat', sans-serif;
+$font-size-base: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 24px;
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-bold: 700;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+
+// Breakpoints
+$breakpoint-xs: 320px;
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+$breakpoint-2xl: 1400px;
+
+// Border Radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 16px;
+$border-radius-full: 9999px;
+
+// Shadows
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+// Transitions
+$transition-fast: 0.15s ease-in-out;
+$transition-base: 0.3s ease-in-out;
+$transition-slow: 0.5s ease-in-out;

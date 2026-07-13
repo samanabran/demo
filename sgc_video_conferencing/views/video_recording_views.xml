@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_video_recording_tree" model="ir.ui.view">
+        <field name="name">video.recording.tree</field>
+        <field name="model">video.recording</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="meeting_id"/>
+                <field name="recording_type"/>
+                <field name="duration_minutes"/>
+                <field name="file_size_mb"/>
+                <field name="recording_date"/>
+                <button name="action_open_recording" type="object" class="btn-success" icon="fa-external-link" title="Open Recording"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_video_recording_form" model="ir.ui.view">
+        <field name="name">video.recording.form</field>
+        <field name="model">video.recording</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="meeting_id"/>
+                            <field name="recording_type"/>
+                            <field name="recording_date"/>
+                        </group>
+                        <group>
+                            <field name="duration_seconds"/>
+                            <field name="duration_minutes"/>
+                            <field name="file_size_bytes"/>
+                            <field name="file_size_mb"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="recording_url" widget="url"/>
+                        <field name="download_url" widget="url"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_assessment_landing" name="Assessment Landing">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card shadow">
+                            <div class="card-body text-center p-5">
+                                <h2 class="mb-4">Welcome to Your Assessment</h2>
+                                <p class="lead text-muted mb-4">
+                                    You have been invited to complete an assessment.
+                                    Please click the button below to begin.
+                                </p>
+                                <a t-attf-href="/assessment/start/{{ token }}" class="btn btn-primary btn-lg">
+                                    Start Assessment
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

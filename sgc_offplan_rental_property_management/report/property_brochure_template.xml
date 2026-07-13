@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_property_brochure">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="property">
+                <t t-set="currency" t-value="property.company_id.currency_id"/>
+                <t t-set="currency_symbol" t-value="currency.symbol or 'AED'"/>
+                <t t-set="address" t-value="property.address or ''"/>
+                <t t-set="city" t-value="property.city or ''"/>
+                <t t-set="full_address" t-value="'%s, %s' % (address, city) if address and city else address or city or ''"/>
+                <t t-set="region" t-value="property.region_id.name or ''"/>
+                <t t-set="project" t-value="property.project_id.name or ''"/>
+                <t t-set="sub_project" t-value="property.sub_project_id.name or ''"/>
+                <t t-set="amenities" t-value="property.amenity_ids"/>
+                <t t-set="nearby" t-value="property.connectivity_ids"/>
+                <t t-set="images" t-value="property.image_ids"/>
+                <t t-set="property_type_display" t-value="dict(property._fields['property_type'].selection).get(property.property_type, property.property_type)"/>
+                <t t-set="sale_lease_display" t-value="dict(property._fields['sale_lease'].selection).get(property.sale_lease, property.sale_lease)"/>
+                <t t-set="state_display" t-value="dict(property._fields['state'].selection).get(property.state, property.state)"/>
+
+                <style>
+                    @page {
+                        size: A4;
+                        margin: 0;
+                    }
+                    * { box-sizing: border-box; margin: 0; padding: 0; }
+                    body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a2e; background: #fff; }
+
+                    .brochure-page {
+                        width: 210mm;
+                        min-height: 297mm;
+                        position: relative;
+                        overflow: hidden;
+                        page-break-after: always;
+                    }
+
+                    /* ── COVER PAGE ── */
+                    .cover {
+                        background: linear-gradient(135deg, #0a1628 0%, #1a2744 40%, #2d4a7a 100%);
+                        color: #fff;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
+                        padding: 0;
+                    }
+                    .cover-hero {
+                        position: relative;
+                        height: 65%;
+                        overflow: hidden;
+                    }
+                    .cover-hero img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        filter: brightness(0.7);
+                    }
+                    .cover-hero-overlay {
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                        right: 0;
+                        height: 50%;
+                        background: linear-gradient(to top, rgba(10,22,40,0.95), transparent);
+                    }
+                    .cover-badge {
+                        position: absolute;
+                        top: 30px;
+                        right: 30px;
+                        background: linear-gradient(135deg, #c9a961, #e8d5a3);
+                        color: #0a1628;
+                        padding: 10px 24px;
+                        font-size: 13px;
+                        font-weight: 700;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        border-radius: 2px;
+                    }
+                    .cover-content {
+                        padding: 40px 50px;
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: flex-end;
+                    }
+                    .cover-brand {
+                        font-size: 11px;
+                        letter-spacing: 4px;
+                        text-transform: uppercase;
+                        color: #c9a961;
+                        margin-bottom: 12px;
+                    }
+                    .cover-title {
+                        font-size: 38px;
+                        font-weight: 300;
+                        line-height: 1.15;
+                        margin-bottom: 8px;
+                        letter-spacing: -0.5px;
+                    }
+                    .cover-title strong {
+                        font-weight: 700;
+                        color: #c9a961;
+                    }
+                    .cover-subtitle {
+                        font-size: 15px;
+                        color: rgba(255,255,255,0.7);
+                        margin-bottom: 30px;
+                    }
+                    .cover-meta {
+                        display: flex;
+                        gap: 40px;
+                        border-top: 1px solid rgba(201,169,97,0.3);
+                        padding-top: 20px;
+                    }
+                    .cover-meta-item {
+                        text-align: left;
+                    }
+                    .cover-meta-label {
+                        font-size: 10px;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: #c9a961;
+                        margin-bottom: 4px;
+                    }
+                    .cover-meta-value {
+                        font-size: 16px;
+                        font-weight: 600;
+                    }
+
+                    /* ── DETAILS PAGE ── */
+                    .details-page {
+                        padding: 40px 50px;
+                    }
+                    .section-header {
+                        display: flex;
+                        align-items: center;
+                        gap: 16px;
+                        margin-bottom: 28px;
+                        border-bottom: 2px solid #c9a961;
+                        padding-bottom: 12px;
+                    }
+                    .section-number {
+                        font-size: 42px;
+                        font-weight: 200;
+                        color: #c9a961;
+                        line-height: 1;
+                    }
+                    .section-title {
+                        font-size: 22px;
+                        font-weight: 300;
+                        letter-spacing: 1px;
+                        text-transform: uppercase;
+                        color: #0a1628;
+                    }
+                    .details-grid {
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 24px;
+                        margin-bottom: 36px;
+                    }
+                    .detail-card {
+                        background: #f8f9fc;
+                        border-left: 3px solid #c9a961;
+                        padding: 18px 20px;
+                        border-radius: 0 4px 4px 0;
+                    }
+                    .detail-card-label {
+                        font-size: 10px;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: #8a8a9a;
+                        margin-bottom: 6px;
+                    }
+                    .detail-card-value {
+                        font-size: 18px;
+                        font-weight: 600;
+                        color: #0a1628;
+                    }
+                    .detail-card-value.price {
+                        font-size: 26px;
+                        color: #c9a961;
+                        font-weight: 700;
+                    }
+                    .description-box {
+                        background: #f8f9fc;
+                        padding: 24px;
+                        border-radius: 4px;
+                        margin-bottom: 36px;
+                    }
+                    .description-box h3 {
+                        font-size: 14px;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: #c9a961;
+                        margin-bottom: 12px;
+                    }
+                    .description-box p {
+                        font-size: 13px;
+                        line-height: 1.7;
+                        color: #4a4a5a;
+                    }
+
+                    /* ── AMENITIES ── */
+                    .amenities-grid {
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        gap: 12px;
+                        margin-bottom: 36px;
+                    }
+                    .amenity-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                        padding: 12px 16px;
+                        background: #f8f9fc;
+                        border-radius: 4px;
+                        font-size: 12px;
+                        color: #2d4a7a;
+                    }
+                    .amenity-icon {
+                        width: 28px;
+                        height: 28px;
+                        background: linear-gradient(135deg, #c9a961, #e8d5a3);
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 12px;
+                        color: #0a1628;
+                    }
+
+                    /* ── NEARBY ── */
+                    .nearby-list {
+                        list-style: none;
+                        padding: 0;
+                    }
+                    .nearby-item {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 12px 0;
+                        border-bottom: 1px solid #eee;
+                        font-size: 13px;
+                    }
+                    .nearby-item:last-child {
+                        border-bottom: none;
+                    }
+                    .nearby-name {
+                        font-weight: 500;
+                        color: #0a1628;
+                    }
+                    .nearby-distance {
+                        color: #c9a961;
+                        font-weight: 600;
+                    }
+
+                    /* ── GALLERY ── */
+                    .gallery-grid {
+                        display: grid;
+                        grid-template-columns: repeat(2, 1fr);
+                        gap: 12px;
+                        margin-bottom: 36px;
+                    }
+                    .gallery-item {
+                        height: 180px;
+                        border-radius: 4px;
+                        overflow: hidden;
+                    }
+                    .gallery-item img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+
+                    /* ── FOOTER ── */
+                    .brochure-footer {
+                        background: #0a1628;
+                        color: #fff;
+                        padding: 30px 50px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    }
+                    .footer-brand {
+                        font-size: 18px;
+                        font-weight: 300;
+                        letter-spacing: 2px;
+                    }
+                    .footer-brand strong {
+                        color: #c9a961;
+                        font-weight: 700;
+                    }
+                    .footer-contact {
+                        text-align: right;
+                        font-size: 11px;
+                        color: rgba(255,255,255,0.6);
+                        line-height: 1.6;
+                    }
+                    .footer-contact a {
+                        color: #c9a961;
+                        text-decoration: none;
+                    }
+
+                    /* ── WATERMARK ── */
+                    .watermark {
+                        position: absolute;
+                        bottom: 80px;
+                        right: 50px;
+                        font-size: 9px;
+                        letter-spacing: 1px;
+                        color: rgba(255,255,255,0.3);
+                        text-transform: uppercase;
+                    }
+                </style>
+
+                <!-- ══════════ PAGE 1: COVER ══════════ -->
+                <div class="brochure-page cover">
+                    <div class="cover-hero">
+                        <t t-if="property.image_1920">
+                            <img t-att-src="image_data_uri(property.image_1920)" alt="Property"/>
+                        </t>
+                        <t t-else="">
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a2744,#2d4a7a);"></div>
+                        </t>
+                        <div class="cover-hero-overlay"></div>
+                        <div class="cover-badge">EXCLUSIVE LISTING</div>
+                    </div>
+                    <div class="cover-content">
+                        <div class="cover-brand">SGC Property Management</div>
+                        <h1 class="cover-title">
+                            <t t-esc="property.name or 'Luxury Property'"/>
+                            <t t-if="project"> — <strong t-esc="project"/></t>
+                        </h1>
+                        <p class="cover-subtitle">
+                            <t t-if="property_type_display" t-esc="property_type_display"/>
+                            <t t-if="full_address"> · <t t-esc="full_address"/></t>
+                            <t t-if="region"> · <t t-esc="region"/></t>
+                        </p>
+                        <div class="cover-meta">
+                            <div class="cover-meta-item">
+                                <div class="cover-meta-label">Price</div>
+                                <div class="cover-meta-value">
+                                    <t t-if="property.sale_price">
+                                        <t t-esc="currency_symbol"/> <t t-esc="'{:,.0f}'.format(property.sale_price)"/>
+                                    </t>
+                                    <t t-elif="property.rent_price">
+                                        <t t-esc="currency_symbol"/> <t t-esc="'{:,.0f}'.format(property.rent_price)"/>/yr
+                                    </t>
+                                    <t t-elif="property.price">
+                                        <t t-esc="currency_symbol"/> <t t-esc="'{:,.0f}'.format(property.price)"/>
+                                    </t>
+                                    <t t-else="">Price on Request</t>
+                                </div>
+                            </div>
+                            <div class="cover-meta-item">
+                                <div class="cover-meta-label">Status</div>
+                                <div class="cover-meta-value" t-esc="state_display"/>
+                            </div>
+                            <div class="cover-meta-item">
+                                <div class="cover-meta-label">Type</div>
+                                <div class="cover-meta-value" t-esc="sale_lease_display"/>
+                            </div>
+                            <div class="cover-meta-item" t-if="property.area">
+                                <div class="cover-meta-label">Area</div>
+                                <div class="cover-meta-value"><t t-esc="'{:,.0f}'.format(property.area)"/> sq ft</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="watermark">SGC TECH AI · Property Portfolio</div>
+                </div>
+
+                <!-- ══════════ PAGE 2: DETAILS ══════════ -->
+                <div class="brochure-page details-page" style="display:flex;flex-direction:column;justify-content:space-between;">
+                    <div>
+                        <div class="section-header">
+                            <div class="section-number">01</div>
+                            <div class="section-title">Property Details</div>
+                        </div>
+                        <div class="details-grid">
+                            <div class="detail-card">
+                                <div class="detail-card-label">Property Name</div>
+                                <div class="detail-card-value" t-esc="property.name or '-'"/>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-card-label">Property Code</div>
+                                <div class="detail-card-value" t-esc="property.property_code or '-'"/>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-card-label">Property Type</div>
+                                <div class="detail-card-value" t-esc="property_type_display or '-'"/>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-card-label">Status</div>
+                                <div class="detail-card-value" t-esc="state_display or '-'"/>
+                            </div>
+                            <div class="detail-card" t-if="property.bedrooms">
+                                <div class="detail-card-label">Bedrooms</div>
+                                <div class="detail-card-value" t-esc="property.bedrooms"/>
+                            </div>
+                            <div class="detail-card" t-if="property.bathrooms">
+                                <div class="detail-card-label">Bathrooms</div>
+                                <div class="detail-card-value" t-esc="property.bathrooms"/>
+                            </div>
+                            <div class="detail-card" t-if="property.area">
+                                <div class="detail-card-label">Built-Up Area</div>
+                                <div class="detail-card-value"><t t-esc="'{:,.0f}'.format(property.area)"/> sq ft</div>
+                            </div>
+                            <div class="detail-card" t-if="project">
+                                <div class="detail-card-label">Project</div>
+                                <div class="detail-card-value" t-esc="project"/>
+                            </div>
+                            <div class="detail-card" t-if="sub_project">
+                                <div class="detail-card-label">Building / Tower</div>
+                                <div class="detail-card-value" t-esc="sub_project"/>
+                            </div>
+                            <div class="detail-card" t-if="region">
+                                <div class="detail-card-label">Region</div>
+                                <div class="detail-card-value" t-esc="region"/>
+                            </div>
+                            <div class="detail-card" t-if="full_address">
+                                <div class="detail-card-label">Address</div>
+                                <div class="detail-card-value" t-esc="full_address"/>
+                            </div>
+                            <div class="detail-card" t-if="property.sale_price">
+                                <div class="detail-card-label">Sale Price</div>
+                                <div class="detail-card-value price"><t t-esc="currency_symbol"/> <t t-esc="'{:,.0f}'.format(property.sale_price)"/></div>
+                            </div>
+                            <div class="detail-card" t-if="property.rent_price">
+                                <div class="detail-card-label">Annual Rent</div>
+                                <div class="detail-card-value price"><t t-esc="currency_symbol"/> <t t-esc="'{:,.0f}'.format(property.rent_price)"/></div>
+                            </div>
+                        </div>
+
+                        <t t-if="property.description">
+                            <div class="description-box">
+                                <h3>Description</h3>
+                                <p t-esc="property.description"/>
+                            </div>
+                        </t>
+
+                        <t t-if="amenities">
+                            <div class="section-header">
+                                <div class="section-number">02</div>
+                                <div class="section-title">Amenities &amp; Features</div>
+                            </div>
+                            <div class="amenities-grid">
+                                <t t-foreach="amenities" t-as="amenity">
+                                    <div class="amenity-item">
+                                        <div class="amenity-icon">✦</div>
+                                        <span t-esc="amenity.title"/>
+                                    </div>
+                                </t>
+                            </div>
+                        </t>
+
+                        <t t-if="nearby">
+                            <div class="section-header">
+                                <div class="section-number">03</div>
+                                <div class="section-title">Nearby</div>
+                            </div>
+                            <ul class="nearby-list">
+                                <t t-foreach="nearby" t-as="n">
+                                    <li class="nearby-item">
+                                        <span class="nearby-name" t-esc="n.name"/>
+                                    </li>
+                                </t>
+                            </ul>
+                        </t>
+                    </div>
+
+                    <div class="brochure-footer">
+                        <div class="footer-brand"><strong>SGC</strong> Property Management</div>
+                        <div class="footer-contact">
+                            <div t-if="property.company_id.phone" t-esc="property.company_id.phone"/>
+                            <div t-if="property.company_id.email" t-esc="property.company_id.email"/>
+                            <div t-if="property.company_id.website" t-esc="property.company_id.website"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══════════ PAGE 3: GALLERY ══════════ -->
+                <t t-if="images">
+                    <div class="brochure-page details-page" style="display:flex;flex-direction:column;justify-content:space-between;">
+                        <div>
+                            <div class="section-header">
+                                <div class="section-number">04</div>
+                                <div class="section-title">Gallery</div>
+                            </div>
+                            <div class="gallery-grid">
+                                <t t-foreach="images" t-as="img">
+                                    <div class="gallery-item">
+                                        <t t-if="img.image_1920">
+                                            <img t-att-src="image_data_uri(img.image_1920)" t-att-alt="img.name or 'Property Image'"/>
+                                        </t>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="brochure-footer">
+                            <div class="footer-brand"><strong>SGC</strong> Property Management</div>
+                            <div class="footer-contact">
+                                <div t-if="property.company_id.phone" t-esc="property.company_id.phone"/>
+                                <div t-if="property.company_id.email" t-esc="property.company_id.email"/>
+                                <div t-if="property.company_id.website" t-esc="property.company_id.website"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_property_brochure" model="ir.actions.report">
+        <field name="name">Property Brochure</field>
+        <field name="model">property.details</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sgc_offplan_rental_property_management.report_property_brochure</field>
+        <field name="report_file">sgc_offplan_rental_property_management.report_property_brochure</field>
+        <field name="binding_model_id" ref="model_property_details"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">form</field>
+    </record>
+</odoo>

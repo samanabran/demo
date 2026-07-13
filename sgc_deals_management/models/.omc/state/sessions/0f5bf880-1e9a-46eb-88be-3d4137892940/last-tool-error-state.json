@@ -1,0 +1,7 @@
+{
+  "tool_name": "mcp__plugin_ecc_chrome-devtools__wait_for",
+  "tool_input_preview": "{\"text\":[\"Total Leads\",\"CRM Dashboard\",\"Pipeline\"],\"timeout\":15000}",
+  "error": "Error: Timed out after waiting 15000ms",
+  "timestamp": "2026-06-27T12:33:09.934Z",
+  "retry_count": 1
+}

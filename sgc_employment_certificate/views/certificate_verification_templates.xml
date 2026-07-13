@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="certificate_verification_page" name="Certificate Verification">
+        <t t-call="website.layout">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h2 class="mb-3">Certificate Verification</h2>
+                                <t t-if="certificate">
+                                    <div class="alert alert-success" role="alert">
+                                        Verified
+                                    </div>
+                                    <dl class="row">
+                                        <dt class="col-sm-4">Reference</dt>
+                                        <dd class="col-sm-8">
+                                            <t t-esc="certificate.reference_number"/>
+                                        </dd>
+                                        <dt class="col-sm-4">Employee</dt>
+                                        <dd class="col-sm-8">
+                                            <t t-esc="certificate.employee_id.name"/>
+                                        </dd>
+                                        <dt class="col-sm-4">Certificate Type</dt>
+                                        <dd class="col-sm-8">
+                                            <t t-esc="certificate.certificate_type"/>
+                                        </dd>
+                                        <dt class="col-sm-4">Issued On</dt>
+                                        <dd class="col-sm-8">
+                                            <t t-esc="certificate.issue_date"/>
+                                        </dd>
+                                    </dl>
+                                </t>
+                                <t t-else="">
+                                    <div class="alert alert-danger" role="alert">
+                                        Invalid or expired verification link.
+                                    </div>
+                                    <p class="mb-0">
+                                        Please contact HR for assistance.
+                                    </p>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

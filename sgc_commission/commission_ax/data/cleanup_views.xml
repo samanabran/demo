@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Clean up old/stale views that may exist in the database -->
+        <delete model="ir.ui.view" search="[('name', '=', 'sale.order.form.commission.statement'), ('model', '=', 'sale.order')]"/>
+        <delete model="ir.ui.view" search="[('name', '=', 'commission.dashboard.form'), ('model', '=', 'commission.dashboard')]"/>
+        <delete model="ir.ui.view" search="[('name', '=', 'commission.performance.report.form')]"/>
+        <delete model="ir.ui.view" search="[('name', '=', 'commission.alert.tree')]"/>
+        <delete model="ir.ui.view" search="[('name', '=', 'commission.alert.form')]"/>
+    </data>
+</odoo>

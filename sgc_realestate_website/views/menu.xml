@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Actions (define before menus to avoid missing external ids) -->
+    <record id="action_destination_country" model="ir.actions.act_window">
+        <field name="name">Destinations</field>
+        <field name="res_model">sgc.realestate.destination.country</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_published': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first destination country</p>
+            <p>Manage countries and destinations where properties are available.</p>
+        </field>
+    </record>
+
+    <record id="action_consultation_request" model="ir.actions.act_window">
+        <field name="name">Consultation Requests</field>
+        <field name="res_model">sgc.realestate.consultation</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_new': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">No consultation requests yet</p>
+            <p>Consultation requests from your website will appear here.</p>
+        </field>
+    </record>
+
+    <record id="action_property_feature" model="ir.actions.act_window">
+        <field name="name">Property Features</field>
+        <field name="res_model">sgc.realestate.property.feature</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first property feature</p>
+            <p>Define features and amenities available in properties (e.g., Pool, Garden, Parking).</p>
+        </field>
+    </record>
+
+    <!-- Root Menu -->
+    <menuitem id="menu_sgc_realestate_root"
+              name="Real Estate"
+              sequence="50"
+              web_icon="sgc_realestate_website,static/description/icon.png"/>
+
+    <!-- Properties Menu -->
+    <menuitem id="menu_sgc_properties"
+              name="Properties"
+              parent="menu_sgc_realestate_root"
+              action="action_property"
+              sequence="10"/>
+
+    <!-- Destinations Menu -->
+    <menuitem id="menu_sgc_destinations"
+              name="Destinations"
+              parent="menu_sgc_realestate_root"
+              action="action_destination_country"
+              sequence="20"/>
+
+    <!-- Consultation Requests Menu -->
+    <menuitem id="menu_sgc_consultations"
+              name="Consultations"
+              parent="menu_sgc_realestate_root"
+              action="action_consultation_request"
+              sequence="30"/>
+
+    <!-- Configuration Submenu -->
+    <menuitem id="menu_sgc_configuration"
+              name="Configuration"
+              parent="menu_sgc_realestate_root"
+              sequence="100"/>
+
+    <!-- Property Features under Configuration -->
+    <menuitem id="menu_sgc_features"
+              name="Property Features"
+              parent="menu_sgc_configuration"
+              action="action_property_feature"
+              sequence="10"/>
+</odoo>

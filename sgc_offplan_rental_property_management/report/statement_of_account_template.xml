@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="statement_of_account_template">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+            <t t-set="statement_property" t-value="o.tenancy_property_id or o.sold_property_id"/>
+            <t t-set="statement_contract" t-value="o.tenancy_id or o.sold_id"/>
+            <div class="page">
+                <style>
+                    .soa-badge { display: inline-block; padding: 3px 12px; border-radius: 10px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+                    .soa-badge-paid { background: #d7f2e0; color: #157347; }
+                    .soa-badge-not_paid { background: #f8d7da; color: #b02a37; }
+                    .soa-badge-partial { background: #fff3cd; color: #997404; }
+                    .soa-badge-in_payment { background: #cfe2ff; color: #0a58ca; }
+                    .soa-badge-reversed { background: #e2e3e5; color: #41464b; }
+                </style>
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h1>Statement of Account</h1>
+                        <p class="mb-1"><strong>Date:</strong> <span t-esc="datetime.date.today()"/></p>
+                        <p>
+                            <strong>Payment Status:</strong>
+                            <span t-attf-class="soa-badge soa-badge-#{o.payment_state}" t-esc="dict(o._fields['payment_state'].selection).get(o.payment_state, o.payment_state)"/>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>Customer Details</h3>
+                        <table class="table table-bordered">
+                            <tr t-if="o.partner_id">
+                                <td><strong>Customer</strong></td>
+                                <td t-esc="o.partner_id.name"/>
+                            </tr>
+                            <tr t-if="o.partner_id and o.partner_id.email">
+                                <td><strong>Email</strong></td>
+                                <td t-esc="o.partner_id.email"/>
+                            </tr>
+                            <tr t-if="o.partner_id and o.partner_id.phone">
+                                <td><strong>Phone</strong></td>
+                                <td t-esc="o.partner_id.phone"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>Property Details</h3>
+                        <table class="table table-bordered" t-if="statement_property">
+                            <tr>
+                                <td><strong>Property</strong></td>
+                                <td t-esc="statement_property.name"/>
+                            </tr>
+                            <tr t-if="statement_property.sale_price">
+                                <td><strong>Sale Price</strong></td>
+                                <td><span t-esc="statement_property.sale_price" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                            </tr>
+                            <tr t-if="statement_contract">
+                                <td><strong>Contract Ref</strong></td>
+                                <td t-esc="statement_contract.display_name"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>Transaction History</h3>
+                        <table class="table table-striped" style="page-break-inside:avoid;">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Debit</th>
+                                    <th>Credit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.line_ids or []" t-as="line">
+                                    <td t-esc="line.date"/>
+                                    <td style="word-break:break-word;" t-esc="line.name"/>
+                                    <td><span t-if="line.debit" t-esc="line.debit" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                                    <td><span t-if="line.credit" t-esc="line.credit" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 text-right">
+                        <p>
+                            <strong>Total Outstanding:</strong>
+                            <span t-esc="o.amount_residual" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                        </p>
+                    </div>
+                </div>
+
+                <p class="mt-5 text-muted small text-center">
+                    This is a computer-generated statement of account.
+                </p>
+            </div>
+            </t>
+          </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Define the parent menu for Commissions -->
+        <menuitem id="menu_commission_root" name="Commissions" parent="sale.sale_menu_root" sequence="18" action="action_commission_line"/>
+
+        <!-- Main Commission Menu (for configuration items) -->
+        <menuitem id="commission_menu" name="Configuration" parent="menu_commission_root" sequence="5"/>
+
+        <!-- Commission Reports Menu - Renamed to prevent conflicts -->
+        <menuitem id="menu_commission_ax_reports" name="Commission Reports" parent="menu_commission_root" sequence="10"/>
+
+        <!-- Commission Lines Management - Renamed to prevent conflicts -->
+        <menuitem id="menu_commission_ax_lines" name="Commission Lines" parent="menu_commission_root" sequence="1"/>
+
+        <!-- Commission Lines List -->
+        <menuitem id="menu_commission_ax_lines_action" name="Commission Lines"
+                  parent="menu_commission_ax_lines" action="action_commission_line" sequence="10"/>
+    </data>
+</odoo>

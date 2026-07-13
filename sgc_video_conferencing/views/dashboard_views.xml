@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dashboard view -->
+    <record id="view_video_dashboard_pivot" model="ir.ui.view">
+        <field name="name">video.meeting.dashboard.pivot</field>
+        <field name="model">video.meeting</field>
+        <field name="arch" type="xml">
+            <pivot string="Meetings by Provider" sample="1">
+                <field name="provider_id" type="row"/>
+                <field name="attendee_count" type="measure"/>
+                <field name="duration_minutes" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_video_dashboard_graph" model="ir.ui.view">
+        <field name="name">video.meeting.dashboard.graph</field>
+        <field name="model">video.meeting</field>
+        <field name="arch" type="xml">
+            <graph string="Meeting Trends" type="bar" stacked="True">
+                <field name="start_time" interval="month"/>
+                <field name="duration_minutes" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_video_dashboard_activity" model="ir.ui.view">
+        <field name="name">video.meeting.dashboard.activity</field>
+        <field name="model">video.meeting</field>
+        <field name="arch" type="xml">
+            <activity string="Recent Meetings">
+                <field name="name"/>
+                <field name="provider_id"/>
+                <field name="start_time"/>
+                <field name="user_id"/>
+            </activity>
+        </field>
+    </record>
+
+</odoo>

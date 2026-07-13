@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_purchase_order_form_inherit_commission" model="ir.ui.view">
+            <field name="name">purchase.order.form.inherit.commission</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_force_post" string="Force Post Commission" type="object" class="oe_highlight" invisible="not origin_so_id or commission_posted" help="Manually post this commission purchase order" />
+                </xpath>
+
+                <!-- Add smart button for origin sale order -->
+                <xpath expr="//form/sheet/div[@name='button_box']" position="inside">
+                    <button name="action_view_origin_sale_order" type="object" class="oe_stat_button" icon="fa-shopping-cart" invisible="origin_so_id == False">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Origin</span>
+                            <span class="o_stat_text">Sale Order</span>
+                        </div>
+                    </button>
+                </xpath>
+
+                <xpath expr="//field[@name='partner_ref']" position="after">
+                    <field name="origin_so_id" readonly="1" string="Source Sale Order" invisible="not origin_so_id"/>
+                    <field name="description" readonly="1" string="Commission Description" invisible="not origin_so_id"/>
+                    <field name="commission_posted" readonly="1" string="Commission Posted" invisible="not origin_so_id"/>
+                    <!-- Project/Unit from originating sale order -->
+                    <field name="project_id" string="Project" readonly="1"/>
+                    <field name="unit_id" string="Unit" readonly="1"/>
+                </xpath>
+
+                <!-- Add commission details group if this is a commission PO -->
+                <!-- Note: Removed xpath to purchase_delivery_invoice page as it may not exist in all Odoo 17 installations -->
+                <!-- Commission details already shown above with partner_ref fields -->
+            </field>
+        </record>
+
+        <!-- List view enhancement to show commission info -->
+        <record id="purchase_order_tree_inherit_commission" model="ir.ui.view">
+            <field name="name">purchase.order.tree.inherit.commission</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="origin_so_id" string="Source SO" optional="hide"/>
+                    <field name="commission_posted" string="Posted" optional="hide"/>
+                    <field name="project_id" string="Project" optional="show"/>
+                    <field name="unit_id" string="Unit" optional="show"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- Search view for commission purchase orders -->
+        <record id="view_purchase_order_filter_commission" model="ir.ui.view">
+            <field name="name">purchase.order.search.commission</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.view_purchase_order_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='draft']" position="after">
+                    <filter name="commission_orders" string="Commission Orders" domain="[('origin_so_id', '!=', False)]"/>
+                    <filter name="posted_commissions" string="Posted Commissions" domain="[('origin_so_id', '!=', False), ('commission_posted', '=', True)]"/>
+                    <filter name="unposted_commissions" string="Unposted Commissions" domain="[('origin_so_id', '!=', False), ('commission_posted', '=', False)]"/>
+                </xpath>
+                <xpath expr="//group" position="inside">
+                    <filter name="group_by_source_so" string="Source Sale Order" context="{'group_by': 'origin_so_id'}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ======================================================
+         PROPERTY VENDOR / BOOKING — Tree View
+    ====================================================== -->
+    <record id="property_vendor_tree_view" model="ir.ui.view">
+        <field name="name">property.vendor.tree</field>
+        <field name="model">property.vendor</field>
+        <field name="arch" type="xml">
+            <list string="Bookings / Vendor Records"
+                  decoration-muted="state == 'cancelled'"
+                  decoration-success="state == 'confirmed'">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="customer_id"/>
+                <field name="vendor_id"/>
+                <field name="sale_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="broker_id"/>
+                <field name="state" widget="badge"/>
+                <field name="contract_date"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ======================================================
+         PROPERTY VENDOR / BOOKING — Form View
+    ====================================================== -->
+    <record id="property_vendor_form_view" model="ir.ui.view">
+        <field name="name">property.vendor.form</field>
+        <field name="model">property.vendor</field>
+        <field name="arch" type="xml">
+            <form string="Booking / Vendor Record">
+                <header>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            class="btn-danger" invisible="state in ('confirmed', 'cancelled')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Cancelled"
+                            bg_color="text-bg-danger" invisible="state != 'cancelled'"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="e.g. BKG/2025/0001"/></h1>
+                    </div>
+                    <group>
+                        <group string="Parties">
+                            <field name="property_id"/>
+                            <field name="customer_id"/>
+                            <field name="vendor_id"/>
+                            <field name="broker_id"/>
+                            <field name="broker_agency_id"/>
+                            <field name="contract_date"/>
+                        </group>
+                        <group string="Financial">
+                            <field name="currency_id"/>
+                            <field name="sale_price" widget="monetary"/>
+                            <field name="commission_type"/>
+                            <field name="commission_percentage"
+                                    invisible="commission_type != 'percentage'"/>
+                            <field name="commission_fixed_amount"
+                                    widget="monetary"
+                                    invisible="commission_type != 'fixed'"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="External Commission" name="external_commission">
+                            <group>
+                                <group string="Broker Details">
+                                    <field name="broker_id"/>
+                                    <field name="broker_agency_id"/>
+                                </group>
+                                <group string="Commission Calculation">
+                                    <field name="commission_type"/>
+                                    <field name="commission_percentage"
+                                            invisible="commission_type != 'percentage'"/>
+                                    <field name="commission_fixed_amount"
+                                            widget="monetary"
+                                            invisible="commission_type != 'fixed'"/>
+                                    <field name="total_external_commission" widget="monetary"/>
+                                </group>
+                            </group>
+                            <group string="Payment &amp; Split">
+                                <group>
+                                    <field name="commission_split_type"/>
+                                    <field name="commission_split_percentage"
+                                            invisible="commission_split_type != 'percentage'"/>
+                                    <field name="commission_split_fixed_amount"
+                                            widget="monetary"
+                                            invisible="commission_split_type != 'fixed'"/>
+                                </group>
+                                <group>
+                                    <field name="broker_bill_id"/>
+                                    <field name="broker_bill_payment_state"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Internal Commission" name="internal_commission">
+                            <group>
+                                <group string="Commission Split (%) — used only when no named Commission Lines below">
+                                    <field name="company_commission_pct"/>
+                                    <field name="agent_commission_pct"/>
+                                    <field name="referral_commission_pct"/>
+                                    <field name="office_commission_pct"/>
+                                    <field name="commission_override_pct"/>
+                                </group>
+                                <group string="Totals">
+                                    <field name="total_internal_commission" widget="monetary"/>
+                                    <field name="total_external_commission" widget="monetary"/>
+                                    <field name="total_commission" widget="monetary"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Commission Lines" name="commission_lines">
+                            <p class="text-muted">
+                                Name each external or internal party involved in this deal and their
+                                individual commission rate. When lines are added here, they replace the
+                                single Broker field and the fixed percentage splits above.
+                            </p>
+                            <field name="commission_line_ids"
+                                   context="{'default_vendor_id': id, 'default_currency_id': currency_id}">
+                                <list editable="bottom"
+                                      decoration-success="state == 'paid'"
+                                      decoration-warning="state == 'approved'"
+                                      decoration-muted="state == 'draft'">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="category"/>
+                                    <field name="role"/>
+                                    <field name="custom_role_name"
+                                           invisible="role != 'custom'"/>
+                                    <field name="partner_id"/>
+                                    <field name="commission_type"/>
+                                    <field name="commission_percentage"
+                                           invisible="commission_type != 'percentage'"
+                                           digits="[5,2]"/>
+                                    <field name="commission_fixed_amount"
+                                           widget="monetary"
+                                           invisible="commission_type != 'fixed'"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="commission_amount" widget="monetary"
+                                           readonly="1"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="state" widget="badge"
+                                           decoration-info="state == 'draft'"
+                                           decoration-success="state == 'paid'"
+                                           decoration-warning="state == 'approved'"
+                                           decoration-danger="state == 'cancelled'"/>
+                                    <field name="payment_state" widget="badge"
+                                           decoration-info="payment_state == 'not_paid'"
+                                           decoration-success="payment_state == 'paid'"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Additional notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ======================================================
+         PROPERTY VENDOR / BOOKING — Search View
+    ====================================================== -->
+    <record id="property_vendor_search_view" model="ir.ui.view">
+        <field name="name">property.vendor.search</field>
+        <field name="model">property.vendor</field>
+        <field name="arch" type="xml">
+            <search string="Bookings">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="customer_id"/>
+                <field name="vendor_id"/>
+                <field name="broker_id"/>
+                <filter name="filter_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="filter_confirmed" string="Confirmed" domain="[('state', '=', 'confirmed')]"/>
+                <filter name="filter_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter name="group_by_state" string="Status" context="{'group_by': 'state'}"/>
+                <filter name="group_by_property" string="Property" context="{'group_by': 'property_id'}"/>
+            </search>
+        </field>
+    </record>
+
+        <!-- ======================================================
+             PROPERTY VENDOR / BOOKING — Action
+        ====================================================== -->
+        <record id="property_vendor_action" model="ir.actions.act_window">
+        <field name="name">Bookings</field>
+        <field name="res_model">property.vendor</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="property_vendor_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Booking / Vendor Record
+            </p>
+        </field>
+    </record>
+
+</odoo>

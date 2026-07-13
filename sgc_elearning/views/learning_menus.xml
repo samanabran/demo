@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="menu_learning_root" name="Learning" sequence="10"/>
+    <menuitem id="menu_learning_content" name="Content" parent="menu_learning_root" sequence="10"/>
+    <menuitem id="menu_learning_quizzes" name="Quizzes" parent="menu_learning_root" sequence="20"/>
+    <menuitem id="menu_learning_gamification" name="Gamification" parent="menu_learning_root" sequence="30"/>
+
+    <menuitem id="menu_learning_chapter" name="Chapters" parent="menu_learning_content" action="action_learning_chapter" sequence="10"/>
+    <menuitem id="menu_learning_section" name="Sections" parent="menu_learning_content" action="action_learning_section" sequence="20"/>
+    <menuitem id="menu_learning_asset" name="Assets" parent="menu_learning_content" action="action_learning_asset" sequence="30"/>
+
+    <menuitem id="menu_learning_quiz" name="Quizzes" parent="menu_learning_quizzes" action="action_learning_quiz" sequence="10"/>
+    <menuitem id="menu_learning_attempt" name="Attempts" parent="menu_learning_quizzes" action="action_learning_attempt" sequence="20"/>
+
+    <menuitem id="menu_learning_badge" name="Badges" parent="menu_learning_gamification" action="action_learning_badge" sequence="10"/>
+    <menuitem id="menu_learning_leaderboard" name="Leaderboard" parent="menu_learning_gamification" action="action_learning_leaderboard" sequence="20"/>
+    <menuitem id="menu_learning_certificate" name="Certificates" parent="menu_learning_gamification" action="action_learning_certificate" sequence="30"/>
+    <menuitem id="menu_learning_progress" name="Progress" parent="menu_learning_gamification" action="action_learning_progress" sequence="40"/>
+</odoo>

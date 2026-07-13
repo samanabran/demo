@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_video_audit_log_tree" model="ir.ui.view">
+        <field name="name">video.audit.log.tree</field>
+        <field name="model">video.audit.log</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="create_date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="model"/>
+                <field name="result" widget="badge" decoration-success="result=='success'" decoration-danger="result=='failure'"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_video_audit_log_search" model="ir.ui.view">
+        <field name="name">video.audit.log.search</field>
+        <field name="model">video.audit.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="model"/>
+                <filter string="Success" name="success" domain="[('result','=','success')]"/>
+                <filter string="Failures" name="failure" domain="[('result','=','failure')]"/>
+                <separator/>
+                <filter string="Today" name="today" date="create_date"/>
+            </search>
+        </field>
+    </record>
+</odoo>

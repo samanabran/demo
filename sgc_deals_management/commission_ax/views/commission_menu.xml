@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem id="menu_commission_root" name="Commissions"
+                  parent="sgc_deals_management.menu_commissions_root" sequence="50"
+                  action="sgc_deals_management.action_commission_main"/>
+    </data>
+</odoo>

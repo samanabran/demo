@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- Question Tree View -->
+        <record id="view_assessment_question_tree" model="ir.ui.view">
+            <field name="name">assessment.question.tree</field>
+            <field name="model">assessment.question</field>
+            <field name="arch" type="xml">
+                <list string="Questions" default_order="sequence">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="question_type" widget="badge"/>
+                    <field name="category"/>
+                    <field name="scoring_weight"/>
+                    <field name="min_char_count"/>
+                    <field name="is_required" widget="boolean_toggle"/>
+                    <field name="is_active" widget="boolean_toggle"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Question Form View -->
+        <record id="view_assessment_question_form" model="ir.ui.view">
+            <field name="name">assessment.question.form</field>
+            <field name="model">assessment.question</field>
+            <field name="arch" type="xml">
+                <form string="Assessment Question">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="is_active" widget="boolean_button" options="{'terminology': 'archive'}"/>
+                            </button>
+                        </div>
+
+                        <widget name="web_ribbon" title="Inactive" bg_color="bg-danger" invisible="is_active == True"/>
+
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="e.g., Automation Experience"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group string="Basic Information">
+                                <field name="sequence"/>
+                                <field name="question_type"/>
+                                <field name="category"/>
+                                <field name="is_required"/>
+                            </group>
+                            <group string="Scoring">
+                                <field name="scoring_weight"/>
+                                <field name="min_char_count"/>
+                                <field name="max_char_count"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Question" name="question">
+                                <group>
+                                    <field name="question_text" widget="text" placeholder="Enter the question that will be shown to candidates..."/>
+                                    <field name="help_text" widget="text" placeholder="Optional help text or instructions for candidates..."/>
+                                </group>
+                            </page>
+
+                            <page string="Scoring Criteria" name="scoring">
+                                <group>
+                                    <field name="scoring_criteria" widget="text" placeholder="Define the criteria that AI should use when scoring answers to this question...
+                                           
+Example:
+- Technical depth and accuracy (40%)
+- Specific examples and metrics (30%)
+- Clarity and structure (20%)
+- Innovation and problem-solving approach (10%)"/>
+                                </group>
+                            </page>
+
+                            <page string="Examples" name="examples">
+                                <group>
+                                    <field name="good_answer_example" widget="text" placeholder="Provide an example of a strong answer..."/>
+                                    <field name="bad_answer_example" widget="text" placeholder="Provide an example of a weak answer..."/>
+                                </group>
+                            </page>
+
+                            <page string="Notes" name="notes">
+                                <field name="notes" widget="text" placeholder="Internal notes about this question..."/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Question Kanban View -->
+        <record id="view_assessment_question_kanban" model="ir.ui.view">
+            <field name="name">assessment.question.kanban</field>
+            <field name="model">assessment.question</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" default_order="sequence">
+                    <field name="id"/>
+                    <field name="name"/>
+                    <field name="sequence"/>
+                    <field name="question_type"/>
+                    <field name="is_active"/>
+                    <field name="is_required"/>
+                    <templates>
+                        <t t-name="card">
+                            <div class="oe_kanban_global_click" t-attf-class="#{!record.is_active.raw_value ? 'o_kanban_record_inactive' : ''}">
+                                <div class="o_kanban_record_top mb8">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            Q<field name="sequence"/>
+:                                        <field name="name"/>
+                                    </strong>
+                                </div>
+                                <span class="badge badge-pill badge-info">
+                                    <field name="question_type"/>
+                                </span>
+                            </div>
+                            <div class="o_kanban_record_body">
+                                <field name="question_text" widget="text"/>
+                            </div>
+                            <div class="o_kanban_record_bottom mt8">
+                                <div class="oe_kanban_bottom_left">
+                                    <span t-if="record.is_required.raw_value" class="badge badge-warning">Required</span>
+                                    <span t-else="" class="badge badge-secondary">Optional</span>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <field name="is_active" widget="boolean_toggle"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Question Search View -->
+    <record id="view_assessment_question_search" model="ir.ui.view">
+        <field name="name">assessment.question.search</field>
+        <field name="model">assessment.question</field>
+        <field name="arch" type="xml">
+            <search string="Questions">
+                <field name="name"/>
+                <field name="question_text"/>
+                <field name="question_type"/>
+                <field name="category"/>
+                <filter string="Active" name="active" domain="[('is_active', '=', True)]"/>
+                <filter string="Inactive" name="inactive" domain="[('is_active', '=', False)]"/>
+                <separator/>
+                <filter string="Required" name="required" domain="[('is_required', '=', True)]"/>
+                <filter string="Optional" name="optional" domain="[('is_required', '=', False)]"/>
+                <separator/>
+                <filter string="Technical" name="technical" domain="[('question_type', '=', 'technical')]"/>
+                <filter string="Sales" name="sales" domain="[('question_type', '=', 'sales')]"/>
+                <filter string="Communication" name="communication" domain="[('question_type', '=', 'communication')]"/>
+                <filter string="Learning" name="learning" domain="[('question_type', '=', 'learning')]"/>
+                <filter string="Cultural Fit" name="cultural_fit" domain="[('question_type', '=', 'cultural_fit')]"/>
+                <group>
+                    <filter string="Question Type" name="group_question_type" context="{'group_by': 'question_type'}"/>
+                    <filter string="Category" name="group_category" context="{'group_by': 'category'}"/>
+                    <filter string="Status" name="group_active" context="{'group_by': 'is_active'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Question Action -->
+    <record id="action_assessment_question" model="ir.actions.act_window">
+        <field name="name">Questions</field>
+        <field name="res_model">assessment.question</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                    Create your first assessment question!
+            </p>
+            <p>
+                    Questions are used to evaluate candidates across different categories.
+                    Define the question text, type, scoring criteria, and examples.
+            </p>
+        </field>
+    </record>
+</odoo>
+

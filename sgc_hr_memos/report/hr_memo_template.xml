@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_hr_memo">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="sgc_hr_memos.report_hr_memo_document"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_hr_memo_document">
+        <div class="page" style="font-family: 'Montserrat', Arial, sans-serif;
+                      padding: 30px 16px 10px 16px;
+                                  background: transparent !important;">
+            <style>
+                @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap');
+                * { font-family: 'Montserrat', Arial, sans-serif !important; }
+                .memo-container {
+                    max-width: 100%;
+                    position: relative;
+                    z-index: 1;
+                    background: transparent !important;
+                }
+                .page, body, html {
+                    background: transparent !important;
+                }
+                .memo-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding-top: 10px;
+                    padding-bottom: 6px;
+                    margin-bottom: 6px;
+                }
+                .memo-logo {
+                    max-height: 60px;
+                }
+                .memo-title {
+                    text-align: center;
+                    color: #000;
+                    font-size: 24px;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    margin: 10px 0;
+                    border-top: 2px solid #800020;
+                    border-bottom: 2px solid #800020;
+                    padding: 8px 0;
+                    color: #800020;
+                }
+                .memo-reference {
+                    text-align: right;
+                    color: #555;
+                    font-size: 11px;
+                }
+                .memo-meta {
+                    font-size: 12px;
+                    color: #333;
+                    line-height: 1.4;
+                    margin-bottom: 4px;
+                }
+                .memo-meta strong {
+                    display: inline-block;
+                    min-width: 120px;
+                    color: #000;
+                }
+                .memo-divider {
+                    border-top: 1.5px solid #800020;
+                    margin: 8px 0 10px 0;
+                }
+                .memo-content {
+                    line-height: 1.5;
+                    font-size: 12px;
+                    color: #000;
+                    text-align: justify;
+                    margin: 6px 0 20px 0;
+                    word-break: break-word;
+                    white-space: normal;
+                }
+                .memo-content p {
+                    margin: 0 0 6px 0;
+                }
+                .memo-content p:last-child {
+                    margin-bottom: 0;
+                }
+                .memo-content ul,
+                .memo-content ol {
+                    margin: 0 0 6px 16px;
+                    padding: 0;
+                }
+                .memo-content li {
+                    margin: 0 0 4px 0;
+                }
+                .memo-content span {
+                    white-space: normal !important;
+                }
+                .memo-signature-block {
+                    width: 45%;
+                }
+                .memo-signature-line {
+                    border-top: 2px solid #000;
+                    margin-top: 60px;
+                    padding-top: 8px;
+                    text-align: center;
+                }
+                .memo-stamp-area {
+                    width: 100px;
+                    height: 100px;
+                    border: 2px dashed #999;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-left: auto;
+                    font-size: 10px;
+                    color: #999;
+                }
+                .memo-qr-section {
+                    text-align: center;
+                    margin-top: 25px;
+                }
+                .memo-footer {
+                    margin-top: 25px;
+                    padding-top: 12px;
+                    border-top: 1.5px solid #800020;
+                    text-align: center;
+                    font-size: 9px;
+                    color: #888;
+                }
+                @media print {
+                    .memo-container { page-break-inside: avoid; }
+                }
+            </style>
+
+            <div class="memo-container">
+                <!-- Header: Logo + Reference -->
+                <div class="memo-header">
+                    <div>
+                        <img t-if="o.prepared_by.company_id.logo"
+                             t-att-src="image_data_uri(o.prepared_by.company_id.logo)"
+                             class="memo-logo"
+                             alt="Company Logo"/>
+                    </div>
+                    <div class="memo-reference">
+                        <t t-if="o.memo_reference">
+                            <strong>Ref:</strong> <t t-esc="o.memo_reference"/><br/>
+                        </t>
+                        <strong>Date:</strong>
+                        <t t-esc="o.memo_date"
+                           t-options="{'widget': 'date', 'format': 'dd MMMM yyyy'}"/>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <div class="memo-title">MEMORANDUM</div>
+
+                <!-- Meta Info -->
+                <div class="memo-meta">
+                    <div>
+                        <strong>Subject:</strong>
+                        <t t-esc="o.name"/>
+                    </div>
+                    <div>
+                        <strong>Prepared By:</strong>
+                        <t t-esc="o.prepared_by.name"/>
+                    </div>
+                    <t t-if="o.approved_by">
+                        <div>
+                            <strong>Approved By:</strong>
+                            <t t-esc="o.approved_by.name"/>
+                            <t t-if="o.approved_date">
+                                <span style="color: #888; font-size: 10px;">
+                                    on <t t-esc="o.approved_date"
+                                          t-options="{'widget': 'date', 'format': 'dd MMMM yyyy'}"/>
+                                </span>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+
+                <!-- Divider -->
+                <div class="memo-divider"/>
+
+                <!-- Memo Body (HTML content) -->
+                <div class="memo-content">
+                    <div t-field="o.memo_body_print"/>
+                </div>
+
+                <!-- Signature + Stamp Section -->
+                <table style="width: 100%; margin-top: 40px;">
+                    <tr>
+                        <td style="width: 50%; vertical-align: bottom;">
+                            <div class="memo-signature-block">
+                                <t t-if="o.digital_signature">
+                                    <img t-att-src="image_data_uri(o.digital_signature)"
+                                         style="max-height: 80px; margin-bottom: -20px;"/>
+                                </t>
+                                <div class="memo-signature-line">
+                                    <div style="font-weight: 700; font-size: 11px;">
+                                        Authorized Signatory
+                                    </div>
+                                    <t t-if="o.signatory_name">
+                                        <div style="font-size: 11px; margin-top: 3px;">
+                                            <t t-esc="o.signatory_name"/>
+                                        </div>
+                                    </t>
+                                    <t t-if="o.signatory_title">
+                                        <div style="font-size: 10px; color: #555; margin-top: 2px;">
+                                            <t t-esc="o.signatory_title"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="width: 50%; vertical-align: bottom; text-align: right;">
+                            <div class="memo-stamp-area">
+                                Company<br/>Stamp
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- QR Code -->
+                <t t-if="o.qr_image">
+                    <div class="memo-qr-section">
+                        <img t-att-src="image_data_uri(o.qr_image)"
+                             style="max-width: 120px;"/>
+                        <div style="font-size: 8px; color: #999; margin-top: 4px;">
+                            Scan to verify this memo
+                        </div>
+                    </div>
+                </t>
+
+                <!-- Footer -->
+                <div class="memo-footer">
+                    This is a computer-generated memorandum. For verification, scan the QR code above
+                    or contact the HR Department.<br/>
+                    <t t-if="o.prepared_by.company_id.name">
+                        <t t-esc="o.prepared_by.company_id.name"/>
+                    </t>
+                    <t t-if="o.prepared_by.company_id.phone">
+                        | Tel: <t t-esc="o.prepared_by.company_id.phone"/>
+                    </t>
+                    <t t-if="o.prepared_by.company_id.email">
+                        | Email: <t t-esc="o.prepared_by.company_id.email"/>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

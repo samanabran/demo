@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_video_conferencing_root"
+              name="Video Conferencing"
+              sequence="80"
+              web_icon="sgc_video_conferencing,static/description/icon.png"/>
+
+    <!-- Dashboard -->
+    <menuitem id="menu_video_conferencing_dashboard"
+              name="Dashboard"
+              parent="menu_video_conferencing_root"
+              action="action_video_dashboard"
+              sequence="10"/>
+
+    <!-- Meetings -->
+    <menuitem id="menu_video_conferencing_meetings"
+              name="Meetings"
+              parent="menu_video_conferencing_root"
+              action="action_video_meeting"
+              sequence="20"/>
+
+    <!-- Providers -->
+    <menuitem id="menu_video_conferencing_providers"
+              name="Providers"
+              parent="menu_video_conferencing_root"
+              sequence="30">
+        <menuitem id="menu_video_conferencing_provider_list"
+                  name="Provider Registry"
+                  action="action_video_provider"
+                  sequence="10"/>
+        <menuitem id="menu_video_conferencing_accounts"
+                  name="Provider Accounts"
+                  action="action_video_provider_account"
+                  sequence="20"/>
+    </menuitem>
+
+    <!-- Recordings -->
+    <menuitem id="menu_video_conferencing_recordings"
+              name="Recordings"
+              parent="menu_video_conferencing_root"
+              action="action_video_recording"
+              sequence="40"/>
+
+    <!-- Settings (admin only) -->
+    <menuitem id="menu_video_conferencing_settings"
+              name="Settings"
+              parent="menu_video_conferencing_root"
+              action="action_video_audit_log"
+              sequence="50"
+              groups="sgc_video_conferencing.group_video_conferencing_admin"/>
+
+</odoo>

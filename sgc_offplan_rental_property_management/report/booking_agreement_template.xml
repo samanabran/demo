@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="booking_agreement_template">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+            <div class="page">
+                <div class="row mb-4">
+                    <div class="col-xs-12">
+                        <h1>Booking Agreement</h1>
+                        <p><strong>Reference:</strong> <span t-esc="o.name or o.sold_seq"/></p>
+                        <p><strong>Date:</strong> <span t-esc="o.date or o.contract_date or datetime.date.today()"/></p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-xs-12">
+                        <h3>Property Details</h3>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><strong>Property</strong></td>
+                                <td t-esc="o.property_id.name"/>
+                            </tr>
+                            <tr t-if="o.property_id.property_type">
+                                <td><strong>Type</strong></td>
+                                <td t-esc="o.property_id.property_type"/>
+                            </tr>
+                            <tr t-if="o.property_id.project_id">
+                                <td><strong>Project</strong></td>
+                                <td t-esc="o.property_id.project_id.name"/>
+                            </tr>
+                            <tr t-if="o.property_id.bedrooms">
+                                <td><strong>Bedrooms</strong></td>
+                                <td t-esc="o.property_id.bedrooms"/>
+                            </tr>
+                            <tr t-if="o.property_id.area">
+                                <td><strong>Area (sq ft)</strong></td>
+                                <td t-esc="o.property_id.area"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-xs-12">
+                        <h3>Parties</h3>
+                        <table class="table table-bordered">
+                            <tr t-if="o.customer_id">
+                                <td><strong>Customer / Buyer</strong></td>
+                                <td t-esc="o.customer_id.name"/>
+                            </tr>
+                            <tr t-if="o.customer_id and o.customer_id.phone">
+                                <td><strong>Phone</strong></td>
+                                <td t-esc="o.customer_id.phone"/>
+                            </tr>
+                            <tr t-if="o.customer_id and o.customer_id.email">
+                                <td><strong>Email</strong></td>
+                                <td t-esc="o.customer_id.email"/>
+                            </tr>
+                            <tr t-if="o.vendor_id">
+                                <td><strong>Vendor / Seller</strong></td>
+                                <td t-esc="o.vendor_id.name"/>
+                            </tr>
+                            <tr t-if="o.broker_id">
+                                <td><strong>Broker</strong></td>
+                                <td t-esc="o.broker_id.name"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-xs-12">
+                        <h3>Financial Summary</h3>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><strong>Sale Price</strong></td>
+                                <td class="text-right">
+                                    <span t-esc="o.sale_price" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
+                                </td>
+                            </tr>
+                            <tr t-if="o.commission_type">
+                                <td><strong>Commission Type</strong></td>
+                                <td t-esc="dict(o._fields['commission_type'].selection).get(o.commission_type, o.commission_type)" class="text-right"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4" t-if="o.property_id.payment_schedule_id">
+                    <div class="col-xs-12">
+                        <h3>Payment Plan</h3>
+                        <p t-esc="o.property_id.payment_schedule_id.name"/>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-xs-6">
+                        <p style="margin-top: 60px; border-top: 1px solid #333; padding-top: 8px; width: 80%;">
+                            <strong>Customer Signature</strong>
+                        </p>
+                    </div>
+                    <div class="col-xs-6">
+                        <p style="margin-top: 60px; border-top: 1px solid #333; padding-top: 8px; width: 80%;">
+                            <strong>Company Representative</strong>
+                        </p>
+                    </div>
+                </div>
+
+                <p class="mt-5 text-muted small text-center">
+                    This is a computer-generated Booking Agreement document.
+                    Terms and conditions apply. Subject to SGC TECH AI.
+                </p>
+            </div>
+            </t>
+          </t>
+        </t>
+    </template>
+</odoo>

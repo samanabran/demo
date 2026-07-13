@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGC - Real Estate Website</title>
+    <style>
+        :root {
+            --navy: #1B3A57 !important;
+            --gold: #C9A961 !important;
+            --cream: #F5F3EE !important;
+            --white: #FFFFFF !important;
+            --text: #2C2C2C !important;
+            --border: #E6E2D8 !important;
+            --success: #2E7D32 !important;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, Helvetica, sans-serif !important;
+            color: var(--text) !important;
+            background-color: var(--white) !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            line-height: 1.6 !important;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: Georgia, Cambria, 'Times New Roman', serif !important;
+            color: var(--navy) !important;
+        }
+
+        .container {
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 0 20px !important;
+        }
+
+        section {
+            padding: 80px 0 !important;
+        }
+
+        .section-cream {
+            background-color: var(--cream) !important;
+        }
+
+        /* Defensive word-break: Odoo's app-store sanitizer can apply word-break: break-all
+           to descendant text, splitting words char-by-char into narrow grid cards. */
+        body, .container, .card, .card h3, .card p, .stat, .workflow-step,
+        .checklist li, .role-card, h1, h2, h3, h4, .intro-text, * {
+            word-break: normal !important;
+            overflow-wrap: break-word !important;
+            hyphens: none !important;
+        }
+
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--navy) !important;
+            color: var(--white) !important;
+            text-align: center !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+        }
+
+        .hero-banner {
+            width: 100% !important;
+            height: auto !important;
+            display: block !important;
+        }
+
+        .hero-content {
+            padding: 60px 20px !important;
+            background-color: var(--white) !important;
+        }
+
+        .hero-icon {
+            width: 80px !important;
+            height: 80px !important;
+            margin-bottom: 20px !important;
+        }
+
+        .hero h1 {
+            font-size: 3rem !important;
+            margin: 10px 0 !important;
+            color: var(--navy) !important;
+        }
+
+        .hero-summary {
+            font-size: 1.25rem !important;
+            color: var(--text) !important;
+            max-width: 800px !important;
+            margin: 0 auto 30px !important;
+        }
+
+        .hero-value {
+            font-weight: bold !important;
+            color: var(--gold) !important;
+            text-transform: uppercase !important;
+            letter-spacing: 2px !important;
+            font-size: 0.9rem !important;
+            margin-bottom: 10px !important;
+            display: block !important;
+        }
+
+        .btn-group {
+            display: flex !important;
+            justify-content: center !important;
+            gap: 20px !important;
+        }
+
+        .btn {
+            padding: 12px 30px !important;
+            border-radius: 5px !important;
+            font-weight: bold !important;
+            text-decoration: none !important;
+            transition: all 0.3s !important;
+        }
+
+        .btn-gold {
+            background-color: var(--gold) !important;
+            color: var(--navy) !important;
+        }
+
+        .btn-outline {
+            border: 2px solid var(--navy) !important;
+            color: var(--navy) !important;
+        }
+
+        /* Introduction */
+        .intro-text {
+            max-width: 900px !important;
+            margin: 0 auto !important;
+            text-align: center !important;
+            font-size: 1.1rem !important;
+        }
+
+        .gold-highlight {
+            color: var(--gold) !important;
+            font-weight: bold !important;
+        }
+
+        /* Feature Grid */
+        .grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+            gap: 30px !important;
+            margin-top: 50px !important;
+        }
+
+        .card {
+            background: var(--white) !important;
+            padding: 40px !important;
+            border-radius: 12px !important;
+            box-shadow: var(--shadow) !important;
+            border: 1px solid var(--border) !important;
+            transition: transform 0.3s !important;
+        }
+
+        .card:hover {
+            transform: translateY(-5px) !important;
+        }
+
+        .card-icon {
+            font-size: 2.5rem !important;
+            margin-bottom: 20px !important;
+            display: block !important;
+        }
+
+        .card h3 {
+            margin-bottom: 15px !important;
+            font-size: 1.4rem !important;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none !important;
+            padding: 0 !important;
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+            gap: 15px !important;
+        }
+
+        .checklist li {
+            padding-left: 35px !important;
+            position: relative !important;
+            font-weight: 500 !important;
+        }
+
+        .checklist li::before {
+            content: '✓' !important;
+            position: absolute !important;
+            left: 0 !important;
+            color: var(--success) !important;
+            font-weight: 900 !important;
+            font-size: 1.2rem !important;
+        }
+
+        /* Screenshots */
+        .screenshot-card {
+            background: var(--white) !important;
+            border-radius: 12px !important;
+            overflow: hidden !important;
+            box-shadow: var(--shadow) !important;
+            margin-bottom: 40px !important;
+            border: 1px solid var(--border) !important;
+        }
+
+        .screenshot-card img {
+            width: 100% !important;
+            height: auto !important;
+            display: block !important;
+            border-bottom: 1px solid var(--border) !important;
+        }
+
+        .screenshot-info {
+            padding: 25px !important;
+        }
+
+        /* Roles */
+        .role-grid {
+            display: flex !important;
+            gap: 20px !important;
+            flex-wrap: wrap !important;
+            justify-content: center !important;
+        }
+
+        .role-card {
+            background: var(--navy) !important;
+            color: var(--white) !important;
+            padding: 20px 40px !important;
+            border-radius: 10px !important;
+            text-align: center !important;
+            min-width: 200px !important;
+        }
+
+        .role-card h4 {
+            color: var(--gold) !important;
+            margin: 0 !important;
+        }
+
+        /* Technical Table */
+        .tech-table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            margin-top: 30px !important;
+            background: var(--white) !important;
+            border-radius: 10px !important;
+            overflow: hidden !important;
+            box-shadow: var(--shadow) !important;
+        }
+
+        .tech-table th, .tech-table td {
+            padding: 15px 25px !important;
+            text-align: left !important;
+            border-bottom: 1px solid var(--border) !important;
+        }
+
+        .tech-table th {
+            background-color: var(--navy) !important;
+            color: var(--white) !important;
+            font-family: 'Segoe UI', sans-serif !important;
+            width: 30% !important;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy) !important;
+            color: var(--white) !important;
+            padding: 60px 0 !important;
+            text-align: center !important;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem !important;
+            font-weight: bold !important;
+            letter-spacing: 2px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .footer-tagline {
+            color: var(--gold) !important;
+            font-size: 0.9rem !important;
+            letter-spacing: 1px !important;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem !important; }
+            .btn-group { flex-direction: column !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <img src="banner.png" alt="SGC - Real Estate Website Banner" class="hero-banner">
+    <div class="hero-content">
+        <div class="container">
+            <img src="icon.png" alt="Icon" class="hero-icon">
+            <span class="hero-value">Premium Frontend Solution</span>
+            <h1>SGC - Real Estate Website</h1>
+            <p class="hero-summary">Modern responsive real estate website with advanced search, SEO optimization, and OWL-powered interactive components.</p>
+            <div class="btn-group">
+                <a href="#features" class="btn btn-gold">Explore Listings</a>
+                <a href="#contact" class="btn btn-outline">Get Started</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section-white">
+    <div class="container">
+        <div class="intro-text">
+            <h2>Captivate Your Clients with a <span class="gold-highlight">World-Class Digital Storefront</span></h2>
+            <p>In real estate, the first impression is everything. SGC Real Estate Website provides an elite, <span class="gold-highlight">SEO-optimized frontend</span> built on Odoo 17 best practices. Featuring advanced property search, dynamic destination management, and modern OWL components, it transforms your Odoo backend into a stunning, high-performance portal that converts visitors into leads effortlessly.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 id="features" style="text-align: center; margin-bottom: 50px;">Key Features</h2>
+        <div class="grid">
+            <div class="card">
+                <span class="card-icon">🏠</span>
+                <h3>Advanced Property Listings</h3>
+                <p>High-fidelity listing pages with interactive image galleries, detailed specifications, and responsive layouts for all devices.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🔍</span>
+                <h3>Intelligent Property Search</h3>
+                <p>Powerful search and filtering engine allowing clients to find properties by location, type, price range, and custom amenities.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🌍</span>
+                <h3>Destination Management</h3>
+                <p>Manage and showcase properties across different countries and regions with dedicated, SEO-friendly landing pages.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">📝</span>
+                <h3>Consultation Request Forms</h3>
+                <p>Integrated inquiry forms that capture customer details and requirements directly into your Odoo CRM for instant follow-up.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">⚡</span>
+                <h3>Modern OWL Components</h3>
+                <p>Built with Odoo's Web Library (OWL) for ultra-fast, snappy interactions and a truly modern web experience.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">📈</span>
+                <h3>SEO & Performance Optimized</h3>
+                <p>Lightweight architecture and optimized metadata ensure high search engine rankings and rapid page load speeds.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">What You Get</h2>
+        <ul class="checklist">
+            <li>Dynamic Property Listing Templates</li>
+            <li>Interactive Property Detail Views</li>
+            <li>OWL-powered Search & Filters</li>
+            <li>Custom Consultation Request Forms</li>
+            <li>Destination Country CMS</li>
+            <li>SEO-optimized Meta-tag Engine</li>
+            <li>Responsive SCSS Component Library</li>
+            <li>Integrated Image Gallery JS</li>
+            <li>Website Snippet Library</li>
+        </ul>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">Module Screenshots</h2>
+
+        <div class="screenshot-card">
+            <img src="screenshots/screenshot.png" alt="Real Estate Website Listing">
+            <div class="screenshot-info">
+                <h3>Frontend Property Listing</h3>
+                <p>A beautiful, modern grid layout for showcasing your property portfolio with integrated search and quick filters.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">Business Benefits</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Increased Lead Generation</h3>
+                <p>Simplified consultation forms and prominent calls-to-action drive higher conversion rates from your website visitors.</p>
+            </div>
+            <div class="card">
+                <h3>Brand Authority</h3>
+                <p>A premium, professional website reflects the quality of your services and builds trust with high-net-worth clients.</p>
+            </div>
+            <div class="card">
+                <h3>Seamless Integration</h3>
+                <p>Zero manual data entry—everything updated in the Odoo backend reflects instantly on your public website.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 40px;">Who Uses This Module</h2>
+        <div class="role-grid">
+            <div class="role-card">
+                <h4>Property Manager</h4>
+                <p>Manage listings & content</p>
+            </div>
+            <div class="role-card">
+                <h4>Website Admin</h4>
+                <p>Optimize SEO & site layout</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 40px;">Technical Information</h2>
+        <table class="tech-table">
+            <tr>
+                <th>Module</th>
+                <td>sgc_realestate_website</td>
+            </tr>
+            <tr>
+                <th>Version</th>
+                <td>19.0.1.0.0</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>Website/Real Estate</td>
+            </tr>
+            <tr>
+                <th>License</th>
+                <td>OPL-1</td>
+            </tr>
+            <tr>
+                <th>Dependencies</th>
+                <td>base, web, website, website_mail, portal, mail</td>
+            </tr>
+            <tr>
+                <th>Frontend Tech</th>
+                <td>OWL, Modern SCSS, ES6+ JS</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container" style="text-align: center;">
+        <h2>Why Choose SGC TECH AI?</h2>
+        <p class="intro-text">Our modules are built with <strong>Enterprise Readiness</strong> in mind. We focus on clean code, seamless integration, and superior UI/UX to ensure that your Odoo experience is not just functional, but exceptional. Each SGC module undergoes rigorous testing to guarantee reliability and performance in high-stakes environments.</p>
+    </div>
+</section>
+
+<footer id="contact">
+    <div class="container">
+        <div class="footer-logo">SGC TECH AI</div>
+        <div class="footer-tagline">Finance. Systems. Technology.</div>
+    </div>
+</footer>
+
+</body>
+</html>

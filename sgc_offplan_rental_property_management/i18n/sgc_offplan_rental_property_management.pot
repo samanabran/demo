@@ -1,0 +1,1378 @@
+# Translation of SGC Property Management in English
+# This file contains the translation of the following modules:
+# * sgc_offplan_rental_property_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SGC Property Management 19.0.2.12\n"
+"Report-Msgid-Bugs-To: bran@sgctech.ai\n"
+"POT-Creation-Date: 2026-07-12 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "# of Installments"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "%d rent bill(s) generated."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "A paid installment cannot be marked as overdue."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "AED"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "AI Triage"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "AI triage complete."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Activate"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Active"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Add Product for create bill"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Add Product for create invoice"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Add customer to create bill"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Add customer to create invoice"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Add internal notes here…"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Add vendor to create bill"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Add vendor to create invoice"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Add you dynamic variable inside {{}}"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Additional notes..."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Admin Fee"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Admin Fee %"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Admin Fee Type"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Advance Payment"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Aggregated Commission (all bookings)"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Agreement"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Approval status can only be set for documents that are visible on the portal."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Archive"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Archived"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Available"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Base Sale Price"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Bills"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Book / Hold"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Booked"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Booking / Vendor Record"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Booking Type"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Bookings"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Bookings / Vendor Records"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Broker Details"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Cancel"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Cancel Project"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Cancelled"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Category"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Certificate Type"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Classification"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Commission"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Commission Calculation"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Commission Settings (defaults for new bookings)"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Commission Split"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Commission Split (%)"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Company"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Completed"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Completed or already cancelled contracts cannot be cancelled."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Confirm"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Confirmed"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Contact Phone"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Contract"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Contract Details"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Contract Parties"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Contract Reference"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Contract Reference…"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Contract activated. Property has been marked as rented."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Contract cancelled. Property is now available."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Contract expired. Property is now available."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Create Bill"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Create Booking"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Create Invoice"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Create Rent Contract"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Create Sale Contract"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Customer"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Customer %s acknowledged the contract via the portal (MVP e-sign seam)."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Customer Details"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Customer Pricing"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Customer or property not Found !"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "DLD Fee %"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "DLD Fee (Dubai Land Department)"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "DLD Fee Type"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Dates & Financials"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Days After"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Days after contract cannot be negative"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Describe the issue in detail..."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Describe this payment schedule..."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Description"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Description.."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Details"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Document"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Documents"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Draft"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Duration"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Duration in Month/Year"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Email *"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Examples"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Expired"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "External Commission"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Feed token is too short."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "File"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Financial"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Financial Details"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Fixed Admin Fee"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Fixed DLD Fee"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "For Rent"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "For Sale"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "From"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Gallery"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Gallery Images"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Generate Installments"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Generate Rent Bills"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Get AI Triage"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Image"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Included Products"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Inquiry submitted via portal by %s."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Installment"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Installments"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Internal Commission"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Internal Commission Split (%)"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Internal notes about this contract…"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Invalid email format: %s"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Invoices"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Items"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Kanban"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Landlord"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Leads"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Listings"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Location"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Logs"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Maintenance"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Mark Complete"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Mark Completed"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Mark Expired"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Mark Paid"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Marketing description, amenities, notes..."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Max Price"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Message (optional)"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Min Price"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Name and email are required."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "New"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Notes"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Notes…"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Number of installments must be at least 1"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Only cancelled projects can be reset to draft."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Only draft contracts can be signed."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Only draft or in-progress projects can be completed."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Only draft projects can be started."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Only signed contracts can be marked as completed."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Ownership"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Parties"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Payment & Split"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Payment For"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Payment Information"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Payment Lines"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Payment Plan"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Payment Schedule"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Payment Schedule Name..."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Payment Schedules"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Percentage must be between 0 and 100"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Phone"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Phone number"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Phone number too short: %s"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Please select a Payment Schedule before generating installments."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Please select at least one publishing option"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Please set a Contract Date before generating installments."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Please set a rent amount before generating rent bills."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Please set both a start date and an end date before generating rent bills."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Portal Connector"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Portal Lead"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Portal Leads"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Portal Listing"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Portal Listings"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Portal Publishing"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Portal Syndication"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Portals"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Preview Template"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Pricing & Fees"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Print Brochure"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Project"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Project Code"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Project Name"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Project is already cancelled."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Projects"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Properties"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property Code"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property Details"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property Inquiries"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property Inquiry"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property Management"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property Name"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property Reference"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property Status"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property Type"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property has been published to the website"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property has been removed from the website"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property is required."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Property not found."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Proposed Price (optional)"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Publish"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Publish Property"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Publish to Portal"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Published"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Published on Property Portal"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Publishing Options"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Publishing Successful"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Reason"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Reference"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Region"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Regions"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Rent"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Rent - %s"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Rent Bills"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Rent Contract"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Rent Contracts"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Rent Invoice"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Rental"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Rented"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Sale"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Sale Contract"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Sale Contracts"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Sale Price"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Sale/Lease"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Search Rent Contracts"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Search Tenancies"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Search property or city..."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Send for Signature"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Services"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Sign Contract"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Signed"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Signed via Portal"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Sold"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Specifications"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Start Project"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Statistic"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Status"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Sub Project"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Sub Project Code"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Sub Project Name"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Sub Projects"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Subject"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Sync Log"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Tell us more about your inquiry..."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Tenancies"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Tenancy"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Tenancy Details"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Tenancy Reference"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Tenant requested lease renewal."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "This installment is already marked as paid."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Title"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Total %"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Total Customer Price"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Total Floor !"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Total Unit Per Floor !"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Total floor should be greater than 1."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Total unit per floor should be greater than 1."
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Totals"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Type"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Unarchive"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Units"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Unpublish"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Unpublish from Portal"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Unpublished"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Utility"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Variables"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Vendor"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "XML Feed Configuration"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "Your name *"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "e.g. 500000"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "e.g. 5000000"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "e.g. BKG/2025/0001"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "e.g. Living Room, Front View"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "e.g. Marina Heights Master"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "e.g. Marina Heights Tower - Unit 1204"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "e.g. SC/2025/0001"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "e.g. T/2026/00001"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "e.g. Tower A"
+msgstr ""
+
+#. module: sgc_offplan_rental_property_management
+msgctxt "base"
+msgid "total_percentage"
+msgstr ""
+

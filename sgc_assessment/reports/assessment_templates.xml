@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_assessment_candidate_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <style>
+                            .page {
+                                font-family: 'Helvetica', 'Arial', sans-serif;
+                            }
+                            h2 {
+                                color: #1e3a8a;
+                                border-bottom: 3px solid #4fc3f7;
+                                padding-bottom: 10px;
+                                margin-bottom: 20px;
+                            }
+                            h3 {
+                                color: #1e3a8a;
+                                background: #e8f4fd;
+                                padding: 10px;
+                                margin-top: 20px;
+                                border-left: 4px solid #4fc3f7;
+                            }
+                            h5 {
+                                color: #0c1e3d;
+                                font-weight: bold;
+                                margin-top: 15px;
+                            }
+                            .table thead th {
+                                background: #1e3a8a;
+                                color: white;
+                            }
+                            .table tbody tr:nth-child(even) {
+                                background: #f8f9fa;
+                            }
+                            p {
+                                text-align: justify;
+                                line-height: 1.6;
+                            }
+                            .ms-3 {
+                                margin-left: 20px;
+                                padding: 10px;
+                                background: #f8f9fa;
+                                border-radius: 5px;
+                            }
+                        </style>
+                        <h2>Assessment Report</h2>
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Candidate:</strong>
+                                <span t-field="o.full_name"/>
+                                <br/>
+                                <strong>Email:</strong>
+                                <span t-field="o.email"/>
+                                <br/>
+                                <strong>Phone:</strong>
+                                <span t-field="o.phone"/>
+                                <br/>
+                                <strong>Location:</strong>
+                                <span t-field="o.location"/>
+                                <br/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Submission Date:</strong>
+                                <span t-field="o.submission_date"/>
+                                <br/>
+                                <strong>Status:</strong>
+                                <span t-field="o.status"/>
+                                <br/>
+                                <strong>Overall Score:</strong>
+                                <span t-field="o.overall_score"/>
+/100<br/>
+                            <strong>Rank:</strong> #                            <span t-field="o.overall_rank"/>
+                            <br/>
+                        </div>
+                    </div>
+
+                    <h3 class="mt-4">Scores</h3>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Technical</td>
+                                <td>
+                                    <span t-field="o.technical_score"/>
+/100</td>
+                            </tr>
+                            <tr>
+                                <td>Sales</td>
+                                <td>
+                                    <span t-field="o.sales_score"/>
+/100</td>
+                            </tr>
+                            <tr>
+                                <td>Communication</td>
+                                <td>
+                                    <span t-field="o.communication_score"/>
+/100</td>
+                            </tr>
+                            <tr>
+                                <td>Learning Agility</td>
+                                <td>
+                                    <span t-field="o.learning_score"/>
+/100</td>
+                            </tr>
+                            <tr>
+                                <td>Cultural Fit</td>
+                                <td>
+                                    <span t-field="o.cultural_fit_score"/>
+/100</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <t t-if="o.ai_score_id">
+                        <h3 class="mt-4">AI Analysis</h3>
+                        <p>
+                            <strong>Strengths:</strong>
+                        </p>
+                        <p t-field="o.ai_score_id.identified_strengths"/>
+                        <p>
+                            <strong>Skill Gaps:</strong>
+                        </p>
+                        <p t-field="o.ai_score_id.skill_gaps"/>
+                    </t>
+
+                    <t t-if="o.human_review_id">
+                        <h3 class="mt-4">Human Review</h3>
+                        <p>
+                            <strong>Reviewer:</strong>
+                            <span t-field="o.human_review_id.reviewer_id.name"/>
+                        </p>
+                        <p>
+                            <strong>Recommendation:</strong>
+                            <span t-field="o.human_review_id.recommendation"/>
+                        </p>
+                        <p>
+                            <strong>Notes:</strong>
+                        </p>
+                        <p t-field="o.human_review_id.reviewer_notes"/>
+                    </t>
+
+                    <t t-if="o.response_id">
+                        <h3 class="mt-4">Assessment Responses</h3>
+                        <div class="mt-3">
+                            <h5>Q1: Describe a time you automated a repetitive process. What tools did you use, and what was the result?</h5>
+                            <p t-field="o.response_id.q1_answer" class="ms-3"/>
+
+                            <h5 class="mt-3">Q2: How have you used AI tools (like ChatGPT, Copilot, etc.) in your work? Give a specific example.</h5>
+                            <p t-field="o.response_id.q2_answer" class="ms-3"/>
+
+                            <h5 class="mt-3">Q3: A client asks for a feature but doesn't fully understand what they need. How do you handle this conversation?</h5>
+                            <p t-field="o.response_id.q3_answer" class="ms-3"/>
+
+                            <h5 class="mt-3">Q4: A client asks, "How long will this project take?" How do you respond?</h5>
+                            <p t-field="o.response_id.q4_answer" class="ms-3"/>
+
+                            <h5 class="mt-3">Q5: Describe how you'd learn a new technology you've never used before. What's your process?</h5>
+                            <p t-field="o.response_id.q5_answer" class="ms-3"/>
+
+                            <h5 class="mt-3">Q6: A potential client says, "Your price is too high." How do you respond?</h5>
+                            <p t-field="o.response_id.q6_answer" class="ms-3"/>
+
+                            <h5 class="mt-3">Q7: Tell me about a time you worked with a difficult client. What was the situation and how did you handle it?</h5>
+                            <p t-field="o.response_id.q7_answer" class="ms-3"/>
+
+                            <h5 class="mt-3">Q8: Explain what Odoo does to someone who has never heard of ERP systems.</h5>
+                            <p t-field="o.response_id.q8_answer" class="ms-3"/>
+
+                            <h5 class="mt-3">Q9: A client asks for something that's clearly out of scope. How do you say no professionally?</h5>
+                            <p t-field="o.response_id.q9_answer" class="ms-3"/>
+
+                            <h5 class="mt-3">Q10: Why do you want this role? What concerns do you have about this position?</h5>
+                            <p t-field="o.response_id.q10_answer" class="ms-3"/>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </t>
+</template>
+</odoo>
+

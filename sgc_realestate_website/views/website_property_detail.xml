@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Property Detail Page -->
+    <template id="property_detail_page" name="Property Detail Page">
+        <t t-call="sgc_realestate_website.website_base">
+            <div class="property-detail-container mb-5">
+                <!-- Image Gallery -->
+                <div class="container mt-4">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="property-gallery">
+                                <div class="main-image mb-3">
+                                    <img t-if="property.image_1920" t-att-src="'/web/image/sgc.realestate.property/%s/image_1920' % property.id"
+                                         class="img-fluid rounded" style="width: 100%; max-height: 500px; object-fit: cover;" t-att-alt="property.title"/>
+                                </div>
+                                <div class="thumbnail-gallery" t-if="property.image_ids">
+                                    <div t-foreach="property.image_ids" t-as="image">
+                                        <img t-if="image.image_1920" t-att-src="'/web/image/sgc.realestate.property.image/%s/image_256' % image.id"
+                                             class="img-thumbnail cursor-pointer" style="width: 80px; height: 80px; object-fit: cover;" t-att-alt="property.title"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Property Details -->
+                        <div class="col-md-4">
+                            <div class="property-info card sticky-top" style="top: 80px;">
+                                <div class="card-body">
+                                    <h1 class="h3 mb-2" t-esc="property.title or property.name"/>
+                                    <p class="text-muted mb-3">
+                                        <span class="fa fa-map-marker" title="Location"></span>
+                                        <span t-esc="property.city"/>, <span t-esc="property.destination_country_id.name"/>
+                                    </p>
+                                    
+                                    <h2 class="text-primary mb-3" t-esc="'%s %.0f' % (property.currency_id.symbol or '$', property.price)"/>
+                                    
+                                    <div class="property-highlights mb-4">
+                                        <div class="row text-center">
+                                            <div class="col-6 mb-3">
+                                                <span class="fa fa-bed fa-2x text-info mb-2" title="Bedrooms"></span>
+                                                <p class="small"><strong t-esc="property.bedrooms"/> Bedrooms</p>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <span class="fa fa-bath fa-2x text-info mb-2" title="Bathrooms"></span>
+                                                <p class="small"><strong t-esc="property.bathrooms"/> Bathrooms</p>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="fa fa-ruler fa-2x text-info mb-2" title="Area"></span>
+                                                <p class="small"><strong t-esc="property.area"/> sqm</p>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="fa fa-building fa-2x text-info mb-2" title="Property type"></span>
+                                                <p class="small"><strong t-esc="(property.property_type or '').title()"/></p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Features -->
+                                    <div class="features-section mb-4" t-if="property.feature_ids">
+                                        <h5 class="mb-3">Features</h5>
+                                        <div>
+                                            <span t-foreach="property.feature_ids" t-as="feature" class="badge badge-success mr-2 mb-2" t-esc="feature.name"/>
+                                        </div>
+                                    </div>
+
+                                    <button type="button" class="btn btn-primary btn-lg btn-block mb-2 w-100" data-bs-toggle="collapse" data-bs-target="#inquiryFormBox">
+                                        <span class="fa fa-envelope" title="Inquire"></span> Inquire Now
+                                    </button>
+                                    <t t-if="property.brochure or property.floor_plan">
+                                        <button type="button" class="btn btn-outline-primary btn-lg btn-block w-100" data-bs-toggle="collapse" data-bs-target="#gatedDownloadBox">
+                                            <span class="fa fa-download" title="Download"></span> Download Brochure / Floor Plan
+                                        </button>
+                                    </t>
+
+                                    <div class="collapse mt-3" id="inquiryFormBox">
+                                        <form id="propertyInquiryForm" class="needs-validation" novalidate="novalidate">
+                                            <input type="hidden" name="property_id" t-att-value="property.id"/>
+                                            <div class="mb-2">
+                                                <input type="text" class="form-control" name="name" placeholder="Your name" required="required"/>
+                                            </div>
+                                            <div class="mb-2">
+                                                <input type="email" class="form-control" name="email" placeholder="Email" required="required"/>
+                                            </div>
+                                            <div class="mb-2">
+                                                <input type="tel" class="form-control" name="phone" placeholder="Phone"/>
+                                            </div>
+                                            <div class="mb-2">
+                                                <textarea class="form-control" name="message" rows="3" placeholder="Message (optional)"/>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary w-100 o_osus_inquiry_submit">Send Inquiry</button>
+                                        </form>
+                                        <div class="o_osus_inquiry_result mt-3"/>
+                                    </div>
+
+                                    <div class="collapse mt-3" id="gatedDownloadBox">
+                                        <form id="gatedDownloadForm">
+                                            <input type="hidden" name="property_id" t-att-value="property.id"/>
+                                            <div class="mb-2">
+                                                <select class="form-select" name="doc_type">
+                                                    <option t-if="property.brochure" value="brochure">Brochure</option>
+                                                    <option t-if="property.floor_plan" value="floor_plan">Floor Plan</option>
+                                                </select>
+                                            </div>
+                                            <div class="mb-2">
+                                                <input type="text" class="form-control" name="name" placeholder="Your name" required="required"/>
+                                            </div>
+                                            <div class="mb-2">
+                                                <input type="email" class="form-control" name="email" placeholder="Email" required="required"/>
+                                            </div>
+                                            <div class="mb-2">
+                                                <input type="tel" class="form-control" name="phone" placeholder="Phone"/>
+                                            </div>
+                                            <button type="submit" class="btn btn-outline-primary w-100">Get Download Link</button>
+                                        </form>
+                                        <div class="o_osus_gated_result mt-3"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    (function () {
+                        function postJSON(url, data) {
+                            return fetch(url, {
+                                method: 'POST',
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify({jsonrpc: '2.0', method: 'call', params: data}),
+                            }).then(function (r) { return r.json(); }).then(function (r) { return r.result; });
+                        }
+                        function formToParams(form) {
+                            var params = {};
+                            new FormData(form).forEach(function (v, k) { params[k] = v; });
+                            return params;
+                        }
+                        var inquiryForm = document.getElementById('propertyInquiryForm');
+                        if (inquiryForm) {
+                            inquiryForm.addEventListener('submit', function (e) {
+                                e.preventDefault();
+                                var resultBox = document.querySelector('.o_osus_inquiry_result');
+                                postJSON('/realestate/inquiry', formToParams(inquiryForm)).then(function (res) {
+                                    resultBox.innerHTML = res.success
+                                        ? '<div class="alert alert-success">Thank you, we will contact you shortly.</div>'
+                                        : '<div class="alert alert-danger">' + (res.error || 'Something went wrong.') + '</div>';
+                                    if (res.success) { inquiryForm.reset(); }
+                                });
+                            });
+                        }
+                        var gatedForm = document.getElementById('gatedDownloadForm');
+                        if (gatedForm) {
+                            gatedForm.addEventListener('submit', function (e) {
+                                e.preventDefault();
+                                var resultBox = document.querySelector('.o_osus_gated_result');
+                                postJSON('/realestate/gated-download', formToParams(gatedForm)).then(function (res) {
+                                    if (res.success) {
+                                        var link = document.createElement('a');
+                                        link.href = res.url;
+                                        link.target = '_blank';
+                                        link.textContent = 'Download now';
+                                        resultBox.innerHTML = '';
+                                        var wrap = document.createElement('div');
+                                        wrap.className = 'alert alert-success';
+                                        wrap.appendChild(document.createTextNode('Your download is ready: '));
+                                        wrap.appendChild(link);
+                                        resultBox.appendChild(wrap);
+                                    } else {
+                                        resultBox.innerHTML = '<div class="alert alert-danger">' + (res.error || 'Something went wrong.') + '</div>';
+                                    }
+                                });
+                            });
+                        }
+                    })();
+                </script>
+
+                <!-- Description Section -->
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="description-section">
+                                <h3 class="mb-3">Property Description</h3>
+                                <div class="property-description" t-field="property.description"/>
+                            </div>
+
+                            <!-- Specifications -->
+                            <div class="specifications-section mt-5">
+                                <h3 class="mb-3">Specifications</h3>
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <tr>
+                                            <td><strong>Property Type</strong></td>
+                                            <td t-esc="(property.property_type or '').title()"/>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Location</strong></td>
+                                            <td t-esc="property.address"/>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Year Built</strong></td>
+                                            <td t-esc="property.year_built"/>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Total Area</strong></td>
+                                            <td t-esc="'%s sqm' % property.area"/>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Lot Size</strong></td>
+                                            <td t-esc="('%s sqm' % property.lot_size) if property.lot_size else 'N/A'"/>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Bedrooms</strong></td>
+                                            <td t-esc="property.bedrooms"/>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Bathrooms</strong></td>
+                                            <td t-esc="property.bathrooms"/>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Similar Properties -->
+                <div class="container mt-5 mb-5" t-if="related_properties">
+                    <h3 class="mb-4">Similar Properties</h3>
+                    <div class="row">
+                        <div class="col-md-4 mb-4" t-foreach="related_properties" t-as="related">
+                            <div class="card h-100 shadow-sm">
+                                <img t-if="related.image_512" t-att-src="'/web/image/sgc.realestate.property/%s/image_512' % related.id" class="card-img-top" style="height: 200px; object-fit: cover;" t-att-alt="related.title"/>
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title" t-esc="related.title"/>
+                                    <p class="text-muted small" t-esc="related.city"/>
+                                    <div class="mt-auto d-flex justify-content-between align-items-center">
+                                        <span class="text-primary font-weight-bold" t-esc="'%s %.0f' % (related.currency_id.symbol or '$', related.price)"/>
+                                        <a t-att-href="related.website_url or ('/property/%s' % related.id)" class="btn btn-sm btn-outline-primary">View</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Property Tree View -->
+    <record id="view_property_tree" model="ir.ui.view">
+        <field name="name">sgc.realestate.property.tree</field>
+        <field name="model">sgc.realestate.property</field>
+        <field name="arch" type="xml">
+            <list string="Properties">
+                <field name="sequence" widget="handle"/>
+                <field name="image_256" widget="image" class="oe_avatar"/>
+                <field name="title"/>
+                <field name="property_type"/>
+                <field name="destination_country_id"/>
+                <field name="city"/>
+                <field name="price" widget="monetary"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="status" widget="badge" decoration-success="status=='available'" decoration-info="status=='reserved'" decoration-muted="status in ('sold','rented')"/>
+                <field name="website_published" widget="boolean_toggle"/>
+                <field name="active" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Property Form View -->
+    <record id="view_property_form" model="ir.ui.view">
+        <field name="name">sgc.realestate.property.form</field>
+        <field name="model">sgc.realestate.property</field>
+        <field name="arch" type="xml">
+            <form string="Property">
+                <header>
+                    <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_512'}"/>
+                    <div class="oe_title">
+                        <label for="title"/>
+                        <h1><field name="title" placeholder="e.g. Luxury Villa with Ocean View"/></h1>
+                        <label for="name"/>
+                        <h3><field name="name" placeholder="Internal reference name"/></h3>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="property_type"/>
+                            <field name="sale_lease"/>
+                            <field name="destination_country_id"/>
+                            <field name="city"/>
+                            <field name="address"/>
+                            <field name="postal_code"/>
+                        </group>
+                        <group>
+                            <field name="price"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="price_per_sqm" widget="monetary"/>
+                            <field name="agent_id"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Specifications" name="specs">
+                            <group>
+                                <group>
+                                    <field name="bedrooms"/>
+                                    <field name="bathrooms"/>
+                                    <field name="area"/>
+                                    <field name="lot_size"/>
+                                </group>
+                                <group>
+                                    <field name="year_built"/>
+                                    <field name="latitude"/>
+                                    <field name="longitude"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description" widget="html"/>
+                        </page>
+                        <page string="Gallery" name="gallery">
+                            <field name="image_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="image_256" widget="image"/>
+                                    <field name="name"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Features" name="features">
+                            <field name="feature_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </page>
+                        <page string="Website" name="website">
+                            <group>
+                                <field name="website_published"/>
+                                <field name="website_url" widget="url"/>
+                            </group>
+                            <group string="Gated Downloads">
+                                <field name="brochure" filename="brochure_filename"/>
+                                <field name="brochure_filename" invisible="1"/>
+                                <field name="floor_plan" filename="floor_plan_filename"/>
+                                <field name="floor_plan_filename" invisible="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Property Kanban View -->
+    <record id="view_property_kanban" model="ir.ui.view">
+        <field name="name">sgc.realestate.property.kanban</field>
+        <field name="model">sgc.realestate.property</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                <field name="title"/>
+                <field name="price"/>
+                <field name="currency_id"/>
+                <field name="city"/>
+                <field name="bedrooms"/>
+                <field name="bathrooms"/>
+                <field name="area"/>
+                <field name="image_512"/>
+                <field name="status"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <field name="image_512" widget="image" options="{'img_class': 'o_image_40_cover'}"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title"><field name="title"/></strong>
+                                <div class="o_kanban_record_subtitle">
+                                    <field name="city"/> • <field name="destination_country_id"/>
+                                </div>
+                                  <div class="o_kanban_record_body">
+                                      <span><i class="fa fa-bed" title="Bedrooms" aria-label="Bedrooms"/> <field name="bedrooms"/> beds</span> •
+                                      <span><i class="fa fa-bath" title="Bathrooms" aria-label="Bathrooms"/> <field name="bathrooms"/> baths</span> •
+                                      <span><i class="fa fa-arrows-alt" title="Area" aria-label="Area"/> <field name="area"/> m²</span>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="price" widget="monetary"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="status" widget="label_selection" options="{'classes': {'available': 'success', 'reserved': 'info', 'sold': 'default'}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Property Search View -->
+    <record id="view_property_search" model="ir.ui.view">
+        <field name="name">sgc.realestate.property.search</field>
+        <field name="model">sgc.realestate.property</field>
+        <field name="arch" type="xml">
+            <search string="Properties">
+                <field name="title"/>
+                <field name="name"/>
+                <field name="city"/>
+                <field name="destination_country_id"/>
+                <filter string="Available" name="available" domain="[('status', '=', 'available')]"/>
+                <filter string="Published" name="published" domain="[('website_published', '=', True)]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter string="Country" name="group_country" context="{'group_by': 'destination_country_id'}"/>
+                    <filter string="Property Type" name="group_type" context="{'group_by': 'property_type'}"/>
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Property Action -->
+    <record id="action_property" model="ir.actions.act_window">
+        <field name="name">Properties</field>
+        <field name="res_model">sgc.realestate.property</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref="view_property_search"/>
+        <field name="context">{'search_default_available': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first property
+            </p>
+            <p>
+                Click the create button to add a new real estate property.
+            </p>
+        </field>
+    </record>
+
+</odoo>

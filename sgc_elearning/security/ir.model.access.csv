@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_learning_chapter,access_learning_chapter,model_learning_chapter,base.group_user,1,1,1,0
+access_learning_section,access_learning_section,model_learning_section,base.group_user,1,1,1,0
+access_learning_asset,access_learning_asset,model_learning_asset,base.group_user,1,1,1,0
+access_learning_quiz,access_learning_quiz,model_learning_quiz,base.group_user,1,1,1,0
+access_learning_quiz_question,access_learning_quiz_question,model_learning_quiz_question,base.group_user,1,1,1,0
+access_learning_quiz_option,access_learning_quiz_option,model_learning_quiz_option,base.group_user,1,1,1,0
+access_learning_quiz_attempt,access_learning_quiz_attempt,model_learning_quiz_attempt,base.group_user,1,1,1,0
+access_learning_quiz_answer,access_learning_quiz_answer,model_learning_quiz_answer,base.group_user,1,1,1,0
+access_learning_badge,access_learning_badge,model_learning_badge,base.group_user,1,1,1,0
+access_learning_leaderboard,access_learning_leaderboard,model_learning_leaderboard,base.group_user,1,1,1,0
+access_learning_certificate,access_learning_certificate,model_learning_certificate,base.group_user,1,1,1,0
+access_learning_progress,access_learning_progress,model_learning_progress,base.group_user,1,1,1,0

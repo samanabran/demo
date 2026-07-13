@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form view for the Sales & Invoicing Dashboard singleton.
+         Layout:
+           - Filter bar at the top (date range, type filters, customer/agent)
+           - Six KPI cards
+           - Seven charts in a responsive grid (Chart.js via field widget)
+           - Four HTML tables at the bottom (server-rendered, no JS required)
+    -->
+    <record id="view_sgc_sales_invoicing_dashboard_form" model="ir.ui.view">
+        <field name="name">sgc.sales.invoicing.dashboard.form</field>
+        <field name="model">sgc.sales.invoicing.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Sales &amp; Invoicing Dashboard" create="false" delete="false">
+                <header>
+                    <button name="action_refresh_dashboard"
+                            string="Refresh Now"
+                            type="object"
+                            class="btn-primary"
+                            icon="fa-refresh"/>
+                    <button name="action_export_order_types_csv"
+                            string="Export Order Types (CSV)"
+                            type="object"
+                            class="btn-secondary"
+                            icon="fa-download"/>
+                </header>
+                <sheet>
+                    <group string="Filters" col="4">
+                        <field name="booking_date_from"/>
+                        <field name="booking_date_to"/>
+                        <field name="invoice_status_filter"/>
+                        <field name="payment_status_filter"/>
+                        <field name="agent_partner_id"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="partner_id"
+                               options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+
+                    <div class="o_sgc_kpi_grid mt-3">
+                        <div class="o_sgc_kpi_card">
+                            <span class="o_sgc_kpi_label">Posted Invoices</span>
+                            <span class="o_sgc_kpi_value">
+                                <field name="posted_invoice_count" nolabel="1"/>
+                            </span>
+                        </div>
+                        <div class="o_sgc_kpi_card">
+                            <span class="o_sgc_kpi_label">Pending Orders</span>
+                            <span class="o_sgc_kpi_value">
+                                <field name="pending_to_invoice_order_count" nolabel="1"/>
+                            </span>
+                        </div>
+                        <div class="o_sgc_kpi_card">
+                            <span class="o_sgc_kpi_label">Unpaid Invoices</span>
+                            <span class="o_sgc_kpi_value">
+                                <field name="unpaid_invoice_count" nolabel="1"/>
+                            </span>
+                        </div>
+                        <div class="o_sgc_kpi_card">
+                            <span class="o_sgc_kpi_label">Booked Sales</span>
+                            <span class="o_sgc_kpi_value">
+                                <field name="total_booked_sales"
+                                       widget="monetary"
+                                       nolabel="1"/>
+                            </span>
+                        </div>
+                        <div class="o_sgc_kpi_card">
+                            <span class="o_sgc_kpi_label">Invoiced</span>
+                            <span class="o_sgc_kpi_value">
+                                <field name="total_invoiced_amount"
+                                       widget="monetary"
+                                       nolabel="1"/>
+                            </span>
+                        </div>
+                        <div class="o_sgc_kpi_card">
+                            <span class="o_sgc_kpi_label">To Collect</span>
+                            <span class="o_sgc_kpi_value">
+                                <field name="amount_to_collect"
+                                       widget="monetary"
+                                       nolabel="1"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <notebook>
+                        <page string="Charts" name="charts">
+                            <div class="o_sgc_chart_grid">
+                                <div class="o_sgc_chart_card">
+                                    <h3>Sales by Type</h3>
+                                    <field name="chart_sales_by_type"
+                                           widget="sgc_dashboard_chart"
+                                           nolabel="1"
+                                           class="o_sgc_chart_field"
+                                           chartType="doughnut"/>
+                                </div>
+                                <div class="o_sgc_chart_card">
+                                    <h3>Booking Trend</h3>
+                                    <field name="chart_booking_trend"
+                                           widget="sgc_dashboard_chart"
+                                           nolabel="1"
+                                           class="o_sgc_chart_field"
+                                           chartType="line"/>
+                                </div>
+                                <div class="o_sgc_chart_card">
+                                    <h3>Payment State</h3>
+                                    <field name="chart_payment_state"
+                                           widget="sgc_dashboard_chart"
+                                           nolabel="1"
+                                           class="o_sgc_chart_field"
+                                           chartType="bar"/>
+                                </div>
+                                <div class="o_sgc_chart_card">
+                                    <h3>Sales Funnel</h3>
+                                    <field name="chart_sales_funnel"
+                                           widget="sgc_dashboard_chart"
+                                           nolabel="1"
+                                           class="o_sgc_chart_field"
+                                           chartType="bar"/>
+                                </div>
+                                <div class="o_sgc_chart_card">
+                                    <h3>Top Customers</h3>
+                                    <field name="chart_top_customers"
+                                           widget="sgc_dashboard_chart"
+                                           nolabel="1"
+                                           class="o_sgc_chart_field"
+                                           chartType="bar"/>
+                                </div>
+                                <div class="o_sgc_chart_card">
+                                    <h3>Agent Performance</h3>
+                                    <field name="chart_agent_performance"
+                                           widget="sgc_dashboard_chart"
+                                           nolabel="1"
+                                           class="o_sgc_chart_field"
+                                           chartType="bar"/>
+                                </div>
+                                <div class="o_sgc_chart_card">
+                                    <h3>Source Conversion</h3>
+                                    <field name="chart_source_conversion"
+                                           widget="sgc_dashboard_chart"
+                                           nolabel="1"
+                                           class="o_sgc_chart_field"
+                                           chartType="bar"/>
+                                </div>
+                            </div>
+                        </page>
+
+                        <page string="Order Types" name="table_order_types">
+                            <field name="table_order_type_html"
+                                   widget="html"
+                                   readonly="1"
+                                   nolabel="1"
+                                   class="o_sgc_html_table"/>
+                        </page>
+
+                        <page string="Agent Commissions" name="table_agents">
+                            <field name="table_agent_commission_html"
+                                   widget="html"
+                                   readonly="1"
+                                   nolabel="1"
+                                   class="o_sgc_html_table"/>
+                        </page>
+
+                        <page string="Detailed Orders" name="table_orders">
+                            <field name="table_detailed_orders_html"
+                                   widget="html"
+                                   readonly="1"
+                                   nolabel="1"
+                                   class="o_sgc_html_table"/>
+                        </page>
+
+                        <page string="Invoice Aging" name="table_aging">
+                            <field name="table_invoice_aging_html"
+                                   widget="html"
+                                   readonly="1"
+                                   nolabel="1"
+                                   class="o_sgc_html_table"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Client action to open the dashboard form for the singleton record -->
+    <record id="action_sgc_sales_invoicing_dashboard" model="ir.actions.act_window">
+        <field name="name">Sales &amp; Invoicing Dashboard</field>
+        <field name="res_model">sgc.sales.invoicing.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_sgc_sales_invoicing_dashboard_form"/>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Menu item under Sales > Reporting -->
+    <menuitem id="menu_sgc_sales_invoicing_dashboard"
+              name="Sales &amp; Invoicing"
+              parent="sale.menu_sale_report"
+              sequence="10"
+              action="action_sgc_sales_invoicing_dashboard"/>
+
+</odoo>

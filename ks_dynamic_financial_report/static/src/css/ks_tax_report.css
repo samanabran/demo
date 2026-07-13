@@ -1,0 +1,15 @@
+/* Tax Report PDF (template ks_dynamic_financial_tax_report) table borders.
+   This lived as an inline <style> tag inside the QWeb template's .page div,
+   which wkhtmltopdf silently ignores (Odoo only keeps .article/.header/.footer
+   styling from the printed body) - it must be loaded via web.report_assets_common
+   instead to actually reach the rendered PDF. */
+.ks_table_tax_report_pdf tbody tr td {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+.ks_table_tax_report_pdf tbody tr:first-child td {
+    border-top: none;
+}
+.ks_table_tax_report_pdf tbody tr:last-child td {
+    border-bottom: none;
+}

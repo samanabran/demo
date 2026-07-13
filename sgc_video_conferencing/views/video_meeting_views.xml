@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_video_meeting_tree" model="ir.ui.view">
+        <field name="name">video.meeting.tree</field>
+        <field name="model">video.meeting</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="provider_id"/>
+                <field name="start_time"/>
+                <field name="duration_minutes"/>
+                <field name="status" widget="badge" decoration-success="status=='completed'" decoration-warning="status=='scheduled'" decoration-info="status=='ongoing'"/>
+                <field name="meeting_type"/>
+                <field name="user_id"/>
+                <field name="attendee_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_video_meeting_form" model="ir.ui.view">
+        <field name="name">video.meeting.form</field>
+        <field name="model">video.meeting</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start_meeting" type="object" string="Start Meeting"
+                            class="btn-primary" invisible="status != 'scheduled'"/>
+                    <button name="action_join_meeting" type="object" string="Join Meeting"
+                            class="btn-success" invisible="status != 'ongoing'"/>
+                    <button name="action_cancel_meeting" type="object" string="Cancel Meeting"
+                            invisible="status != 'scheduled'" confirm="Are you sure you want to cancel this meeting?"/>
+                    <button name="action_send_invitation" type="object" string="Send Invitation"
+                            invisible="status != 'scheduled'"/>
+                    <field name="status" widget="statusbar" statusbar_visible="scheduled,ongoing,completed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_video_recording)d" type="action"
+                                class="oe_stat_button" icon="fa-video-camera">
+                            <div class="o_stat_info">
+                                <field name="recording_count"/>
+                                <span class="o_stat_text">Recordings</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="provider_id"/>
+                            <field name="provider_account_id" groups="sgc_video_conferencing.group_video_conferencing_manager"/>
+                            <field name="meeting_type"/>
+                        </group>
+                        <group>
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                            <field name="duration_minutes"/>
+                            <field name="user_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    <notebook>
+                        <page name="join" string="Join Meeting">
+                            <group>
+                                <field name="join_url" widget="url"/>
+                                <field name="start_url" widget="url" groups="sgc_video_conferencing.group_video_conferencing_manager"/>
+                                <field name="password"/>
+                                <field name="provider_meeting_id"/>
+                            </group>
+                        </page>
+                        <page name="invitees" string="Invitees">
+                            <field name="invitee_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="email"/>
+                                    <field name="attended"/>
+                                    <field name="response_status"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="recordings" string="Recordings">
+                            <field name="recording_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="recording_type"/>
+                                    <field name="duration_minutes"/>
+                                    <field name="file_size_mb"/>
+                                    <field name="recording_url" widget="url"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="recurrence" string="Recurrence" groups="sgc_video_conferencing.group_video_conferencing_manager">
+                            <group>
+                                <field name="is_recurring"/>
+                                <field name="recurrence_frequency"/>
+                                <field name="recurrence_interval"/>
+                                <field name="recurrence_end_date"/>
+                                <field name="recurrence_count"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_video_meeting_search" model="ir.ui.view">
+        <field name="name">video.meeting.search</field>
+        <field name="model">video.meeting</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="provider_id"/>
+                <field name="user_id"/>
+                <filter string="Today" name="today" date="start_time"/>
+                <filter string="This Week" name="this_week" date="start_time"/>
+                <filter string="Upcoming" name="upcoming" domain="[('start_time','&gt;=',context_today()),('status','=','scheduled')]"/>
+                <separator/>
+                <filter string="Scheduled" name="scheduled" domain="[('status','=','scheduled')]"/>
+                <filter string="Ongoing" name="ongoing" domain="[('status','=','ongoing')]"/>
+                <filter string="Completed" name="completed" domain="[('status','=','completed')]"/>
+                <separator/>
+                <filter string="My Meetings" name="mine" domain="[('user_id','=',uid)]"/>
+            </search>
+        </field>
+    </record>
+</odoo>

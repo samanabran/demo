@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_appraisal_user,access.hr.appraisal.user,model_hr_appraisal,base.group_user,1,1,1,1
+access_hr_appraisal_stages_user,access.hr.appraisal.stages.user,model_hr_appraisal_stages,base.group_user,1,1,1,1
+access_appraisal_survey_form_user,access.appraisal.survey.form.user,model_appraisal_survey_form,base.group_user,1,1,1,1
+access_appraisal_survey_response_user,access.appraisal.survey.response.user,model_appraisal_survey_response,base.group_user,1,1,1,1
+access_appraisal_survey_question_user,access.appraisal.survey.question.user,model_appraisal_survey_question,base.group_user,1,1,1,1
+access_appraisal_survey_question_option_user,access.appraisal.survey.question.option.user,model_appraisal_survey_question_option,base.group_user,1,1,1,1
+access_appraisal_survey_wizard_user,access.appraisal.survey.wizard.user,model_appraisal_survey_wizard,base.group_user,1,1,1,1
+access_appraisal_survey_bulk_wizard_user,access.appraisal.survey.bulk.wizard.user,model_appraisal_survey_bulk_wizard,base.group_user,1,1,1,1
+access_hr_appraisal_comment_user,access.hr.appraisal.comment.user,model_hr_appraisal_comment,base.group_user,1,1,1,1
+access_hr_appraisal_goal_user,access.hr.appraisal.goal.user,model_hr_appraisal_goal,base.group_user,1,1,1,1

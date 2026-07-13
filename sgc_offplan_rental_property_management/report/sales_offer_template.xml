@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sales_offer_template">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+            <div class="page">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h1>Sales Offer</h1>
+                        <p><strong>Reference:</strong> <span t-esc="o.name or o.sold_seq"/></p>
+                        <p><strong>Date:</strong> <span t-esc="o.date or o.contract_date"/></p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>Property Details</h3>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><strong>Property</strong></td>
+                                <td t-esc="o.property_id.name"/>
+                            </tr>
+                            <tr t-if="o.property_id.property_type">
+                                <td><strong>Type</strong></td>
+                                <td t-esc="o.property_id.property_type"/>
+                            </tr>
+                            <tr t-if="o.property_id.project_id">
+                                <td><strong>Project</strong></td>
+                                <td t-esc="o.property_id.project_id.name"/>
+                            </tr>
+                            <tr t-if="o.property_id.sale_price">
+                                <td><strong>Sale Price</strong></td>
+                                <td><span t-esc="o.property_id.sale_price" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>Parties</h3>
+                        <table class="table table-bordered">
+                            <tr t-if="o.customer_id">
+                                <td><strong>Customer</strong></td>
+                                <td t-esc="o.customer_id.name"/>
+                            </tr>
+                            <tr t-if="o.vendor_id">
+                                <td><strong>Vendor</strong></td>
+                                <td t-esc="o.vendor_id.name"/>
+                            </tr>
+                            <tr t-if="o.broker_id">
+                                <td><strong>Broker</strong></td>
+                                <td t-esc="o.broker_id.name"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <h3>Financial Summary</h3>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><strong>Sale Price</strong></td>
+                                <td><span t-esc="o.sale_price" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/></td>
+                            </tr>
+                            <tr t-if="o.commission_type">
+                                <td><strong>Commission Type</strong></td>
+                                <td t-esc="o.commission_type"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <p class="mt-5 text-muted small text-center">
+                    This is a computer-generated document. No signature required.
+                </p>
+            </div>
+            </t>
+          </t>
+        </t>
+    </template>
+</odoo>

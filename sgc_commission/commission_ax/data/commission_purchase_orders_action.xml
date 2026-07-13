@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_view_commission_purchase_orders" model="ir.actions.act_window">
+        <field name="name">Commission Purchase Orders</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[("origin_so_id", "=", context.get("search_default_origin_so_id"))]</field>
+        <field name="context">{'search_default_origin_so_id': active_id}</field>
+        <field name="target">current</field>
+    </record>
+</odoo>

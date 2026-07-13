@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="maintenance_contract_report_template">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+            <div class="page">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h1>Maintenance Contract</h1>
+                        <p><strong>Reference:</strong> <span t-esc="o.name"/></p>
+                        <p><strong>Date:</strong> <span t-esc="datetime.date.today()"/></p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>1. Parties &amp; Property</h3>
+                        <table class="table table-bordered" style="page-break-inside:avoid;">
+                            <tr t-if="o.landlord_id">
+                                <td style="width:35%;"><strong>Landlord</strong></td>
+                                <td t-esc="o.landlord_id.name"/>
+                            </tr>
+                            <tr t-if="o.customer_id">
+                                <td><strong>Customer</strong></td>
+                                <td t-esc="o.customer_id.name"/>
+                            </tr>
+                            <tr t-if="o.tenant_id">
+                                <td><strong>Tenant</strong></td>
+                                <td t-esc="o.tenant_id.name"/>
+                            </tr>
+                            <tr t-if="o.vendor_id">
+                                <td><strong>Vendor</strong></td>
+                                <td t-esc="o.vendor_id.name"/>
+                            </tr>
+                            <tr t-if="o.property_id">
+                                <td><strong>Property Covered</strong></td>
+                                <td t-esc="o.property_id.name"/>
+                            </tr>
+                            <tr t-if="o.property_id and o.property_id.makani_number">
+                                <td><strong>Makani Number</strong></td>
+                                <td t-esc="o.property_id.makani_number"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>2. Contract Type &amp; Duration</h3>
+                        <table class="table table-bordered" style="page-break-inside:avoid;">
+                            <tr t-if="o.amc_contract_type">
+                                <td style="width:35%;"><strong>Contract Type</strong></td>
+                                <td t-esc="dict(o._fields['amc_contract_type'].selection).get(o.amc_contract_type, o.amc_contract_type)"/>
+                            </tr>
+                            <tr t-if="o.contract_start_date">
+                                <td><strong>Start Date</strong></td>
+                                <td t-esc="o.contract_start_date"/>
+                            </tr>
+                            <tr t-if="o.contract_end_date">
+                                <td><strong>End Date</strong></td>
+                                <td t-esc="o.contract_end_date"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4" t-if="o.scope_of_work">
+                    <div class="col-12">
+                        <h3>3. Scope of Work</h3>
+                        <p style="word-break:break-word;" t-esc="o.scope_of_work"/>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>4. Service Schedule &amp; SLA</h3>
+                        <table class="table table-bordered" style="page-break-inside:avoid;">
+                            <tr t-if="o.service_frequency">
+                                <td style="width:35%;"><strong>PPM Visit Frequency</strong></td>
+                                <td t-esc="o.service_frequency"/>
+                            </tr>
+                            <tr t-if="o.site_supervisor_id">
+                                <td><strong>Site Supervisor</strong></td>
+                                <td t-esc="o.site_supervisor_id.name"/>
+                            </tr>
+                            <tr t-if="o.sla_response_hours">
+                                <td><strong>SLA Response Time</strong></td>
+                                <td t-esc="'%s hour(s)' % o.sla_response_hours"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>5. Product / Service Lines</h3>
+                        <table class="table table-striped" style="page-break-inside:avoid;">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Qty</th>
+                                    <th>Unit Price (AED)</th>
+                                    <th>Amount (AED)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.maintenance_product_ids or []" t-as="line">
+                                    <td style="word-break:break-word;" t-esc="line.description or line.product_id.name"/>
+                                    <td t-esc="line.quantity"/>
+                                    <td t-esc="'{:,.2f}'.format(line.price_unit or 0.0)"/>
+                                    <td t-esc="'{:,.2f}'.format(line.price_subtotal or 0.0)"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>6. Cost &amp; Exclusions</h3>
+                        <table class="table table-bordered" style="page-break-inside:avoid;">
+                            <tr t-if="o.annual_fee">
+                                <td style="width:35%;"><strong>Annual Contract Fee</strong></td>
+                                <td><span t-esc="o.annual_fee" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                            </tr>
+                            <tr t-if="o.total_untaxed_amount">
+                                <td><strong>Total Untaxed Amount</strong></td>
+                                <td><span t-esc="o.total_untaxed_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/></td>
+                            </tr>
+                        </table>
+                        <p t-if="o.exclusions" style="word-break:break-word;">
+                            <strong>Exclusions: </strong><span t-esc="o.exclusions"/>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row mt-5" style="page-break-inside:avoid;">
+                    <div class="col-6">
+                        <p>_________________________</p>
+                        <p><strong>Service Provider Signature</strong></p>
+                    </div>
+                    <div class="col-6 text-right">
+                        <p>_________________________</p>
+                        <p><strong>Client Signature</strong></p>
+                    </div>
+                </div>
+
+                <p class="mt-5 text-muted small text-center">
+                    This is a computer-generated document. No signature required unless amending contract terms.
+                </p>
+            </div>
+            </t>
+          </t>
+        </t>
+    </template>
+</odoo>

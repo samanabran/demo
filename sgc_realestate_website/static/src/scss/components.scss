@@ -1,0 +1,205 @@
+@import 'variables';
+@import 'mixins';
+
+// Navbar
+.navbar {
+  background: white;
+  box-shadow: $shadow-md;
+  padding: $spacing-md $spacing-lg;
+  
+  .navbar-brand {
+    font-family: $font-family-heading;
+    font-size: 1.5rem;
+    font-weight: $font-weight-bold;
+    color: $primary-color;
+  }
+  
+  .nav-link {
+    color: $dark-color;
+    margin: 0 $spacing-lg;
+    transition: color $transition-base;
+    
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+// Hero Section
+.hero-section {
+  background: linear-gradient(135deg, $primary-color 0%, #3B82F6 100%);
+  color: white;
+  padding: $spacing-2xl;
+  text-align: center;
+  min-height: 400px;
+  @include flex-center;
+  flex-direction: column;
+  
+  h1 {
+    font-size: 3rem;
+    margin-bottom: $spacing-md;
+    color: white;
+  }
+  
+  p {
+    font-size: $font-size-lg;
+    margin-bottom: $spacing-xl;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  
+  @include media-md {
+    h1 { font-size: 2rem; }
+    p { font-size: $font-size-base; }
+  }
+}
+
+// Button Styles
+.btn {
+  @include button-base;
+  
+  &-primary {
+    background: $primary-color;
+    color: white;
+    
+    &:hover {
+      background: darken($primary-color, 10%);
+      color: white;
+    }
+  }
+  
+  &-secondary {
+    background: $secondary-color;
+    color: white;
+    
+    &:hover {
+      background: darken($secondary-color, 10%);
+    }
+  }
+  
+  &-outline-secondary {
+    border: 2px solid $secondary-color;
+    color: $secondary-color;
+    background: transparent;
+    
+    &:hover {
+      background: $secondary-color;
+      color: white;
+    }
+  }
+  
+  &-lg {
+    padding: 15px 30px;
+    font-size: $font-size-lg;
+  }
+  
+  &-block {
+    width: 100%;
+  }
+}
+
+// Cards
+.card {
+  @include card-base;
+  border: none;
+  overflow: hidden;
+  
+  .card-body {
+    padding: $spacing-lg;
+  }
+  
+  .card-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform $transition-base;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Badges
+.badge {
+  padding: 4px 12px;
+  border-radius: $border-radius-full;
+  font-size: 0.85rem;
+  font-weight: $font-weight-medium;
+  
+  &-success {
+    background: $secondary-color;
+    color: white;
+  }
+  
+  &-primary {
+    background: $primary-color;
+    color: white;
+  }
+}
+
+// Forms
+.form-control {
+  border: 1px solid $border-color;
+  border-radius: $border-radius-md;
+  padding: $spacing-sm $spacing-md;
+  font-size: $font-size-base;
+  transition: all $transition-base;
+  
+  &:focus {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+  }
+  
+  &.is-invalid {
+    border-color: $danger-color;
+    
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+  }
+}
+
+.form-label {
+  font-weight: $font-weight-medium;
+  margin-bottom: $spacing-sm;
+  color: $dark-color;
+}
+
+// Alerts
+.alert {
+  padding: $spacing-lg;
+  border-radius: $border-radius-md;
+  border: none;
+  
+  &-success {
+    background: lighten($secondary-color, 40%);
+    color: darken($secondary-color, 20%);
+  }
+  
+  &-danger {
+    background: lighten($danger-color, 40%);
+    color: darken($danger-color, 20%);
+  }
+}
+
+// Stats Section
+.stats-section {
+  background: $light-color;
+  padding: $spacing-2xl;
+  text-align: center;
+  
+  .stat-item {
+    margin-bottom: $spacing-xl;
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: $font-weight-bold;
+      color: $primary-color;
+    }
+    
+    .stat-label {
+      color: $gray-color;
+      font-size: $font-size-lg;
+    }
+  }
+}

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+    <!-- Demo Destination Countries -->
+    <record id="demo_destination_us" model="sgc.realestate.destination.country">
+        <field name="name">United States</field>
+        <field name="code">US</field>
+        <field name="website_published">True</field>
+        <field name="description">Prime destinations including New York, San Francisco, and Miami.</field>
+    </record>
+
+    <record id="demo_destination_ae" model="sgc.realestate.destination.country">
+        <field name="name">United Arab Emirates</field>
+        <field name="code">AE</field>
+        <field name="website_published">True</field>
+        <field name="description">Luxury properties across Dubai and Abu Dhabi.</field>
+    </record>
+
+    <record id="demo_feature_pool" model="sgc.realestate.property.feature">
+        <field name="name">Swimming Pool</field>
+    </record>
+
+    <record id="demo_feature_gym" model="sgc.realestate.property.feature">
+        <field name="name">Gym</field>
+    </record>
+
+    <record id="demo_feature_parking" model="sgc.realestate.property.feature">
+        <field name="name">Parking</field>
+    </record>
+
+    <!-- Demo Properties -->
+    <record id="demo_property_city_apartment" model="sgc.realestate.property">
+        <field name="name">NYC Skyline Apartment</field>
+        <field name="title">Modern Apartment with Skyline Views</field>
+        <field name="property_type">apartment</field>
+        <field name="description"><![CDATA[
+            <p>High-floor apartment with stunning skyline views, floor-to-ceiling windows, and premium finishes.</p>
+            <ul>
+                <li>Close to Central Park</li>
+                <li>24/7 concierge</li>
+                <li>Private balcony</li>
+            </ul>
+        ]]></field>
+        <field name="destination_country_id" ref="demo_destination_us"/>
+        <field name="city">New York</field>
+        <field name="address">123 5th Avenue, Manhattan</field>
+        <field name="price">1250000</field>
+        <field name="bedrooms">2</field>
+        <field name="bathrooms">2</field>
+        <field name="area">120</field>
+        <field name="lot_size">0</field>
+        <field name="year_built">2018</field>
+        <field name="feature_ids" eval="[(6, 0, [ref('demo_feature_pool'), ref('demo_feature_gym')])]"/>
+        <field name="website_published">True</field>
+    </record>
+
+    <record id="demo_property_dubai_villa" model="sgc.realestate.property">
+        <field name="name">Dubai Marina Villa</field>
+        <field name="title">Waterfront Villa with Private Pool</field>
+        <field name="property_type">villa</field>
+        <field name="description"><![CDATA[
+            <p>Luxury waterfront villa featuring a private pool, landscaped garden, and smart home automation.</p>
+            <ul>
+                <li>5 minutes to Marina Mall</li>
+                <li>Smart climate control</li>
+                <li>Two-car garage</li>
+            </ul>
+        ]]></field>
+        <field name="destination_country_id" ref="demo_destination_ae"/>
+        <field name="city">Dubai</field>
+        <field name="address">Marina Walk, Dubai Marina</field>
+        <field name="price">2450000</field>
+        <field name="bedrooms">4</field>
+        <field name="bathrooms">4</field>
+        <field name="area">380</field>
+        <field name="lot_size">600</field>
+        <field name="year_built">2021</field>
+        <field name="feature_ids" eval="[(6, 0, [ref('demo_feature_pool'), ref('demo_feature_parking')])]"/>
+        <field name="website_published">True</field>
+    </record>
+
+    <!-- Demo gallery images using a 1x1 pixel placeholder -->
+    <record id="demo_property_image_nyc" model="sgc.realestate.property.image">
+        <field name="property_id" ref="demo_property_city_apartment"/>
+        <field name="name">Main View</field>
+        <field name="sequence">1</field>
+        <field name="image_1920">iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/xcAAn8B9p8qKcwAAAAASUVORK5CYII=</field>
+    </record>
+
+    <record id="demo_property_image_dubai" model="sgc.realestate.property.image">
+        <field name="property_id" ref="demo_property_dubai_villa"/>
+        <field name="name">Pool View</field>
+        <field name="sequence">1</field>
+        <field name="image_1920">iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/xcAAn8B9p8qKcwAAAAASUVORK5CYII=</field>
+    </record>
+
+</odoo>

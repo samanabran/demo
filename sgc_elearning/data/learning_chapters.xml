@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Demo Chapters -->
+    <record id="learning_chapter_demo_1" model="learning.chapter">
+        <field name="name">Getting Started</field>
+        <field name="sequence">10</field>
+        <field name="description"><![CDATA[<p>Welcome to the SGC e-learning platform. This chapter introduces the platform and how to navigate the courses.</p>]]></field>
+        <field name="is_published">True</field>
+    </record>
+
+    <record id="learning_chapter_demo_2" model="learning.chapter">
+        <field name="name">Core Concepts</field>
+        <field name="sequence">20</field>
+        <field name="description"><![CDATA[<p>Learn the core concepts of real estate operations, including property management, sales processes, and client relations.</p>]]></field>
+        <field name="is_published">True</field>
+    </record>
+
+    <!-- Demo Sections -->
+    <record id="learning_section_demo_1" model="learning.section">
+        <field name="name">Platform Overview</field>
+        <field name="sequence">10</field>
+        <field name="chapter_id" ref="learning_chapter_demo_1"/>
+        <field name="content_type">text</field>
+        <field name="is_published">True</field>
+    </record>
+
+    <record id="learning_section_demo_2" model="learning.section">
+        <field name="name">Navigation Guide</field>
+        <field name="sequence">20</field>
+        <field name="chapter_id" ref="learning_chapter_demo_1"/>
+        <field name="content_type">text</field>
+        <field name="is_published">True</field>
+    </record>
+
+    <record id="learning_section_demo_3" model="learning.section">
+        <field name="name">Understanding Properties</field>
+        <field name="sequence">10</field>
+        <field name="chapter_id" ref="learning_chapter_demo_2"/>
+        <field name="content_type">text</field>
+        <field name="is_published">True</field>
+    </record>
+</odoo>

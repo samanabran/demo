@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Commission Cancel Wizard Form View -->
+    <record id="view_commission_cancel_wizard_form" model="ir.ui.view">
+        <field name="name">commission.cancel.wizard.form</field>
+        <field name="model">commission.cancel.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Confirm Cancellation">
+                <sheet>
+                    <div class="alert alert-warning" role="alert">
+                        <h4>Commission Cancellation Impact</h4>
+                        <field name="message" readonly="1" nolabel="1"/>
+                    </div>
+
+                    <group>
+                        <field name="sale_order_ids" invisible="1" readonly="1"/>
+                        <field name="force_cancel"/>
+                    </group>
+                </sheet>
+
+                <footer>
+                    <button string="Confirm Cancellation" name="action_confirm_cancel" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

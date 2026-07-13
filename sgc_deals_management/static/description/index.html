@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deals Management Clean</title>
+    <style>
+        :root {
+            --navy: #1B3A57;
+            --gold: #C9A961;
+            --cream: #F5F3EE;
+            --white: #FFFFFF;
+            --text: #2C2C2C;
+            --border: #E6E2D8;
+            --success: #2E7D32;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background-color: var(--white);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: Georgia, Cambria, 'Times New Roman', serif;
+            color: var(--navy);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-cream {
+            background-color: var(--cream);
+        }
+
+        /* Defensive word-break: Odoo's app-store sanitizer can apply word-break: break-all
+           to descendant text, splitting words char-by-char into narrow grid cards. */
+        body, .container, .card, .card h3, .card p, .stat, .workflow-step,
+        .checklist li, .role-card, h1, h2, h3, h4, .intro-text {
+            word-break: normal;
+            overflow-wrap: break-word;
+            hyphens: none;
+        }
+
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--navy);
+            color: var(--white);
+            text-align: center;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .hero-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .hero-content {
+            padding: 60px 20px;
+            background-color: var(--white);
+        }
+
+        .hero-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin: 10px 0;
+            color: var(--navy);
+        }
+
+        .hero-summary {
+            font-size: 1.25rem;
+            color: var(--text);
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-value {
+            font-weight: bold;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-gold {
+            background-color: var(--gold);
+            color: var(--navy);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--navy);
+            color: var(--navy);
+        }
+
+        /* Introduction */
+        .intro-text {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .gold-highlight {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* Feature Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        /* Workflow */
+        .workflow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            gap: 20px;
+        }
+
+        .workflow-step {
+            background: var(--white);
+            padding: 20px 30px;
+            border-radius: 50px;
+            border: 2px solid var(--gold);
+            font-weight: bold;
+            color: var(--navy);
+            position: relative;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .workflow-arrow {
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .checklist li {
+            padding-left: 35px;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .checklist li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+
+        /* Screenshots */
+        .screenshot-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+            border: 1px solid var(--border);
+        }
+
+        .screenshot-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .screenshot-info {
+            padding: 25px;
+        }
+
+        /* Roles */
+        .role-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .role-card {
+            background: var(--navy);
+            color: var(--white);
+            padding: 20px 40px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .role-card h4 {
+            color: var(--gold);
+            margin: 0;
+        }
+
+        /* Technical Table */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .tech-table th, .tech-table td {
+            padding: 15px 25px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tech-table th {
+            background-color: var(--navy);
+            color: var(--white);
+            font-family: 'Segoe UI', sans-serif;
+            width: 30%;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .footer-tagline {
+            color: var(--gold);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .btn-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <img src="banner.png" alt="Deals Management Banner" class="hero-banner">
+    <div class="hero-content">
+        <div class="container">
+            <img src="icon.png" alt="Icon" class="hero-icon">
+            <span class="hero-value">Unified Real Estate Suite</span>
+            <h1>Deals Management Clean</h1>
+            <p class="hero-summary">Real estate deals tracking, commission management, and custom project/unit inventory suite for production environments.</p>
+            <div class="btn-group">
+                <a href="#features" class="btn btn-gold">Explore Features</a>
+                <a href="#contact" class="btn btn-outline">Get Started</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section-white">
+    <div class="container">
+        <div class="intro-text">
+            <h2>Unified Control for <span class="gold-highlight">Complex Real Estate Transactions</span></h2>
+            <p>Real estate operations often suffer from fragmented data across sales, commissions, and inventory. Deals Management Clean merges these critical functions into a single, <span class="gold-highlight">production-ready Odoo suite</span>. Manage your units, track buyers, handle multi-layered commission structures, and maintain a complete document repository in one seamless workflow.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 id="features" style="text-align: center; margin-bottom: 50px;">Key Features</h2>
+        <div class="grid">
+            <div class="card">
+                <span class="card-icon">🏠</span>
+                <h3>Deal Lifecycle Tracking</h3>
+                <p>Comprehensive management for Off-Plan, Resale, and Rental deals with custom states and integrated document attachments.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🏗️</span>
+                <h3>Project & Unit Inventory</h3>
+                <p>Custom models for real estate projects and units, providing granular control over your available property stock and specifications.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">💸</span>
+                <h3>Advanced Commission Engine</h3>
+                <p>Automated commission calculation, payout tracking, and full integration with Odoo's purchase and vendor bill workflows.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">📂</span>
+                <h3>Digital Document Vault</h3>
+                <p>Securely store and manage KYC documents, booking forms, and passports directly within the deal record.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🧾</span>
+                <h3>Financial Summaries</h3>
+                <p>Automatic calculation of sales values, VAT, and totals, ensuring full financial transparency for every transaction.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">📑</span>
+                <h3>Professional Reporting</h3>
+                <p>A suite of professional reports including commission payout reports and partner statements for external stakeholders.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">What You Get</h2>
+        <ul class="checklist">
+            <li>Unified Deals & Commission Dashboard</li>
+            <li>Real Estate Project & Unit Models</li>
+            <li>Commission Calculation Wizards</li>
+            <li>Partner Statement Generator</li>
+            <li>Profit Analysis Reporting Suite</li>
+            <li>KYC & Document Attachment Management</li>
+            <li>Vendor Bill & PO Integration</li>
+            <li>Multi-buyer Support (Primary/Secondary)</li>
+            <li>Real Estate Sales Type Configuration</li>
+        </ul>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">Module Screenshots</h2>
+
+        <div class="screenshot-card">
+            <img src="screenshots/screenshot.png" alt="Deals Management Form">
+            <div class="screenshot-info">
+                <h3>Centralized Deal Management</h3>
+                <p>View unit details, buyer information, and financial summaries in a clean, intuitive sales order interface.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">Business Benefits</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Single Source of Truth</h3>
+                <p>Consolidate your inventory and sales data to eliminate discrepancies between your CRM and finance systems.</p>
+            </div>
+            <div class="card">
+                <h3>Accelerated Payouts</h3>
+                <p>Automate the commission confirmation process to ensure brokers and agents are paid faster and more accurately.</p>
+            </div>
+            <div class="card">
+                <h3>Enhanced Compliance</h3>
+                <p>Maintain a complete, auditable digital trail of all deal-related documents and financial transitions.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 40px;">Who Uses This Module</h2>
+        <div class="role-grid">
+            <div class="role-card">
+                <h4>Commission User</h4>
+                <p>Manage statements & sales</p>
+            </div>
+            <div class="role-card">
+                <h4>Commission Manager</h4>
+                <p>Payout approvals & inventory</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 40px;">Technical Information</h2>
+        <table class="tech-table">
+            <tr>
+                <th>Module</th>
+                <td>sgc_deals_management</td>
+            </tr>
+            <tr>
+                <th>Version</th>
+                <td>19.0.2.1.0</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>Sales</td>
+            </tr>
+            <tr>
+                <th>License</th>
+                <td>OPL-1</td>
+            </tr>
+            <tr>
+                <th>Dependencies</th>
+                <td>sale, purchase, account, mail, hr, utm</td>
+            </tr>
+            <tr>
+                <th>Application</th>
+                <td>Yes</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container" style="text-align: center;">
+        <h2>Why Choose SGC TECH AI?</h2>
+        <p class="intro-text">Our modules are built with <strong>Enterprise Readiness</strong> in mind. We focus on clean code, seamless integration, and superior UI/UX to ensure that your Odoo experience is not just functional, but exceptional. Each SGC module undergoes rigorous testing to guarantee reliability and performance in high-stakes environments.</p>
+    </div>
+</section>
+
+<footer id="contact">
+    <div class="container">
+        <div class="footer-logo">SGC TECH AI</div>
+        <div class="footer-tagline">Finance. Systems. Technology.</div>
+    </div>
+</footer>
+
+</body>
+</html>

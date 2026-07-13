@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="view_assessment_candidate_tree" model="ir.ui.view">
+            <field name="name">assessment.candidate.tree</field>
+            <field name="model">assessment.candidate</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="candidate_name"/>
+                    <field name="email"/>
+                    <field name="state"/>
+                    <field name="total_score"/>
+                    <field name="create_date"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_assessment_candidate_form" model="ir.ui.view">
+            <field name="name">assessment.candidate.form</field>
+            <field name="model">assessment.candidate</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="candidate_name"/>
+                                <field name="email"/>
+                                <field name="phone"/>
+                            </group>
+                            <group>
+                                <field name="state"/>
+                                <field name="total_score"/>
+                                <field name="create_date"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="responses" string="Responses">
+                                <field name="response_ids">
+                                    <list>
+                                        <field name="question_id"/>
+                                        <field name="score"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_assessment_candidate_search" model="ir.ui.view">
+            <field name="name">assessment.candidate.search</field>
+            <field name="model">assessment.candidate</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="candidate_name"/>
+                    <field name="email"/>
+                    <filter name="state_new" string="New" domain="[('state','=','new')]"/>
+                    <filter name="state_completed" string="Completed" domain="[('state','=','completed')]"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_assessment_candidate" model="ir.actions.act_window">
+            <field name="name">Candidates</field>
+            <field name="res_model">assessment.candidate</field>
+            <field name="view_mode">list,form</field>
+        </record>
+</odoo>

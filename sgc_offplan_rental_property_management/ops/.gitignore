@@ -1,0 +1,5 @@
+# Local DB backups produced by backup_before_upgrade.sh — never commit these.
+backups/
+
+# Local secrets (DB password etc.) sourced by lib.sh — never commit.
+ops.env

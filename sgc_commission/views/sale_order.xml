@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_commission_sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order.commission.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="commission" string="Commission Management">
+                    <group>
+                        <group>
+                            <field name="commission_status"/>
+                            <field name="total_commission_amount"/>
+                            <field name="total_internal_commission_amount"/>
+                            <field name="total_external_commission_amount"/>
+                        </group>
+                        <group>
+                            <field name="commission_lines_count"/>
+                            <field name="purchase_order_count"/>
+                        </group>
+                    </group>
+                    <field name="commission_line_ids" nolabel="1">
+                        <list>
+                            <field name="partner_id"/>
+                            <field name="commission_amount"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

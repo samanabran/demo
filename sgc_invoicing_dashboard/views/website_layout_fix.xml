@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Safeguard website layout when context misses `website` -->
+    <template id="website_layout_safe_website" inherit_id="website.layout" name="Website Layout Safe Website">
+        <xpath expr="//head" position="before">
+            <t t-set="website"
+               t-value="request.website or request.website_id or request.env['website'].sudo().search([], limit=1)"/>
+        </xpath>
+    </template>
+</odoo>

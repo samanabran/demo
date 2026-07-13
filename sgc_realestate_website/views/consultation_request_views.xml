@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Consultation Request Tree View -->
+    <record id="view_consultation_request_tree" model="ir.ui.view">
+        <field name="name">sgc.realestate.consultation.tree</field>
+        <field name="model">sgc.realestate.consultation</field>
+        <field name="arch" type="xml">
+            <list string="Consultation Requests" decoration-danger="state=='lost'" decoration-success="state=='converted'">
+                <field name="create_date"/>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="property_id"/>
+                <field name="assigned_to_id"/>
+                <field name="state" widget="badge" decoration-info="state == 'new'" decoration-warning="state == 'contacted'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Consultation Request Form View -->
+    <record id="view_consultation_request_form" model="ir.ui.view">
+        <field name="name">sgc.realestate.consultation.form</field>
+        <field name="model">sgc.realestate.consultation</field>
+        <field name="arch" type="xml">
+            <form string="Consultation Request">
+                <header>
+                    <button name="action_mark_contacted" type="object" string="Mark as Contacted" class="btn-primary"/>
+                    <button name="action_mark_qualified" type="object" string="Mark as Qualified" class="btn-success"/>
+                    <button name="action_mark_converted" type="object" string="Mark as Converted" class="btn-success"/>
+                    <button name="action_mark_lost" type="object" string="Mark as Lost" class="btn-danger"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,contacted,qualified,converted,lost"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Lead Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="email"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="property_id"/>
+                        </group>
+                        <group>
+                            <field name="assigned_to_id"/>
+                            <field name="create_date" readonly="1"/>
+                            <field name="write_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Message">
+                            <field name="message" placeholder="Customer message or inquiry details" nolabel="1"/>
+                        </page>
+                        <page string="Additional Info">
+                            <group>
+                                <field name="ip_address"/>
+                                <field name="source"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_ids" options="{'open_messages_in_form': False}"/>
+                    <field name="activity_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Consultation Request Kanban View -->
+    <record id="view_consultation_request_kanban" model="ir.ui.view">
+        <field name="name">sgc.realestate.consultation.kanban</field>
+        <field name="model">sgc.realestate.consultation</field>
+        <field name="arch" type="xml">
+            <kanban string="Consultation Requests" class="o_kanban_small_column" default_group_by="state">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="property_id"/>
+                <field name="assigned_to_id"/>
+                <field name="state"/>
+                <field name="create_date"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card">
+                            <div class="oe_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <h4>
+                                        <a type="open">
+                                            <field name="name"/>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div class="o_dropdown_kanban dropdown">
+                                    <a class="dropdown-toggle o_kanban_manage_toggle_button" href="#" data-toggle="dropdown">
+                                        <span class="fa fa-ellipsis-v" title="Actions"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_card_content">
+                                <p><strong>Email:</strong> <a href="mailto:" t-attf-href="mailto:{{ record.email.raw_value }}"><field name="email"/></a></p>
+                                <p><strong>Property:</strong> <field name="property_id"/></p>
+                                <p><strong>Agent:</strong> <field name="assigned_to_id"/></p>
+                            </div>
+                            <div class="oe_kanban_card_footer">
+                                <small><field name="create_date"/></small>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Consultation Request Search View -->
+    <record id="view_consultation_request_search" model="ir.ui.view">
+        <field name="name">sgc.realestate.consultation.search</field>
+        <field name="model">sgc.realestate.consultation</field>
+        <field name="arch" type="xml">
+            <search string="Consultation Requests">
+                <field name="name" string="Name or Email"/>
+                <field name="email"/>
+                <field name="property_id"/>
+                <field name="assigned_to_id"/>
+                <separator/>
+                <filter string="New" name="new" domain="[('state', '=', 'new')]"/>
+                <filter string="Contacted" name="contacted" domain="[('state', '=', 'contacted')]"/>
+                <filter string="Qualified" name="qualified" domain="[('state', '=', 'qualified')]"/>
+                <filter string="Converted" name="converted" domain="[('state', '=', 'converted')]"/>
+                <filter string="Lost" name="lost" domain="[('state', '=', 'lost')]"/>
+                <separator/>
+                <group>
+                    <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Property" name="group_property" context="{'group_by': 'property_id'}"/>
+                    <filter string="Assigned To" name="group_agent" context="{'group_by': 'assigned_to_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

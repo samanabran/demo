@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="hr_memo_view_tree" model="ir.ui.view">
+        <field name="name">hr.memo.tree</field>
+        <field name="model">hr.memo</field>
+        <field name="arch" type="xml">
+            <list string="HR Memos"
+                  decoration-muted="state == 'cancelled'"
+                  decoration-success="state == 'approved'"
+                  decoration-warning="state == 'submitted'">
+                <field name="memo_reference" optional="show"/>
+                <field name="name"/>
+                <field name="memo_date"/>
+                <field name="prepared_by"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'approved'"
+                       decoration-warning="state == 'submitted'"
+                       decoration-danger="state in ('rejected', 'cancelled')"
+                       decoration-info="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="hr_memo_view_form" model="ir.ui.view">
+        <field name="name">hr.memo.form</field>
+        <field name="model">hr.memo</field>
+        <field name="arch" type="xml">
+            <form string="HR Memo">
+                <header>
+                    <button name="action_submit"
+                            string="Submit for Approval"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_approve"
+                            string="Approve"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'submitted'"
+                            groups="hr.group_hr_manager"/>
+                    <button name="action_reject"
+                            string="Reject"
+                            type="object"
+                            invisible="state != 'submitted'"
+                            groups="hr.group_hr_manager"/>
+                    <button name="action_cancel"
+                            string="Cancel"
+                            type="object"
+                            class="btn-danger"
+                            invisible="state != 'approved'"
+                            groups="hr.group_hr_manager"
+                            confirm="Are you sure you want to cancel this memo?"/>
+                    <button name="action_reset_to_draft"
+                            string="Reset to Draft"
+                            type="object"
+                            invisible="state not in ('approved', 'rejected', 'cancelled')"
+                            groups="hr.group_hr_manager"/>
+                    <button name="%(sgc_hr_memos.action_report_hr_memo)d"
+                            string="Print Memo"
+                            type="action"
+                            class="btn-secondary"
+                            invisible="state != 'approved'"/>
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,submitted,approved"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="memo_reference" readonly="1"
+                                   invisible="not memo_reference"
+                                   placeholder="Draft"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="memo_date"/>
+                        </group>
+                        <group>
+                            <field name="prepared_by"/>
+                            <field name="approved_by" invisible="not approved_by"/>
+                            <field name="approved_date" invisible="not approved_date"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="memo_body" widget="html"/>
+                    </group>
+                    <group string="Signature &amp; Verification"
+                           invisible="state not in ('approved', 'cancelled')">
+                        <group>
+                            <field name="signatory_name"/>
+                            <field name="signatory_title"/>
+                            <field name="digital_signature" widget="image"
+                                   options="{'size': [200, 100]}"/>
+                        </group>
+                        <group>
+                            <field name="qr_image" widget="image" readonly="1"
+                                   invisible="not qr_image"
+                                   options="{'size': [150, 150]}"/>
+                            <field name="verification_url" widget="url"
+                                   invisible="not verification_url"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="hr_memo_action" model="ir.actions.act_window">
+        <field name="name">Memos</field>
+        <field name="res_model">hr.memo</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_my_memos': 1}</field>
+    </record>
+
+    <record id="hr_memo_search" model="ir.ui.view">
+        <field name="name">hr.memo.search</field>
+        <field name="model">hr.memo</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="memo_reference"/>
+                <field name="prepared_by"/>
+                <field name="state"/>
+                <filter name="my_memos" string="My Memos" domain="[('prepared_by', '=', uid)]"/>
+                <separator/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="submitted" string="Submitted" domain="[('state', '=', 'submitted')]"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <filter name="cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="menu_hr_memo_root"
+              name="Memos"
+              parent="hr.menu_hr_root"
+              action="hr_memo_action"
+              sequence="140"
+              groups="hr.group_hr_user"/>
+</odoo>

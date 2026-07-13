@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- HR Appraisal Action -->
+    <record id="hr_appraisal_action" model="ir.actions.act_window">
+        <field name="name">Appraisal Records</field>
+        <field name="res_model">hr.appraisal</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- HR Appraisal Tree View -->
+    <record id="view_hr_appraisal_tree" model="ir.ui.view">
+        <field name="name">hr.appraisal.tree</field>
+        <field name="model">hr.appraisal</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="manager_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="state"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- HR Appraisal Form View -->
+    <record id="view_hr_appraisal_form" model="ir.ui.view">
+        <field name="name">hr.appraisal.form</field>
+        <field name="model">hr.appraisal</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="employee_id"/>
+                            <field name="manager_id"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="creater_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="goals" string="Goals">
+                            <field name="goal_ids">
+                                <list>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="state"/>
+                                    <field name="progress" widget="progressbar"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="comments" string="Comments">
+                            <field name="comment_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="comment_type"/>
+                                    <field name="author_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- HR Appraisal Search View -->
+    <record id="view_hr_appraisal_search" model="ir.ui.view">
+        <field name="name">hr.appraisal.search</field>
+        <field name="model">hr.appraisal</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="manager_id"/>
+                <field name="state"/>
+            </search>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_employment_certificate">
+        <t t-foreach="doc_ids" t-as="doc_id">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <h2>Employment Certificate</h2>
+                    <p><strong>Employee:</strong> <span t-esc="o.employee_id.name"/></p>
+                    <p><strong>Position:</strong> <span t-esc="o.job_position"/></p>
+                    <p><strong>Passport:</strong> <span t-esc="o.passport_number"/></p>
+                    <p><strong>Issue Date:</strong> <span t-esc="o.issue_date"/></p>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

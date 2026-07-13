@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- Ranking Tree View -->
+        <record id="view_assessment_ranking_tree" model="ir.ui.view">
+            <field name="name">assessment.ranking.tree</field>
+            <field name="model">assessment.ranking</field>
+            <field name="arch" type="xml">
+                <list string="Rankings" create="false" delete="false">
+                    <field name="overall_rank" decoration-success="overall_rank &lt;= 10" decoration-warning="overall_rank &gt; 10 and overall_rank &lt;= 50"/>
+                    <field name="candidate_id"/>
+                    <field name="final_score" widget="progressbar"/>
+                    <field name="percentile" widget="percentage"/>
+                    <field name="technical_rank"/>
+                    <field name="sales_rank"/>
+                    <field name="communication_rank"/>
+                    <field name="rank_change" decoration-success="rank_change &gt; 0" decoration-danger="rank_change &lt; 0"/>
+                    <field name="ranking_date"/>
+                    <field name="total_candidates"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Ranking Form View -->
+        <record id="view_assessment_ranking_form" model="ir.ui.view">
+            <field name="name">assessment.ranking.form</field>
+            <field name="model">assessment.ranking</field>
+            <field name="arch" type="xml">
+                <form string="Ranking" create="false" delete="false">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_candidate" type="object" class="oe_stat_button" icon="fa-user">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">View</span>
+                                    <span class="o_stat_text">Candidate</span>
+                                </div>
+                            </button>
+                        </div>
+
+                        <div class="oe_title">
+                            <label for="candidate_id" class="oe_edit_only"/>
+                            <h1>
+                                <field name="candidate_id" readonly="1"/>
+                            </h1>
+                        </div>
+
+                        <group>
+                            <group string="Overall Ranking">
+                                <field name="overall_rank"/>
+                                <field name="percentile" widget="percentage"/>
+                                <field name="total_candidates"/>
+                                <field name="ranking_date"/>
+                            </group>
+                            <group string="Rank Change">
+                                <field name="previous_rank"/>
+                                <field name="rank_change"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group string="Category Rankings">
+                                <field name="technical_rank"/>
+                                <field name="sales_rank"/>
+                                <field name="communication_rank"/>
+                            </group>
+                            <group string="Scores">
+                                <field name="final_score" widget="progressbar"/>
+                                <field name="technical_score" widget="progressbar"/>
+                                <field name="sales_score" widget="progressbar"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Ranking Kanban View -->
+        <record id="view_assessment_ranking_kanban" model="ir.ui.view">
+            <field name="name">assessment.ranking.kanban</field>
+            <field name="model">assessment.ranking</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" create="false" delete="false">
+                    <field name="id"/>
+                    <field name="candidate_id"/>
+                    <field name="overall_rank"/>
+                    <field name="final_score"/>
+                    <field name="percentile"/>
+                    <field name="rank_change"/>
+                    <templates>
+                        <t t-name="card">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_record_top mb8">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="candidate_id"/>
+                                        </strong>
+                                    </div>
+                                    <span class="badge badge-pill" t-attf-class="#{record.overall_rank.raw_value &lt;= 10 ? 'badge-success' : (record.overall_rank.raw_value &lt;= 50 ? 'badge-warning' : 'badge-secondary')}">
+                                        Rank #<field name="overall_rank"/>
+                                    </span>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="final_score" widget="progressbar"/>
+                                    <div class="text-muted">
+                                        Percentile: <field name="percentile"/>
+%
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom mt8">
+                                    <div class="oe_kanban_bottom_left">
+                                        <span t-if="record.rank_change.raw_value &gt; 0" class="badge badge-success">
+                                            ↑                                            <field name="rank_change"/>
+                                        </span>
+                                        <span t-elif="record.rank_change.raw_value &lt; 0" class="badge badge-danger">
+                                            ↓                                            <field name="rank_change"/>
+                                        </span>
+                                        <span t-else="" class="badge badge-secondary">
+                                            - No Change
+                                        </span>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="ranking_date"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Ranking Search View -->
+        <record id="view_assessment_ranking_search" model="ir.ui.view">
+            <field name="name">assessment.ranking.search</field>
+            <field name="model">assessment.ranking</field>
+            <field name="arch" type="xml">
+                <search string="Rankings">
+                    <field name="candidate_id"/>
+                    <field name="overall_rank"/>
+                    <filter string="Top 10" name="top_10" domain="[('overall_rank', '&lt;=', 10)]"/>
+                    <filter string="Top 50" name="top_50" domain="[('overall_rank', '&lt;=', 50)]"/>
+                    <filter string="Top 100" name="top_100" domain="[('overall_rank', '&lt;=', 100)]"/>
+                    <separator/>
+                    <filter string="Rank Improved" name="rank_improved" domain="[('rank_change', '&gt;', 0)]"/>
+                    <filter string="Rank Declined" name="rank_declined" domain="[('rank_change', '&lt;', 0)]"/>
+                    <separator/>
+                    <filter string="This Month" name="this_month" domain="[('ranking_date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                    <group>
+                        <filter string="Ranking Date" name="group_ranking_date" context="{'group_by': 'ranking_date'}"/>
+                        <filter string="Overall Rank" name="group_overall_rank" context="{'group_by': 'overall_rank'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Ranking Action -->
+        <record id="action_assessment_ranking" model="ir.actions.act_window">
+            <field name="name">Rankings</field>
+            <field name="res_model">assessment.ranking</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="context">{'search_default_top_50': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No rankings yet!
+                </p>
+                <p>
+                    Rankings are automatically generated when candidates complete their assessments.
+                </p>
+            </field>
+        </record>
+</odoo>
+

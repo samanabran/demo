@@ -1,0 +1,25 @@
+/* Assessment Portal Styles */
+
+.o_assessment_dashboard {
+    padding: 20px;
+}
+
+.assessment-answer {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+}
+
+.card-header.bg-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+/* Character Counter */
+.form-text.text-muted {
+    font-size: 12px;
+    color: #6c757d !important;
+}
+
+/* Progress bars */
+.o_progressbar {
+    height: 24px;
+}

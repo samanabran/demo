@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="memo_verification_page" name="Memo Verification">
+        <t t-call="website.layout">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-7">
+                        <div class="card shadow-sm">
+                            <div class="card-body p-4">
+                                <h2 class="text-center mb-4">Memo Verification</h2>
+                                <t t-if="memo">
+                                    <t t-if="memo.state == 'approved'">
+                                        <div class="alert alert-success text-center" role="alert">
+                                            <i class="fa fa-check-circle fa-2x mb-2 d-block"/>
+                                            <strong>This memo is verified and approved.</strong>
+                                        </div>
+                                    </t>
+                                    <t t-elif="memo.state == 'cancelled'">
+                                        <div class="alert alert-warning text-center" role="alert">
+                                            <i class="fa fa-exclamation-triangle fa-2x mb-2 d-block"/>
+                                            <strong>This memo has been cancelled.</strong>
+                                        </div>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="alert alert-info text-center" role="alert">
+                                            <i class="fa fa-info-circle fa-2x mb-2 d-block"/>
+                                            Memo found. Current status:
+                                            <strong t-esc="dict(memo._fields['state'].selection).get(memo.state, memo.state)"/>
+                                        </div>
+                                    </t>
+                                    <table class="table table-bordered mt-3">
+                                        <tbody>
+                                            <tr>
+                                                <th style="width: 35%;">Reference</th>
+                                                <td><t t-esc="memo.memo_reference or 'N/A'"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Title</th>
+                                                <td><t t-esc="memo.name"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Date</th>
+                                                <td><t t-esc="memo.memo_date"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Prepared By</th>
+                                                <td><t t-esc="memo.prepared_by.name"/></td>
+                                            </tr>
+                                            <tr t-if="memo.approved_by">
+                                                <th>Approved By</th>
+                                                <td><t t-esc="memo.approved_by.name"/></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Status</th>
+                                                <td>
+                                                    <span t-att-class="'badge ' + ('bg-success' if memo.state == 'approved' else 'bg-warning text-dark' if memo.state == 'cancelled' else 'bg-secondary')">
+                                                        <t t-esc="dict(memo._fields['state'].selection).get(memo.state, memo.state)"/>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </t>
+                                <t t-else="">
+                                    <div class="alert alert-danger text-center" role="alert">
+                                        <i class="fa fa-times-circle fa-2x mb-2 d-block"/>
+                                        <strong>Invalid or expired verification link.</strong>
+                                    </div>
+                                    <p class="text-center text-muted mb-0">
+                                        Please contact the HR Department for assistance.
+                                    </p>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

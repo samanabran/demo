@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_order_deals_user,access.sale.order.deals.user,sale.model_sale_order,base.group_user,1,1,1,1
+access_sale_order_deals_manager,access.sale.order.deals.manager,sale.model_sale_order,sales_team.group_sale_manager,1,1,1,1
+access_realestate_project_user,access.realestate.project.user,model_realestate_project,base.group_user,1,0,0,0
+access_realestate_project_salesperson,access.realestate.project.salesperson,model_realestate_project,sales_team.group_sale_salesman,1,1,1,0
+access_realestate_project_manager,access.realestate.project.manager,model_realestate_project,sales_team.group_sale_manager,1,1,1,1
+access_realestate_unit_user,access.realestate.unit.user,model_realestate_unit,base.group_user,1,0,0,0
+access_realestate_unit_salesperson,access.realestate.unit.salesperson,model_realestate_unit,sales_team.group_sale_salesman,1,1,1,0
+access_realestate_unit_manager,access.realestate.unit.manager,model_realestate_unit,sales_team.group_sale_manager,1,1,1,1

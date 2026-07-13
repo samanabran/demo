@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_video" model="ir.ui.view">
+        <field name="name">Video conferencing settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Video Conferencing" string="Video Conferencing" name="sgc_video_conferencing">
+                    <block title="General Settings">
+                        <setting id="video_conference_enabled">
+                            <field name="video_conference_enabled"/>
+                        </setting>
+                        <setting id="auto_create_meeting_links">
+                            <field name="auto_create_meeting_links"/>
+                        </setting>
+                        <setting id="send_invitation_automatically">
+                            <field name="send_invitation_automatically"/>
+                        </setting>
+                        <setting id="meeting_default_duration" help="Default meeting duration in minutes.">
+                            <field name="meeting_default_duration"/>
+                        </setting>
+                        <setting id="max_meeting_duration" help="Maximum allowed meeting duration in minutes.">
+                            <field name="max_meeting_duration"/>
+                        </setting>
+                    </block>
+                    <block title="OAuth &amp; Security">
+                        <setting id="oauth_token_refresh" help="Automatically refresh OAuth tokens before expiry.">
+                            <field name="oauth_token_refresh_enabled"/>
+                            <field name="oauth_token_refresh_threshold" invisible="not oauth_token_refresh_enabled"/>
+                        </setting>
+                        <setting id="audit_logging" help="Log all video conferencing actions for security auditing.">
+                            <field name="audit_log_enabled"/>
+                            <field name="audit_log_retention_days" invisible="not audit_log_enabled"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="provider_setup_wizard_form" model="ir.ui.view">
+        <field name="name">provider.setup.wizard.form</field>
+        <field name="model">provider.setup.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Setup Video Provider">
+                <group>
+                    <field name="provider_type"/>
+                    <field name="account_name"/>
+                    <field name="auth_method"/>
+                </group>
+                <group string="OAuth 2.0 Credentials">
+                    <field name="oauth_client_id"/>
+                    <field name="oauth_client_secret" password="True"/>
+                    <field name="oauth_redirect_uri"/>
+                </group>
+                <group string="Provider-Specific Settings">
+                    <field name="tenant_id" placeholder="Azure AD Tenant ID (Teams only)"/>
+                    <field name="zoom_account_id" placeholder="Zoom Account ID (S2S OAuth)"/>
+                    <field name="jitsi_domain" placeholder="meet.jit.si"/>
+                    <field name="webex_site_url"/>
+                    <field name="zoho_accounts_url"/>
+                    <field name="goto_consumer_key"/>
+                </group>
+                <group string="API Key / JWT">
+                    <field name="api_key" password="True"/>
+                    <field name="api_secret" password="True"/>
+                </group>
+                <footer>
+                    <button name="action_test_connection" type="object" string="Test Connection" class="btn-secondary"/>
+                    <button name="action_setup" type="object" string="Save &amp; Configure" class="btn-primary"/>
+                    <button special="cancel" string="Cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_provider_setup_wizard" model="ir.actions.act_window">
+        <field name="name">Setup Video Provider</field>
+        <field name="res_model">provider.setup.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="group_ids" eval="[(4, ref('sgc_video_conferencing.group_video_conferencing_manager'))]"/>
+    </record>
+
+    <menuitem id="menu_provider_setup_wizard"
+              name="Setup New Provider"
+              parent="menu_video_conferencing_providers"
+              action="action_provider_setup_wizard"
+              sequence="5"
+              groups="sgc_video_conferencing.group_video_conferencing_manager"/>
+</odoo>

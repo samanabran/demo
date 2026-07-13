@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- Audit Log Tree View -->
+        <record id="view_assessment_audit_log_tree" model="ir.ui.view">
+            <field name="name">assessment.audit.log.tree</field>
+            <field name="model">assessment.audit.log</field>
+            <field name="arch" type="xml">
+                <list string="Audit Logs" create="false" delete="false" edit="false">
+                    <field name="timestamp"/>
+                    <field name="candidate_id"/>
+                    <field name="user_id"/>
+                    <field name="action"/>
+                    <field name="description"/>
+                    <field name="entity_type" optional="hide"/>
+                    <field name="ip_address" optional="hide"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Audit Log Form View -->
+        <record id="view_assessment_audit_log_form" model="ir.ui.view">
+            <field name="name">assessment.audit.log.form</field>
+            <field name="model">assessment.audit.log</field>
+            <field name="arch" type="xml">
+                <form string="Audit Log" create="false" delete="false" edit="false">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="action" readonly="1"/>
+                            </h1>
+                            <h3 class="text-muted">
+                                Audit Log Entry
+                            </h3>
+                        </div>
+
+                        <group>
+                            <group string="Log Details">
+                                <field name="timestamp" readonly="1"/>
+                                <field name="candidate_id" readonly="1"/>
+                                <field name="user_id" readonly="1"/>
+                                <field name="action" readonly="1"/>
+                            </group>
+                            <group string="Additional Info">
+                                <field name="entity_type" readonly="1"/>
+                                <field name="entity_id" readonly="1"/>
+                                <field name="ip_address" readonly="1"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <field name="description" readonly="1" nolabel="1"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Value Changes" name="value_changes">
+                                <group>
+                                    <group string="Old Value">
+                                        <field name="old_value" widget="text" readonly="1" nolabel="1"/>
+                                    </group>
+                                    <group string="New Value">
+                                        <field name="new_value" widget="text" readonly="1" nolabel="1"/>
+                                    </group>
+                                </group>
+                            </page>
+
+                            <page string="Technical Details" name="technical">
+                                <group>
+                                    <field name="user_agent" widget="text" readonly="1" nolabel="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Audit Log Search View -->
+        <record id="view_assessment_audit_log_search" model="ir.ui.view">
+            <field name="name">assessment.audit.log.search</field>
+            <field name="model">assessment.audit.log</field>
+            <field name="arch" type="xml">
+                <search string="Audit Logs">
+                    <field name="candidate_id"/>
+                    <field name="user_id"/>
+                    <field name="action"/>
+                    <field name="description"/>
+                    <filter string="Create Actions" name="create_actions" domain="[('action', '=', 'create')]"/>
+                    <filter string="Status Changes" name="status_changes" domain="[('action', '=', 'status_change')]"/>
+                    <filter string="Review Actions" name="review_actions" domain="[('action', '=', 'review')]"/>
+                    <separator/>
+                    <filter string="Today" name="today" domain="[('timestamp', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')), ('timestamp', '&lt;=', context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
+                    <filter string="This Week" name="this_week" domain="[('timestamp', '&gt;=', (context_today() - relativedelta(weeks=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="This Month" name="this_month" domain="[('timestamp', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                    <group>
+                        <filter string="User" name="group_user" context="{'group_by': 'user_id'}"/>
+                        <filter string="Action" name="group_action" context="{'group_by': 'action'}"/>
+                        <filter string="Candidate" name="group_candidate" context="{'group_by': 'candidate_id'}"/>
+                        <filter string="Date" name="group_date" context="{'group_by': 'timestamp:month'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Audit Log Action -->
+        <record id="action_assessment_audit_log" model="ir.actions.act_window">
+            <field name="name">Audit Logs</field>
+            <field name="res_model">assessment.audit.log</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'search_default_this_month': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No audit logs yet!
+                </p>
+                <p>
+                    Audit logs track all important actions in the assessment system.
+                    They are created automatically when candidates submit, status changes, or reviews are performed.
+                </p>
+            </field>
+        </record>
+</odoo>

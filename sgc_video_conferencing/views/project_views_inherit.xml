@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_project_form_view_inherit_video" model="ir.ui.view">
+        <field name="name">project.project.form.video.inherit</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_schedule_project_meeting" type="object"
+                        class="oe_stat_button" icon="fa-video-camera">
+                    <div class="o_stat_info">
+                        <field name="video_meeting_count"/>
+                        <span class="o_stat_text">Meetings</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_task_form_view_inherit_video" model="ir.ui.view">
+        <field name="name">project.task.form.video.inherit</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_schedule_task_meeting" type="object"
+                        class="oe_stat_button" icon="fa-video-camera">
+                    <div class="o_stat_info">
+                        <field name="video_meeting_count"/>
+                        <span class="o_stat_text">Meeting</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sales_purchase_agreement_template">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+            <div class="page">
+                <div class="row mb-4">
+                    <div class="col-12 text-center">
+                        <h1>SALES PURCHASE AGREEMENT</h1>
+                        <p><strong>Agreement No:</strong> <span t-esc="o.sold_seq or o.name"/></p>
+                        <p><strong>Date:</strong> <span t-esc="o.date or o.contract_date"/></p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>1. Parties</h3>
+                        <table class="table table-bordered">
+                            <tr t-if="o.vendor_id">
+                                <td><strong>Seller</strong></td>
+                                <td t-esc="o.vendor_id.name"/>
+                            </tr>
+                            <tr t-if="o.customer_id">
+                                <td><strong>Buyer</strong></td>
+                                <td t-esc="o.customer_id.name"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>2. Property Details</h3>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><strong>Property</strong></td>
+                                <td t-esc="o.property_id.name"/>
+                            </tr>
+                            <tr t-if="o.property_id.property_type">
+                                <td><strong>Type</strong></td>
+                                <td t-esc="o.property_id.property_type"/>
+                            </tr>
+                            <tr t-if="o.property_id.city">
+                                <td><strong>City</strong></td>
+                                <td t-esc="o.property_id.city"/>
+                            </tr>
+                            <tr t-if="o.property_id.area">
+                                <td><strong>Area</strong></td>
+                                <td t-esc="'%s sqft' % o.property_id.area"/>
+                            </tr>
+                            <tr t-if="o.property_id.title_deed_number">
+                                <td><strong>Title Deed Number</strong></td>
+                                <td t-esc="o.property_id.title_deed_number"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4" t-if="o.commission_line_ids or o.sale_contract_id.commission_line_ids or o.broker_id">
+                    <div class="col-12">
+                        <h3>3. Commission Distribution</h3>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Role</th>
+                                    <th>Beneficiary</th>
+                                    <th>Rate</th>
+                                    <th class="text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-if="o.commission_line_ids">
+                                    <tr t-foreach="o.commission_line_ids" t-as="line">
+                                        <td t-esc="dict(line._fields['category'].selection).get(line.category)"/>
+                                        <td t-esc="line.get_role_label()"/>
+                                        <td t-esc="line.partner_id.name"/>
+                                        <td>
+                                            <t t-if="line.commission_type == 'percentage'">
+                                                <span t-esc="'{}%'.format(line.commission_percentage)"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="line.commission_fixed_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
+                                            </t>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line.commission_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-elif="o.sale_contract_id.commission_line_ids">
+                                    <tr t-foreach="o.sale_contract_id.commission_line_ids" t-as="line">
+                                        <td t-esc="dict(line._fields['category'].selection).get(line.category)"/>
+                                        <td t-esc="line.get_role_label()"/>
+                                        <td t-esc="line.partner_id.name"/>
+                                        <td>
+                                            <t t-if="line.commission_type == 'percentage'">
+                                                <span t-esc="'{}%'.format(line.commission_percentage)"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="line.commission_fixed_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
+                                            </t>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line.commission_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                                <t t-elif="o.broker_id">
+                                    <tr>
+                                        <td>External</td>
+                                        <td>Broker</td>
+                                        <td t-esc="o.broker_id.name"/>
+                                        <td>
+                                            <t t-if="o.commission_type == 'percentage'">
+                                                <span t-esc="'{}%'.format(o.commission_percentage)"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="o.commission_fixed_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
+                                            </t>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="o.total_external_commission" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                    <tr t-if="o.broker_agency_id">
+                                        <td>External</td>
+                                        <td>Brokerage Company</td>
+                                        <td t-esc="o.broker_agency_id.name"/>
+                                        <td>—</td>
+                                        <td class="text-right">—</td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="text-right"><strong>Total Commission</strong></td>
+                                    <td class="text-right">
+                                        <strong>
+                                            <t t-if="not o.commission_line_ids and o.sale_contract_id.commission_line_ids">
+                                                <span t-esc="o.sale_contract_id.commission_total_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-esc="o.total_commission" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
+                                            </t>
+                                        </strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>4. Purchase Price &amp; Payment Terms</h3>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><strong>Purchase Price</strong></td>
+                                <td><span t-esc="o.sale_price" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/></td>
+                            </tr>
+                            <tr t-if="o.property_id.dld_fee or o.property_id.dld_fee_percentage">
+                                <td><strong>DLD Registration Fee</strong></td>
+                                <td>
+                                    <t t-if="o.property_id.dld_fee">
+                                        <span t-esc="o.property_id.dld_fee" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
+                                    </t>
+                                    <t t-else="">
+                                        <t t-esc="'{}% of purchase price'.format(o.property_id.dld_fee_percentage)"/>
+                                    </t>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>5. Title Deed &amp; Oqood Registration (DLD)</h3>
+                        <p>The Property is held under Title Deed No. <strong t-esc="o.property_id.title_deed_number or '—'"/> issued by the Dubai Land Department (DLD). Upon completion of this Agreement the Parties shall procure registration of the transfer with the DLD through Trakhees/Ejar-certified registration channels and shall pay the applicable DLD registration fee (currently 4% of the Purchase Price for the primary market, or as otherwise prescribed by DLD from time to time), together with the AED 580 DLD issuance fee and AED 2,000 Trustee fee, in the proportions required by RERA/DLD. Where the Property is an off-plan unit, this Agreement shall be converted to Oqood registration and the corresponding Oqood fee shall be borne by the Buyer.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>6. Handover, Title Transfer &amp; Snagging</h3>
+                        <p>The Seller shall handover physical possession of the Property to the Buyer on <strong t-esc="o.handover_date or 'the date agreed in Schedule A'"/>, free of encumbrances, together with all original title instruments, NOCs, and the transfer forms required for registration. A joint Pre-Handover Inspection shall be carried out no later than 14 (fourteen) days before the Handover Date. Any defect identified during such inspection shall form the Snagging List; the Seller shall rectify all snagging items within 60 (sixty) days of Handover at no cost to the Buyer. Title Transfer shall be completed at DLD no later than 30 (thirty) days after the Handover Date, and the Seller shall execute all documents necessary thereto.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>7. AED Denomination &amp; Payment Mechanism</h3>
+                        <p>All amounts under this Agreement are denominated in UAE Dirhams (AED). Payments shall be made by manager's cheque or wire transfer to the Seller's nominated UAE-resident bank account. Any cross-border transfer shall be processed through an UAE-licensed exchange and shall comply with the anti-money laundering regulations issued by the Central Bank of the UAE and the Financial Action Task Force (FATF).</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>8. Brokerage Disclosure</h3>
+                        <p>The Parties acknowledge that this transaction was facilitated by <strong t-esc="o.broker_id.name or 'a registered RERA-licenced real estate broker'"/>. Brokerage commission, if any, shall be paid outside the closing balance pursuant to the standalone Brokerage Agreement and shall be borne by the Seller as agreed between Seller and Broker.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>9. Handover Payment, Service Charges &amp; Title Transfer</h3>
+                        <p>The Buyer undertakes to pay all annual service charges (chiller fees, district cooling, building management, sinking-fund contributions) to the owner-association/community-management company as and when due from the Handover Date onward. Service charges accrued before Handover remain the obligation of the Seller. Pre-handover unpaid developer service charges, if any, are to be settled by the Seller from the final tranche of the Purchase Price.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>10. Mortgagee / NOC</h3>
+                        <p>If the Seller's title is encumbered by any prior mortgage or charge, the Seller shall obtain and deliver to the Buyer a No-Objection Certificate (NOC) from the existing mortgagee prior to or at DLD registration. All pre-closing mortgage cancellation fees, if any, shall be the Seller's cost. Until registration of the Buyer as registered owner, the Buyer shall not be liable for any mortgage instalment, and the Seller remains responsible for any default.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>11. Buyer's Representations &amp; AML/KYC</h3>
+                        <p>The Buyer represents that the funds used for this Purchase Price are not proceeds of crime, that the Buyer is the beneficial owner of such funds, and that the Buyer is not subject to any UN, UAE, or GCC sanctions lists. The Buyer consents to and authorizes the Seller, the Broker, the escrow agent, the relevant bank, DLD and RERA to conduct such KYC, sanctions screening and source-of-funds verification as may be required under UAE Federal Decree-Law No. 20 of 2018 on Anti-Money Laundering and its implementing regulations.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>12. Seller's Representations &amp; Warranties</h3>
+                        <p>The Seller represents and warrants that: (i) it is the sole legal and beneficial owner of the Property with full right and power to sell and transfer; (ii) the Property is free from encumbrances, liens, claims and third-party rights except as expressly disclosed in writing; (iii) there are no pending litigation, arbitration or insolvency proceedings affecting the Property; (iv) all community-managed service charges and DLD-related dues up to the Transfer Date have been paid in full; and (v) no misrepresentation has been made regarding the Property's size, location, view, or amenities. These warranties survive execution of this Agreement.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>13. Force Majeure</h3>
+                        <p>Neither Party shall be liable for delay or failure in performance caused by events beyond reasonable control, including without limitation acts of God, government orders, pandemic, war, civil unrest, regulatory shutdown of DLD/Ejar, utility outage affecting the Building, or labour dispute. Obligations relating to monetary payments are not excused by force majeure.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>14. Default &amp; Termination</h3>
+                        <p>If the Buyer fails to pay any instalment within 30 (thirty) days of its due date the Seller may, after written notice and a 30-day cure period, terminate this Agreement and forfeit 10% of the Purchase Price as liquidated damages (the DLD will also reflect the forfeiture in the Oqood/Ejari record). If the Seller defaults in handover or title transfer, the Buyer may, after written notice and a 60-day cure period, claim specific performance and damages.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>15. Dispute Resolution &amp; Governing Law</h3>
+                        <p>This Agreement is governed by the laws of the Emirate of Dubai, and the federal laws of the United Arab Emirates as applied in Dubai. Any dispute, controversy or claim arising out of this Agreement shall be referred to the Dubai Rental Dispute Settlement Centre or, failing resolution, to the Dubai Court of First Instance — whose decision is final and binding.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>16. Entire Agreement, Severability, Notices, Governing Language</h3>
+                        <p>This Agreement, together with its Schedules, constitutes the entire agreement between the Parties and supersedes any prior negotiation or representation. Inconsistencies between the Arabic and English texts shall be resolved in favour of the Arabic version as required by DLD. Notices shall be served by registered mail to the parties' addresses as recorded in DLD. If any clause is held unenforceable the remainder of the Agreement shall remain in full force.</p>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-6">
+                        <p>_________________________</p>
+                        <p><strong>Seller Signature</strong></p>
+                    </div>
+                    <div class="col-6 text-right">
+                        <p>_________________________</p>
+                        <p><strong>Buyer Signature</strong></p>
+                    </div>
+                </div>
+
+                <p class="mt-5 text-muted small text-center">
+                    Computer-generated document. Terms are binding upon signature.
+                </p>
+            </div>
+            </t>
+          </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+{
+    "name": "SGC - HR Memos",
+    "version": "19.0.2.1",
+    "category": "Human Resources",
+    "summary": "HR memos with approval workflow, QR verification, and digital signature",
+    "author": "SGC TECH AI",
+    "website": "https://sgctech.ai",
+    "support": "bran@sgctech.ai",
+    "images": ["static/description/banner.png"],
+    "license": "OPL-1",
+    "price": 18,
+    "currency": "USD",
+    "depends": [
+        "hr",
+        "mail",
+        "website",
+    ],
+    "data": [
+        "security/ir.model.access.csv",
+        "data/memo_sequence.xml",
+        "report/hr_memo_report.xml",
+        "report/hr_memo_template.xml",
+        "views/hr_memo_views.xml",
+        "views/memo_verification_templates.xml",
+    ],
+    "assets": {},
+    "installable": True,
+    "application": False,
+}

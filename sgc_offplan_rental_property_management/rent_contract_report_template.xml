@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="rent_contract_report_template">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+            <div class="page">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h1>Tenancy Contract</h1>
+                        <p><strong>Reference:</strong> <span t-esc="o.name"/></p>
+                        <p><strong>Date:</strong> <span t-esc="datetime.date.today()"/></p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>1. Parties</h3>
+                        <table class="table table-bordered" style="page-break-inside:avoid;">
+                            <tr t-if="o.landlord_id">
+                                <td style="width:35%;"><strong>Landlord</strong></td>
+                                <td t-esc="o.landlord_id.name"/>
+                            </tr>
+                            <tr>
+                                <td><strong>Tenant</strong></td>
+                                <td t-esc="o.tenant_id.name"/>
+                            </tr>
+                            <tr t-if="o.property_id.title_deed_number">
+                                <td><strong>Landlord Title Deed Ref.</strong></td>
+                                <td t-esc="o.property_id.title_deed_number"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>2. Property Information</h3>
+                        <table class="table table-bordered" style="page-break-inside:avoid;">
+                            <tr>
+                                <td style="width:35%;"><strong>Property</strong></td>
+                                <td t-esc="o.property_id.name"/>
+                            </tr>
+                            <tr t-if="o.property_id.address">
+                                <td><strong>Address</strong></td>
+                                <td style="word-break:break-word;" t-esc="o.property_id.address"/>
+                            </tr>
+                            <tr t-if="o.property_id.makani_number">
+                                <td><strong>Makani Number</strong></td>
+                                <td t-esc="o.property_id.makani_number"/>
+                            </tr>
+                            <tr t-if="o.property_id.dewa_premises_number">
+                                <td><strong>DEWA Premises Number</strong></td>
+                                <td t-esc="o.property_id.dewa_premises_number"/>
+                            </tr>
+                            <tr t-if="o.property_id.property_type">
+                                <td><strong>Type</strong></td>
+                                <td t-esc="dict(o.property_id._fields['property_type'].selection).get(o.property_id.property_type, o.property_id.property_type)"/>
+                            </tr>
+                            <tr t-if="o.property_id.area">
+                                <td><strong>Size</strong></td>
+                                <td t-esc="'%s sqft' % o.property_id.area"/>
+                            </tr>
+                            <tr t-if="o.furnished_status">
+                                <td><strong>Furnishing Status</strong></td>
+                                <td t-esc="dict(o._fields['furnished_status'].selection).get(o.furnished_status, o.furnished_status)"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>3. Contract Term &amp; Rent</h3>
+                        <table class="table table-bordered" style="page-break-inside:avoid;">
+                            <tr>
+                                <td style="width:35%;"><strong>Start Date</strong></td>
+                                <td t-esc="o.start_date"/>
+                            </tr>
+                            <tr>
+                                <td><strong>End Date</strong></td>
+                                <td t-esc="o.end_date"/>
+                            </tr>
+                            <tr>
+                                <td><strong>Duration</strong></td>
+                                <td t-esc="'%s month(s)' % o.duration_months"/>
+                            </tr>
+                            <tr>
+                                <td><strong>Annual Rent</strong></td>
+                                <td><span t-esc="o.rent_amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/></td>
+                            </tr>
+                            <tr t-if="o.payment_frequency">
+                                <td><strong>Payment Frequency</strong></td>
+                                <td t-esc="dict(o._fields['payment_frequency'].selection).get(o.payment_frequency, o.payment_frequency)"/>
+                            </tr>
+                            <tr t-if="o.payment_cheque_count">
+                                <td><strong>Number of Cheques</strong></td>
+                                <td t-esc="o.payment_cheque_count"/>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Contract Value</strong></td>
+                                <td><span t-esc="o.total_rent" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>4. Security Deposit</h3>
+                        <table class="table table-bordered" style="page-break-inside:avoid;">
+                            <tr>
+                                <td style="width:35%;"><strong>Security Deposit</strong></td>
+                                <td><span t-esc="o.security_deposit" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Deposit Paid</strong></td>
+                                <td t-esc="'Yes' if o.security_deposit_paid else 'No'"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>5. Maintenance &amp; Renewal Terms</h3>
+                        <table class="table table-bordered" style="page-break-inside:avoid;">
+                            <tr t-if="o.maintenance_responsibility">
+                                <td style="width:35%;"><strong>Maintenance Responsibility</strong></td>
+                                <td t-esc="dict(o._fields['maintenance_responsibility'].selection).get(o.maintenance_responsibility, o.maintenance_responsibility)"/>
+                            </tr>
+                            <tr>
+                                <td><strong>Renewal Requested</strong></td>
+                                <td t-esc="'Yes' if o.renewal_requested else 'No'"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>6. Registration</h3>
+                        <table class="table table-bordered" style="page-break-inside:avoid;">
+                            <tr>
+                                <td style="width:35%;"><strong>Ejari Registration Number</strong></td>
+                                <td t-esc="o.ejari_registration_number or '—'"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>7. RERA / Ejari Attestation</h3>
+                        <p>This Tenancy Contract is concluded in the form prescribed by the Real Estate Regulatory Authority (RERA) of the Emirate of Dubai. The Landlord shall register this Contract with the Ejari system operated by the Dubai Land Department within 30 (thirty) days of execution. Until such registration, the Contract shall not be admissible as evidence before the Rental Dispute Settlement Centre (RDCSC). Ejari Registration No.: <strong t-esc="o.ejari_registration_number or 'to be assigned upon registration'"/>.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>8. Term, Renewal &amp; Rent Escalation Cap</h3>
+                        <p>The Contract term commences on <strong t-esc="o.start_date"/> and expires on <strong t-esc="o.end_date"/> (a total of <strong t-esc="o.duration_months"/> month(s)). Annual rent escalation, if any, shall not exceed 5% of the preceding year's rent, in line with RERA guidance. If the Landlord and Tenant continue to perform after the expiry date without a written extension, the Contract shall be deemed renewed for a period equal to the original term on the same terms, save for rent which may then be lawfully adjusted.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>9. Security Deposit &amp; Trust Treatment</h3>
+                        <p>The Tenant has paid a refundable security deposit of <strong t-esc="o.security_deposit"/> (AED <span t-esc="o.security_deposit" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>) which the Landlord shall hold in trust for the Tenant and not commingle with the Landlord's operating funds. The deposit shall be refunded, net of agreed deductions, within 14 (fourteen) days of vacation, accompanied by a written settlement statement. No portion of the deposit may be applied against the last rental instalment without the Landlord's written consent.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>10. Utilities, Chiller &amp; DEWA / Empower / Cooling</h3>
+                        <p>DEWA electricity and water, Empower district cooling (or other chilled-water supplier), and Internet/Telecom shall be transferred into the Tenant's name on the Commencement Date. Until transfer is completed, the Tenant's liability shall be limited to actual consumption re-billed at cost against copy invoices. Connection, reconnection and refundable deposits owed to the utility authorities remain the Landlord's responsibility unless re-billed under a separately signed Utilities-Transfer letter.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>11. Maintenance Allocation</h3>
+                        <p>The Landlord shall be responsible for major maintenance, structural defects, mechanical/electrical/plumbing (MEP) failures of central systems, and any defect rendering the Property uninhabitable. The Tenant shall be responsible for day-to-day maintenance, routine consumables (bulbs, filters, AC servicing filters), and any damage caused by the Tenant or his guests beyond fair wear and tear. Air-conditioning major overhaul (compressor, gas top-up beyond normal servicing) and water heater replacement remain the Landlord's cost.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>12. Subletting, Assignment &amp; Short-Stay</h3>
+                        <p>The Tenant shall not sublet, assign or otherwise part with possession of the Property, in whole or in part, without the prior written consent of the Landlord. Short-stay / holiday-home commercial use is strictly prohibited and is grounds for immediate termination. Any unauthorised subletting shall entitle the Landlord to terminate after 7 (seven) days' written notice.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>13. Termination &amp; Notice</h3>
+                        <p>Either Party may terminate this Contract for any reason by giving the other not less than 90 (ninety) days' written notice via registered email and Ejari, expiring at the end of the Contract year. Early termination by the Tenant within the first 12 months requires the Tenant to pay an early-termination fee equal to 1.5 months' rent; thereafter 30 days' notice is sufficient. The Landlord may terminate only for cause as defined by UAE Federal Decree-Law No. 33 of 2008 (Article 25 &amp; 26) — including non-payment of rent exceeding 30 days after notice, subletting in breach, or use of the Property for unlawful purposes.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>14. Maintenance Service (AMC) — Optional</h3>
+                        <p t-if="o.furnished_status">Maintenance / Annual Maintenance Contract: <strong t-esc="dict(o._fields['furnished_status'].selection).get(o.furnished_status, o.furnished_status)"/>. Where contracted, the Tenant shall provide reasonable access to the Property for scheduled preventive maintenance visits, with 24 hours' prior notice.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>15. Insurance &amp; Force Majeure</h3>
+                        <p>The Landlord warrants that the Building's structure and common areas are insured. The Tenant is advised to maintain content and personal-liability insurance covering the leased premises. Neither Party is liable for failure to perform caused by events beyond reasonable control — fire, flood, government order, pandemic, total or partial destruction of the Building, or utility-supplier outage — provided the affected Party gives prompt notice and acts diligently to mitigate.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>16. Anti-Money Laundering &amp; KYC</h3>
+                        <p>The Tenant warrants that the rental amounts, the security deposit, and all sums transferred under this Contract originate from legitimate sources and are not proceeds of crime. The Landlord, the broker, and any service provider are hereby authorised to perform KYC, sanctions screening, and source-of-funds verification under UAE Federal Decree-Law No. 20 of 2018 and the regulations issued by the Executive Office of Anti-Money Laundering and Counter-Terrorism Financing.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>17. Dispute Resolution &amp; Governing Law</h3>
+                        <p>This Contract is governed by the laws of the Emirate of Dubai, and the federal laws of the United Arab Emirates (notably UAE Federal Decree-Law No. 33 of 2008 as amended, and Law No. 26 of 2007 regulating relations between landlords and tenants in Dubai). The Parties shall first attempt amicable resolution; failing that, any dispute shall be referred to the Rental Dispute Settlement Centre (RDCSC) of the Dubai Land Department — whose decision is final and binding.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>18. Notices &amp; Governing Language</h3>
+                        <p>Notices shall be served by registered email and to the Ejari-registered addresses. Any translation of this Contract into a language other than Arabic is provided for reference only; in case of inconsistency the Arabic text shall prevail as required by DLD/RERA.</p>
+                    </div>
+                </div>
+
+                <div class="row mb-4" t-if="o.notes">
+                    <div class="col-12">
+                        <h3>19. Notes</h3>
+                        <p style="word-break:break-word;" t-esc="o.notes"/>
+                    </div>
+                </div>
+
+                <div class="row mt-5" style="page-break-inside:avoid;">
+                    <div class="col-6">
+                        <p>_________________________</p>
+                        <p><strong>Landlord Signature</strong></p>
+                    </div>
+                    <div class="col-6 text-right">
+                        <p>_________________________</p>
+                        <p><strong>Tenant Signature</strong></p>
+                    </div>
+                </div>
+
+                <p class="mt-5 text-muted small text-center">
+                    This is a computer-generated document. Terms are binding upon signature and Ejari registration.
+                </p>
+            </div>
+            </t>
+          </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- User Group -->
+    <record id="group_video_conferencing_user" model="res.groups">
+        <field name="name">User</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="comment">Can view and create video meetings, join meetings, and access own meeting history.</field>
+    </record>
+
+    <!-- Manager Group -->
+    <record id="group_video_conferencing_manager" model="res.groups">
+        <field name="name">Manager</field>
+        <field name="implied_ids" eval="[(4, ref('group_video_conferencing_user'))]"/>
+        <field name="comment">Can manage provider accounts, configure integrations, view all meetings, and access recordings.</field>
+    </record>
+
+    <!-- Admin Group -->
+    <record id="group_video_conferencing_admin" model="res.groups">
+        <field name="name">Administrator</field>
+        <field name="implied_ids" eval="[(4, ref('group_video_conferencing_manager'))]"/>
+        <field name="comment">Full administrative access: configure providers, manage credentials, view audit logs, and access all settings.</field>
+    </record>
+
+    <!-- Rules: Multi-company isolation -->
+    <record id="video_meeting_company_rule" model="ir.rule">
+        <field name="name">Video Meeting: Multi-company</field>
+        <field name="model_id" ref="model_video_meeting"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="video_provider_account_company_rule" model="ir.rule">
+        <field name="name">Video Provider Account: Multi-company</field>
+        <field name="model_id" ref="model_video_provider_account"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="video_recording_company_rule" model="ir.rule">
+        <field name="name">Video Recording: Multi-company</field>
+        <field name="model_id" ref="model_video_recording"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <!-- Manager: full access on provider configs -->
+    <record id="video_provider_manager_rule" model="ir.rule">
+        <field name="name">Video Provider: Manager access</field>
+        <field name="model_id" ref="model_video_provider"/>
+        <field name="groups" eval="[(4, ref('group_video_conferencing_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <!-- Admin: full access on audit logs -->
+    <record id="video_audit_log_admin_rule" model="ir.rule">
+        <field name="name">Video Audit Log: Admin access</field>
+        <field name="model_id" ref="model_video_audit_log"/>
+        <field name="groups" eval="[(4, ref('group_video_conferencing_admin'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>

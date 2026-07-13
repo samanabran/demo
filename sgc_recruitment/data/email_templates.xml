@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Offer Letter Email Template -->
+        <record id="email_template_offer_letter" model="mail.template">
+            <field name="name">Offer Letter - SGC TECH AI</field>
+            <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+            <field name="subject">Offer of Employment - ${object.position_title or object.job_id.name} - SGC TECH AI</field>
+            <field name="email_from">${(object.company_id.email or 'careers@sgctech.ai')|safe}</field>
+            <field name="email_to">${object.email_from|safe}</field>
+            <field name="body_html" type="html">
+<div style="font-family: 'Roboto', Arial, sans-serif; max-width: 650px; margin: 0 auto; color: #374151;">
+    
+    <!-- Header -->
+    <div style="background: linear-gradient(135deg, #0c1e34 0%, #1e3a8a 100%); padding: 30px; text-align: center;">
+        <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">
+            SGC TECH AI
+        </h1>
+        <p style="color: #4fc3f7; margin: 8px 0 0 0; font-size: 13px; font-style: italic;">
+            Enterprise AI Solutions
+        </p>
+    </div>
+    
+    <!-- Body -->
+    <div style="padding: 40px 30px; background: #ffffff;">
+        <p style="font-size: 16px; color: #0c1e34; margin: 0 0 20px 0;">
+            Dear <strong>${object.partner_name}</strong>,
+        </p>
+        
+        <p style="font-size: 14px; line-height: 1.8; margin-bottom: 20px;">
+            Congratulations! We are delighted to extend an offer of employment for the position of 
+            <strong style="color: #1e3a8a;">${object.position_title or object.job_id.name}</strong> with SGC TECH AI.
+        </p>
+        
+        <div style="background: #e8f4fd; border-left: 4px solid #4fc3f7; padding: 20px; margin: 25px 0;">
+            <p style="margin: 0; font-size: 13px; color: #0c1e34;">
+                <strong>Offer Reference:</strong> ${object.offer_letter_reference}<br/>
+                % if object.offer_valid_until:
+                <strong>Valid Until:</strong> ${format_date(object.offer_valid_until)}<br/>
+                % endif
+                % if object.proposed_start_date:
+                <strong>Proposed Start Date:</strong> ${format_date(object.proposed_start_date)}
+                % endif
+            </p>
+        </div>
+        
+        <p style="font-size: 14px; line-height: 1.8; margin-bottom: 20px;">
+            Please find attached your formal offer letter containing complete details about your 
+            compensation, benefits, and terms of employment. We kindly request you to review the 
+            offer carefully and confirm your acceptance by signing and returning the letter along 
+            with the required documents.
+        </p>
+        
+        <p style="font-size: 14px; line-height: 1.8; margin-bottom: 20px;">
+            Should you have any questions or require clarification on any aspect of this offer, 
+            please feel free to reach out to us at 
+            <a href="mailto:careers@sgctech.ai" style="color: #4fc3f7; text-decoration: none;">
+                careers@sgctech.ai
+            </a>
+        </p>
+        
+        <p style="font-size: 14px; line-height: 1.8; margin-bottom: 30px;">
+            We look forward to welcoming you to the SGC TECH AI team and working together 
+            to deliver transformative AI-powered solutions.
+        </p>
+        
+        <p style="font-size: 14px; margin-bottom: 5px;">
+            Warm regards,
+        </p>
+        <p style="font-size: 14px; font-weight: 600; color: #0c1e34; margin: 0;">
+            Talent Acquisition Team<br/>
+            SGC TECH AI
+        </p>
+    </div>
+    
+    <!-- Footer -->
+    <div style="background: #0c1e34; padding: 25px 30px; text-align: center;">
+        <p style="color: #4fc3f7; font-size: 13px; font-style: italic; margin: 0 0 15px 0;">
+            Navigate. Innovate. Transform.
+        </p>
+        <p style="color: rgba(255,255,255,0.7); font-size: 11px; margin: 0; line-height: 1.6;">
+            <strong style="color: #ffffff;">SGC TECH AI</strong><br/>
+            Dubai, United Arab Emirates<br/>
+            📧 careers@sgctech.ai | 🌐 www.sgctech.ai
+        </p>
+    </div>
+    
+</div>
+            </field>
+            <field name="report_template_ids" eval="[(4, ref('sgc_recruitment.action_report_offer_letter'))]"/>
+            <field name="auto_delete" eval="False"/>
+        </record>
+        
+    </data>
+</odoo>

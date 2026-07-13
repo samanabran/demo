@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_employee_view_form_inherit_certificate" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.certificate</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_print_employment_certificate"
+                        string="Employment Certificate"
+                        type="object"
+                        class="btn-secondary"
+                        icon="fa-file-text-o"
+                        groups="hr.group_hr_user"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

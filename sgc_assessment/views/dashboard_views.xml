@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- Dashboard Kanban View -->
+        <record id="view_assessment_dashboard" model="ir.ui.view">
+            <field name="name">assessment.dashboard</field>
+            <field name="model">assessment.candidate</field>
+            <field name="arch" type="xml">
+                <kanban class="o_assessment_dashboard" create="false" edit="false">
+                    <field name="id"/>
+                    <templates>
+                        <t t-name="card">
+                            <div class="container o_assessment_dashboard_kanban">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h2>Assessment Dashboard</h2>
+                                        <div class="o_dashboard_statistics">
+                                            <!-- Statistics will be rendered here via JS -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Dashboard Action -->
+        <record id="action_assessment_dashboard" model="ir.actions.act_window">
+            <field name="name">Dashboard</field>
+            <field name="res_model">assessment.candidate</field>
+            <field name="view_mode">kanban</field>
+            <field name="view_id" ref="view_assessment_dashboard"/>
+        </record>
+</odoo>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="view_assessment_response_tree" model="ir.ui.view">
+            <field name="name">assessment.response.tree</field>
+            <field name="model">assessment.response</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="candidate_id"/>
+                    <field name="question_id"/>
+                    <field name="score"/>
+                    <field name="ai_score"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_assessment_response_form" model="ir.ui.view">
+            <field name="name">assessment.response.form</field>
+            <field name="model">assessment.response</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="candidate_id"/>
+                            <field name="question_id"/>
+                            <field name="answer_text"/>
+                            <field name="score"/>
+                            <field name="ai_score"/>
+                            <field name="reviewer_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+</odoo>

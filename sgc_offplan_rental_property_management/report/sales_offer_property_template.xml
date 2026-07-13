@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="sales_offer_property_template">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="o">
+            <t t-call="web.external_layout">
+            <div class="page">
+                <div class="row mb-4">
+                    <div class="col-12 text-center">
+                        <h1>Sales Offer</h1>
+                        <p><strong>Property:</strong> <span t-esc="o.name"/></p>
+                        <p><strong>Date:</strong> <span t-esc="datetime.date.today()"/></p>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <h3>Property Information</h3>
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><strong>Property Name</strong></td>
+                                <td t-esc="o.name"/>
+                            </tr>
+                            <tr t-if="o.property_type">
+                                <td><strong>Type</strong></td>
+                                <td t-esc="dict(o._fields['property_type'].selection).get(o.property_type, o.property_type)"/>
+                            </tr>
+                            <tr t-if="o.project_id">
+                                <td><strong>Project</strong></td>
+                                <td t-esc="o.project_id.name"/>
+                            </tr>
+                            <tr t-if="o.sub_project_id">
+                                <td><strong>Sub Project</strong></td>
+                                <td t-esc="o.sub_project_id.name"/>
+                            </tr>
+                            <tr t-if="o.city">
+                                <td><strong>City</strong></td>
+                                <td t-esc="o.city"/>
+                            </tr>
+                            <tr t-if="o.bedrooms">
+                                <td><strong>Bedrooms</strong></td>
+                                <td t-esc="o.bedrooms"/>
+                            </tr>
+                            <tr t-if="o.bathrooms">
+                                <td><strong>Bathrooms</strong></td>
+                                <td t-esc="o.bathrooms"/>
+                            </tr>
+                            <tr t-if="o.area">
+                                <td><strong>Area</strong></td>
+                                <td t-esc="'%s sqft' % o.area"/>
+                            </tr>
+                            <tr>
+                                <td><strong>Sale Price</strong></td>
+                                <td t-if="o.sale_price">
+                                    <span t-esc="o.sale_price" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
+                                </td>
+                                <td t-if="not o.sale_price">N/A</td>
+                            </tr>
+                            <tr t-if="o.rent_price">
+                                <td><strong>Rent Price</strong></td>
+                                <td><span t-esc="o.rent_price" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/></td>
+                            </tr>
+                            <tr t-if="o.state">
+                                <td><strong>Status</strong></td>
+                                <td t-esc="dict(o._fields['state'].selection).get(o.state, o.state)"/>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mb-4" t-if="o.description">
+                    <div class="col-12">
+                        <h3>Description</h3>
+                        <p style="word-break:break-word;" t-esc="o.description"/>
+                    </div>
+                </div>
+
+                <p class="mt-5 text-muted small text-center">
+                    This is a computer-generated property offer sheet.
+                </p>
+            </div>
+            </t>
+          </t>
+        </t>
+    </template>
+</odoo>

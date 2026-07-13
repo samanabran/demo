@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="group_hr_certificate_notification" model="res.groups">
+        <field name="name">HR Certificate Notifications</field>
+    </record>
+</odoo>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Base Website Template -->
+    <template id="website_base" name="Real Estate Base Layout">
+            <t t-call="website.layout">
+                <div id="wrapwrap">
+                    <!-- Navbar -->
+                    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+                        <div class="container">
+                            <a class="navbar-brand font-weight-bold text-primary" href="/">
+                                <i class="fa fa-building" title="SGC TECH AI Real Estate"></i> SGC TECH AI
+                            </a>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav ml-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/properties">Properties</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/properties/destinations">Destinations</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link btn btn-primary text-white ml-2" href="/consultation">Contact</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+
+                    <!-- Main Content (render child templates here) -->
+                    <main>
+                        <t t-esc="0"/>
+                    </main>
+
+                    <!-- Footer - Mobile First -->
+                    <footer class="bg-dark text-white py-5 mt-5">
+                        <div class="container">
+                            <!-- Footer Grid - Responsive -->
+                            <div class="footer-grid">
+                                <!-- Column 1: Brand -->
+                                <div class="footer-column">
+                                    <h5>SGC TECH AI</h5>
+                                    <p class="small">Your trusted partner in finding the perfect property worldwide.</p>
+                                </div>
+                                
+                                <!-- Column 2: Quick Links -->
+                                <div class="footer-column">
+                                    <h6>Quick Links</h6>
+                                    <ul>
+                                        <li><a href="/properties">Properties</a></li>
+                                        <li><a href="/properties/destinations">Destinations</a></li>
+                                        <li><a href="/consultation">Contact</a></li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- Column 3: Contact -->
+                                <div class="footer-column">
+                                    <h6>Contact</h6>
+                                    <p class="small">
+                                        Email: info@SGC TECH AI.com<br/>
+                                        Phone: +1 (555) 123-4567
+                                    </p>
+                                </div>
+
+                                <!-- Column 4: Social (Desktop) -->
+                                <div class="footer-column">
+                                    <h6>Follow Us</h6>
+                                    <ul>
+                                        <li><a href="#">Facebook</a></li>
+                                        <li><a href="#">LinkedIn</a></li>
+                                        <li><a href="#">Twitter</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <!-- Footer Bottom -->
+                            <div class="footer-bottom mt-4">
+                                <p>© 2025 SGC TECH AI. All rights reserved.</p>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </t>
+        </template>
+
+    <!-- Homepage Hero Section -->
+    <template id="homepage_hero" name="Homepage Hero Section">
+            <div class="hero-section">
+                <div class="container">
+                    <h1>Find Your Dream Property</h1>
+                    <p class="lead">Explore premium real estate opportunities around the world</p>
+                    <a href="/properties" class="btn btn-secondary btn-lg">Browse Properties</a>
+                </div>
+            </div>
+        </template>
+
+    <!-- Statistics Section -->
+    <template id="homepage_stats" name="Homepage Statistics">
+            <div class="stats-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 stat-item">
+                            <div class="stat-number">2+</div>
+                            <div class="stat-label">Countries</div>
+                        </div>
+                        <div class="col-md-4 stat-item">
+                            <div class="stat-number">10+</div>
+                            <div class="stat-label">Premium Properties</div>
+                        </div>
+                        <div class="col-md-4 stat-item">
+                            <div class="stat-number">100+</div>
+                            <div class="stat-label">Happy Clients</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+    <!-- Homepage Complete -->
+    <template id="homepage" name="Homepage">
+        <t t-call="sgc_realestate_website.website_base">
+            <t t-call="sgc_realestate_website.homepage_hero"/>
+            <t t-call="sgc_realestate_website.homepage_stats"/>
+        </t>
+    </template>
+</odoo>
+

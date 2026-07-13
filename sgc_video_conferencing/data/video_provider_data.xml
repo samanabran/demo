@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Google Meet -->
+        <record id="video_provider_google_meet" model="video.provider">
+            <field name="name">Google Meet</field>
+            <field name="code">google_meet</field>
+            <field name="provider_type">google_meet</field>
+            <field name="sequence">10</field>
+            <field name="active">True</field>
+            <field name="documentation_url">https://developers.google.com/meet</field>
+            <field name="website_url">https://meet.google.com</field>
+        </record>
+
+        <!-- Microsoft Teams -->
+        <record id="video_provider_teams" model="video.provider">
+            <field name="name">Microsoft Teams</field>
+            <field name="code">microsoft_teams</field>
+            <field name="provider_type">microsoft_teams</field>
+            <field name="sequence">20</field>
+            <field name="active">True</field>
+            <field name="documentation_url">https://learn.microsoft.com/en-us/graph/api/resources/onlinemeeting</field>
+            <field name="website_url">https://teams.microsoft.com</field>
+        </record>
+
+        <!-- Zoom -->
+        <record id="video_provider_zoom" model="video.provider">
+            <field name="name">Zoom</field>
+            <field name="code">zoom</field>
+            <field name="provider_type">zoom</field>
+            <field name="sequence">30</field>
+            <field name="active">True</field>
+            <field name="documentation_url">https://developers.zoom.us/docs/api/</field>
+            <field name="website_url">https://zoom.us</field>
+        </record>
+
+        <!-- Cisco Webex -->
+        <record id="video_provider_webex" model="video.provider">
+            <field name="name">Cisco Webex</field>
+            <field name="code">webex</field>
+            <field name="provider_type">webex</field>
+            <field name="sequence">40</field>
+            <field name="active">True</field>
+            <field name="documentation_url">https://developer.webex.com/docs/api/v1/meetings</field>
+            <field name="website_url">https://webex.com</field>
+        </record>
+
+        <!-- Jitsi Meet -->
+        <record id="video_provider_jitsi" model="video.provider">
+            <field name="name">Jitsi Meet</field>
+            <field name="code">jitsi</field>
+            <field name="provider_type">jitsi</field>
+            <field name="sequence">50</field>
+            <field name="active">True</field>
+            <field name="description">&lt;p&gt;Jitsi Meet is a free, open-source video conferencing solution. No account required.&lt;/p&gt;</field>
+            <field name="documentation_url">https://jitsi.github.io/handbook/</field>
+            <field name="website_url">https://meet.jit.si</field>
+        </record>
+
+        <!-- Zoho Meeting -->
+        <record id="video_provider_zoho" model="video.provider">
+            <field name="name">Zoho Meeting</field>
+            <field name="code">zoho</field>
+            <field name="provider_type">zoho</field>
+            <field name="sequence">60</field>
+            <field name="active">True</field>
+            <field name="documentation_url">https://www.zoho.com/meeting/api/</field>
+            <field name="website_url">https://www.zoho.com/meeting/</field>
+        </record>
+
+        <!-- GoTo Meeting -->
+        <record id="video_provider_gotomeeting" model="video.provider">
+            <field name="name">GoTo Meeting</field>
+            <field name="code">gotomeeting</field>
+            <field name="provider_type">gotomeeting</field>
+            <field name="sequence">70</field>
+            <field name="active">True</field>
+            <field name="documentation_url">https://developer.goto.com/GoToMeeting/</field>
+            <field name="website_url">https://www.goto.com/meeting</field>
+        </record>
+    </data>
+</odoo>

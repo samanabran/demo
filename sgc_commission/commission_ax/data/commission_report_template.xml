@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Team-Structured Commission Report Template -->
+        <template id="commission_report_template_team" name="Team Commission Report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <!-- Calculated Values -->
+                    <t t-set="external_total" t-value="(o.broker_amount or 0) + (o.referrer_amount or 0) + (o.cashback_amount or 0) + (o.other_external_amount or 0)"/>
+                    <t t-set="internal_total" t-value="(o.agent1_amount or 0) + (o.agent2_amount or 0) + (o.manager_amount or 0) + (o.director_amount or 0)"/>
+                    <t t-set="total_commission" t-value="external_total + internal_total"/>
+                    <t t-set="net_before_vat" t-value="(o.amount_total or 0) - total_commission"/>
+                    <t t-set="vat_rate" t-value="0.05"/>
+                    <t t-set="vat_amount" t-value="net_before_vat * vat_rate"/>
+                    <t t-set="net_commission" t-value="net_before_vat - vat_amount"/>
+
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2>Team Commission Report</h2>
+                                    <h4>Sale Order: <span t-field="o.name"/></h4>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt32">
+                                <div class="col-6">
+                                    <strong>Customer:</strong> <span t-field="o.partner_id.name"/><br/>
+                                    <strong>Date:</strong> <span t-field="o.date_order"/><br/>
+                                    <strong>Amount Total:</strong> <span t-field="o.amount_total"/>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Salesperson:</strong> <span t-field="o.user_id.name"/><br/>
+                                    <strong>Team:</strong> <span t-field="o.team_id.name"/><br/>
+                                </div>
+                            </div>
+
+                            <div class="row mt32">
+                                <div class="col-12">
+                                    <h4>Commission Breakdown</h4>
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th class="text-right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>External Commissions</td>
+                                                <td class="text-right"><span t-esc="external_total"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Internal Commissions</td>
+                                                <td class="text-right"><span t-esc="internal_total"/></td>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <td><strong>Total Commission</strong></td>
+                                                <td class="text-right"><strong><span t-esc="total_commission"/></strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Net Before VAT</td>
+                                                <td class="text-right"><span t-esc="net_before_vat"/></td>
+                                            </tr>
+                                            <tr>
+                                                <td>VAT Amount (5%)</td>
+                                                <td class="text-right"><span t-esc="vat_amount"/></td>
+                                            </tr>
+                                            <tr class="table-success">
+                                                <td><strong>Net Commission</strong></td>
+                                                <td class="text-right"><strong><span t-esc="net_commission"/></strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="oe_structure"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <!-- Report Action -->
+        <record id="action_report_commission_team" model="ir.actions.report">
+            <field name="name">Team Commission Report</field>
+            <field name="model">sale.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">commission_ax.commission_report_template_team</field>
+            <field name="report_file">commission_ax.commission_report_template_team</field>
+            <field name="print_report_name">'Team Commission Report - %s' % object.name</field>
+            <field name="binding_model_id" ref="sale.model_sale_order"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="base.paperformat_euro"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Destination Country Tree View -->
+    <record id="view_destination_country_tree" model="ir.ui.view">
+        <field name="name">sgc.realestate.destination.country.tree</field>
+        <field name="model">sgc.realestate.destination.country</field>
+        <field name="arch" type="xml">
+            <list string="Destinations" editable="top">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="property_count"/>
+                <field name="website_published"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Destination Country Form View -->
+    <record id="view_destination_country_form" model="ir.ui.view">
+        <field name="name">sgc.realestate.destination.country.form</field>
+        <field name="model">sgc.realestate.destination.country</field>
+        <field name="arch" type="xml">
+            <form string="Destination">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_properties" type="object" 
+                                class="oe_stat_button" icon="fa-home">
+                            <field string="Properties" name="property_count" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Country Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" placeholder="e.g., US, UK, AE"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="website_published" widget="boolean_toggle"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="website_url" readonly="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description" placeholder="Description or overview of this destination"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Destination Country Kanban View -->
+    <record id="view_destination_country_kanban" model="ir.ui.view">
+        <field name="name">sgc.realestate.destination.country.kanban</field>
+        <field name="model">sgc.realestate.destination.country</field>
+        <field name="arch" type="xml">
+            <kanban string="Destinations" class="o_kanban_small_column">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="property_count"/>
+                <field name="website_published"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card">
+                            <div class="oe_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <h4>
+                                        <a type="open">
+                                            <field name="name"/>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div class="o_dropdown_kanban dropdown">
+                                      <a class="dropdown-toggle o_kanban_manage_toggle_button" href="#" data-toggle="dropdown">
+                                          <span class="fa fa-ellipsis-v" title="Actions" aria-label="Actions"/>
+                                    </a>
+                                    <div class="dropdown-menu" role="menu">
+                                        <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_card_content">
+                                <p><strong>Code:</strong> <field name="code"/></p>
+                                <p><strong>Properties:</strong> <field name="property_count"/></p>
+                            </div>
+                            <div class="oe_kanban_card_footer">
+                                <span t-if="record.website_published.raw_value" class="badge badge-success">Published</span>
+                                <span t-else="" class="badge badge-secondary">Draft</span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Destination Country Search View -->
+    <record id="view_destination_country_search" model="ir.ui.view">
+        <field name="name">sgc.realestate.destination.country.search</field>
+        <field name="model">sgc.realestate.destination.country</field>
+        <field name="arch" type="xml">
+            <search string="Destinations">
+                <field name="name" string="Country Name"/>
+                <field name="code" string="Country Code"/>
+                <separator/>
+                <filter string="Published" name="published" domain="[('website_published', '=', True)]"/>
+                <filter string="Unpublished" name="unpublished" domain="[('website_published', '=', False)]"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <separator/>
+                <group>
+                    <filter string="Published" name="group_published" context="{'group_by': 'website_published'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

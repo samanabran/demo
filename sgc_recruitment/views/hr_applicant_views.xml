@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Extended Applicant Form View -->
+    <record id="hr_applicant_view_form_extended" model="ir.ui.view">
+        <field name="name">hr.applicant.form.extended</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Add buttons in header -->
+            <xpath expr="//header" position="inside">
+                <button name="action_generate_offer_letter" string="Generate Offer Letter" type="object" class="oe_highlight" invisible="stage_id.hired_stage != True"/>
+                <button name="action_send_offer_letter" string="Send Offer Letter" type="object" invisible="stage_id.hired_stage != True"/>
+            </xpath>
+
+            <!-- Add new notebook pages -->
+            <xpath expr="//notebook" position="inside">
+
+                <!-- PERSONAL INFORMATION TAB -->
+                <page string="Personal Information" name="personal_info">
+                    <group>
+                        <group string="Identity Details">
+                            <field name="full_name_arabic" placeholder="الاسم الكامل"/>
+                            <field name="nationality"/>
+                            <field name="emirates_id" placeholder="784-XXXX-XXXXXXX-X"/>
+                            <field name="passport_number"/>
+                            <field name="date_of_birth"/>
+                        </group>
+
+                        <group string="Contact Information">
+                            <field name="uae_mobile" placeholder="+971-XX-XXX-XXXX"/>
+                            <field name="personal_email" widget="email"/>
+                            <field name="current_address" placeholder="Villa/Flat No., Street, Area, City, UAE"/>
+                        </group>
+                    </group>
+                </page>
+
+                <!-- EMPLOYMENT DETAILS TAB -->
+                <page string="Employment Details" name="employment_details">
+                    <group>
+                        <group string="Position Information">
+                            <field name="position_title" placeholder="e.g., Senior Odoo Consultant"/>
+                            <field name="department_id"/>
+                            <field name="reporting_manager"/>
+                            <field name="work_location"/>
+                        </group>
+
+                        <group string="Contract Details">
+                            <field name="employment_type"/>
+                            <field name="contract_duration_months" invisible="employment_type != 'limited'" required="employment_type == 'limited'"/>
+                            <field name="probation_period_days"/>
+                            <field name="proposed_start_date"/>
+                            <field name="notice_period_days"/>
+                        </group>
+                    </group>
+                </page>
+
+                <!-- COMPENSATION & BENEFITS TAB -->
+                <page string="Compensation &amp; Benefits" name="compensation">
+                    <group>
+                        <group string="Salary Breakdown (Monthly)">
+                            <field name="company_currency_id" invisible="1"/>
+                            <field name="basic_salary" widget="monetary"/>
+                            <field name="housing_allowance" widget="monetary"/>
+                            <field name="transport_allowance" widget="monetary"/>
+                            <field name="other_allowances" widget="monetary"/>
+                            <separator/>
+                            <field name="total_monthly_salary" widget="monetary" class="oe_subtotal_footer_separator"/>
+                            <field name="annual_salary" widget="monetary" class="oe_subtotal_footer_separator"/>
+                        </group>
+
+                        <group string="Benefits Package">
+                            <field name="annual_leave_days"/>
+                            <field name="health_insurance"/>
+                            <field name="visa_provided"/>
+                            <field name="flight_tickets"/>
+                            <field name="additional_benefits" placeholder="e.g., Training allowance, Phone allowance, Performance bonuses..."/>
+                        </group>
+                    </group>
+                </page>
+
+                <!-- OFFER LETTER TAB -->
+                <page string="Offer Letter" name="offer_letter">
+                    <group>
+                        <group string="Offer Details">
+                            <field name="offer_letter_reference" readonly="1"/>
+                            <field name="offer_letter_date"/>
+                            <field name="offer_valid_until" readonly="1"/>
+                        </group>
+
+                        <group string="Acceptance">
+                            <field name="acceptance_date"/>
+                            <field name="candidate_signature" widget="image"/>
+                        </group>
+                    </group>
+
+                    <group string="Preview">
+                        <button name="action_generate_offer_letter" string="Preview Offer Letter" type="object" class="btn-primary" icon="fa-file-pdf-o"/>
+                    </group>
+                </page>
+
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Custom Tree View (not inheriting, defining our own) -->
+    <record id="hr_applicant_view_tree_extended" model="ir.ui.view">
+        <field name="name">hr.applicant.tree.extended</field>
+        <field name="model">hr.applicant</field>
+        <field name="arch" type="xml">
+            <list string="Applicants">
+                <field name="partner_name"/>
+                <field name="partner_name"/>
+                <field name="email_from" widget="email"/>
+                <field name="partner_phone" widget="phone"/>
+                <field name="job_id"/>
+                <field name="stage_id"/>
+                <field name="total_monthly_salary" widget="monetary" optional="show"/>
+                <field name="offer_letter_reference" optional="show"/>
+                <field name="medium_id" optional="hide"/>
+                <field name="source_id" optional="hide"/>
+                <field name="priority" widget="priority" optional="hide"/>
+                <field name="user_id" widget="many2one_avatar_user" optional="hide"/>
+                <field name="date_open" optional="hide"/>
+                <field name="date_last_stage_update" optional="hide"/>
+                <field name="company_id" groups="base.group_multi_company" optional="hide"/>
+                <field name="activity_ids" widget="list_activity"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Extended Applicant Search View -->
+    <record id="hr_applicant_view_search_extended" model="ir.ui.view">
+        <field name="name">hr.applicant.search.extended</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_search_bis"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='job']" position="after">
+                <filter string="Nationality" name="nationality" context="{'group_by': 'nationality'}"/>
+                <filter string="Employment Type" name="employment_type" context="{'group_by': 'employment_type'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

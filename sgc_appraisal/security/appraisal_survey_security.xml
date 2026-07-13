@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ===== Security Rules for Appraisal Survey Forms ===== -->
+
+    <!-- Record Rules for Appraisal Survey Form -->
+    <record id="appraisal_survey_form_rule_user" model="ir.rule">
+        <field name="name">Appraisal Survey Form: User Rule</field>
+        <field name="model_id" ref="model_appraisal_survey_form"/>
+        <field name="groups" eval="[(4, ref('oh_appraisal_group_employee'))]"/>
+        <field name="domain_force">[('company_id', '=', user.company_id.id)]</field>
+    </record>
+
+    <record id="appraisal_survey_form_rule_manager" model="ir.rule">
+        <field name="name">Appraisal Survey Form: Manager Rule</field>
+        <field name="model_id" ref="model_appraisal_survey_form"/>
+        <field name="groups" eval="[(4, ref('oh_appraisal_group_manager'))]"/>
+        <field name="domain_force">[('company_id', 'in', user.company_ids.ids)]</field>
+    </record>
+
+    <!-- Record Rules for Appraisal Survey Response -->
+    <record id="appraisal_survey_response_rule_user" model="ir.rule">
+        <field name="name">Appraisal Survey Response: User Rule</field>
+        <field name="model_id" ref="model_appraisal_survey_response"/>
+        <field name="groups" eval="[(4, ref('oh_appraisal_group_employee'))]"/>
+        <field name="domain_force">[('company_id', '=', user.company_id.id)]</field>
+    </record>
+
+    <record id="appraisal_survey_response_rule_manager" model="ir.rule">
+        <field name="name">Appraisal Survey Response: Manager Rule</field>
+        <field name="model_id" ref="model_appraisal_survey_response"/>
+        <field name="groups" eval="[(4, ref('oh_appraisal_group_manager'))]"/>
+        <field name="domain_force">[('company_id', 'in', user.company_ids.ids)]</field>
+    </record>
+
+    <!-- Record Rules for Survey Question -->
+    <record id="appraisal_survey_question_rule_user" model="ir.rule">
+        <field name="name">Appraisal Survey Question: User Rule</field>
+        <field name="model_id" ref="model_appraisal_survey_question"/>
+        <field name="groups" eval="[(4, ref('oh_appraisal_group_employee'))]"/>
+        <field name="domain_force">[('company_id', '=', user.company_id.id)]</field>
+    </record>
+
+    <!-- Record Rules for Wizard -->
+    <record id="appraisal_survey_wizard_rule_all_users" model="ir.rule">
+        <field name="name">Appraisal Survey Wizard: All Users</field>
+        <field name="model_id" ref="model_appraisal_survey_wizard"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+</odoo>

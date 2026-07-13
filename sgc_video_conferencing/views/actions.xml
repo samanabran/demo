@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Window Actions -->
+    <record id="action_video_provider" model="ir.actions.act_window">
+        <field name="name">Providers</field>
+        <field name="res_model">video.provider</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p>Manage video conferencing providers.</p>
+        </field>
+    </record>
+
+    <record id="action_video_provider_account" model="ir.actions.act_window">
+        <field name="name">Provider Accounts</field>
+        <field name="res_model">video.provider.account</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p>Manage authenticated provider accounts for video conferencing.</p>
+        </field>
+    </record>
+
+    <record id="action_video_meeting" model="ir.actions.act_window">
+        <field name="name">Meetings</field>
+        <field name="res_model">video.meeting</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_upcoming': 1}</field>
+        <field name="help" type="html">
+            <p>View and manage video meetings across all providers.</p>
+        </field>
+    </record>
+
+    <record id="action_video_recording" model="ir.actions.act_window">
+        <field name="name">Recordings</field>
+        <field name="res_model">video.recording</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p>Browse meeting recordings.</p>
+        </field>
+    </record>
+
+    <record id="action_video_dashboard" model="ir.actions.act_window">
+        <field name="name">Video Conferencing Dashboard</field>
+        <field name="res_model">video.meeting</field>
+        <field name="view_mode">pivot,graph,activity</field>
+        <field name="context">{'search_default_this_week': 1}</field>
+        <field name="help" type="html">
+            <p>Video conferencing analytics dashboard.</p>
+        </field>
+    </record>
+
+    <record id="action_video_audit_log" model="ir.actions.act_window">
+        <field name="name">Audit Logs</field>
+        <field name="res_model">video.audit.log</field>
+        <field name="view_mode">list,form</field>
+        <field name="group_ids" eval="[(4, ref('sgc_video_conferencing.group_video_conferencing_admin'))]"/>
+        <field name="help" type="html">
+            <p>View audit logs for video conferencing actions.</p>
+        </field>
+    </record>
+</odoo>

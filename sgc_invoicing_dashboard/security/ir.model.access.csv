@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sgc_sales_invoicing_dashboard_user,access.sgc.sales.invoicing.dashboard.user,model_sgc_sales_invoicing_dashboard,base.group_user,1,1,1,0
+access_sgc_sales_invoicing_dashboard_manager,access.sgc.sales.invoicing.dashboard.manager,model_sgc_sales_invoicing_dashboard,sales_team.group_sale_manager,1,1,1,1
+access_sgc_sales_invoicing_dashboard_portal,access.sgc.sales.invoicing.dashboard.portal,model_sgc_sales_invoicing_dashboard,base.group_portal,1,0,0,0
+access_sale_order_type_user,access.sale.order.type.user,model_sale_order_type,base.group_user,1,1,1,1

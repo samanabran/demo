@@ -1,0 +1,94 @@
+// Responsive Mixins
+@mixin media-sm {
+  @media (min-width: 576px) {
+    @content;
+  }
+}
+
+@mixin media-md {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin media-lg {
+  @media (min-width: 992px) {
+    @content;
+  }
+}
+
+@mixin media-xl {
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+
+// Flex Utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+// Text Utilities
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Button Mixin
+@mixin button-base {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// Card Mixin
+@mixin card-base {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Overlay Mixin
+@mixin overlay($color: rgba(0, 0, 0, 0.5)) {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: $color;
+    border-radius: inherit;
+  }
+}

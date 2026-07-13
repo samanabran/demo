@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Add Commission Agent fields to Partner form -->
+        <record id="view_partner_form_commission_agent" model="ir.ui.view">
+            <field name="name">res.partner.form.commission.agent</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='sales_purchases']" position="after">
+                    <page string="Commission Agent" invisible="not is_commission_agent">
+                        <group>
+                            <group string="Commission Settings">
+                                <field name="is_commission_agent"/>
+                                <field name="commission_rate" invisible="not is_commission_agent"/>
+                                <field name="commission_type_id" invisible="not is_commission_agent"/>
+                            </group>
+                            <group string="Commission Statistics" invisible="not is_commission_agent">
+                                <field name="commission_count"/>
+                                <field name="total_commission_amount"/>
+                                <field name="pending_commission_amount"/>
+                            </group>
+                        </group>
+                        <group invisible="not is_commission_agent">
+                            <button name="action_view_commission_lines" type="object" string="View Commission Lines" class="btn-primary"/>
+                        </group>
+                    </page>
+                </xpath>
+
+                <!-- Add commission agent checkbox in sales_purchases page where it's more visible -->
+                <xpath expr="//page[@name='sales_purchases']" position="inside">
+                    <group name="commission_agent_main">
+                        <field name="is_commission_agent"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Add Commission Agent filter to Partner search view -->
+        <record id="view_res_partner_filter_commission" model="ir.ui.view">
+            <field name="name">res.partner.select.commission</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='supplier']" position="after">
+                    <filter string="Commission Agents" name="commission_agents" domain="[('is_commission_agent', '=', True)]"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

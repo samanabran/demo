@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========== ROOT MENUS ========== -->
+
+    <menuitem id="menu_deals_root"
+        name="Deals"
+        sequence="10"
+        web_icon="sgc_deals_management,static/description/icon.png"/>
+
+    <menuitem id="menu_commissions_root"
+        name="Commissions"
+        sequence="30"
+        action="sgc_commission.action_commission_line"/>
+
+    <!-- ========== DEALS CHILDREN ========== -->
+
+    <menuitem id="menu_deals_all"
+        name="All Deals"
+        parent="menu_deals_root"
+        action="action_sale_order_deals"
+        sequence="10"/>
+
+    <menuitem id="menu_deals_projects"
+        name="Projects"
+        parent="menu_deals_root"
+        action="action_realestate_project"
+        sequence="20"/>
+
+    <menuitem id="menu_deals_units"
+        name="Units"
+        parent="menu_deals_root"
+        action="action_realestate_unit"
+        sequence="30"/>
+
+    <menuitem id="menu_deals_customers"
+        name="Buyers / Customers"
+        parent="menu_deals_root"
+        action="action_deals_customers"
+        sequence="40"/>
+
+</odoo>

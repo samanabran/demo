@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Consultation Form Page - Simplified 2-Step Form -->
+    <template id="consultation_form_page" name="Consultation Form">
+        <t t-call="sgc_realestate_website.website_base">
+            <div class="consultation-container py-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 offset-md-2">
+                            <div class="consultation-header text-center mb-5">
+                                <h1 class="display-4 mb-3">Get Your Free Consultation</h1>
+                                <p class="lead text-muted">Fill out the form below and our expert team will contact you within 24 hours.</p>
+                            </div>
+
+                            <div class="consultation-form-wrapper">
+                                <form id="consultation_form" method="POST" action="/consultation/submit" class="needs-validation">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <input type="hidden" name="property_id" t-att-value="selected_property.id if selected_property else ''"/>
+
+                                    <!-- Step 1: Personal Info -->
+                                    <div class="form-step active" id="step1">
+                                        <h3 class="mb-4">Your Information</h3>
+                                        
+                                        <div class="form-group mb-3">
+                                            <label for="name" class="form-label">Full Name *</label>
+                                            <input type="text" class="form-control" id="name" name="name" required="required" placeholder="John Doe"/>
+                                        </div>
+
+                                        <div class="form-group mb-3">
+                                            <label for="email" class="form-label">Email Address *</label>
+                                            <input type="email" class="form-control" id="email" name="email" required="required" placeholder="john@example.com"/>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label for="phone" class="form-label">Phone Number *</label>
+                                            <input type="tel" class="form-control" id="phone" name="phone" required="required" placeholder="+1 (555) 000-0000"/>
+                                        </div>
+
+                                        <button type="button" class="btn btn-primary btn-lg w-100" onclick="nextStep(2)">
+                                            Continue <span class="fa fa-arrow-right ml-2" title="Continue"></span>
+                                        </button>
+                                    </div>
+
+                                    <!-- Step 2: Preferences -->
+                                    <div class="form-step" id="step2" style="display: none;">
+                                        <h3 class="mb-4">Your Preferences</h3>
+                                        
+                                        <div class="form-group mb-3">
+                                            <label for="destination_country_id" class="form-label">Destination Country *</label>
+                                            <select class="form-control" id="destination_country_id" name="destination_country_id" required="required">
+                                                <option value="">Select a country...</option>
+                                                <option t-foreach="countries" t-as="country" t-att-value="country.id" t-att-selected="'selected' if selected_property and selected_property.destination_country_id.id == country.id else None" t-esc="country.name"/>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group mb-4">
+                                            <label for="message" class="form-label">Additional Comments (Optional)</label>
+                                            <textarea class="form-control" id="message" name="message" rows="4" placeholder="Tell us more about your needs..."></textarea>
+                                        </div>
+
+                                        <div class="d-flex gap-2">
+                                            <button type="button" class="btn btn-outline-secondary btn-lg flex-grow-1" onclick="prevStep(1)">
+                                                <span class="fa fa-arrow-left mr-2" title="Back"></span> Back
+                                            </button>
+                                            <button type="submit" class="btn btn-primary btn-lg flex-grow-1">
+                                                <span class="fa fa-check mr-2" title="Submit"></span> Submit
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                                <!-- Success Message -->
+                                <div id="success_message" style="display: none;" class="alert alert-success" role="alert">
+                                    <h4 class="alert-heading">Thank You!</h4>
+                                    <p>Your consultation request has been submitted successfully. Our team will contact you within 24 hours.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Info Sidebar -->
+                        <div class="col-md-12 mt-5">
+                            <div class="row">
+                                <div class="col-md-4 text-center mb-4">
+                                    <span class="fa fa-clock fa-3x text-primary mb-3" title="Response time"></span>
+                                    <h5>24/7 Response</h5>
+                                    <p>We respond to all inquiries within 24 hours.</p>
+                                </div>
+                                <div class="col-md-4 text-center mb-4">
+                                    <span class="fa fa-shield fa-3x text-primary mb-3" title="Security"></span>
+                                    <h5>Confidential</h5>
+                                    <p>Your information is always kept secure.</p>
+                                </div>
+                                <div class="col-md-4 text-center mb-4">
+                                    <span class="fa fa-handshake fa-3x text-primary mb-3" title="Guidance"></span>
+                                    <h5>Expert Guidance</h5>
+                                    <p>Get advice from our experienced consultants.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                function nextStep(step) {
+                    // Validate current step
+                    const form = document.getElementById('consultation_form');
+                    const inputs = form.querySelectorAll('#step' + (step - 1) + ' input[required], #step' + (step - 1) + ' select[required]');
+                    let isValid = true;
+                    
+                    inputs.forEach(input => {
+                        if (!input.value) {
+                            isValid = false;
+                            input.classList.add('is-invalid');
+                        } else {
+                            input.classList.remove('is-invalid');
+                        }
+                    });
+                    
+                    if (isValid) {
+                        document.getElementById('step' + (step - 1)).style.display = 'none';
+                        document.getElementById('step' + step).style.display = 'block';
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+                
+                function prevStep(step) {
+                    document.getElementById('step' + (step + 1)).style.display = 'none';
+                    document.getElementById('step' + step).style.display = 'block';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+
+                // Form submission: let the browser POST normally to /consultation/submit,
+                // which redirects to /consultation/thank-you on success.
+            </script>
+        </t>
+    </template>
+
+</odoo>

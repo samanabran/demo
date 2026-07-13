@@ -1,0 +1,194 @@
+/* ========================================
+   SGC TECH AI - Responsive Mobile Design
+   This file ensures proper mobile-first responsive design
+   ======================================== */
+
+/* Ensure proper viewport scaling on mobile devices */
+@viewport {
+    width: device-width;
+    zoom: 1;
+}
+
+/* Mobile Optimization */
+@media (max-width: 480px) {
+    /* Base Typography - Extra Small */
+    html {
+        font-size: 14px;
+    }
+    
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.25rem; }
+    h3 { font-size: 1.1rem; }
+    h4 { font-size: 1rem; }
+    h5 { font-size: 0.95rem; }
+    
+    .container { padding: 0 12px; }
+    
+    .btn { font-size: 14px; padding: 8px 16px; }
+    .btn-lg { padding: 10px 20px; font-size: 16px; }
+    
+    /* Narrow Hero for Small Phones */
+    .hero-section h1 { font-size: 22px; }
+    .hero-section .lead { font-size: 14px; }
+    
+    /* Forms on Small Screens */
+    .form-control { font-size: 16px; } /* Prevents zoom on iOS */
+    .form-label { font-size: 14px; }
+    
+    /* Reduce card padding on mobile */
+    .property-card { border-radius: 6px; }
+    .property-image { height: 180px; }
+    .property-info { padding: 12px; }
+    .property-specs { padding: 8px 0; }
+    
+    /* Footer - Single Column */
+    .footer-grid { grid-template-columns: 1fr !important; }
+    footer { padding: 24px 0 12px; }
+    footer h5, footer h6 { font-size: 14px; }
+    
+    /* Stats - Smaller on mobile */
+    .stat-number { font-size: 28px; }
+    .stat-label { font-size: 12px; }
+    
+    /* Consultation form - larger text to prevent zoom */
+    .consultation-header h1 { font-size: 20px; }
+    
+    /* Navbar optimization */
+    .navbar { padding: 8px 0; }
+    .navbar-brand { font-size: 14px; }
+}
+
+/* Small Phones & Tablets (480px - 768px) */
+@media (min-width: 480px) and (max-width: 767px) {
+    html {
+        font-size: 15px;
+    }
+    
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.5rem; }
+    
+    .hero-section h1 { font-size: 28px; }
+    
+    .property-image { height: 220px; }
+    
+    .footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    
+    .stat-number { font-size: 30px; }
+    
+    .consultation-header h1 { font-size: 24px; }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets on mobile/tablet */
+    .btn { min-height: 44px; }
+    .form-control { min-height: 44px; }
+    .nav-link { padding: 12px 0; }
+    
+    /* Larger tap targets */
+    a { padding: 8px 4px; }
+    
+    /* Remove hover effects on touch devices */
+    .property-card:hover { box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+}
+
+/* Landscape orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.25rem; }
+    
+    .hero-section { padding: 32px 16px; }
+    .consultation-container { padding: 24px 0; }
+    
+    .property-image { height: 200px; }
+    
+    .stats-section { padding: 24px 0; }
+}
+
+/* Print styles */
+@media print {
+    .navbar, footer, .consultation-form-wrapper {
+        display: none;
+    }
+    
+    body { font-size: 12pt; }
+    a { text-decoration: underline; }
+}
+
+/* Accessibility - High contrast mode */
+@media (prefers-contrast: more) {
+    :root {
+        --primary-color: #003366;
+        --secondary-color: #006600;
+        --gray-color: #333333;
+    }
+}
+
+/* Accessibility - Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1F2937;
+        color: #F9FAFB;
+    }
+    
+    .form-control {
+        background-color: #374151;
+        color: #F9FAFB;
+        border-color: #4B5563;
+    }
+    
+    .card, .property-card {
+        background-color: #374151;
+        color: #F9FAFB;
+    }
+}
+
+/* Prevent layout shifts */
+html {
+    scroll-padding-top: 70px; /* Prevent overlap with fixed navbar */
+}
+
+/* Optimized input for better mobile experience */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+    font-size: 16px; /* Prevents iOS zoom on input focus */
+    border-radius: 6px;
+    padding: 10px 12px;
+}
+
+/* Ensure buttons don't have hover effects on mobile */
+@media (hover: none) {
+    button:hover,
+    a:hover {
+        background-color: inherit;
+    }
+}
+
+/* Optimize for slow connections */
+@media (prefers-reduced-data: reduce) {
+    img {
+        filter: none;
+    }
+    
+    /* Disable animations */
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Commission Partner Statement Wizard Form View -->
+    <record id="view_commission_partner_statement_wizard_form" model="ir.ui.view">
+        <field name="name">commission.partner.statement.wizard.form</field>
+        <field name="model">commission.partner.statement.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Date Range">
+                        <field name="date_from" required="1"/>
+                        <field name="date_to" required="1"/>
+                    </group>
+                    <group string="Filters">
+                        <field name="partner_ids" widget="many2many_tags"/>
+                        <field name="commission_state"/>
+                        <field name="project_ids" widget="many2many_tags"/>
+                        <field name="report_format" widget="radio"/>
+                    </group>
+                </group>
+
+                <div class="alert alert-info mt-3" role="alert">
+                    <h6>
+                        <i class="fa fa-info-circle"/>
+ Report Information:</h6>
+                    <ul class="mb-0">
+                        <li>
+                            <strong>Booking Date:</strong> Date when the sale order was confirmed</li>
+                        <li>
+                            <strong>Project:</strong> Associated project from sale order</li>
+                        <li>
+                            <strong>Unit:</strong> Product information from sale order lines</li>
+                        <li>
+                            <strong>Sale Value:</strong> Total amount of the sale order</li>
+                        <li>
+                            <strong>Rate:</strong> Commission rate/percentage as per commission line</li>
+                        <li>
+                            <strong>Commission Amount:</strong> Calculated commission amount</li>
+                        <li>
+                            <strong>Status:</strong> Current commission processing status</li>
+                    </ul>
+                </div>
+
+                <footer>
+                    <button name="action_generate_report" type="object" string="Generate Report" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Commission Partner Statement Wizard Action -->
+    <record id="action_commission_partner_statement_wizard" model="ir.actions.act_window">
+        <field name="name">Commission Partner Statement</field>
+        <field name="res_model">commission.partner.statement.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_commission_partner_statement_wizard_form"/>
+        <field name="target">new</field>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- Add to Commission Menu -->
+    <!-- Add menu item for the wizard -->
+    <menuitem id="menu_commission_partner_statement_wizard" name="Partner Statement Report" parent="menu_commission_ax_reports" action="action_commission_partner_statement_wizard" sequence="20"/>
+
+</odoo>

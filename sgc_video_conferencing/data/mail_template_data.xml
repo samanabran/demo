@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Meeting Invitation Email Template -->
+        <record id="mail_template_meeting_invitation" model="mail.template">
+            <field name="name">Video Meeting: Invitation</field>
+            <field name="model_id" ref="sgc_video_conferencing.model_video_meeting"/>
+            <field name="subject">Video Meeting Invitation: ${object.name}</field>
+            <field name="email_from">${object.user_id.email_formatted | safe}</field>
+            <field name="partner_to">${','.join(object.invitee_ids.mapped('partner_id.id'))}</field>
+            <field name="body_html"><![CDATA[
+% set meeting = object
+<!doctype html>
+<html>
+<body>
+    <h2>📹 Video Meeting Invitation</h2>
+    <p><strong>Meeting:</strong> ${meeting.name}</p>
+    <p><strong>Host:</strong> ${meeting.user_id.name}</p>
+    <p><strong>Date:</strong> ${meeting.start_time}</p>
+    <p><strong>Duration:</strong> ${meeting.duration_minutes} minutes</p>
+    % if meeting.description:
+        <p><strong>Description:</strong> ${meeting.description}</p>
+    % endif
+    <p><strong>Provider:</strong> ${meeting.provider_id.name}</p>
+    <div style="margin: 20px 0; padding: 15px; background: #f0f7ff; border-left: 4px solid #1a73e8; border-radius: 4px;">
+        <h3 style="margin: 0 0 10px 0;">Join Meeting</h3>
+        <a href="${meeting.join_url}" style="display: inline-block; padding: 12px 24px; background: #1a73e8; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+            Join Now
+        </a>
+        % if meeting.password:
+            <p style="margin: 10px 0 0 0;"><strong>Password:</strong> ${meeting.password}</p>
+        % endif
+    </div>
+    % if meeting.meeting_link:
+        <p>Or copy this link: <a href="${meeting.join_url}">${meeting.join_url}</a></p>
+    % endif
+    <hr>
+    <p style="color: #666; font-size: 12px;">This invitation was sent via Odoo Video Conferencing</p>
+</body>
+</html>
+]]></field>
+        </record>
+
+        <!-- OAuth Error Page Template -->
+        <record id="oauth_error_page" model="ir.ui.view">
+            <field name="name">OAuth Error Page</field>
+            <field name="type">qweb</field>
+            <field name="arch" type="xml">
+                <t t-name="sgc_video_conferencing.oauth_error_page">
+                    <html>
+                    <head><title>OAuth Error</title></head>
+                    <body>
+                        <h2>❌ Authorization Failed</h2>
+                        <p t-esc="error_message"/>
+                        <p>Please close this window and try again in Odoo.</p>
+                    </body>
+                    </html>
+                </t>
+            </field>
+        </record>
+    </data>
+</odoo>

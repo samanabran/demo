@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="view_assessment_export_wizard" model="ir.ui.view">
+            <field name="name">assessment.export.wizard.form</field>
+            <field name="model">assessment.export.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Export Candidates">
+                    <group>
+                        <field name="export_format"/>
+                        <field name="include_responses"/>
+                        <field name="include_ai_analysis"/>
+                        <field name="include_human_review"/>
+                    </group>
+                    <field name="file_data" invisible="1"/>
+                    <group invisible="not file_data">
+                        <field name="file_data" filename="file_name"/>
+                        <field name="file_name" invisible="1"/>
+                    </group>
+                    <footer>
+                        <button name="action_export" string="Export" type="object" class="btn-primary" invisible="file_data"/>
+                        <button string="Close" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_assessment_export_wizard" model="ir.actions.act_window">
+            <field name="name">Export Candidates</field>
+            <field name="res_model">assessment.export.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+</odoo>

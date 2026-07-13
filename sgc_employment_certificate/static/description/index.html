@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SGC - Employment Certificate</title>
+    <style>
+        :root {
+            --navy: #1B3A57;
+            --gold: #C9A961;
+            --cream: #F5F3EE;
+            --white: #FFFFFF;
+            --text: #2C2C2C;
+            --border: #E6E2D8;
+            --success: #2E7D32;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background-color: var(--white);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: Georgia, Cambria, 'Times New Roman', serif;
+            color: var(--navy);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-cream {
+            background-color: var(--cream);
+        }
+
+        /* Defensive word-break: Odoo's app-store sanitizer can apply word-break: break-all
+           to descendant text, splitting words char-by-char into narrow grid cards. */
+        body, .container, .card, .card h3, .card p, .stat, .workflow-step,
+        .checklist li, .role-card, h1, h2, h3, h4, .intro-text {
+            word-break: normal;
+            overflow-wrap: break-word;
+            hyphens: none;
+        }
+
+
+        /* Hero Section */
+        .hero {
+            background-color: var(--navy);
+            color: var(--white);
+            text-align: center;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .hero-banner {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .hero-content {
+            padding: 60px 20px;
+            background-color: var(--white);
+        }
+
+        .hero-icon {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin: 10px 0;
+            color: var(--navy);
+        }
+
+        .hero-summary {
+            font-size: 1.25rem;
+            color: var(--text);
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-value {
+            font-weight: bold;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-gold {
+            background-color: var(--gold);
+            color: var(--navy);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--navy);
+            color: var(--navy);
+        }
+
+        /* Introduction */
+        .intro-text {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .gold-highlight {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* Feature Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        /* Workflow */
+        .workflow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 50px;
+            gap: 20px;
+        }
+
+        .workflow-step {
+            background: var(--white);
+            padding: 20px 30px;
+            border-radius: 50px;
+            border: 2px solid var(--gold);
+            font-weight: bold;
+            color: var(--navy);
+            position: relative;
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+        }
+
+        .workflow-arrow {
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+
+        /* Checklist */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .checklist li {
+            padding-left: 35px;
+            position: relative;
+            font-weight: 500;
+        }
+
+        .checklist li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+
+        /* Screenshots */
+        .screenshot-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+            border: 1px solid var(--border);
+        }
+
+        .screenshot-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .screenshot-info {
+            padding: 25px;
+        }
+
+        /* Roles */
+        .role-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .role-card {
+            background: var(--navy);
+            color: var(--white);
+            padding: 20px 40px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 200px;
+        }
+
+        .role-card h4 {
+            color: var(--gold);
+            margin: 0;
+        }
+
+        /* Technical Table */
+        .tech-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .tech-table th, .tech-table td {
+            padding: 15px 25px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tech-table th {
+            background-color: var(--navy);
+            color: var(--white);
+            font-family: 'Segoe UI', sans-serif;
+            width: 30%;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .footer-tagline {
+            color: var(--gold);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .btn-group { flex-direction: column; }
+            .workflow { flex-direction: column; }
+            .workflow-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <img src="banner.png" alt="SGC - Employment Certificate Banner" class="hero-banner">
+    <div class="hero-content">
+        <div class="container">
+            <img src="icon.png" alt="Icon" class="hero-icon">
+            <span class="hero-value">Corporate HR Compliance</span>
+            <h1>SGC - Employment Certificate</h1>
+            <p class="hero-summary">Generate and verify professional Employment Certificates for employees with digital signatures and QR-based instant verification.</p>
+            <div class="btn-group">
+                <a href="#features" class="btn btn-gold">Explore Features</a>
+                <a href="#contact" class="btn btn-outline">Get Started</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section class="section-white">
+    <div class="container">
+        <div class="intro-text">
+            <h2>Instant, Secure, and <span class="gold-highlight">Professional HR Documentation</span></h2>
+            <p>Employees often need employment certificates for bank loans, visa applications, or personal records. SGC Employment Certificate automates this request-to-delivery cycle. Using <span class="gold-highlight">QR code verification</span> and digital signatures, you provide your employees with high-fidelity, branded certificates that can be instantly verified by third parties through a secure portal.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 id="features" style="text-align: center; margin-bottom: 50px;">Key Features</h2>
+        <div class="grid">
+            <div class="card">
+                <span class="card-icon">📜</span>
+                <h3>Professional Templates</h3>
+                <p>Branded Employment and NOC certificate templates with SGC TECH AI's signature maroon and gold corporate identity.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🔐</span>
+                <h3>QR Code Verification</h3>
+                <p>Each certificate includes a unique QR code for instant authenticity verification via a dedicated public portal.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">✍️</span>
+                <h3>Digital Signatures</h3>
+                <p>Integrate authorized signatory images directly into the generated PDF for a truly paperless HR experience.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🔢</span>
+                <h3>Reference Tracking</h3>
+                <p>Automated generation of unique certificate reference numbers for better internal tracking and security.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">📧</span>
+                <h3>Automated Delivery</h3>
+                <p>Email professional, print-ready PDF certificates directly to employees once they are approved by the HR manager.</p>
+            </div>
+            <div class="card">
+                <span class="card-icon">🏗️</span>
+                <h3>Approval Workflow</h3>
+                <p>Structured states from Draft and Submitted to Approved and Issued, ensuring full oversight before delivery.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">Certificate Workflow</h2>
+        <div class="workflow">
+            <div class="workflow-step">Draft</div>
+            <div class="workflow-arrow">➤</div>
+            <div class="workflow-step">Submitted</div>
+            <div class="workflow-arrow">➤</div>
+            <div class="workflow-step">Approved</div>
+            <div class="workflow-arrow">➤</div>
+            <div class="workflow-step">Issued</div>
+        </div>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">What You Get</h2>
+        <ul class="checklist">
+            <li>Employment Certificate Wizard</li>
+            <li>Employment & NOC PDF Templates</li>
+            <li>QR Code Data URI Generation</li>
+            <li>Digital Signatory Management</li>
+            <li>Salary Detail Configuration</li>
+            <li>Automatic Duration Calculation</li>
+            <li>Reference Numbering Engine</li>
+            <li>HR Employee Form Integration</li>
+            <li>Verification Portal Templates</li>
+        </ul>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">Module Screenshots</h2>
+
+        <div class="screenshot-card">
+            <img src="screenshots/00_preview.png" alt="Issued Certificates Overview">
+            <div class="screenshot-info">
+                <h3>Issued Certificates Management</h3>
+                <p>Track all generated certificates, their reference numbers, and current status in a professional list view.</p>
+            </div>
+        </div>
+
+        <div class="screenshot-card">
+            <img src="screenshots/screenshot.png" alt="Certificate Form View">
+            <div class="screenshot-info">
+                <h3>Comprehensive Certificate Form</h3>
+                <p>Manage all certificate details, including employment status, salary info, and digital signatures in one view.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 50px;">Business Benefits</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Enhanced Security</h3>
+                <p>QR verification eliminates the risk of fraudulent document generation, protecting your organization's reputation.</p>
+            </div>
+            <div class="card">
+                <h3>HR Efficiency</h3>
+                <p>Reduce the time spent on manual document creation and signing from hours to seconds through automation.</p>
+            </div>
+            <div class="card">
+                <h3>Improved Employee Experience</h3>
+                <p>Provide employees with a self-service portal feel by delivering critical documents instantly and professionally.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 40px;">Who Uses This Module</h2>
+        <div class="role-grid">
+            <div class="role-card">
+                <h4>HR User</h4>
+                <p>Generate & approve requests</p>
+            </div>
+            <div class="role-card">
+                <h4>Employee</h4>
+                <p>Receive & print certificates</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-cream">
+    <div class="container">
+        <h2 style="text-align: center; margin-bottom: 40px;">Technical Information</h2>
+        <table class="tech-table">
+            <tr>
+                <th>Module</th>
+                <td>sgc_employment_certificate</td>
+            </tr>
+            <tr>
+                <th>Version</th>
+                <td>19.0.1.0.0</td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>Human Resources</td>
+            </tr>
+            <tr>
+                <th>License</th>
+                <td>OPL-1</td>
+            </tr>
+            <tr>
+                <th>Dependencies</th>
+                <td>hr, mail, website</td>
+            </tr>
+            <tr>
+                <th>Python Dependencies</th>
+                <td>qrcode</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<section class="section-white">
+    <div class="container" style="text-align: center;">
+        <h2>Why Choose SGC TECH AI?</h2>
+        <p class="intro-text">Our modules are built with <strong>Enterprise Readiness</strong> in mind. We focus on clean code, seamless integration, and superior UI/UX to ensure that your Odoo experience is not just functional, but exceptional. Each SGC module undergoes rigorous testing to guarantee reliability and performance in high-stakes environments.</p>
+    </div>
+</section>
+
+<footer id="contact">
+    <div class="container">
+        <div class="footer-logo">SGC TECH AI</div>
+        <div class="footer-tagline">Finance. Systems. Technology.</div>
+    </div>
+</footer>
+
+</body>
+</html>

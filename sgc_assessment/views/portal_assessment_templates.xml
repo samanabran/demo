@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_assessment_form" name="Assessment Form">
+        <t t-call="portal.portal_layout">
+            <div class="container mt-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Assessment</h3>
+                        <p class="text-muted">Complete the following assessment questions.</p>
+                        <div id="assessment_form_container"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

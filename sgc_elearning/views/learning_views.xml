@@ -1,0 +1,419 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Chapters -->
+    <record id="view_learning_chapter_tree" model="ir.ui.view">
+        <field name="name">learning.chapter.tree</field>
+        <field name="model">learning.chapter</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="is_published"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_learning_chapter_form" model="ir.ui.view">
+        <field name="name">learning.chapter.form</field>
+        <field name="model">learning.chapter</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Chapter Name..."/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="is_published"/>
+                            <field name="badge_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="description" widget="html"/>
+                    <notebook>
+                        <page name="sections" string="Sections">
+                            <field name="section_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="content_type"/>
+                                    <field name="is_published"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page name="assets" string="Assets">
+                            <field name="asset_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="asset_type"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_learning_chapter_search" model="ir.ui.view">
+        <field name="name">learning.chapter.search</field>
+        <field name="model">learning.chapter</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="published" string="Published" domain="[('is_published','=',True)]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_learning_chapter" model="ir.actions.act_window">
+        <field name="name">Chapters</field>
+        <field name="res_model">learning.chapter</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_learning_chapter_search"/>
+    </record>
+
+    <!-- Sections -->
+    <record id="view_learning_section_tree" model="ir.ui.view">
+        <field name="name">learning.section.tree</field>
+        <field name="model">learning.section</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="chapter_id"/>
+                <field name="content_type"/>
+                <field name="is_published"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_learning_section_form" model="ir.ui.view">
+        <field name="name">learning.section.form</field>
+        <field name="model">learning.section</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Section Name..."/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="chapter_id"/>
+                            <field name="content_type"/>
+                        </group>
+                        <group>
+                            <field name="duration_minutes"/>
+                            <field name="is_published"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="quiz_id"
+                           invisible="content_type != 'quiz'" required="content_type == 'quiz'"/>
+                    <field name="content" widget="html"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_learning_section" model="ir.actions.act_window">
+        <field name="name">Sections</field>
+        <field name="res_model">learning.section</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Assets -->
+    <record id="view_learning_asset_tree" model="ir.ui.view">
+        <field name="name">learning.asset.tree</field>
+        <field name="model">learning.asset</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="asset_type"/>
+                <field name="chapter_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_learning_asset_form" model="ir.ui.view">
+        <field name="name">learning.asset.form</field>
+        <field name="model">learning.asset</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Asset Name..."/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="asset_type"/>
+                        </group>
+                        <group>
+                            <field name="chapter_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="file" widget="binary"
+                           invisible="asset_type != 'file'"/>
+                    <field name="url"
+                           invisible="asset_type != 'link'"/>
+                    <field name="description"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_learning_asset" model="ir.actions.act_window">
+        <field name="name">Assets</field>
+        <field name="res_model">learning.asset</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Quizzes -->
+    <record id="view_learning_quiz_tree" model="ir.ui.view">
+        <field name="name">learning.quiz.tree</field>
+        <field name="model">learning.quiz</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="passing_score"/>
+                <field name="attempt_limit"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_learning_quiz_form" model="ir.ui.view">
+        <field name="name">learning.quiz.form</field>
+        <field name="model">learning.quiz</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Quiz Name..."/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="passing_score"/>
+                        </group>
+                        <group>
+                            <field name="attempt_limit"/>
+                            <field name="time_limit_minutes"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="description" widget="html"/>
+                    <notebook>
+                        <page name="questions" string="Questions">
+                            <field name="question_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="question_type"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_learning_quiz" model="ir.actions.act_window">
+        <field name="name">Quizzes</field>
+        <field name="res_model">learning.quiz</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Quiz Attempts -->
+    <record id="view_learning_attempt_tree" model="ir.ui.view">
+        <field name="name">learning.quiz.attempt.tree</field>
+        <field name="model">learning.quiz.attempt</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="quiz_id"/>
+                <field name="user_id"/>
+                <field name="score"/>
+                <field name="passed"/>
+                <field name="state"/>
+                <field name="started_at"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_learning_attempt_form" model="ir.ui.view">
+        <field name="name">learning.quiz.attempt.form</field>
+        <field name="model">learning.quiz.attempt</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="quiz_id"/>
+                            <field name="user_id"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="score"/>
+                            <field name="passed"/>
+                            <field name="started_at"/>
+                            <field name="completed_at"/>
+                        </group>
+                    </group>
+                    <field name="answer_ids">
+                        <list>
+                            <field name="question_id"/>
+                            <field name="selected_option_id"/>
+                            <field name="is_correct"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_learning_attempt" model="ir.actions.act_window">
+        <field name="name">Attempts</field>
+        <field name="res_model">learning.quiz.attempt</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Badges -->
+    <record id="view_learning_badge_tree" model="ir.ui.view">
+        <field name="name">learning.badge.tree</field>
+        <field name="model">learning.badge</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_learning_badge_form" model="ir.ui.view">
+        <field name="name">learning.badge.form</field>
+        <field name="model">learning.badge</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Badge Name..."/></h1>
+                    </div>
+                    <group>
+                        <field name="image" widget="image"/>
+                    </group>
+                    <field name="description"/>
+                    <field name="required_chapter_ids" widget="many2many_tags"/>
+                    <field name="required_quiz_ids" widget="many2many_tags"/>
+                    <field name="user_ids" widget="many2many_tags"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_learning_badge" model="ir.actions.act_window">
+        <field name="name">Badges</field>
+        <field name="res_model">learning.badge</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Leaderboard -->
+    <record id="view_learning_leaderboard_tree" model="ir.ui.view">
+        <field name="name">learning.leaderboard.tree</field>
+        <field name="model">learning.leaderboard</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="user_id"/>
+                <field name="score"/>
+                <field name="quizzes_passed"/>
+                <field name="total_attempts"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_learning_leaderboard" model="ir.actions.act_window">
+        <field name="name">Leaderboard</field>
+        <field name="res_model">learning.leaderboard</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Certificates -->
+    <record id="view_learning_certificate_tree" model="ir.ui.view">
+        <field name="name">learning.certificate.tree</field>
+        <field name="model">learning.certificate</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="user_id"/>
+                <field name="certificate_code"/>
+                <field name="completion_date"/>
+                <field name="is_valid"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_learning_certificate_form" model="ir.ui.view">
+        <field name="name">learning.certificate.form</field>
+        <field name="model">learning.certificate</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="certificate_code"/>
+                        </group>
+                        <group>
+                            <field name="completion_date"/>
+                            <field name="is_valid"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="chapter_ids" widget="many2many_tags"/>
+                    <field name="quiz_ids" widget="many2many_tags"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_learning_certificate" model="ir.actions.act_window">
+        <field name="name">Certificates</field>
+        <field name="res_model">learning.certificate</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Progress -->
+    <record id="view_learning_progress_tree" model="ir.ui.view">
+        <field name="name">learning.progress.tree</field>
+        <field name="model">learning.progress</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="user_id"/>
+                <field name="chapter_id"/>
+                <field name="section_id"/>
+                <field name="completed"/>
+                <field name="progress_percent"/>
+                <field name="time_spent_minutes"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_learning_progress_form" model="ir.ui.view">
+        <field name="name">learning.progress.form</field>
+        <field name="model">learning.progress</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="chapter_id"/>
+                            <field name="section_id"/>
+                        </group>
+                        <group>
+                            <field name="completed"/>
+                            <field name="progress_percent"/>
+                            <field name="time_spent_minutes"/>
+                            <field name="last_access_date"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_learning_progress" model="ir.actions.act_window">
+        <field name="name">Progress</field>
+        <field name="res_model">learning.progress</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

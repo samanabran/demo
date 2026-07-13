@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Commission Type Tree View -->
+        <record id="view_commission_type_tree" model="ir.ui.view">
+            <field name="name">commission.type.tree</field>
+            <field name="model">commission.type</field>
+            <field name="arch" type="xml">
+                <list string="Commission Types" editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="category" optional="show"/>
+                    <field name="calculation_method" optional="show"/>
+                    <field name="calculation_base" optional="show"/>
+                    <field name="default_rate" optional="show"/>
+                    <field name="active" optional="hide"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Commission Type Form View -->
+        <record id="view_commission_type_form" model="ir.ui.view">
+            <field name="name">commission.type.form</field>
+            <field name="model">commission.type</field>
+            <field name="arch" type="xml">
+                <form string="Commission Type">
+                    <sheet>
+                        <group>
+                            <group name="basic_info" string="Basic Information">
+                                <field name="sequence"/>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="category"/>
+                                <field name="active"/>
+                                <field name="description"/>
+                            </group>
+                            <group name="calculation_info" string="Calculation Settings">
+                                <field name="calculation_method"/>
+                                <field name="calculation_base" widget="radio"/>
+                                <field name="default_rate"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Financial Settings" name="financial_settings">
+                                <group>
+                                    <group name="amounts" string="Amount Limits">
+                                        <field name="currency_id"/>
+                                        <field name="min_amount"/>
+                                        <field name="max_amount"/>
+                                    </group>
+                                    <group name="accounting" string="Accounting">
+                                        <field name="account_id"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Commission Type Search View -->
+        <record id="view_commission_type_search" model="ir.ui.view">
+            <field name="name">commission.type.search</field>
+            <field name="model">commission.type</field>
+            <field name="arch" type="xml">
+                <search string="Commission Types">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="category"/>
+                    <separator/>
+                    <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <filter string="Internal" name="category_internal" domain="[('category', '=', 'internal')]"/>
+                    <filter string="External" name="category_external" domain="[('category', '=', 'external')]"/>
+                    <separator/>
+                    <filter string="Fixed Amount" name="fixed" domain="[('calculation_method', '=', 'fixed')]"/>
+                    <filter string="Percentage" name="percentage" domain="[('calculation_method', '=', 'percentage')]"/>
+                    <filter string="Tiered" name="tiered" domain="[('calculation_method', '=', 'tiered')]"/>
+                    <group>
+                        <filter string="Calculation Method" name="group_method" context="{'group_by': 'calculation_method'}"/>
+                        <filter string="Category" name="group_category" context="{'group_by': 'category'}"/>
+                        <filter string="Active Status" name="group_active" context="{'group_by': 'active'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Commission Type Action -->
+        <record id="action_commission_type" model="ir.actions.act_window">
+            <field name="name">Commission Types</field>
+            <field name="res_model">commission.type</field>
+            <field name="view_mode">list,form</field>
+            <field name="search_view_id" ref="view_commission_type_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new commission type
+                </p>
+                <p>
+                    Commission types help categorize different kinds of commissions
+                    in your system.
+                </p>
+            </field>
+        </record>
+
+        <!-- Commission Type Menu Item -->
+        <menuitem id="menu_commission_type" name="Commission Types" parent="commission_menu" action="action_commission_type" sequence="10"/>
+    </data>
+</odoo>

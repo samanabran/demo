@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Commission Payment Wizard Form View -->
+    <record id="view_commission_payment_wizard_form" model="ir.ui.view">
+        <field name="name">commission.payment.wizard.form</field>
+        <field name="model">commission.payment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Record Commission Payment">
+                <sheet>
+                    <div class="alert alert-info" role="alert">
+                        <strong>Recording Payment for Commission</strong>
+                        <br/>
+                        Partner: <field name="partner_id" readonly="1" nolabel="1" class="oe_inline"/>
+                    </div>
+
+                    <group>
+                        <group string="Commission Information">
+                            <field name="commission_line_id" readonly="1"/>
+                            <field name="commission_amount" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="max_amount" invisible="1"/>
+                        </group>
+                        <group string="Payment Details">
+                            <field name="payment_amount"/>
+                            <field name="payment_date"/>
+                            <field name="payment_method"/>
+                            <field name="payment_reference" placeholder="Enter payment reference..."/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <field name="notes" placeholder="Additional payment notes..."/>
+                    </group>
+
+                    <!-- Payment Summary -->
+                    <group string="Payment Summary" class="mt-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Total Commission:</strong>
+                                <span class="text-info">
+                                    <field name="commission_amount" readonly="1" nolabel="1" class="oe_inline"/>
+                                    <field name="currency_id" readonly="1" nolabel="1" class="oe_inline"/>
+                                </span>
+                            </div>
+                            <div class="col-md-6">
+                                <strong>This Payment:</strong>
+                                <span class="text-primary">
+                                    <field name="payment_amount" readonly="1" nolabel="1" class="oe_inline"/>
+                                    <field name="currency_id" readonly="1" nolabel="1" class="oe_inline"/>
+                                </span>
+                            </div>
+                        </div>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_record_payment" string="Record Payment" type="object" class="btn-primary"/>
+                    <button name="action_record_full_payment" string="Pay Full Amount" type="object" class="btn-success"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Commission Bulk Payment Wizard Form View -->
+    <record id="view_commission_bulk_payment_wizard_form" model="ir.ui.view">
+        <field name="name">commission.bulk.payment.wizard.form</field>
+        <field name="model">commission.bulk.payment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Bulk Commission Payment">
+                <sheet>
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Bulk Payment Processing</strong>
+                        <br/>
+                        This will mark all selected commission lines as fully paid.
+                    </div>
+
+                    <group>
+                        <group string="Payment Information">
+                            <field name="payment_date"/>
+                            <field name="payment_method"/>
+                            <field name="payment_reference" placeholder="Batch payment reference..."/>
+                        </group>
+                        <group string="Summary">
+                            <field name="total_amount" readonly="1"/>
+                            <field name="currency_id" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <field name="notes" placeholder="Bulk payment notes..."/>
+                    </group>
+
+                    <!-- Commission Lines Summary -->
+                    <group string="Commission Lines to Process">
+                        <field name="commission_line_ids" readonly="1" nolabel="1">
+                            <list>
+                                <field name="partner_id"/>
+                                <field name="sale_order_id"/>
+                                <field name="commission_amount"/>
+                                <field name="currency_id"/>
+                            </list>
+                        </field>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_record_bulk_payment" string="Process Bulk Payment" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Actions -->
+    <record id="action_commission_payment_wizard" model="ir.actions.act_window">
+        <field name="name">Record Commission Payment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">commission.payment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record id="action_commission_bulk_payment_wizard" model="ir.actions.act_window">
+        <field name="name">Bulk Commission Payment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">commission.bulk.payment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{
+            'default_commission_line_ids': active_ids,
+        }</field>
+    </record>
+
+    <!-- Menu items for bulk actions -->
+    <record id="action_bulk_payment_commission_lines" model="ir.actions.server">
+        <field name="name">Bulk Payment</field>
+        <field name="model_id" ref="model_commission_line"/>
+        <field name="binding_model_id" ref="model_commission_line"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    action = {
+        'type': 'ir.actions.act_window',
+        'name': 'Bulk Commission Payment',
+        'res_model': 'commission.bulk.payment.wizard',
+        'view_mode': 'form',
+        'target': 'new',
+        'context': {
+            'default_commission_line_ids': [(6, 0, records.ids)],
+        }
+    }
+        </field>
+    </record>
+</odoo>

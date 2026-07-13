@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- Question 1: Automation Experience -->
+        <record id="assessment_question_1" model="assessment.question">
+            <field name="name">Automation Experience</field>
+            <field name="sequence">10</field>
+            <field name="question_text">Describe a time you automated a repetitive process. What tools did you use, and what was the result?</field>
+            <field name="help_text">Be specific: mention the task, tools, and measurable outcome (time saved, errors reduced, etc.)</field>
+            <field name="question_type">technical</field>
+            <field name="category">automation</field>
+            <field name="scoring_weight">1.0</field>
+            <field name="min_char_count">50</field>
+            <field name="max_char_count">1000</field>
+            <field name="is_required" eval="True"/>
+            <field name="is_active" eval="True"/>
+        </record>
+
+        <!-- Question 2: AI Tools -->
+        <record id="assessment_question_2" model="assessment.question">
+            <field name="name">AI Tools Experience</field>
+            <field name="sequence">20</field>
+            <field name="question_text">How have you used AI tools (like ChatGPT, Copilot, Claude, etc.) in your work? Give a specific example.</field>
+            <field name="help_text">We want to see practical AI tool usage, not just awareness</field>
+            <field name="question_type">learning</field>
+            <field name="category">ai_tools</field>
+            <field name="scoring_weight">1.0</field>
+            <field name="min_char_count">50</field>
+            <field name="max_char_count">1000</field>
+            <field name="is_required" eval="True"/>
+            <field name="is_active" eval="True"/>
+        </record>
+
+        <!-- Question 3: Client Communication -->
+        <record id="assessment_question_3" model="assessment.question">
+            <field name="name">Client Communication</field>
+            <field name="sequence">30</field>
+            <field name="question_text">A client asks for a feature but doesn't fully understand what they need. How do you handle this conversation?</field>
+            <field name="help_text">Show your discovery process and communication approach</field>
+            <field name="question_type">communication</field>
+            <field name="category">client_management</field>
+            <field name="scoring_weight">1.0</field>
+            <field name="min_char_count">50</field>
+            <field name="max_char_count">1000</field>
+            <field name="is_required" eval="True"/>
+            <field name="is_active" eval="True"/>
+        </record>
+
+        <!-- Question 4: Estimation -->
+        <record id="assessment_question_4" model="assessment.question">
+            <field name="name">Project Estimation</field>
+            <field name="sequence">40</field>
+            <field name="question_text">A client asks, "How long will this project take?" How do you respond?</field>
+            <field name="help_text">Demonstrate your estimation approach and communication</field>
+            <field name="question_type">technical</field>
+            <field name="category">estimation</field>
+            <field name="scoring_weight">1.0</field>
+            <field name="min_char_count">50</field>
+            <field name="max_char_count">1000</field>
+            <field name="is_required" eval="True"/>
+            <field name="is_active" eval="True"/>
+        </record>
+
+        <!-- Question 5: Learning -->
+        <record id="assessment_question_5" model="assessment.question">
+            <field name="name">Learning New Technologies</field>
+            <field name="sequence">50</field>
+            <field name="question_text">Describe how you'd learn a new technology you've never used before. What's your process?</field>
+            <field name="help_text">Show your learning methodology and adaptability</field>
+            <field name="question_type">learning</field>
+            <field name="category">learning</field>
+            <field name="scoring_weight">1.0</field>
+            <field name="min_char_count">50</field>
+            <field name="max_char_count">1000</field>
+            <field name="is_required" eval="True"/>
+            <field name="is_active" eval="True"/>
+        </record>
+
+        <!-- Question 6: Objection Handling -->
+        <record id="assessment_question_6" model="assessment.question">
+            <field name="name">Objection Handling</field>
+            <field name="sequence">60</field>
+            <field name="question_text">A potential client says, "Your price is too high." How do you respond?</field>
+            <field name="help_text">Demonstrate your sales skills and value communication</field>
+            <field name="question_type">sales</field>
+            <field name="category">objection</field>
+            <field name="scoring_weight">1.0</field>
+            <field name="min_char_count">50</field>
+            <field name="max_char_count">1000</field>
+            <field name="is_required" eval="True"/>
+            <field name="is_active" eval="True"/>
+        </record>
+
+        <!-- Question 7: Difficult Client -->
+        <record id="assessment_question_7" model="assessment.question">
+            <field name="name">Difficult Client Management</field>
+            <field name="sequence">70</field>
+            <field name="question_text">Tell me about a time you worked with a difficult client. What was the situation and how did you handle it?</field>
+            <field name="help_text">Share a real example with specific actions and outcomes</field>
+            <field name="question_type">sales</field>
+            <field name="category">conflict</field>
+            <field name="scoring_weight">1.0</field>
+            <field name="min_char_count">50</field>
+            <field name="max_char_count">1000</field>
+            <field name="is_required" eval="True"/>
+            <field name="is_active" eval="True"/>
+        </record>
+
+        <!-- Question 8: Simplification -->
+        <record id="assessment_question_8" model="assessment.question">
+            <field name="name">Technical Simplification</field>
+            <field name="sequence">80</field>
+            <field name="question_text">Explain what Odoo does to someone who has never heard of ERP systems.</field>
+            <field name="help_text">Use clear, non-technical language</field>
+            <field name="question_type">communication</field>
+            <field name="category">simplification</field>
+            <field name="scoring_weight">1.0</field>
+            <field name="min_char_count">50</field>
+            <field name="max_char_count">1000</field>
+            <field name="is_required" eval="True"/>
+            <field name="is_active" eval="True"/>
+        </record>
+
+        <!-- Question 9: Boundaries -->
+        <record id="assessment_question_9" model="assessment.question">
+            <field name="name">Setting Professional Boundaries</field>
+            <field name="sequence">90</field>
+            <field name="question_text">A client asks for something that's clearly out of scope. How do you say no professionally?</field>
+            <field name="help_text">Show your professionalism and boundary-setting skills</field>
+            <field name="question_type">cultural_fit</field>
+            <field name="category">boundaries</field>
+            <field name="scoring_weight">1.0</field>
+            <field name="min_char_count">50</field>
+            <field name="max_char_count">1000</field>
+            <field name="is_required" eval="True"/>
+            <field name="is_active" eval="True"/>
+        </record>
+
+        <!-- Question 10: Motivation -->
+        <record id="assessment_question_10" model="assessment.question">
+            <field name="name">Motivation and Concerns</field>
+            <field name="sequence">100</field>
+            <field name="question_text">Why do you want this role? What concerns do you have about this position?</field>
+            <field name="help_text">Be honest - we want to see self-awareness</field>
+            <field name="question_type">cultural_fit</field>
+            <field name="category">motivation</field>
+            <field name="scoring_weight">1.0</field>
+            <field name="min_char_count">50</field>
+            <field name="max_char_count">1000</field>
+            <field name="is_required" eval="True"/>
+            <field name="is_active" eval="True"/>
+        </record>
+</odoo>

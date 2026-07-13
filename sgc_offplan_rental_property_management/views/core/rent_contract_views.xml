@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         List view
+    ═══════════════════════════════════════════════════════════════════ -->
+    <record id="view_rent_contract_list" model="ir.ui.view">
+        <field name="name">rent.contract.list</field>
+        <field name="model">rent.contract</field>
+        <field name="arch" type="xml">
+            <list string="Rent Contracts" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="property_id"/>
+                <field name="tenant_id"/>
+                <field name="landlord_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="rent_amount" widget="monetary"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'active'"
+                       decoration-warning="state == 'expired'"
+                       decoration-danger="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         Form view
+    ═══════════════════════════════════════════════════════════════════ -->
+    <record id="view_rent_contract_form" model="ir.ui.view">
+        <field name="name">rent.contract.form</field>
+        <field name="model">rent.contract</field>
+        <field name="arch" type="xml">
+            <form string="Rent Contract">
+                <header>
+                    <button name="action_activate"
+                            string="Activate"
+                            type="object"
+                            class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_expire"
+                            string="Mark Expired"
+                            type="object"
+                            invisible="state != 'active'"/>
+                    <button name="action_cancel"
+                            string="Cancel"
+                            type="object"
+                            class="btn-danger"
+                            invisible="state in ['expired', 'cancelled']"/>
+                    <field name="state"
+                           widget="statusbar"
+                           statusbar_visible="draft,active,expired"/>
+                </header>
+                <sheet>
+                    <!-- Smart buttons -->
+                    <div name="button_box" class="oe_button_box">
+                        <button name="action_view_rent_bills"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-text-o">
+                            <field name="rent_bill_count"
+                                   widget="statinfo"
+                                   string="Rent Bills"/>
+                        </button>
+                    </div>
+
+                    <!-- Cancelled ribbon -->
+                    <widget name="web_ribbon"
+                            title="Cancelled"
+                            bg_color="bg-danger"
+                            invisible="state != 'cancelled'"/>
+
+                    <!-- Title -->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"
+                                   placeholder="Contract Reference…"
+                                   readonly="state in ['active', 'expired', 'cancelled']"/>
+                        </h1>
+                    </div>
+
+                    <!-- Main groups -->
+                    <group>
+                        <group string="Contract Details">
+                            <field name="property_id"/>
+                            <field name="tenant_id"/>
+                            <field name="landlord_id"/>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group string="Financial Details">
+                            <!-- currency_id must be present for monetary widgets -->
+                            <field name="currency_id" invisible="1"/>
+                            <field name="rent_amount" widget="monetary"/>
+                            <field name="security_deposit" widget="monetary"/>
+                            <field name="security_deposit_paid"/>
+                            <field name="payment_frequency"/>
+                            <field name="duration_months" readonly="1"/>
+                            <field name="total_rent" widget="monetary" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <!-- Payment plan -->
+                    <group string="Payment Plan">
+                        <field name="payment_schedule_id" colspan="2"/>
+                        <button name="action_generate_rent_bills"
+                                string="Generate Rent Bills"
+                                type="object"
+                                class="btn-secondary"
+                                invisible="not start_date"/>
+                    </group>
+
+                    <!-- Company (multi-company environments only) -->
+                    <group groups="base.group_multi_company">
+                        <field name="company_id"/>
+                    </group>
+
+                    <!-- Notebook -->
+                    <notebook>
+                        <page string="Rent Bills" name="rent_bills">
+                            <p class="text-muted">
+                                Use the <strong>Rent Bills</strong> smart button above to view or generate bills for this contract.
+                            </p>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"
+                                   placeholder="Add internal notes here…"/>
+                        </page>
+                    </notebook>
+                </sheet>
+
+                <!-- Chatter -->
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         Search view
+    ═══════════════════════════════════════════════════════════════════ -->
+    <record id="view_rent_contract_search" model="ir.ui.view">
+        <field name="name">rent.contract.search</field>
+        <field name="model">rent.contract</field>
+        <field name="arch" type="xml">
+            <search string="Search Rent Contracts">
+                <field name="name" string="Contract Reference"/>
+                <field name="property_id"/>
+                <field name="tenant_id"/>
+                <filter string="Draft"
+                        name="filter_draft"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter string="Active"
+                        name="filter_active"
+                        domain="[('state', '=', 'active')]"/>
+                <filter string="Expired"
+                        name="filter_expired"
+                        domain="[('state', '=', 'expired')]"/>
+                <filter string="Cancelled"
+                        name="filter_cancelled"
+                        domain="[('state', '=', 'cancelled')]"/>
+                <filter string="Status"
+                        name="group_state"
+                        context="{'group_by': 'state'}"/>
+                <filter string="Property"
+                        name="group_property"
+                        context="{'group_by': 'property_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         Window action
+    ═══════════════════════════════════════════════════════════════════ -->
+    <record id="action_rent_contract" model="ir.actions.act_window">
+        <field name="name">Rent Contracts</field>
+        <field name="res_model">rent.contract</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_rent_contract_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first Rent Contract
+            </p>
+            <p>
+                Manage rental agreements, track payment schedules,
+                and generate periodic rent bills from one place.
+            </p>
+        </field>
+    </record>
+
+</odoo>

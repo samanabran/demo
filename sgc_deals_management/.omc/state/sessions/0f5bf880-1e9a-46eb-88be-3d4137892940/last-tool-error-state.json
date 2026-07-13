@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"docker exec sgc_verify_odoo sh -c 'python3 -c \\\"\\nimport odoo\\nprint(\\\\\\\"Odoo Release:\\\\\\\", odoo.release.version if hasattr(odoo, \\\\\\\"release\\\\\\\") else \\\\\\\"unknown\\\\\\\")\\nprint(\\\\\\\"Odoo ser...",
+  "error": "Exit code 2\n/usr/bin/bash: eval: line 9: unexpected EOF while looking for matching `''",
+  "timestamp": "2026-06-27T12:57:54.404Z",
+  "retry_count": 1
+}

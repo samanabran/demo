@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- Default Formspree Configuration -->
+        <record id="formspree_form_id" model="ir.config_parameter">
+            <field name="key">sgc_assessment.formspree_form_id</field>
+            <field name="value">YOUR_FORMSPREE_FORM_ID</field>
+        </record>
+        
+        <record id="formspree_enabled" model="ir.config_parameter">
+            <field name="key">sgc_assessment.formspree_enabled</field>
+            <field name="value">True</field>
+        </record>
+</odoo>

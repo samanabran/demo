@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Appraisal Survey Form Tree View -->
+    <record id="view_appraisal_survey_form_tree" model="ir.ui.view">
+        <field name="name">appraisal.survey.form.tree</field>
+        <field name="model">appraisal.survey.form</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="active"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Appraisal Survey Form Form View -->
+    <record id="view_appraisal_survey_form_form" model="ir.ui.view">
+        <field name="name">appraisal.survey.form.form</field>
+        <field name="model">appraisal.survey.form</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="active"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Appraisal Survey Question Tree View -->
+    <record id="view_appraisal_survey_question_tree" model="ir.ui.view">
+        <field name="name">appraisal.survey.question.tree</field>
+        <field name="model">appraisal.survey.question</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="survey_id"/>
+                <field name="question_text"/>
+                <field name="question_type"/>
+                <field name="required"/>
+                <field name="sequence"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Appraisal Survey Response Tree View -->
+    <record id="view_appraisal_survey_response_tree" model="ir.ui.view">
+        <field name="name">appraisal.survey.response.tree</field>
+        <field name="model">appraisal.survey.response</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="survey_form_id"/>
+                <field name="respondent_name"/>
+                <field name="respondent_email"/>
+                <field name="state"/>
+                <field name="created_date"/>
+                <field name="submitted_date"/>
+                <field name="completion_percentage" widget="progressbar"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Appraisal Survey Response Form View -->
+    <record id="view_appraisal_survey_response_form" model="ir.ui.view">
+        <field name="name">appraisal.survey.response.form</field>
+        <field name="model">appraisal.survey.response</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="survey_form_id"/>
+                            <field name="respondent_name"/>
+                            <field name="respondent_email"/>
+                        </group>
+                        <group>
+                            <field name="created_date"/>
+                            <field name="submitted_date"/>
+                            <field name="completion_percentage" widget="progressbar"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <field name="comments" placeholder="Comments..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Appraisal Survey Question Option Tree View -->
+    <record id="view_appraisal_survey_question_option_tree" model="ir.ui.view">
+        <field name="name">appraisal.survey.question.option.tree</field>
+        <field name="model">appraisal.survey.question.option</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="question_id"/>
+                <field name="name"/>
+                <field name="value"/>
+                <field name="sequence"/>
+            </list>
+        </field>
+    </record>
+</odoo>

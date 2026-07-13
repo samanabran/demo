@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- AI Score Tree View -->
+        <record id="view_assessment_ai_score_tree" model="ir.ui.view">
+            <field name="name">assessment.ai.score.tree</field>
+            <field name="model">assessment.ai.score</field>
+            <field name="arch" type="xml">
+                <list string="AI Scores" create="false" decoration-success="overall_score &gt;= 85" decoration-info="overall_score &gt;= 70 and overall_score &lt; 85" decoration-warning="overall_score &gt;= 50 and overall_score &lt; 70" decoration-danger="overall_score &lt; 50">
+                    <field name="candidate_id"/>
+                    <field name="overall_score" widget="progressbar"/>
+                    <field name="technical_score" widget="progressbar" optional="show"/>
+                    <field name="sales_score" widget="progressbar" optional="show"/>
+                    <field name="communication_score" widget="progressbar" optional="show"/>
+                    <field name="ai_recommendation" widget="badge" decoration-success="ai_recommendation == 'strong_hire'" decoration-info="ai_recommendation == 'interview'" decoration-warning="ai_recommendation == 'reconsider'" decoration-danger="ai_recommendation == 'reject'"/>
+                    <field name="ai_confidence_score" widget="percentage" optional="show"/>
+                    <field name="has_red_flags" widget="boolean" optional="show"/>
+                    <field name="scoring_date"/>
+                    <field name="processing_time_ms" optional="hide"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- AI Score Form View -->
+        <record id="view_assessment_ai_score_form" model="ir.ui.view">
+            <field name="name">assessment.ai.score.form</field>
+            <field name="model">assessment.ai.score</field>
+            <field name="arch" type="xml">
+                <form string="AI Assessment Score" create="false">
+                    <header>
+                        <button name="action_regenerate_score" string="Regenerate Score" type="object" class="oe_highlight" groups="sgc_assessment.group_assessment_manager"/>
+                        <field name="ai_recommendation" widget="statusbar" statusbar_visible="reject,reconsider,interview,strong_hire"/>
+                    </header>
+                    <sheet>
+                        <field name="has_red_flags" invisible="1"/>
+                        <widget name="web_ribbon" title="Red Flags Detected" bg_color="bg-danger" invisible="has_red_flags == False"/>
+
+                        <div class="oe_title">
+                            <h1>
+                                <field name="candidate_id" readonly="1"/>
+                            </h1>
+                            <h3 class="text-muted">
+                                AI Assessment Score
+                            </h3>
+                        </div>
+
+                        <group>
+                            <group string="Overall Score">
+                                <field name="overall_score" widget="progressbar"/>
+                                <field name="ai_confidence_score" widget="percentage"/>
+                                <field name="scoring_date" readonly="1"/>
+                                <field name="ai_model_version" readonly="1"/>
+                            </group>
+                            <group string="Processing Details">
+                                <field name="processing_time_ms" readonly="1"/>
+                                <field name="tokens_used" readonly="1"/>
+                                <field name="estimated_cost" widget="monetary" readonly="1"/>
+                                <field name="response_id" readonly="1"/>
+                            </group>
+                        </group>
+
+                        <group>
+                            <group string="Category Scores">
+                                <field name="technical_score" widget="progressbar"/>
+                                <field name="sales_score" widget="progressbar"/>
+                                <field name="communication_score" widget="progressbar"/>
+                                <field name="learning_score" widget="progressbar"/>
+                                <field name="cultural_fit_score" widget="progressbar"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Analysis" name="analysis">
+                                <group>
+                                    <field name="identified_strengths" widget="text" nolabel="1" placeholder="AI-identified strengths..."/>
+                                </group>
+                                <group>
+                                    <field name="skill_gaps" widget="text" nolabel="1" placeholder="Areas needing improvement..."/>
+                                </group>
+                            </page>
+
+                            <page string="Red Flags" name="red_flags" invisible="has_red_flags == False">
+                                <group>
+                                    <field name="red_flags_detail" widget="text" nolabel="1"/>
+                                </group>
+                            </page>
+
+                            <page string="Question Analysis" name="question_analysis">
+                                <group>
+                                    <field name="question_analysis" widget="text" nolabel="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- AI Score Search View -->
+        <record id="view_assessment_ai_score_search" model="ir.ui.view">
+            <field name="name">assessment.ai.score.search</field>
+            <field name="model">assessment.ai.score</field>
+            <field name="arch" type="xml">
+                <search string="AI Scores">
+                    <field name="candidate_id"/>
+                    <field name="ai_recommendation"/>
+                    <filter string="Strong Hire" name="strong_hire" domain="[('ai_recommendation', '=', 'strong_hire')]"/>
+                    <filter string="Interview" name="interview" domain="[('ai_recommendation', '=', 'interview')]"/>
+                    <filter string="Reconsider" name="reconsider" domain="[('ai_recommendation', '=', 'reconsider')]"/>
+                    <filter string="Reject" name="reject" domain="[('ai_recommendation', '=', 'reject')]"/>
+                    <separator/>
+                    <filter string="Has Red Flags" name="red_flags" domain="[('has_red_flags', '=', True)]"/>
+                    <filter string="High Confidence" name="high_confidence" domain="[('ai_confidence_score', '&gt;=', 80)]"/>
+                    <filter string="High Score" name="high_score" domain="[('overall_score', '&gt;=', 85)]"/>
+                    <separator/>
+                    <filter string="This Week" name="this_week" domain="[('scoring_date', '&gt;=', (context_today() - relativedelta(weeks=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="This Month" name="this_month" domain="[('scoring_date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                    <group>
+                        <filter string="Recommendation" name="group_recommendation" context="{'group_by': 'ai_recommendation'}"/>
+                        <filter string="Scoring Date" name="group_scoring_date" context="{'group_by': 'scoring_date:month'}"/>
+                        <filter string="Red Flags" name="group_red_flags" context="{'group_by': 'has_red_flags'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- AI Score Action -->
+        <record id="action_assessment_ai_score" model="ir.actions.act_window">
+            <field name="name">AI Scores</field>
+            <field name="res_model">assessment.ai.score</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'search_default_interview': 1, 'search_default_strong_hire': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No AI scores yet!
+                </p>
+                <p>
+                    AI scores are automatically generated when candidates submit their assessments.
+                </p>
+            </field>
+        </record>
+</odoo>
+

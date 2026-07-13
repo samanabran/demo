@@ -1,0 +1,25 @@
+# -*- coding: utf-8 -*-
+{
+    "name": "SGC - E-Learning",
+    "version": "19.0.1.1",
+    "category": "Education",
+    "summary": "Sequential learning paths for real estate operations with quizzes, badges, and certificates",
+    "description": "Guided learning for rental, sales, commissions, accounting, and HR with quizzes and certification.",
+    "author": "SGC TECH AI",
+    "website": "https://sgctech.ai",
+    "support": "bran@sgctech.ai",
+    "images": ["static/description/banner.png"],
+    "license": "OPL-1",
+    "price": 38,
+    "currency": "USD",
+    "depends": ["base", "mail"],
+    "data": [
+        "security/ir.model.access.csv",
+        "views/learning_views.xml",
+        "views/learning_menus.xml",
+        "views/res_users_views.xml",
+        "data/learning_chapters.xml",
+    ],
+    "installable": True,
+    "application": True,
+}

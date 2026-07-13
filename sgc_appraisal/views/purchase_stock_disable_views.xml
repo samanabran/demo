@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="purchase_stock.purchase_order_view_form_inherit"
+                model="ir.ui.view">
+            <field name="active" eval="False"/>
+        </record>
+    </data>
+</odoo>

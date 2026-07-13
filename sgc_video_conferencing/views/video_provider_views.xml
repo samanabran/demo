@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_video_provider_tree" model="ir.ui.view">
+        <field name="name">video.provider.tree</field>
+        <field name="model">video.provider</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="provider_type"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_video_provider_form" model="ir.ui.view">
+        <field name="name">video.provider.form</field>
+        <field name="model">video.provider</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_video_provider_account)d" type="action"
+                                class="oe_stat_button" icon="fa-plug">
+                            <div class="o_stat_info">
+                                <field name="id" invisible="1"/>
+                                <span class="o_stat_text">Accounts</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="provider_type"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="documentation_url"/>
+                            <field name="website_url"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    <notebook>
+                        <page name="accounts" string="Accounts">
+                            <field name="account_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="state"/>
+                                    <field name="auth_method"/>
+                                    <field name="active"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_video_provider_search" model="ir.ui.view">
+        <field name="name">video.provider.search</field>
+        <field name="model">video.provider</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Active" name="active" domain="[('active','=',True)]"/>
+                <separator/>
+                <filter string="Google Meet" name="google" domain="[('provider_type','=','google_meet')]"/>
+                <filter string="Teams" name="teams" domain="[('provider_type','=','microsoft_teams')]"/>
+                <filter string="Zoom" name="zoom" domain="[('provider_type','=','zoom')]"/>
+            </search>
+        </field>
+    </record>
+</odoo>

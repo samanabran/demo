@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_employment_certificate_wizard_form" model="ir.ui.view">
+        <field name="name">hr.employment.certificate.wizard.form</field>
+        <field name="model">hr.employment.certificate.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Employment Certificate">
+                <group>
+                    <group string="Employee Information">
+                        <field name="employee_id" readonly="1"/>
+                        <field name="employee_name" invisible="1"/>
+                        <field name="passport_number"/>
+                        <field name="job_position"/>
+                        <field name="pronoun"/>
+                    </group>
+                    <group string="Employment Status">
+                        <field name="employment_status" widget="radio"/>
+                        <field name="join_date"/>
+                        <field name="end_date" invisible="employment_status == 'current'"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Salary Information">
+                        <field name="currency_id" invisible="1"/>
+                        <field name="gross_salary" invisible="employment_status == 'resigned'"/>
+                        <field name="last_salary" invisible="employment_status == 'current'" 
+                               string="Last Drawn Salary"/>
+                        <field name="show_salary"/>
+                    </group>
+                    <group string="Certificate Details">
+                        <field name="issue_date"/>
+                        <field name="expiry_date"/>
+                        <field name="employment_duration" readonly="1"/>
+                        <field name="reference_number" readonly="1" 
+                               placeholder="Auto-generated on print"/>
+                        <field name="purpose"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Recipient Information">
+                        <field name="recipient_name"
+                               placeholder="e.g., John Smith"/>
+                        <field name="recipient_title"
+                               placeholder="e.g., Visa Officer"/>
+                        <field name="recipient_organization"
+                               placeholder="e.g., Dubai Immigration"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Signatory">
+                        <field name="signatory_name"/>
+                        <field name="signatory_title"/>
+                        <field name="digital_signature" widget="image"
+                               class="oe_avatar"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_print_certificate" 
+                            string="Print Certificate" 
+                            type="object" 
+                            class="btn-primary"/>
+                    <button name="action_print_noc"
+                        string="Print NOC"
+                        type="object"
+                        class="btn-secondary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

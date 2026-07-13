@@ -1,0 +1,137 @@
+/* Assessment Landing Page Styles */
+
+.assessment_landing_wrapper {
+  margin-top: -20px;
+}
+
+/* Hero Section */
+.hero_section {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero_section::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 1px,
+    transparent 1px
+  );
+  background-size: 50px 50px;
+  opacity: 0.3;
+  animation: moveBackground 20s linear infinite;
+}
+
+@keyframes moveBackground {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
+.feature_graphic {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Stat Box Hover */
+.stat_box {
+  transition: all 0.3s ease;
+}
+
+.stat_box:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Cards */
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Criteria Cards */
+.criteria_card {
+  transition: all 0.3s ease;
+}
+
+.criteria_card:hover .criteria_icon {
+  transform: scale(1.1);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.criteria_icon {
+  transition: all 0.3s ease;
+}
+
+/* Buttons */
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+}
+
+.btn-outline-primary {
+  border-color: #667eea;
+  color: #667eea;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: transparent;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Share Section */
+.share_section {
+  background: linear-gradient(to bottom, #f8f9fa, #ffffff);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero_section {
+    min-height: auto;
+    padding: 40px 0;
+  }
+
+  .stat_box {
+    min-width: 80px;
+    padding: 15px;
+  }
+
+  .share_buttons {
+    flex-direction: column;
+  }
+
+  .share_buttons .btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="sgc_invoicing_dashboard.DashboardChart" owl="1">
+        <div class="o_sgc_dashboard_chart">
+            <!-- Loading State -->
+            <div t-if="chartState and chartState.loading" class="o_chart_loading" style="display: flex; align-items: center; justify-content: center; height: 100%; color: #666;">
+                <i class="fa fa-spinner fa-spin fa-2x"></i>
+                <span class="ml-2">Loading chart...</span>
+            </div>
+
+            <!-- Error State -->
+            <div t-if="chartState and chartState.error" class="o_chart_error alert alert-warning" style="margin: 20px; text-align: center;">
+                <i class="fa fa-exclamation-triangle"></i>
+                <span class="ml-2" t-esc="chartState.error"/>
+            </div>
+
+            <!-- No Data State -->
+            <div t-if="chartState and !chartState.loading and !chartState.hasData and !chartState.error" class="o_chart_no_data" style="display: flex; align-items: center; justify-content: center; height: 100%; color: #999; font-style: italic; flex-direction: column;">
+                <i class="fa fa-chart-bar fa-3x mb-3" style="opacity: 0.3;"></i>
+                <span>No data available for selected filters</span>
+            </div>
+
+            <!-- Chart Canvas -->
+            <canvas t-ref="canvas"></canvas>
+        </div>
+    </t>
+    
+</templates>

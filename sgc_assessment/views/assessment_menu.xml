@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <!-- Root Menu -->
+        <menuitem id="menu_assessment_root" name="Assessment" sequence="50" groups="sgc_assessment.group_assessment_viewer"/>
+
+        <!-- Candidates Submenu -->
+        <menuitem id="menu_assessment_candidates" name="Candidates" parent="menu_assessment_root" action="action_assessment_candidate" sequence="10"/>
+
+        <!-- Rankings Submenu -->
+        <menuitem id="menu_assessment_rankings" name="Rankings" parent="menu_assessment_root" action="action_assessment_ranking" sequence="20"/>
+
+        <!-- AI Scores Submenu -->
+        <menuitem id="menu_assessment_ai_scores" name="AI Scores" parent="menu_assessment_root" action="action_assessment_ai_score" sequence="30" groups="sgc_assessment.group_assessment_reviewer"/>
+
+        <!-- Human Reviews Submenu -->
+        <menuitem id="menu_assessment_human_reviews" name="Human Reviews" parent="menu_assessment_root" action="action_assessment_human_review" sequence="40" groups="sgc_assessment.group_assessment_reviewer"/>
+
+        <!-- Dashboard Submenu -->
+        <menuitem id="menu_assessment_dashboard" name="Dashboard" parent="menu_assessment_root" action="action_assessment_dashboard" sequence="5" groups="sgc_assessment.group_assessment_manager"/>
+
+        <!-- Configuration Menu -->
+        <menuitem id="menu_assessment_config" name="Configuration" parent="menu_assessment_root" sequence="100" groups="sgc_assessment.group_assessment_manager"/>
+
+        <!-- Questions Config -->
+        <menuitem id="menu_assessment_questions" name="Questions" parent="menu_assessment_config" action="action_assessment_question" sequence="10"/>
+
+        <!-- Reports Menu -->
+        <menuitem id="menu_assessment_reports" name="Reports" parent="menu_assessment_root" sequence="90" groups="sgc_assessment.group_assessment_reviewer"/>
+
+        <!-- Audit Logs -->
+        <menuitem id="menu_assessment_audit_logs" name="Audit Logs" parent="menu_assessment_config" action="action_assessment_audit_log" sequence="20" groups="sgc_assessment.group_assessment_manager"/>
+</odoo>

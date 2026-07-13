@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree view: add invoicing progress badge and row decorations -->
+    <record id="view_order_tree_invoicing_progress" model="ir.ui.view">
+        <field name="name">sale.order.tree.invoicing.progress</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="decoration-success">invoice_status == 'invoiced'</attribute>
+                <attribute name="decoration-warning">invoice_status == 'to invoice'</attribute>
+                <attribute name="decoration-danger">invoice_status == 'no'</attribute>
+            </xpath>
+            <xpath expr="//list/field[@name='state']" position="after">
+                <field name="invoice_progress" widget="badge"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Form view: helper badge in header -->
+    <record id="view_order_form_invoicing_progress" model="ir.ui.view">
+        <field name="name">sale.order.form.invoicing.progress</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button" type="object" name="action_view_invoice"
+                        string="Invoicing">
+                    <field name="invoice_progress" widget="badge"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

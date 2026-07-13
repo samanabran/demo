@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_move_form_small_balance_writeoff" model="ir.ui.view">
+        <field name="name">account.move.form.small.balance.writeoff</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="(//widget[@name='web_ribbon'])[1]" position="attributes">
+                <attribute name="invisible">payment_state_display != 'paid' or move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')</attribute>
+            </xpath>
+            <xpath expr="(//widget[@name='web_ribbon'])[2]" position="attributes">
+                <attribute name="invisible">payment_state_display != 'in_payment' or move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')</attribute>
+            </xpath>
+            <xpath expr="(//widget[@name='web_ribbon'])[3]" position="attributes">
+                <attribute name="invisible">payment_state_display != 'partial' or move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')</attribute>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button
+                    name="action_writeoff_small_balance"
+                    string="Write-Off &lt; 10 AED"
+                    type="object"
+                    class="btn-secondary"
+                    invisible="state != 'posted' or payment_state == 'paid' or move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund') or amount_residual_signed &gt;= 10.0"
+                />
+            </xpath>
+            <xpath expr="//field[@name='payment_state']" position="after">
+                <field name="payment_state_display" invisible="1" force_save="1"/>
+                <field name="amount_residual_signed" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_writeoff_small_balance" model="ir.actions.server">
+        <field name="name">Write-Off Small Balance (≤ 10 AED)</field>
+        <field name="model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">action</field>
+        <field name="state">code</field>
+        <field name="code">records.action_writeoff_small_balance()</field>
+    </record>
+</odoo>

@@ -1,0 +1,217 @@
+@import 'variables';
+@import 'mixins';
+
+.property-listing-container {
+  padding: $spacing-xl 0;
+  
+  // Search Bar
+  .search-section {
+    background: white;
+    padding: $spacing-xl;
+    border-radius: $border-radius-lg;
+    box-shadow: $shadow-md;
+    margin-bottom: $spacing-xl;
+    
+    .search-box {
+      display: flex;
+      gap: $spacing-md;
+      
+      input {
+        flex: 1;
+        padding: $spacing-md;
+        border: 1px solid $border-color;
+        border-radius: $border-radius-md;
+        font-size: $font-size-base;
+        
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+        }
+      }
+      
+      button {
+        padding: $spacing-md $spacing-lg;
+        background: $primary-color;
+        color: white;
+        border: none;
+        border-radius: $border-radius-md;
+        cursor: pointer;
+        transition: background $transition-base;
+        
+        &:hover {
+          background: darken($primary-color, 10%);
+        }
+      }
+    }
+  }
+  
+  // Filters
+  .filter-section {
+    margin-bottom: $spacing-xl;
+    
+    .filter-group {
+      margin-bottom: $spacing-lg;
+      
+      label {
+        font-weight: $font-weight-medium;
+        margin-bottom: $spacing-sm;
+        display: block;
+        color: $dark-color;
+      }
+      
+      select {
+        width: 100%;
+        padding: $spacing-sm $spacing-md;
+        border: 1px solid $border-color;
+        border-radius: $border-radius-md;
+        font-size: $font-size-base;
+        
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+        }
+      }
+    }
+  }
+  
+  // Property Grid
+  .property-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-lg;
+    
+    @include media-md {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include media-lg {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  // Property Card
+  .property-card {
+    @include card-base;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    
+    .property-image {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform $transition-base;
+      }
+      
+      &:hover img {
+        transform: scale(1.1);
+      }
+      
+      .property-badge {
+        position: absolute;
+        top: $spacing-md;
+        right: $spacing-md;
+        background: $secondary-color;
+        color: white;
+        padding: 8px 16px;
+        border-radius: $border-radius-full;
+        font-size: 0.85rem;
+        font-weight: $font-weight-medium;
+      }
+    }
+    
+    .property-info {
+      padding: $spacing-lg;
+      flex: 1;
+      @include flex-between;
+      flex-direction: column;
+      
+      .property-header {
+        margin-bottom: $spacing-md;
+        
+        h3 {
+          font-size: $font-size-lg;
+          margin-bottom: 4px;
+          @include text-truncate;
+        }
+        
+        .property-location {
+          color: $gray-color;
+          font-size: 0.95rem;
+          
+          i {
+            margin-right: 4px;
+          }
+        }
+      }
+      
+      .property-specs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: $spacing-sm;
+        margin-bottom: $spacing-md;
+        padding: $spacing-md 0;
+        border-top: 1px solid $border-color;
+        border-bottom: 1px solid $border-color;
+        
+        .spec-item {
+          text-align: center;
+          
+          .spec-icon {
+            font-size: 1.2rem;
+            color: $primary-color;
+            margin-bottom: 4px;
+          }
+          
+          .spec-value {
+            font-weight: $font-weight-bold;
+            font-size: $font-size-lg;
+          }
+          
+          .spec-label {
+            font-size: 0.8rem;
+            color: $gray-color;
+          }
+        }
+      }
+      
+      .property-description {
+        color: $gray-color;
+        font-size: 0.95rem;
+        margin-bottom: $spacing-md;
+        @include text-clamp(2);
+      }
+      
+      .property-footer {
+        @include flex-between;
+        width: 100%;
+        
+        .property-price {
+          font-size: $font-size-xl;
+          font-weight: $font-weight-bold;
+          color: $primary-color;
+        }
+        
+        .property-button {
+          background: $secondary-color;
+          color: white;
+          border: none;
+          padding: 8px 16px;
+          border-radius: $border-radius-md;
+          cursor: pointer;
+          transition: background $transition-base;
+          
+          &:hover {
+            background: darken($secondary-color, 10%);
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="action_report_offer_letter" model="ir.actions.report">
+            <field name="name">Offer Letter</field>
+            <field name="model">hr.applicant</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">sgc_recruitment.offer_letter</field>
+            <field name="report_file">sgc_recruitment.offer_letter</field>
+            <field name="binding_model_id" ref="hr_recruitment.model_hr_applicant"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="offer_letter">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="oe_structure"/>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h2>Offer of Employment</h2>
+                                    <p><strong>Reference:</strong> <span t-esc="o.offer_letter_reference"/></p>
+                                    <p><strong>Date:</strong> <span t-esc="o.offer_letter_date"/></p>
+                                    <p><strong>Candidate:</strong> <span t-esc="o.partner_name"/></p>
+                                    <p><strong>Position:</strong> <span t-esc="o.position_title or o.job_id.name"/></p>
+                                </div>
+                            </div>
+                            <div class="oe_structure"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
