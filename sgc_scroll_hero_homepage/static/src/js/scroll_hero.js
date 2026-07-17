@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () {
+function sgcInitScrollHero() {
     var sections = document.querySelectorAll('section[data-snippet="s_re_scroll_hero"]');
     if (!sections.length) {
         return;
@@ -265,4 +265,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     sections.forEach(initHero);
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', sgcInitScrollHero);
+} else {
+    sgcInitScrollHero();
+}
