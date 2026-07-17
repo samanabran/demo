@@ -23,7 +23,7 @@
 
         var wrap = document.createElement('div');
         wrap.innerHTML =
-            '<button type="button" class="btn sgc_brochure_btn mb-4" data-bs-toggle="modal" data-bs-target="#sgc_brochure_modal">' +
+            '<button type="button" class="btn sgc_brochure_btn mb-4">' +
             '  <span class="fa fa-file-pdf-o" aria-hidden="true"></span> Download Brochure' +
             '</button>' +
             '<div class="modal fade" id="sgc_brochure_modal" tabindex="-1" aria-hidden="true">' +
@@ -31,7 +31,7 @@
             '    <div class="modal-content sgc_brochure_modal_content">' +
             '      <div class="modal-header">' +
             '        <h5 class="modal-title">Download Brochure</h5>' +
-            '        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' +
+            '        <button type="button" class="btn-close sgc_brochure_close_btn" aria-label="Close">&#215;</button>' +
             '      </div>' +
             '      <div class="modal-body">' +
             '        <p class="text-muted mb-3">Leave your details and the brochure download will start right away.</p>' +
@@ -56,6 +56,31 @@
         var errorBox = modal.querySelector('.sgc_brochure_form_error');
         var submitBtn = modal.querySelector('.sgc_brochure_submit_btn');
         var submitLabel = modal.querySelector('.sgc_brochure_submit_label');
+        var triggerBtn = document.querySelector('.sgc_brochure_btn');
+        var closeBtn = modal.querySelector('.sgc_brochure_close_btn');
+
+        // This site's frontend ships jQuery + the Bootstrap 4-style jQuery
+        // modal plugin ($.fn.modal), not the Bootstrap 5 bootstrap.Modal
+        // class or its data-bs-* attribute auto-init -- wire the show/hide
+        // calls directly rather than relying on data attributes.
+        function openModal() {
+            if (window.jQuery && window.jQuery.fn.modal) {
+                window.jQuery(modal).modal('show');
+            } else {
+                modal.classList.add('show');
+                modal.style.display = 'block';
+            }
+        }
+        function closeModal() {
+            if (window.jQuery && window.jQuery.fn.modal) {
+                window.jQuery(modal).modal('hide');
+            } else {
+                modal.classList.remove('show');
+                modal.style.display = 'none';
+            }
+        }
+        triggerBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
 
         function setLoading(loading) {
             submitBtn.disabled = loading;
@@ -93,12 +118,7 @@
                         return;
                     }
                     window.location.href = result.download_url;
-                    var bsModal = window.bootstrap && window.bootstrap.Modal
-                        ? window.bootstrap.Modal.getOrCreateInstance(modal)
-                        : null;
-                    if (bsModal) {
-                        bsModal.hide();
-                    }
+                    closeModal();
                     form.reset();
                 })
                 .catch(function () {
