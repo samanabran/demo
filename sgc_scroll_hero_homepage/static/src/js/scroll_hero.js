@@ -139,7 +139,14 @@ function sgcInitScrollHero() {
             if (beat.isFinal) {
                 gsap.to(caption, { scale: 0.92, opacity: 0.3, duration: 0.5, ease: 'power2.in' });
             } else {
-                gsap.to(caption, { opacity: 0, y: -20, duration: 0.5, ease: 'power2.in' });
+                gsap.to(caption, {
+                    opacity: 0,
+                    y: -34,
+                    scale: 0.97,
+                    filter: 'blur(6px)',
+                    duration: 0.55,
+                    ease: 'power2.in'
+                });
             }
         }
 
@@ -147,8 +154,8 @@ function sgcInitScrollHero() {
             caption.textContent = beat.text;
             gsap.fromTo(
                 caption,
-                { opacity: 0, y: 20, scale: 1 },
-                { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power2.out' }
+                { opacity: 0, y: 44, scale: 0.94, filter: 'blur(10px)' },
+                { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' }
             );
         }
 

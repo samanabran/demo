@@ -52,8 +52,8 @@
         <div class="s_re_hero_caption" role="status" aria-live="polite"/>
 
         <div class="s_re_hero_search_wrap">
-          <form method="get" action="/offplan/properties" class="s_re_hero_search_form container">
-            <div class="row g-2 justify-content-center align-items-center">
+          <form method="get" action="/offplan/properties" class="s_re_hero_search_form mx-auto">
+            <div class="row g-2 g-md-0 align-items-center">
               <div class="col-12 col-md-4">
                 <input type="text" name="search" class="form-control"
                        placeholder="Enter a city or property name"/>
@@ -77,7 +77,7 @@
                 </select>
               </div>
               <div class="col-12 col-md-2">
-                <button type="submit" class="btn btn-primary w-100">Search Properties</button>
+                <button type="submit" class="s_re_hero_search_btn w-100">Search Properties</button>
               </div>
             </div>
           </form>
