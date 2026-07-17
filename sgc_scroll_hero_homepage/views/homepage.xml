@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
   <data>
-    <template id="homepage_scroll_hero_page" name="SGC Scroll Hero Homepage" page="True">
+    <template id="homepage_scroll_hero_page" name="SGC Scroll Hero Homepage">
       <t t-call="website.layout">
         <t t-set="pageName" t-value="'home'"/>
         <div id="wrap" class="oe_structure oe_empty">
