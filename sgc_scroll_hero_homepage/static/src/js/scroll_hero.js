@@ -39,12 +39,22 @@ function sgcInitScrollHero() {
         var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var frameImgs = new Array(frameCount + 1);
         var currentFrame = 1;
+        var lastDrawnFrame = -1;
         var activeBeatIndex = -1;
-        var rafPending = false;
         var engineStarted = false;
 
+        // Scroll smoothing: the frame-sequence and the caption/final-reveal
+        // timeline both read from this single lerped value so they can never
+        // visually desync from each other. targetProgress tracks raw scroll
+        // position 1:1; smoothedProgress chases it every animation frame,
+        // producing the "catch-up" glide instead of instant frame-snapping.
+        var targetProgress = 0;
+        var smoothedProgress = 0;
+        var SGC_SMOOTHING = 0.15;
+        var renderLoopStarted = false;
+
         function frameSrc(i) {
-            return '/sgc_scroll_hero_homepage/static/src/img/frames/frame_' + pad4(i) + '.jpg';
+            return '/sgc_scroll_hero_homepage/static/src/img/frames/frame_' + pad4(i) + '.webp';
         }
 
         function drawFrame(i) {
@@ -78,6 +88,10 @@ function sgcInitScrollHero() {
             var dpr = window.devicePixelRatio || 1;
             canvas.width = canvas.clientWidth * dpr;
             canvas.height = canvas.clientHeight * dpr;
+            // Setting canvas.width/height resets all 2D context state, so
+            // smoothing must be re-applied on every resize, not just once.
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
             drawFrame(currentFrame);
         }
 
@@ -89,7 +103,19 @@ function sgcInitScrollHero() {
         }
 
         function preload() {
-            var eagerCount = Math.min(15, frameCount);
+            var eagerHead = Math.min(15, frameCount);
+            // The reduced-motion fallback draws frameCount immediately on
+            // startup, so it must be part of the eager batch too -- otherwise
+            // it can still be unloaded when startEngine() tries to draw it,
+            // leaving the hero blank until the lazy queue happens to reach it.
+            var eagerList = [];
+            for (var i = 1; i <= eagerHead; i++) {
+                eagerList.push(i);
+            }
+            if (eagerList.indexOf(frameCount) === -1) {
+                eagerList.push(frameCount);
+            }
+            var eagerCount = eagerList.length;
             var loaded = 0;
 
             function loadOne(i, cb) {
@@ -104,7 +130,7 @@ function sgcInitScrollHero() {
                 frameImgs[i] = img;
             }
 
-            for (var i = 1; i <= eagerCount; i++) {
+            eagerList.forEach(function (i) {
                 loadOne(i, function () {
                     setLoadingProgress(Math.round((loaded / eagerCount) * 100));
                     if (loaded >= eagerCount) {
@@ -118,14 +144,17 @@ function sgcInitScrollHero() {
                         drawFrame(1);
                     }
                 });
-            }
+            });
 
-            var next = eagerCount + 1;
+            var next = eagerHead + 1;
             function lazyStep() {
                 if (next > frameCount) {
                     return;
                 }
-                loadOne(next++);
+                var i = next++;
+                if (!frameImgs[i]) {
+                    loadOne(i);
+                }
                 if (window.requestIdleCallback) {
                     window.requestIdleCallback(lazyStep, { timeout: 500 });
                 } else {
@@ -190,18 +219,31 @@ function sgcInitScrollHero() {
             }
         }
 
-        function onScrollUpdate(progress) {
+        function applyProgress(progress) {
             updateCaption(progress);
             updateFinalReveal(progress);
             var idx = Math.min(frameCount, Math.max(1, Math.round(progress * (frameCount - 1)) + 1));
             currentFrame = idx;
-            if (!rafPending) {
-                rafPending = true;
-                requestAnimationFrame(function () {
-                    drawFrame(currentFrame);
-                    rafPending = false;
-                });
+            if (idx !== lastDrawnFrame) {
+                drawFrame(idx);
+                lastDrawnFrame = idx;
             }
+        }
+
+        function startRenderLoop() {
+            if (renderLoopStarted) {
+                return;
+            }
+            renderLoopStarted = true;
+            function tick() {
+                smoothedProgress += (targetProgress - smoothedProgress) * SGC_SMOOTHING;
+                if (Math.abs(targetProgress - smoothedProgress) < 0.0005) {
+                    smoothedProgress = targetProgress;
+                }
+                applyProgress(smoothedProgress);
+                requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
         }
 
         function fadeHintOnFirstInput() {
@@ -232,12 +274,13 @@ function sgcInitScrollHero() {
                 trigger: section,
                 start: 'top top',
                 end: 'bottom bottom',
-                scrub: true,
+                scrub: 0.4,
                 onUpdate: function (self) {
-                    onScrollUpdate(self.progress);
+                    targetProgress = self.progress;
                 }
             });
             instances.set(section, { scrollTrigger: st });
+            startRenderLoop();
         }
 
         function startEngine() {
