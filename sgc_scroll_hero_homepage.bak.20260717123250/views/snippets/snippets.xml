@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<template id="snippets" inherit_id="website.snippets" name="Scroll Hero Homepage Snippets">
+
+    <!-- New "Storytelling" tab in the Website Builder's Blocks panel -->
+    <xpath expr="//snippets[@id='snippet_groups']" position="inside">
+        <t snippet-group="storytelling" t-snippet="website.s_snippet_group" string="Storytelling"
+           t-thumbnail="/website/static/src/img/snippets_thumbs/s_cover.svg"/>
+    </xpath>
+
+    <!-- The actual draggable block, filed under that new tab -->
+    <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+        <t t-snippet="sgc_scroll_hero_homepage.s_re_scroll_hero" string="Scroll Story Hero" group="storytelling">
+            <keywords>hero, scroll, story, cinematic, parallax, gsap, scrolltrigger, image sequence, property, search, video</keywords>
+        </t>
+    </xpath>
+
+</template>
+
+</odoo>

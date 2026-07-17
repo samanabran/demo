@@ -1,353 +1,268 @@
-/** @odoo-module **/
-
-// Scroll Story Hero — cinematic scroll-triggered image-sequence hero.
-// Plain vanilla JS, matching the rest of this site's frontend code style
-// (see sgc_offplan_rental_property_management's property_search.js /
-// property_carousel.js) rather than publicWidget or the Interaction class.
-//
-// NOTE on the readiness check below (deliberately NOT a bare
-// `document.addEventListener('DOMContentLoaded', ...)`  like those files
-// use): Odoo 19 ships every module's `web.assets_frontend` JS inside a
-// lazily-loaded bundle that only starts executing after the `window.load`
-// event (see web/static/src/legacy/js/public/lazyloader.js). By then
-// `DOMContentLoaded` has already fired, so a plain listener for it here
-// would never run — this hero would stay black forever. Checking
-// `document.readyState` first makes init work correctly regardless of
-// when this file actually executes.
-
-function sgcInitScrollHeroSections() {
-
-    var EAGER_FRAME_COUNT = 10;
-
-    function whenGsapReady(cb) {
-        if (window.gsap && window.ScrollTrigger) {
-            cb();
-            return;
-        }
-        document.addEventListener('sgc:gsap-ready', function onReady() {
-            document.removeEventListener('sgc:gsap-ready', onReady);
-            cb();
-        });
+document.addEventListener('DOMContentLoaded', function () {
+    var sections = document.querySelectorAll('section[data-snippet="s_re_scroll_hero"]');
+    if (!sections.length) {
+        return;
     }
 
-    function frameUrl(section, index) {
-        var digits = parseInt(section.dataset.frameDigits, 10) || 4;
-        var padded = String(index).padStart(digits, '0');
-        return (section.dataset.frameBase || '') + padded + (section.dataset.frameExt || '.jpg');
+    var instances = new WeakMap();
+
+    var storyBeats = [
+        { text: "Before it's an address, it's a feeling.", start: 0.00, end: 0.08 },
+        { text: "A place you haven't found yet — but already miss.", start: 0.10, end: 0.18 },
+        { text: "Somewhere, a street is waiting to learn your name.", start: 0.20, end: 0.28 },
+        { text: "The porch light you'll leave on for the people you love.", start: 0.30, end: 0.38 },
+        { text: "A door that will learn the sound of your keys.", start: 0.40, end: 0.48 },
+        { text: "Walls that don't know your laughter yet.", start: 0.50, end: 0.58 },
+        { text: "A window where morning will find you first.", start: 0.60, end: 0.68 },
+        { text: "This is what 'home' means, before it means anything else.", start: 0.70, end: 0.78 },
+        { text: "Every homeowner remembers the day it stopped being a house.", start: 0.80, end: 0.88 },
+        { text: "Let's find yours.", start: 0.90, end: 1.00, isFinal: true }
+    ];
+
+    function pad4(n) {
+        return String(n).padStart(4, '0');
     }
 
-    function resizeCanvas(canvas) {
-        var ratio = window.devicePixelRatio || 1;
-        canvas.width = canvas.clientWidth * ratio;
-        canvas.height = canvas.clientHeight * ratio;
-    }
+    function initHero(section) {
+        var frameCount = parseInt(section.dataset.frameCount, 10) || 240;
+        var pinHeightVh = parseInt(section.dataset.pinHeight, 10) || 600;
+        section.style.setProperty('--sgc-pin-height', pinHeightVh + 'vh');
 
-    function drawImage(canvas, ctx, img) {
-        if (!ctx || !img || !img.complete || !img.naturalWidth) {
-            return;
-        }
-        var cw = canvas.width;
-        var ch = canvas.height;
-        var imgRatio = img.naturalWidth / img.naturalHeight;
-        var canvasRatio = cw / ch;
-        var dw, dh, dx, dy;
-        if (imgRatio > canvasRatio) {
-            dh = ch;
-            dw = ch * imgRatio;
-            dx = (cw - dw) / 2;
-            dy = 0;
-        } else {
-            dw = cw;
-            dh = cw / imgRatio;
-            dx = 0;
-            dy = (ch - dh) / 2;
-        }
-        ctx.clearRect(0, 0, cw, ch);
-        ctx.drawImage(img, dx, dy, dw, dh);
-    }
+        var canvas = section.querySelector('.s_re_hero_canvas');
+        var ctx = canvas.getContext('2d');
+        var caption = section.querySelector('.s_re_hero_caption');
+        var overlay = section.querySelector('.s_re_hero_overlay_final');
+        var searchWrap = section.querySelector('.s_re_hero_search_wrap');
+        var hint = section.querySelector('.s_re_hero_scroll_hint');
+        var loading = section.querySelector('.s_re_hero_loading');
 
-    function showStaticFallback(section, frameCount) {
-        // prefers-reduced-motion (or missing canvas/frame data): skip the
-        // animation entirely, show only the final frame as a plain
-        // background, and reveal the search bar immediately.
-        section.style.height = '100vh';
-        section.classList.add('o_re_scroll_hero--static');
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var frameImgs = new Array(frameCount + 1);
+        var currentFrame = 1;
+        var activeBeatIndex = -1;
+        var rafPending = false;
+        var engineStarted = false;
 
-        var canvas = section.querySelector('.o_re_scroll_hero__canvas');
-        var ctx = canvas ? canvas.getContext('2d') : null;
-        if (canvas && ctx && frameCount) {
-            resizeCanvas(canvas);
-            var img = new Image();
-            img.onload = function () {
-                resizeCanvas(canvas);
-                drawImage(canvas, ctx, img);
-            };
-            img.src = frameUrl(section, frameCount);
+        function frameSrc(i) {
+            return '/sgc_scroll_hero_homepage/static/src/img/frames/frame_' + pad4(i) + '.jpg';
         }
 
-        var loader = section.querySelector('.o_re_scroll_hero__loader');
-        if (loader) {
-            loader.style.display = 'none';
-        }
-        section.querySelectorAll('.o_re_scroll_hero__caption').forEach(function (caption) {
-            caption.style.opacity = '0';
-        });
-        var searchEl = section.querySelector('.o_re_scroll_hero__search');
-        if (searchEl) {
-            searchEl.style.opacity = '1';
-            searchEl.style.pointerEvents = 'auto';
-        }
-        var hint = section.querySelector('.o_re_scroll_hero__scrollhint');
-        if (hint) {
-            hint.style.display = 'none';
-        }
-    }
-
-    function initScrollHero(section) {
-        if (section.__sgcScrollHeroInitialized) {
-            return;
-        }
-        section.__sgcScrollHeroInitialized = true;
-
-        var frameCount = parseInt(section.dataset.frameCount, 10) || 0;
-        var pinHeight = parseFloat(section.dataset.pinHeight) || 450;
-        var pinEl = section.querySelector('.o_re_scroll_hero__pin');
-        var canvas = section.querySelector('.o_re_scroll_hero__canvas');
-        var ctx = canvas ? canvas.getContext('2d') : null;
-        var loaderEl = section.querySelector('.o_re_scroll_hero__loader');
-        var captions = section.querySelectorAll('.o_re_scroll_hero__caption');
-        var searchEl = section.querySelector('.o_re_scroll_hero__search');
-        var scrollHint = section.querySelector('.o_re_scroll_hero__scrollhint');
-
-        var prefersReducedMotion = window.matchMedia &&
-            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-        if (prefersReducedMotion || !frameCount || !canvas || !pinEl) {
-            showStaticFallback(section, frameCount);
-            return;
-        }
-
-        // Height read from data-pin-height, not hardcoded — editing that
-        // attribute (e.g. via the snippet's XML) is enough to change how
-        // long the pinned scroll story lasts, no JS edits needed.
-        section.style.height = pinHeight + 'vh';
-
-        var images = new Array(frameCount);
-        var loadedCount = 0;
-
-        function markLoaded() {
-            loadedCount++;
-            if (loaderEl) {
-                var pct = Math.round((loadedCount / frameCount) * 100);
-                if (pct >= 100) {
-                    loaderEl.style.display = 'none';
-                } else {
-                    loaderEl.textContent = 'Loading ' + pct + '%';
-                }
-            }
-        }
-
-        function loadFrame(zeroBasedIndex, eager) {
-            var img = new Image();
-            img.loading = eager ? 'eager' : 'lazy';
-            img.onload = markLoaded;
-            img.onerror = markLoaded;
-            img.src = frameUrl(section, zeroBasedIndex + 1);
-            images[zeroBasedIndex] = img;
-        }
-
-        var eagerCount = Math.min(EAGER_FRAME_COUNT, frameCount);
-        for (var i = 0; i < eagerCount; i++) {
-            loadFrame(i, true);
-        }
-
-        function loadRemainingFrames() {
-            for (var j = eagerCount; j < frameCount; j++) {
-                loadFrame(j, false);
-            }
-        }
-        if ('requestIdleCallback' in window) {
-            window.requestIdleCallback(loadRemainingFrames);
-        } else {
-            window.setTimeout(loadRemainingFrames, 200);
-        }
-
-        resizeCanvas(canvas);
-        var onResize = function () {
-            resizeCanvas(canvas);
-            var img = images[currentFrame];
-            if (img) {
-                drawImage(canvas, ctx, img);
-            }
-        };
-        window.addEventListener('resize', onResize);
-
-        // requestAnimationFrame-throttled draw: ScrollTrigger's onUpdate can
-        // fire many times per scroll tick, but we only ever want to draw
-        // once per animation frame.
-        var currentFrame = -1;
-        var pendingFrame = 0;
-        var rafScheduled = false;
-
-        function scheduleDraw(index) {
-            pendingFrame = index;
-            if (rafScheduled) {
+        function drawFrame(i) {
+            var img = frameImgs[i];
+            if (!img || !img.complete || !img.naturalWidth) {
                 return;
             }
-            rafScheduled = true;
-            window.requestAnimationFrame(function () {
-                rafScheduled = false;
-                if (pendingFrame === currentFrame) {
-                    return;
-                }
-                currentFrame = pendingFrame;
-                var img = images[currentFrame];
-                if (!img) {
-                    return;
-                }
-                if (img.complete && img.naturalWidth) {
-                    drawImage(canvas, ctx, img);
-                } else {
-                    img.onload = function () {
-                        drawImage(canvas, ctx, img);
-                    };
-                }
-            });
+            var cw = canvas.width;
+            var ch = canvas.height;
+            var iw = img.naturalWidth;
+            var ih = img.naturalHeight;
+            var canvasRatio = cw / ch;
+            var imgRatio = iw / ih;
+            var sx, sy, sw, sh;
+            if (imgRatio > canvasRatio) {
+                sh = ih;
+                sw = ih * canvasRatio;
+                sx = (iw - sw) / 2;
+                sy = 0;
+            } else {
+                sw = iw;
+                sh = iw / canvasRatio;
+                sx = 0;
+                sy = (ih - sh) / 2;
+            }
+            ctx.clearRect(0, 0, cw, ch);
+            ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
         }
 
-        whenGsapReady(function () {
-            var gsap = window.gsap;
-            var ScrollTrigger = window.ScrollTrigger;
+        function resizeCanvas() {
+            var dpr = window.devicePixelRatio || 1;
+            canvas.width = canvas.clientWidth * dpr;
+            canvas.height = canvas.clientHeight * dpr;
+            drawFrame(currentFrame);
+        }
+
+        function setLoadingProgress(pct) {
+            if (loading) {
+                loading.style.setProperty('--pct', pct + '%');
+                loading.setAttribute('data-pct', pct);
+            }
+        }
+
+        function preload() {
+            var eagerCount = Math.min(15, frameCount);
+            var loaded = 0;
+
+            function loadOne(i, cb) {
+                var img = new Image();
+                img.onload = img.onerror = function () {
+                    loaded++;
+                    if (cb) {
+                        cb();
+                    }
+                };
+                img.src = frameSrc(i);
+                frameImgs[i] = img;
+            }
+
+            for (var i = 1; i <= eagerCount; i++) {
+                loadOne(i, function () {
+                    setLoadingProgress(Math.round((loaded / eagerCount) * 100));
+                    if (loaded >= eagerCount) {
+                        if (loading) {
+                            loading.style.display = 'none';
+                        }
+                        if (!engineStarted) {
+                            engineStarted = true;
+                            startEngine();
+                        }
+                        drawFrame(1);
+                    }
+                });
+            }
+
+            var next = eagerCount + 1;
+            function lazyStep() {
+                if (next > frameCount) {
+                    return;
+                }
+                loadOne(next++);
+                (window.requestIdleCallback || setTimeout)(lazyStep, 16);
+            }
+            lazyStep();
+        }
+
+        function animateCaptionOut(beat) {
+            if (beat.isFinal) {
+                gsap.to(caption, { scale: 0.92, opacity: 0.3, duration: 0.5, ease: 'power2.in' });
+            } else {
+                gsap.to(caption, { opacity: 0, y: -20, duration: 0.5, ease: 'power2.in' });
+            }
+        }
+
+        function animateCaptionIn(beat) {
+            caption.textContent = beat.text;
+            gsap.fromTo(
+                caption,
+                { opacity: 0, y: 20, scale: 1 },
+                { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power2.out' }
+            );
+        }
+
+        function updateCaption(progress) {
+            var beatIndex = -1;
+            for (var i = 0; i < storyBeats.length; i++) {
+                if (progress >= storyBeats[i].start && progress <= storyBeats[i].end) {
+                    beatIndex = i;
+                    break;
+                }
+            }
+            if (beatIndex === activeBeatIndex) {
+                return;
+            }
+            if (activeBeatIndex !== -1) {
+                animateCaptionOut(storyBeats[activeBeatIndex]);
+            }
+            activeBeatIndex = beatIndex;
+            if (beatIndex !== -1) {
+                animateCaptionIn(storyBeats[beatIndex]);
+            }
+        }
+
+        function updateFinalReveal(progress) {
+            var finalBeat = storyBeats[storyBeats.length - 1];
+            var t = (progress - finalBeat.start) / (finalBeat.end - finalBeat.start);
+            t = Math.min(1, Math.max(0, t));
+            gsap.set(overlay, { opacity: t });
+            gsap.set(searchWrap, { opacity: t, pointerEvents: t > 0.5 ? 'auto' : 'none' });
+            if (t > 0 && hint) {
+                gsap.set(hint, { opacity: 0 });
+            }
+        }
+
+        function onScrollUpdate(progress) {
+            updateCaption(progress);
+            updateFinalReveal(progress);
+            var idx = Math.min(frameCount, Math.max(1, Math.round(progress * (frameCount - 1)) + 1));
+            currentFrame = idx;
+            if (!rafPending) {
+                rafPending = true;
+                requestAnimationFrame(function () {
+                    drawFrame(currentFrame);
+                    rafPending = false;
+                });
+            }
+        }
+
+        function fadeHintOnFirstInput() {
+            var fired = false;
+            function fade() {
+                if (fired) {
+                    return;
+                }
+                fired = true;
+                if (hint) {
+                    hint.style.opacity = 0;
+                }
+            }
+            window.addEventListener('wheel', fade, { once: true, passive: true });
+            window.addEventListener('touchmove', fade, { once: true, passive: true });
+            window.addEventListener('scroll', fade, { once: true, passive: true });
+        }
+
+        function setupScrollTrigger() {
             gsap.registerPlugin(ScrollTrigger);
 
-            // Guard against duplicate ScrollTrigger instances stacking up
-            // if the Website Builder re-renders/re-enters edit mode on
-            // this same section without a full page reload.
-            if (section.__sgcScrollTrigger) {
-                section.__sgcScrollTrigger.kill();
-            }
-            if (section.__sgcTimeline) {
-                section.__sgcTimeline.kill();
+            var existing = instances.get(section);
+            if (existing && existing.scrollTrigger) {
+                existing.scrollTrigger.kill();
             }
 
-            var tl = gsap.timeline({ paused: true });
-
-            captions.forEach(function (caption) {
-                var start = parseFloat(caption.dataset.progressStart) || 0;
-                var end = parseFloat(caption.dataset.progressEnd) || 0;
-                var mid = start + (end - start) / 2;
-                gsap.set(caption, { opacity: 0 });
-                tl.to(caption, { opacity: 1, duration: Math.max(mid - start, 0.001) }, start)
-                  .to(caption, { opacity: 0, duration: Math.max(end - mid, 0.001) }, mid);
-            });
-
-            if (searchEl) {
-                var searchStart = parseFloat(searchEl.dataset.progressStart) || 0.92;
-                var searchEnd = parseFloat(searchEl.dataset.progressEnd) || 1.0;
-                gsap.set(searchEl, { opacity: 0 });
-                searchEl.style.pointerEvents = 'none';
-                // Fades in and holds — no matching fade-out tween, so it
-                // stays visible once the user has scrolled past searchEnd.
-                tl.to(searchEl, {
-                    opacity: 1,
-                    duration: Math.max(searchEnd - searchStart, 0.001),
-                    onStart: function () {
-                        searchEl.style.pointerEvents = 'auto';
-                    },
-                }, searchStart);
-            }
-
-            var scrollTrigger = ScrollTrigger.create({
+            var st = ScrollTrigger.create({
                 trigger: section,
                 start: 'top top',
                 end: 'bottom bottom',
-                pin: pinEl,
-                scrub: 0.5,
+                scrub: true,
                 onUpdate: function (self) {
-                    tl.progress(self.progress);
-                    var idx = Math.round(self.progress * (frameCount - 1));
-                    scheduleDraw(Math.min(frameCount - 1, Math.max(0, idx)));
-                    if (scrollHint && self.progress > 0.001) {
-                        scrollHint.classList.add('o_re_scroll_hero__scrollhint--hidden');
-                    }
-                },
-            });
-
-            section.__sgcScrollTrigger = scrollTrigger;
-            section.__sgcTimeline = tl;
-            section.__sgcOnResize = onResize;
-
-            var firstFrame = images[0];
-            if (firstFrame) {
-                if (firstFrame.complete) {
-                    drawImage(canvas, ctx, firstFrame);
-                } else {
-                    firstFrame.onload = function () {
-                        drawImage(canvas, ctx, firstFrame);
-                    };
+                    onScrollUpdate(self.progress);
                 }
-            }
-        });
-    }
-
-    function teardownScrollHero(section) {
-        if (section.__sgcScrollTrigger) {
-            section.__sgcScrollTrigger.kill();
-        }
-        if (section.__sgcTimeline) {
-            section.__sgcTimeline.kill();
-        }
-        if (section.__sgcOnResize) {
-            window.removeEventListener('resize', section.__sgcOnResize);
-        }
-        section.__sgcScrollHeroInitialized = false;
-        section.__sgcScrollTrigger = null;
-        section.__sgcTimeline = null;
-        section.__sgcOnResize = null;
-    }
-
-    function scanAndInit(root) {
-        (root || document).querySelectorAll('.o_re_scroll_hero').forEach(initScrollHero);
-    }
-
-    scanAndInit(document);
-
-    // The Website Builder can drop a new copy of this snippet onto the page
-    // (or remove one) without a full reload. A MutationObserver keeps that
-    // working under plain vanilla JS, without pulling in the
-    // publicWidget/Interaction machinery this codebase otherwise avoids.
-    if ('MutationObserver' in window) {
-        var observer = new MutationObserver(function (mutations) {
-            mutations.forEach(function (mutation) {
-                mutation.addedNodes.forEach(function (node) {
-                    if (!(node instanceof Element)) {
-                        return;
-                    }
-                    if (node.matches && node.matches('.o_re_scroll_hero')) {
-                        initScrollHero(node);
-                    }
-                    node.querySelectorAll && node.querySelectorAll('.o_re_scroll_hero').forEach(initScrollHero);
-                });
-                mutation.removedNodes.forEach(function (node) {
-                    if (!(node instanceof Element)) {
-                        return;
-                    }
-                    if (node.matches && node.matches('.o_re_scroll_hero')) {
-                        teardownScrollHero(node);
-                    }
-                    node.querySelectorAll && node.querySelectorAll('.o_re_scroll_hero').forEach(teardownScrollHero);
-                });
             });
-        });
-        observer.observe(document.body, { childList: true, subtree: true });
-    }
-}
+            instances.set(section, { scrollTrigger: st });
+        }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', sgcInitScrollHeroSections);
-} else {
-    // DOM is already parsed (always true by the time this lazy-loaded
-    // bundle runs) — just run now instead of waiting for an event that
-    // already fired.
-    sgcInitScrollHeroSections();
-}
+        function startEngine() {
+            if (reducedMotion) {
+                drawFrame(frameCount);
+                gsap && gsap.set ? gsap.set(overlay, { opacity: 1 }) : (overlay.style.opacity = 1);
+                if (searchWrap) {
+                    searchWrap.style.opacity = 1;
+                    searchWrap.style.pointerEvents = 'auto';
+                }
+                if (hint) {
+                    hint.style.display = 'none';
+                }
+                caption.textContent = storyBeats[storyBeats.length - 1].text;
+                caption.style.opacity = 1;
+                return;
+            }
+
+            function onGsapReady() {
+                document.removeEventListener('sgc:gsap-ready', onGsapReady);
+                setupScrollTrigger();
+            }
+
+            if (window.gsap && window.ScrollTrigger) {
+                setupScrollTrigger();
+            } else {
+                document.addEventListener('sgc:gsap-ready', onGsapReady);
+            }
+
+            fadeHintOnFirstInput();
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+        preload();
+    }
+
+    sections.forEach(initHero);
+});

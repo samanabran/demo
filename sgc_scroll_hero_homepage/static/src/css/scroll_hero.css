@@ -1,29 +1,20 @@
-/* Scroll Story Hero — cinematic scroll-triggered image-sequence hero.
-   Plain CSS (matches this site's existing extra.css / property_listing.css
-   — small, targeted overrides on top of standard Bootstrap, not a
-   SCSS-driven design system). */
-
-.o_re_scroll_hero {
+.s_re_scroll_hero {
     position: relative;
-    /* Real height is set inline by JS from data-pin-height once GSAP is
-       ready. This is just a safe layout fallback before that runs. */
-    min-height: 100vh;
-    background-color: #0b0b0d;
+    width: 100%;
+    height: var(--sgc-pin-height, 600vh);
+    background-color: #000;
 }
 
-.o_re_scroll_hero--static {
-    height: 100vh;
-}
-
-.o_re_scroll_hero__pin {
-    position: relative;
+.s_re_hero_stage {
+    position: sticky;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100vh;
     overflow: hidden;
-    background-color: #0b0b0d;
 }
 
-.o_re_scroll_hero__canvas {
+.s_re_hero_canvas {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -31,97 +22,99 @@
     display: block;
 }
 
-.o_re_scroll_hero__loader {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    z-index: 5;
-    padding: 4px 12px;
-    border-radius: 999px;
-    background: rgba(0, 0, 0, 0.55);
-    color: #fff;
-    font-size: 0.8rem;
-}
-
-.o_re_scroll_hero__captions {
+.s_re_hero_overlay_final {
     position: absolute;
     inset: 0;
-    z-index: 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    opacity: 0;
     pointer-events: none;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.15) 55%, transparent 100%);
 }
 
-.o_re_scroll_hero__caption {
+.s_re_hero_caption {
     position: absolute;
-    max-width: 90%;
+    left: 50%;
+    bottom: 14%;
+    transform: translateX(-50%);
+    max-width: 600px;
+    width: 90%;
     text-align: center;
     opacity: 0;
-}
-
-.o_re_scroll_hero__caption h1 {
+    pointer-events: none;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: clamp(24px, 4vw, 40px);
+    line-height: 1.4;
     color: #fff;
-    font-weight: 600;
-    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    z-index: 2;
 }
 
-.o_re_scroll_hero__search {
+.s_re_hero_search_wrap {
     position: absolute;
-    left: 50%;
-    bottom: 8%;
-    transform: translateX(-50%);
-    z-index: 4;
-    width: min(900px, 92%);
-    opacity: 0;
-}
-
-.o_re_scroll_hero__search .card {
-    background: rgba(255, 255, 255, 0.96);
-    border: none;
-}
-
-.o_re_scroll_hero__scrollhint {
-    position: absolute;
-    left: 50%;
-    bottom: 24px;
-    transform: translateX(-50%);
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    color: #fff;
-    font-size: 0.85rem;
-    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
-    transition: opacity 0.4s ease;
-}
-
-.o_re_scroll_hero__scrollhint--hidden {
+    left: 0;
+    right: 0;
+    bottom: 6%;
     opacity: 0;
     pointer-events: none;
+    z-index: 3;
 }
 
-.o_re_scroll_hero__chevron {
-    animation: o_re_scroll_hero_bounce 1.6s infinite;
+.s_re_hero_search_form .form-control,
+.s_re_hero_search_form .form-select {
+    height: 48px;
 }
 
-@keyframes o_re_scroll_hero_bounce {
+.s_re_hero_scroll_hint {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+}
+
+.s_re_hero_chevron {
+    display: block;
+    margin: 6px auto 0;
+    animation: sgc-bounce 1.6s infinite;
+}
+
+@keyframes sgc-bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(8px); }
 }
 
-@media (max-width: 767px) {
-    .o_re_scroll_hero__caption h1 {
-        font-size: 1.6rem;
-    }
-    .o_re_scroll_hero__search {
-        bottom: 4%;
-    }
+.s_re_hero_loading {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: #000;
+    z-index: 5;
+    font-family: Georgia, serif;
+    letter-spacing: 0.05em;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .o_re_scroll_hero__chevron {
-        animation: none;
+    .s_re_scroll_hero {
+        height: 100vh;
+    }
+
+    .s_re_hero_stage {
+        position: relative;
+    }
+
+    .s_re_hero_scroll_hint {
+        display: none;
+    }
+
+    .s_re_hero_caption {
+        opacity: 1;
     }
 }
