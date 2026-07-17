@@ -104,7 +104,9 @@
         .o_wsale_products_searchbar input,
         .o_searchbar input,
         .property_filter_form .form-control,
-        .property_filter_form .form-select {
+        .property_filter_form .form-select,
+        .filter-section .form-control,
+        .filter-section .form-select {
           border-radius: 12px;
           border: 1px solid rgba(107, 100, 89, 0.25);
           background-color: #fff;
@@ -116,7 +118,9 @@
         .o_wsale_products_searchbar input:focus,
         .o_searchbar input:focus,
         .property_filter_form .form-control:focus,
-        .property_filter_form .form-select:focus {
+        .property_filter_form .form-select:focus,
+        .filter-section .form-control:focus,
+        .filter-section .form-select:focus {
           border-color: var(--re-accent);
           box-shadow: 0 0 0 4px rgba(200, 162, 74, 0.25);
           outline: none;
@@ -124,10 +128,13 @@
 
         .o_property_listing_filter .btn-primary,
         .property_filter_form .btn-primary,
-        .property_filter_form button[type="submit"] {
+        .property_filter_form button[type="submit"],
+        .filter-section .btn-primary {
           background-color: var(--re-accent);
           border-color: var(--re-accent);
-          color: #fff;
+          /* Navy, not white: white-on-gold is 2.41:1, below WCAG AA's 4.5:1
+             for normal text. Navy-on-gold is 6.51:1. */
+          color: var(--re-primary);
           font-family: var(--re-font-body);
           font-weight: 600;
           letter-spacing: 0.01em;
@@ -137,7 +144,8 @@
 
         .o_property_listing_filter .btn-primary:hover,
         .property_filter_form .btn-primary:hover,
-        .property_filter_form button[type="submit"]:hover {
+        .property_filter_form button[type="submit"]:hover,
+        .filter-section .btn-primary:hover {
           background-color: #B6902F;
           border-color: #B6902F;
         }

@@ -268,12 +268,28 @@ function sgcInitScrollHero() {
             if (t > 0 && hint) {
                 gsap.set(hint, { opacity: 0 });
             }
-            // Gate the icon stagger CSS animation: add `.ready` once the
+            // Gate the icon stagger CSS animation: mark ready once the
             // search bar begins its fade-in so the per-icon animation-delay
-            // cascade only fires after the form itself is visible.
-            if (t >= 0.2 && searchWrap && !searchWrap.classList.contains('ready')) {
-                searchWrap.classList.add('ready');
+            // cascade only fires after the form itself is visible (this also
+            // restores keyboard tab order — see markSearchReady above).
+            if (t >= 0.2) {
+                markSearchReady();
             }
+        }
+
+        function markSearchReady() {
+            // The inputs/select/button ship with tabindex="-1" in markup so a
+            // keyboard user tabbing through the page can't land on a form
+            // that's still invisible (opacity 0, pointer-events none) for
+            // most of the 600vh scroll. Once the reveal actually starts,
+            // restore each element's natural tab order.
+            if (!searchWrap || searchWrap.classList.contains('ready')) {
+                return;
+            }
+            searchWrap.classList.add('ready');
+            searchWrap.querySelectorAll('[tabindex="-1"]').forEach(function (el) {
+                el.removeAttribute('tabindex');
+            });
         }
 
         function applyProgress(progress) {
@@ -358,7 +374,7 @@ function sgcInitScrollHero() {
                 if (searchWrap) {
                     searchWrap.style.opacity = 1;
                     searchWrap.style.pointerEvents = 'auto';
-                    searchWrap.classList.add('ready');
+                    markSearchReady();
                 }
                 if (hint) {
                     hint.style.display = 'none';

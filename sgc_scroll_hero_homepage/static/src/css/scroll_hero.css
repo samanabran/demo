@@ -181,6 +181,7 @@
     font-weight: 500;
     color: var(--re-text);
     border-radius: 0;
+    touch-action: manipulation;
 }
 
 .s_re_hero_search_input.form-select {
@@ -210,13 +211,16 @@
     border: none;
     border-radius: 999px;
     background-color: var(--re-accent);
-    color: #fff;
+    /* Navy, not white: white-on-gold at this size/weight is 2.41:1, below
+       WCAG AA's 4.5:1 for normal text. Navy-on-gold is 6.51:1. */
+    color: var(--re-primary);
     font-family: var(--re-font-body);
     font-weight: 600;
     font-size: 15px;
     letter-spacing: 0.01em;
     white-space: nowrap;
     cursor: pointer;
+    touch-action: manipulation;
     transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -257,11 +261,12 @@
     }
 }
 
-/* Mobile — shrink icons to 20px and font down one step */
+/* Mobile — shrink icons; button label steps down. Input font-size stays at
+   16px (not smaller) — anything below that triggers iOS Safari's
+   auto-zoom-on-focus, which yanks the layout the moment a field is tapped. */
 @media (max-width: 575.98px) {
     .s_re_hero_search_icon { width: 20px; height: 20px; }
     .s_re_hero_search_icon svg { width: 20px; height: 20px; }
-    .s_re_hero_search_input { font-size: 15px; }
     .s_re_hero_search_btn { font-size: 14px; min-width: 0; padding: 0 24px; }
 }
 

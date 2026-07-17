@@ -58,7 +58,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
               </span>
               <input type="text" name="search" class="form-control s_re_hero_search_input"
-                     placeholder="City or property name" aria-label="City or property name"/>
+                     placeholder="City or property name" aria-label="City or property name" tabindex="-1"/>
             </div>
 
             <span class="s_re_hero_search_divider" aria-hidden="true"></span>
@@ -67,7 +67,7 @@
               <span class="s_re_hero_search_icon" aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 2l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
               </span>
-              <select name="property_type" class="form-select s_re_hero_search_input" aria-label="Property type">
+              <select name="property_type" class="form-select s_re_hero_search_input" aria-label="Property type" tabindex="-1">
                 <option value="">Any type</option>
                 <option value="residential">Residential</option>
                 <option value="commercial">Commercial</option>
@@ -82,7 +82,7 @@
               <span class="s_re_hero_search_icon" aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
               </span>
-              <select name="state" class="form-select s_re_hero_search_input" aria-label="Status">
+              <select name="state" class="form-select s_re_hero_search_input" aria-label="Status" tabindex="-1">
                 <option value="available" selected="selected">Available</option>
                 <option value="booked">Booked</option>
                 <option value="sold">Sold</option>
@@ -91,7 +91,7 @@
               </select>
             </div>
 
-            <button type="submit" class="s_re_hero_search_btn">
+            <button type="submit" class="s_re_hero_search_btn" tabindex="-1">
               <span class="s_re_hero_search_icon" aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
               </span>
@@ -102,7 +102,7 @@
 
         <div class="s_re_hero_scroll_hint">
           <span>Scroll to begin</span>
-          <i class="fa fa-chevron-down s_re_hero_chevron"/>
+          <i class="fa fa-chevron-down s_re_hero_chevron" aria-hidden="true"/>
         </div>
 
         <div class="s_re_hero_loading" aria-hidden="true">
