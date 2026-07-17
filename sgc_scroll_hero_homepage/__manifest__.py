@@ -16,6 +16,7 @@ sgc_realestate_website.
         'views/snippets/s_re_scroll_hero.xml',
         'views/snippets/snippets.xml',
         'views/homepage.xml',
+        'data/set_homepage_url.xml',
     ],
     'assets': {
         'web.assets_frontend': [
@@ -27,4 +28,5 @@ sgc_realestate_website.
     'installable': True,
     'application': False,
     'license': 'LGPL-3',
+    'uninstall_hook': 'uninstall_hook',
 }

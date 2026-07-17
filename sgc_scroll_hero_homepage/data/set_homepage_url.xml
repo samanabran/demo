@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Runs once on install only (noupdate). Repoints '/' at the new page via
+       website.homepage_url — does NOT delete, unlink, or unpublish the
+       existing Website-Configurator-generated homepage view/page record,
+       which remains installed and reachable at its own URL as a fallback. -->
+  <data noupdate="1">
+    <record id="website.default_website" model="website">
+      <field name="homepage_url">/scroll-hero-home</field>
+    </record>
+  </data>
+</odoo>
