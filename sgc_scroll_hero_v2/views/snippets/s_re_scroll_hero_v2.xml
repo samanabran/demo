@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="s_re_scroll_hero_v2" name="Scroll Story Hero V2">
+    <section data-snippet="s_re_scroll_hero_v2" data-name="Scroll Story Hero V2"
+             data-frame-count="223" data-pin-height="600"
+             class="s_re_scroll_hero_v2 position-relative p-0">
+
+      <!-- Guarded CDN + font injection, scoped to this snippet instance only.
+           Mirrors sgc_scroll_hero_homepage's pattern so GSAP loads once
+           regardless of which hero snippet is on the page. -->
+      <script>
+        (function () {
+          function loadScript(src, cb) {
+            var s = document.createElement('script');
+            s.src = src;
+            s.onload = cb;
+            document.head.appendChild(s);
+          }
+          function announceReady() {
+            document.dispatchEvent(new Event('sgc:gsap-ready'));
+          }
+          if (window.gsap &amp;&amp; window.ScrollTrigger) {
+            announceReady();
+          } else if (window.gsap &amp;&amp; !window.ScrollTrigger) {
+            loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js', announceReady);
+          } else {
+            loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js', function () {
+              loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js', announceReady);
+            });
+          }
+          if (!document.querySelector('link[data-sgc-font="fraunces"]')) {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.setAttribute('data-sgc-font', 'fraunces');
+            link.href = 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&amp;display=swap';
+            document.head.appendChild(link);
+          }
+        })();
+      </script>
+
+      <div class="s_re_hero_stage_v2">
+        <canvas class="s_re_hero_canvas_v2" aria-hidden="true"/>
+
+        <div class="s_re_hero_overlay_final_v2" aria-hidden="true"/>
+
+        <div class="s_re_hero_caption_v2" role="status" aria-live="polite"/>
+
+        <div class="s_re_hero_search_wrap_v2">
+          <form method="get" action="/offplan/properties" class="s_re_hero_search_form_v2 mx-auto">
+            <div class="row g-2 g-md-0 align-items-center">
+              <div class="col-12 col-md-4">
+                <input type="text" name="search" class="form-control"
+                       placeholder="Enter a city or property name"/>
+              </div>
+              <div class="col-6 col-md-3">
+                <select name="property_type" class="form-select">
+                  <option value="">Any Type</option>
+                  <option value="residential">Residential</option>
+                  <option value="commercial">Commercial</option>
+                  <option value="industrial">Industrial</option>
+                  <option value="land">Land</option>
+                </select>
+              </div>
+              <div class="col-6 col-md-3">
+                <select name="state" class="form-select">
+                  <option value="available" selected="selected">Available</option>
+                  <option value="booked">Booked</option>
+                  <option value="sold">Sold</option>
+                  <option value="rented">Rented</option>
+                  <option value="under_maintenance">Under Maintenance</option>
+                </select>
+              </div>
+              <div class="col-12 col-md-2">
+                <button type="submit" class="s_re_hero_search_btn_v2 w-100">Search Properties</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="s_re_hero_scroll_hint_v2">
+          <span>Scroll to begin</span>
+          <i class="fa fa-chevron-down s_re_hero_chevron_v2"/>
+        </div>
+
+        <div class="s_re_hero_loading_v2" aria-hidden="true">
+          <span>Loading…</span>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

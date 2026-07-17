@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <template id="scroll_hero_v2_page" name="SGC Scroll Hero V2 Test Page">
+      <t t-call="website.layout">
+        <t t-set="pageName" t-value="'scroll_hero_v2'"/>
+        <div id="wrap" class="oe_structure oe_empty">
+          <t t-call="sgc_scroll_hero_v2.s_re_scroll_hero_v2"/>
+
+          <section class="container py-5">
+            <h2 class="text-center mb-4">Featured Properties</h2>
+            <t t-set="featured_properties"
+               t-value="request.env['property.details'].sudo().search(
+                          [('is_published_website', '=', True)],
+                          order='create_date desc', limit=6)"/>
+            <div class="row">
+              <t t-foreach="featured_properties" t-as="prop">
+                <div class="col-md-4 mb-4">
+                  <div class="card h-100">
+                    <img t-if="prop.image_1920"
+                         t-attf-src="/web/image/property.details/#{prop.id}/image_1920"
+                         class="card-img-top" style="height:220px;object-fit:cover;"
+                         alt="Property"/>
+                    <div class="card-body">
+                      <h5 class="card-title" t-esc="prop.name"/>
+                      <p class="card-text text-muted" t-esc="prop.city"/>
+                      <p class="card-text fw-bold">
+                        <span t-if="prop.sale_lease == 'sale'" t-esc="prop.sale_price"
+                              t-options="{'widget': 'monetary', 'display_currency': prop.currency_id}"/>
+                        <span t-elif="prop.sale_lease == 'lease'" t-esc="prop.rent_price"
+                              t-options="{'widget': 'monetary', 'display_currency': prop.currency_id}"/>
+                        <span t-else="1" t-esc="prop.price"
+                              t-options="{'widget': 'monetary', 'display_currency': prop.currency_id}"/>
+                      </p>
+                      <div class="d-flex gap-3 text-muted small mb-3">
+                        <span><i class="fa fa-bed"/> <t t-esc="prop.bedrooms"/></span>
+                        <span><i class="fa fa-bath"/> <t t-esc="prop.bathrooms"/></span>
+                        <span><i class="fa fa-arrows-alt"/> <t t-esc="prop.area"/> sq ft</span>
+                      </div>
+                      <a t-attf-href="/offplan/property/#{prop.id}" class="btn btn-primary w-100">
+                        View Details
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </t>
+            </div>
+          </section>
+        </div>
+      </t>
+    </template>
+
+    <record id="website_page_scroll_hero_v2" model="website.page">
+      <field name="view_id" ref="scroll_hero_v2_page"/>
+      <field name="url">/scroll-hero-v2</field>
+      <field name="is_published">True</field>
+      <field name="website_indexed">True</field>
+    </record>
+  </data>
+</odoo>

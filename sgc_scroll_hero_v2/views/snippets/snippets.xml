@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="scroll_hero_v2_snippets" inherit_id="website.snippets" name="Storytelling Snippets V2">
+    <xpath expr="//snippets[@id='snippet_structure']" position="after">
+      <snippets id="snippet_storytelling_v2" string="Storytelling V2">
+        <t t-snippet="sgc_scroll_hero_v2.s_re_scroll_hero_v2"
+           t-thumbnail="/sgc_scroll_hero_v2/static/src/img/s_re_scroll_hero_v2_thumb.jpg"
+           t-name="Scroll Story Hero V2"/>
+      </snippets>
+    </xpath>
+  </template>
+</odoo>
