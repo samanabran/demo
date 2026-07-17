@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!--
+    Site-wide font injection.
+    Loaded into every page that inherits website.layout, so the heading and
+    body typefaces are available before any other template runs.
+
+    Both <link> tags are guarded with data-sgc-font=… so the legacy
+    snippet-scoped loaders (in s_re_scroll_hero.xml) skip themselves
+    when the global load is already present, avoiding duplicate fetches.
+  -->
+  <template id="re_layout_fonts" inherit_id="website.layout" name="SGC Real Estate Fonts">
+    <xpath expr="//head" position="inside">
+      <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&amp;display=swap"
+            data-sgc-font="fraunces-global"/>
+      <link rel="stylesheet"
+            href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700&amp;display=swap"
+            data-sgc-font="cabinet-grotesk-global"/>
+    </xpath>
+  </template>
+
+  <!--
+    Site-wide design system tokens and base typography rules.
+
+    All five colors and both font families are declared once on :root so
+    they can be re-deployed site-wide by editing this block alone. The
+    selectors that follow are deliberately broad — they let existing
+    property listing and detail pages (rendered by the remote
+    sgc_offplan_rental_property_management module) pick up the same
+    palette without per-component edits.
+  -->
+  <template id="re_layout_design_tokens" inherit_id="website.layout" name="SGC Real Estate Design System">
+    <xpath expr="//head" position="inside">
+      <style>
+        :root {
+          /* Brand palette */
+          --re-primary: #10243B;
+          --re-accent: #C8A24A;
+          --re-bg: #F7F4EE;
+          --re-text: #262421;
+          --re-text-muted: #6B6459;
+
+          /* Typefaces — Cabinet Grotesk with Inter as system-safe fallback */
+          --re-font-display: 'Fraunces', Georgia, serif;
+          --re-font-body: 'Cabinet Grotesk', 'Inter', sans-serif;
+        }
+
+        /* Headings — display serif */
+        h1, h2, h3, h4, h5, h6,
+        .h1, .h2, .h3, .h4, .h5, .h6 {
+          font-family: var(--re-font-display);
+          letter-spacing: 0.01em;
+          line-height: 1.2;
+          color: var(--re-text);
+        }
+
+        /* Body, form controls, buttons — UI sans */
+        body,
+        input, select, textarea, button,
+        .btn, .form-control, .form-select {
+          font-family: var(--re-font-body);
+          line-height: 1.6;
+          color: var(--re-text);
+        }
+
+        /* Property status badges — one source of truth for the palette */
+        .badge.badge-available,
+        .o_property_state_available,
+        .property_state_available {
+          background-color: var(--re-primary);
+          color: var(--re-bg);
+        }
+        .badge.badge-booked,
+        .o_property_state_booked,
+        .property_state_booked {
+          background-color: #8A6A2A;
+          color: var(--re-bg);
+        }
+        .badge.badge-sold,
+        .o_property_state_sold,
+        .property_state_sold {
+          background-color: #6B3A2A;
+          color: var(--re-bg);
+        }
+        .badge.badge-rented,
+        .o_property_state_rented,
+        .property_state_rented {
+          background-color: #2A5B3A;
+          color: var(--re-bg);
+        }
+        .badge.badge-under_maintenance,
+        .o_property_state_under_maintenance,
+        .property_state_under_maintenance {
+          background-color: var(--re-text-muted);
+          color: var(--re-bg);
+        }
+
+        /* Listing-page filter / search form — shares the hero's visual
+           language so the two feel like one design system. */
+        .o_property_listing_filter .form-control,
+        .o_property_listing_filter .form-select,
+        .o_wsale_products_searchbar input,
+        .o_searchbar input,
+        .property_filter_form .form-control,
+        .property_filter_form .form-select {
+          border-radius: 12px;
+          border: 1px solid rgba(107, 100, 89, 0.25);
+          background-color: #fff;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .o_property_listing_filter .form-control:focus,
+        .o_property_listing_filter .form-select:focus,
+        .o_wsale_products_searchbar input:focus,
+        .o_searchbar input:focus,
+        .property_filter_form .form-control:focus,
+        .property_filter_form .form-select:focus {
+          border-color: var(--re-accent);
+          box-shadow: 0 0 0 4px rgba(200, 162, 74, 0.25);
+          outline: none;
+        }
+
+        .o_property_listing_filter .btn-primary,
+        .property_filter_form .btn-primary,
+        .property_filter_form button[type="submit"] {
+          background-color: var(--re-accent);
+          border-color: var(--re-accent);
+          color: #fff;
+          font-family: var(--re-font-body);
+          font-weight: 600;
+          letter-spacing: 0.01em;
+          border-radius: 999px;
+          white-space: nowrap;
+        }
+
+        .o_property_listing_filter .btn-primary:hover,
+        .property_filter_form .btn-primary:hover,
+        .property_filter_form button[type="submit"]:hover {
+          background-color: #B6902F;
+          border-color: #B6902F;
+        }
+
+        /* Price displays — give them visual weight as a confident statement */
+        .o_property_price,
+        .property_price,
+        [data-field="sale_price"],
+        [data-field="rent_price"],
+        .oe_currency_value {
+          font-family: var(--re-font-body);
+          font-weight: 700;
+          font-size: 1.05em;
+          color: var(--re-primary);
+          letter-spacing: 0.01em;
+        }
+      </style>
+    </xpath>
+  </template>
+
+</odoo>

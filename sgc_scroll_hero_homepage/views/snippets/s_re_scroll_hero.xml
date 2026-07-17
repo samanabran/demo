@@ -52,34 +52,51 @@
         <div class="s_re_hero_caption" role="status" aria-live="polite"/>
 
         <div class="s_re_hero_search_wrap">
-          <form method="get" action="/offplan/properties" class="s_re_hero_search_form mx-auto">
-            <div class="row g-2 g-md-0 align-items-center">
-              <div class="col-12 col-md-4">
-                <input type="text" name="search" class="form-control"
-                       placeholder="Enter a city or property name"/>
-              </div>
-              <div class="col-6 col-md-3">
-                <select name="property_type" class="form-select">
-                  <option value="">Any Type</option>
-                  <option value="residential">Residential</option>
-                  <option value="commercial">Commercial</option>
-                  <option value="industrial">Industrial</option>
-                  <option value="land">Land</option>
-                </select>
-              </div>
-              <div class="col-6 col-md-3">
-                <select name="state" class="form-select">
-                  <option value="available" selected="selected">Available</option>
-                  <option value="booked">Booked</option>
-                  <option value="sold">Sold</option>
-                  <option value="rented">Rented</option>
-                  <option value="under_maintenance">Under Maintenance</option>
-                </select>
-              </div>
-              <div class="col-12 col-md-2">
-                <button type="submit" class="s_re_hero_search_btn w-100">Search Properties</button>
-              </div>
+          <form method="get" action="/offplan/properties" class="s_re_hero_search_form" aria-label="Property search">
+            <div class="s_re_hero_search_segment s_re_hero_search_segment--location">
+              <span class="s_re_hero_search_icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
+              <input type="text" name="search" class="form-control s_re_hero_search_input"
+                     placeholder="City or property name" aria-label="City or property name"/>
             </div>
+
+            <span class="s_re_hero_search_divider" aria-hidden="true"></span>
+
+            <div class="s_re_hero_search_segment s_re_hero_search_segment--type">
+              <span class="s_re_hero_search_icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 2l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+              </span>
+              <select name="property_type" class="form-select s_re_hero_search_input" aria-label="Property type">
+                <option value="">Any type</option>
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="industrial">Industrial</option>
+                <option value="land">Land</option>
+              </select>
+            </div>
+
+            <span class="s_re_hero_search_divider" aria-hidden="true"></span>
+
+            <div class="s_re_hero_search_segment s_re_hero_search_segment--status">
+              <span class="s_re_hero_search_icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+              </span>
+              <select name="state" class="form-select s_re_hero_search_input" aria-label="Status">
+                <option value="available" selected="selected">Available</option>
+                <option value="booked">Booked</option>
+                <option value="sold">Sold</option>
+                <option value="rented">Rented</option>
+                <option value="under_maintenance">Under Maintenance</option>
+              </select>
+            </div>
+
+            <button type="submit" class="s_re_hero_search_btn">
+              <span class="s_re_hero_search_icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              </span>
+              <span class="s_re_hero_search_btn_label">Search Properties</span>
+            </button>
           </form>
         </div>
 

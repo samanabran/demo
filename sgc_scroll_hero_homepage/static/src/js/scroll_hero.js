@@ -268,6 +268,12 @@ function sgcInitScrollHero() {
             if (t > 0 && hint) {
                 gsap.set(hint, { opacity: 0 });
             }
+            // Gate the icon stagger CSS animation: add `.ready` once the
+            // search bar begins its fade-in so the per-icon animation-delay
+            // cascade only fires after the form itself is visible.
+            if (t >= 0.2 && searchWrap && !searchWrap.classList.contains('ready')) {
+                searchWrap.classList.add('ready');
+            }
         }
 
         function applyProgress(progress) {
@@ -352,6 +358,7 @@ function sgcInitScrollHero() {
                 if (searchWrap) {
                     searchWrap.style.opacity = 1;
                     searchWrap.style.pointerEvents = 'auto';
+                    searchWrap.classList.add('ready');
                 }
                 if (hint) {
                     hint.style.display = 'none';

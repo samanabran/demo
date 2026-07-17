@@ -50,6 +50,28 @@
     z-index: 2;
 }
 
+/* =====================================================================
+   Design tokens — single source of truth for the brand palette + fonts.
+   These mirror the values in views/layout.xml so the search bar is
+   always styled even if the layout-extension template is unavailable.
+   To rebrand: change here AND in layout.xml.
+   ===================================================================== */
+:root {
+    --re-primary: #10243B;
+    --re-accent: #C8A24A;
+    --re-bg: #F7F4EE;
+    --re-text: #262421;
+    --re-text-muted: #6B6459;
+    --re-font-display: 'Fraunces', Georgia, serif;
+    --re-font-body: 'Cabinet Grotesk', 'Inter', sans-serif;
+}
+
+/* =====================================================================
+   Search bar — rebuilt for the v4 design system.
+   Centered absolutely against the sticky stage; pill form with three
+   segments (location / type / status) separated by hairline dividers,
+   plus a gold CTA button. Icons animate in via a JS-gated CSS stagger.
+   ===================================================================== */
 .s_re_hero_search_wrap {
     position: absolute;
     top: 50%;
@@ -59,6 +81,7 @@
        this same translate to seed its internal transform cache. */
     transform: translate(-50%, -50%);
     width: 90%;
+    max-width: 900px;
     opacity: 0;
     pointer-events: none;
     z-index: 3;
@@ -70,44 +93,185 @@
     }
 }
 
+/* Pill form: cream background, flex row of segments + button */
 .s_re_hero_search_form {
-    max-width: 760px;
-    background: #ffffff;
+    display: flex;
+    align-items: center;
+    background-color: var(--re-bg);
     border-radius: 999px;
-    padding: 16px;
+    padding: 8px 8px 8px 24px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    gap: 0;
+    min-height: 80px;
+    font-family: var(--re-font-body);
 }
 
-.s_re_hero_search_form .form-control,
-.s_re_hero_search_form .form-select {
-    height: 62px;
-    background-color: #f4f4f5;
-    border: 1px solid #e5e5e5;
-    border-radius: 12px;
-    font-size: 18px;
-    padding: 14px 18px;
+.s_re_hero_search_segment {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1 1 0;
+    min-width: 0;
+    height: 64px;
+    padding: 0 20px;
 }
 
-.s_re_hero_search_form .form-control::placeholder {
-    color: #6b6b6b;
+/* 1px vertical divider between segments */
+.s_re_hero_search_divider {
+    flex: 0 0 auto;
+    width: 1px;
+    height: 32px;
+    background-color: rgba(107, 100, 89, 0.30); /* --re-text-muted @ 30% */
+    align-self: center;
 }
 
-.s_re_hero_search_btn {
-    height: 62px;
-    padding: 0 36px;
-    border: none;
-    border-radius: 12px;
-    background: #111111;
-    color: #fff;
-    font-weight: 600;
+/* Lucide icon container — animates in via .ready gate */
+.s_re_hero_search_icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 auto;
+    color: var(--re-text-muted);
+    transition: color 0.25s ease, transform 0.3s ease;
+    animation: re-icon-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+    animation-play-state: paused;
+}
+
+.s_re_hero_search_segment--location .s_re_hero_search_icon { animation-delay: 0.08s; }
+.s_re_hero_search_segment--type     .s_re_hero_search_icon { animation-delay: 0.16s; }
+.s_re_hero_search_segment--status   .s_re_hero_search_icon { animation-delay: 0.24s; }
+.s_re_hero_search_btn               .s_re_hero_search_icon { animation-delay: 0.32s; }
+
+@keyframes re-icon-enter {
+    from { opacity: 0; transform: scale(0.6); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+/* Stagger is gated by a `.ready` class on the wrap; JS adds it when the
+   final-reveal timeline begins (t >= 0.2 inside the final beat). */
+.s_re_hero_search_wrap.ready .s_re_hero_search_icon {
+    animation-play-state: running;
+}
+
+/* Hover/focus micro-interaction on each segment — icon shifts color
+   to accent and bounces 3px up. */
+.s_re_hero_search_segment:hover .s_re_hero_search_icon,
+.s_re_hero_search_segment:focus-within .s_re_hero_search_icon {
+    color: var(--re-accent);
+    transform: translateY(-3px);
+}
+
+/* Input/select inside a segment — strip Bootstrap chrome so the
+   segment looks like one continuous control. */
+.s_re_hero_search_input,
+.s_re_hero_search_input.form-control,
+.s_re_hero_search_input.form-select {
+    flex: 1 1 auto;
+    min-width: 0;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    height: 64px;
+    padding: 0 !important;
+    font-family: var(--re-font-body);
     font-size: 16px;
+    font-weight: 500;
+    color: var(--re-text);
+    border-radius: 0;
+}
+
+.s_re_hero_search_input.form-select {
+    background-image: none; /* hide the default Bootstrap select chevron;
+                               the icon we already injected serves that role. */
+}
+
+.s_re_hero_search_input::placeholder {
+    color: var(--re-text-muted);
+    font-weight: 400;
+}
+
+.s_re_hero_search_input:focus {
+    outline: none;
+}
+
+/* CTA button — gold pill, white-space: nowrap so "Search Properties"
+   never wraps and the form's perceived center stays put. */
+.s_re_hero_search_btn {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 64px;
+    min-width: 180px;
+    padding: 0 32px;
+    border: none;
+    border-radius: 999px;
+    background-color: var(--re-accent);
+    color: #fff;
+    font-family: var(--re-font-body);
+    font-weight: 600;
+    font-size: 15px;
     letter-spacing: 0.01em;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .s_re_hero_search_btn:hover {
-    background: #2a2a2a;
+    background-color: #B6902F;        /* accent @ 85%, blended toward black */
     transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(200, 162, 74, 0.45);
+}
+
+.s_re_hero_search_btn .s_re_hero_search_icon {
+    color: currentColor;
+    /* button icon begins at full size, no extra transform */
+}
+
+/* Tablet — keep one row only if it still fits; otherwise stack the two
+   selects below the location segment. Single inline-flex-with-wrap form
+   allows this without a media-query class swap on the JS side. */
+@media (max-width: 991.98px) {
+    .s_re_hero_search_form {
+        flex-wrap: wrap;
+        border-radius: 28px;
+        padding: 12px 12px 12px 16px;
+    }
+    .s_re_hero_search_segment--location {
+        flex: 1 1 100%;
+        padding: 12px 12px;
+        border-bottom: 1px solid rgba(107, 100, 89, 0.20);
+    }
+    .s_re_hero_search_segment--type,
+    .s_re_hero_search_segment--status {
+        flex: 1 1 calc(50% - 16px);
+        padding: 12px 12px;
+    }
+    .s_re_hero_search_divider { display: none; }
+    .s_re_hero_search_btn {
+        flex: 1 1 100%;
+        margin-top: 4px;
+    }
+}
+
+/* Mobile — shrink icons to 20px and font down one step */
+@media (max-width: 575.98px) {
+    .s_re_hero_search_icon { width: 20px; height: 20px; }
+    .s_re_hero_search_icon svg { width: 20px; height: 20px; }
+    .s_re_hero_search_input { font-size: 15px; }
+    .s_re_hero_search_btn { font-size: 14px; min-width: 0; padding: 0 24px; }
+}
+
+/* Reduced motion — kill icon stagger, keep everything fully visible. */
+@media (prefers-reduced-motion: reduce) {
+    .s_re_hero_search_icon {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
 }
 
 .s_re_hero_scroll_hint {
