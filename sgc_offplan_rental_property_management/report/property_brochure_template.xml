@@ -18,13 +18,27 @@
                 <t t-set="sale_lease_display" t-value="dict(property._fields['sale_lease'].selection).get(property.sale_lease, property.sale_lease)"/>
                 <t t-set="state_display" t-value="dict(property._fields['state'].selection).get(property.state, property.state)"/>
 
+                <link rel="stylesheet"
+                      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&amp;display=swap"/>
+                <link rel="stylesheet"
+                      href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700&amp;display=swap"/>
+
                 <style>
+                    /* SGC brand tokens (mirrors --re-* custom properties used
+                       site-wide in sgc_scroll_hero_homepage/views/layout.xml)
+                       -- PDF/wkhtmltopdf rendering doesn't reliably support
+                       CSS custom properties, so the literal hex values are
+                       repeated directly rather than referenced via var(). */
                     @page {
                         size: A4;
                         margin: 0;
                     }
                     * { box-sizing: border-box; margin: 0; padding: 0; }
-                    body { font-family: 'Helvetica Neue', Arial, sans-serif; color: #1a1a2e; background: #fff; }
+                    body {
+                        font-family: 'Cabinet Grotesk', 'Inter', Arial, sans-serif;
+                        color: #262421;
+                        background: #fff;
+                    }
 
                     .brochure-page {
                         width: 210mm;
@@ -36,7 +50,7 @@
 
                     /* ── COVER PAGE ── */
                     .cover {
-                        background: linear-gradient(135deg, #0a1628 0%, #1a2744 40%, #2d4a7a 100%);
+                        background: linear-gradient(135deg, #10243B 0%, #1B3A5C 40%, #2F5C8F 100%);
                         color: #fff;
                         display: flex;
                         flex-direction: column;
@@ -60,20 +74,21 @@
                         left: 0;
                         right: 0;
                         height: 50%;
-                        background: linear-gradient(to top, rgba(10,22,40,0.95), transparent);
+                        background: linear-gradient(to top, rgba(16,36,59,0.95), transparent);
                     }
                     .cover-badge {
                         position: absolute;
                         top: 30px;
                         right: 30px;
-                        background: linear-gradient(135deg, #c9a961, #e8d5a3);
-                        color: #0a1628;
+                        background: linear-gradient(135deg, #C8A24A, #E4CFA0);
+                        color: #10243B;
                         padding: 10px 24px;
                         font-size: 13px;
                         font-weight: 700;
                         letter-spacing: 2px;
                         text-transform: uppercase;
                         border-radius: 2px;
+                        font-family: 'Cabinet Grotesk', 'Inter', Arial, sans-serif;
                     }
                     .cover-content {
                         padding: 40px 50px;
@@ -86,29 +101,31 @@
                         font-size: 11px;
                         letter-spacing: 4px;
                         text-transform: uppercase;
-                        color: #c9a961;
+                        color: #C8A24A;
                         margin-bottom: 12px;
+                        font-family: 'Cabinet Grotesk', 'Inter', Arial, sans-serif;
                     }
                     .cover-title {
-                        font-size: 38px;
-                        font-weight: 300;
+                        font-family: 'Fraunces', Georgia, serif;
+                        font-size: 40px;
+                        font-weight: 400;
                         line-height: 1.15;
                         margin-bottom: 8px;
-                        letter-spacing: -0.5px;
+                        letter-spacing: -0.01em;
                     }
                     .cover-title strong {
                         font-weight: 700;
-                        color: #c9a961;
+                        color: #C8A24A;
                     }
                     .cover-subtitle {
                         font-size: 15px;
-                        color: rgba(255,255,255,0.7);
+                        color: rgba(255,255,255,0.75);
                         margin-bottom: 30px;
                     }
                     .cover-meta {
                         display: flex;
                         gap: 40px;
-                        border-top: 1px solid rgba(201,169,97,0.3);
+                        border-top: 1px solid rgba(200,162,74,0.35);
                         padding-top: 20px;
                     }
                     .cover-meta-item {
@@ -118,7 +135,7 @@
                         font-size: 10px;
                         letter-spacing: 2px;
                         text-transform: uppercase;
-                        color: #c9a961;
+                        color: #C8A24A;
                         margin-bottom: 4px;
                     }
                     .cover-meta-value {
@@ -135,21 +152,23 @@
                         align-items: center;
                         gap: 16px;
                         margin-bottom: 28px;
-                        border-bottom: 2px solid #c9a961;
+                        border-bottom: 2px solid #C8A24A;
                         padding-bottom: 12px;
                     }
                     .section-number {
+                        font-family: 'Fraunces', Georgia, serif;
                         font-size: 42px;
-                        font-weight: 200;
-                        color: #c9a961;
+                        font-weight: 300;
+                        color: #C8A24A;
                         line-height: 1;
                     }
                     .section-title {
+                        font-family: 'Fraunces', Georgia, serif;
                         font-size: 22px;
-                        font-weight: 300;
-                        letter-spacing: 1px;
+                        font-weight: 600;
+                        letter-spacing: 0.02em;
                         text-transform: uppercase;
-                        color: #0a1628;
+                        color: #10243B;
                     }
                     .details-grid {
                         display: grid;
@@ -158,8 +177,8 @@
                         margin-bottom: 36px;
                     }
                     .detail-card {
-                        background: #f8f9fc;
-                        border-left: 3px solid #c9a961;
+                        background: #F7F4EE;
+                        border-left: 3px solid #C8A24A;
                         padding: 18px 20px;
                         border-radius: 0 4px 4px 0;
                     }
@@ -167,36 +186,39 @@
                         font-size: 10px;
                         letter-spacing: 2px;
                         text-transform: uppercase;
-                        color: #8a8a9a;
+                        color: #6B6459;
                         margin-bottom: 6px;
                     }
                     .detail-card-value {
+                        font-family: 'Fraunces', Georgia, serif;
                         font-size: 18px;
                         font-weight: 600;
-                        color: #0a1628;
+                        color: #10243B;
                     }
                     .detail-card-value.price {
                         font-size: 26px;
-                        color: #c9a961;
+                        color: #C8A24A;
                         font-weight: 700;
                     }
                     .description-box {
-                        background: #f8f9fc;
+                        background: #F7F4EE;
                         padding: 24px;
                         border-radius: 4px;
                         margin-bottom: 36px;
                     }
                     .description-box h3 {
+                        font-family: 'Fraunces', Georgia, serif;
                         font-size: 14px;
                         letter-spacing: 2px;
                         text-transform: uppercase;
-                        color: #c9a961;
+                        color: #C8A24A;
                         margin-bottom: 12px;
+                        font-weight: 600;
                     }
                     .description-box p {
                         font-size: 13px;
                         line-height: 1.7;
-                        color: #4a4a5a;
+                        color: #6B6459;
                     }
 
                     /* ── AMENITIES ── */
@@ -211,21 +233,21 @@
                         align-items: center;
                         gap: 10px;
                         padding: 12px 16px;
-                        background: #f8f9fc;
+                        background: #F7F4EE;
                         border-radius: 4px;
                         font-size: 12px;
-                        color: #2d4a7a;
+                        color: #10243B;
                     }
                     .amenity-icon {
                         width: 28px;
                         height: 28px;
-                        background: linear-gradient(135deg, #c9a961, #e8d5a3);
+                        background: linear-gradient(135deg, #C8A24A, #E4CFA0);
                         border-radius: 50%;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         font-size: 12px;
-                        color: #0a1628;
+                        color: #10243B;
                     }
 
                     /* ── NEARBY ── */
@@ -238,7 +260,7 @@
                         justify-content: space-between;
                         align-items: center;
                         padding: 12px 0;
-                        border-bottom: 1px solid #eee;
+                        border-bottom: 1px solid rgba(107,100,89,0.18);
                         font-size: 13px;
                     }
                     .nearby-item:last-child {
@@ -246,10 +268,10 @@
                     }
                     .nearby-name {
                         font-weight: 500;
-                        color: #0a1628;
+                        color: #10243B;
                     }
                     .nearby-distance {
-                        color: #c9a961;
+                        color: #C8A24A;
                         font-weight: 600;
                     }
 
@@ -273,7 +295,7 @@
 
                     /* ── FOOTER ── */
                     .brochure-footer {
-                        background: #0a1628;
+                        background: #10243B;
                         color: #fff;
                         padding: 30px 50px;
                         display: flex;
@@ -281,22 +303,23 @@
                         align-items: center;
                     }
                     .footer-brand {
+                        font-family: 'Fraunces', Georgia, serif;
                         font-size: 18px;
-                        font-weight: 300;
-                        letter-spacing: 2px;
+                        font-weight: 400;
+                        letter-spacing: 0.02em;
                     }
                     .footer-brand strong {
-                        color: #c9a961;
+                        color: #C8A24A;
                         font-weight: 700;
                     }
                     .footer-contact {
                         text-align: right;
                         font-size: 11px;
-                        color: rgba(255,255,255,0.6);
+                        color: rgba(255,255,255,0.65);
                         line-height: 1.6;
                     }
                     .footer-contact a {
-                        color: #c9a961;
+                        color: #C8A24A;
                         text-decoration: none;
                     }
 
@@ -319,7 +342,7 @@
                             <img t-att-src="image_data_uri(property.image_1920)" alt="Property"/>
                         </t>
                         <t t-else="">
-                            <div style="width:100%;height:100%;background:linear-gradient(135deg,#1a2744,#2d4a7a);"></div>
+                            <div style="width:100%;height:100%;background:linear-gradient(135deg,#1B3A5C,#2F5C8F);"></div>
                         </t>
                         <div class="cover-hero-overlay"></div>
                         <div class="cover-badge">EXCLUSIVE LISTING</div>
