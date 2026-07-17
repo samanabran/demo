@@ -304,9 +304,6 @@ class HrEmploymentCertificate(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if not vals.get('reference_number'):
-                vals['reference_number'] = self.env['ir.sequence'].next_by_code(
-                    'hr.employment.certificate') or '/'
             if not vals.get('verification_token'):
                 vals['verification_token'] = uuid.uuid4().hex
             if not vals.get('state'):
