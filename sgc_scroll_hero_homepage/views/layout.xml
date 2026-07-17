@@ -130,6 +130,11 @@
         .property_filter_form .btn-primary,
         .property_filter_form button[type="submit"],
         .filter-section .btn-primary {
+          /* !important on background-image: some listing pages ship their own
+             .btn-primary gradient (e.g. offplan_rental's property_listing.css
+             uses a blue/purple linear-gradient) that paints over a plain
+             background-color otherwise. */
+          background-image: none !important;
           background-color: var(--re-accent);
           border-color: var(--re-accent);
           /* Navy, not white: white-on-gold is 2.41:1, below WCAG AA's 4.5:1
