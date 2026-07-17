@@ -2,7 +2,7 @@
 <templates xml:space="preserve">
 
     <t t-name="sgc_offplan_rental_property_management.RentalPropertyDashboard" owl="1">
-        <div class="sgc-dashboard">
+        <div class="sgc-re-dashboard">
 
             <!-- Header -->
             <header class="sgc-header">

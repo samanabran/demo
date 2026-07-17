@@ -2,11 +2,15 @@
    SGC Real Estate Executive Dashboard — Premium Design System
    Mirrors the Construction dashboard design language (sgc-* tokens).
    Light + Dark theme via [data-theme="light|dark"] on <html>.
+   Scoped to :has(.sgc-re-dashboard) — "sgc-dashboard" is reused by other
+   SGC apps (e.g. Construction) sharing the same global asset bundle, and an
+   unscoped :root rule here would leak these tokens (and get overridden by
+   theirs) on every backend page, not just this one.
    ============================================================================ */
 
 /* ---- Theme tokens -------------------------------------------------------- */
-:root,
-[data-theme="light"] {
+:root:has(.sgc-re-dashboard),
+[data-theme="light"]:has(.sgc-re-dashboard) {
     --surface-base:    #f4f6fb;
     --surface-card:    #ffffff;
     --surface-elevated:#ffffff;
@@ -37,7 +41,7 @@
     --header-height: 72px;
 }
 
-[data-theme="dark"] {
+[data-theme="dark"]:has(.sgc-re-dashboard) {
     --surface-base:    #050816;
     --surface-card:    #0d1426;
     --surface-elevated:#131b35;
@@ -65,7 +69,7 @@
 }
 
 /* ---- Shell -------------------------------------------------------------- */
-.sgc-dashboard {
+.sgc-re-dashboard {
     min-height: 100vh;
     height: auto;
     background: var(--surface-base);
@@ -76,9 +80,9 @@
     overflow-x: hidden;
 }
 
-.o_action:has(.sgc-dashboard),
-.o_action .sgc-dashboard,
-.o_action_manager .sgc-dashboard {
+.o_action:has(.sgc-re-dashboard),
+.o_action .sgc-re-dashboard,
+.o_action_manager .sgc-re-dashboard {
     overflow: visible !important;
     height: auto !important;
     max-height: none !important;
