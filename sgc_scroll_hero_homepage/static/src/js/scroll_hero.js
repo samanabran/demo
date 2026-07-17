@@ -51,19 +51,17 @@ function sgcInitScrollHero() {
         var targetProgress = 0;
         var smoothedProgress = 0;
         var SGC_SMOOTHING = 0.15;
-        var renderLoopStarted = false;
+        var loopRunning = false;
+        var stillFrames = 0;
+        var STILLNESS_THRESHOLD = 0.0005;
+        var STILLNESS_FRAMES_REQUIRED = 2;
+        var hqSettleToken = 0;
 
         function frameSrc(i) {
             return '/sgc_scroll_hero_homepage/static/src/img/frames/frame_' + pad4(i) + '.webp';
         }
 
-        function drawFrame(i) {
-            var img = frameImgs[i];
-            if (!img || !img.complete || !img.naturalWidth) {
-                return;
-            }
-            var cw = canvas.width;
-            var ch = canvas.height;
+        function coverCrop(img, cw, ch) {
             var iw = img.naturalWidth;
             var ih = img.naturalHeight;
             var canvasRatio = cw / ch;
@@ -80,12 +78,59 @@ function sgcInitScrollHero() {
                 sx = 0;
                 sy = (ih - sh) / 2;
             }
+            return { sx: sx, sy: sy, sw: sw, sh: sh };
+        }
+
+        function drawFrame(i) {
+            var img = frameImgs[i];
+            if (!img || !img.complete || !img.naturalWidth) {
+                return;
+            }
+            var cw = canvas.width;
+            var ch = canvas.height;
+            var c = coverCrop(img, cw, ch);
             ctx.clearRect(0, 0, cw, ch);
-            ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
+            ctx.drawImage(img, c.sx, c.sy, c.sw, c.sh, 0, 0, cw, ch);
+        }
+
+        function drawFrameSettled(i) {
+            // Runs once, only once scrolling has actually stopped. Chrome/
+            // Firefox's createImageBitmap resizeQuality:'high' resamples
+            // measurably better than drawImage's own scaling, so the one
+            // frame the user is left looking at gets the best result even
+            // though it's too costly (async decode) to run on every tick.
+            var img = frameImgs[i];
+            if (!img || !img.complete || !img.naturalWidth || !window.createImageBitmap) {
+                return;
+            }
+            var cw = canvas.width;
+            var ch = canvas.height;
+            var c = coverCrop(img, cw, ch);
+            var token = ++hqSettleToken;
+            createImageBitmap(img, c.sx, c.sy, c.sw, c.sh, {
+                resizeWidth: cw,
+                resizeHeight: ch,
+                resizeQuality: 'high'
+            }).then(function (bitmap) {
+                if (token !== hqSettleToken || loopRunning) {
+                    bitmap.close();
+                    return;
+                }
+                ctx.clearRect(0, 0, cw, ch);
+                ctx.drawImage(bitmap, 0, 0);
+                bitmap.close();
+            }).catch(function () {});
         }
 
         function resizeCanvas() {
-            var dpr = window.devicePixelRatio || 1;
+            // Source frames are 1920x1080. Above ~1.5x that's already more
+            // buffer pixels than the frames have real detail for, so the
+            // raw devicePixelRatio (2, 2.5, 3 on modern displays) forces an
+            // upscale draw that reads soft the moment scrolling stops and
+            // the eye has time to inspect a static frame. Clamping trades a
+            // little theoretical ceiling on the most extreme displays for
+            // never demanding more resolution than the source can give.
+            var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
             canvas.width = canvas.clientWidth * dpr;
             canvas.height = canvas.clientHeight * dpr;
             // Setting canvas.width/height resets all 2D context state, so
@@ -231,15 +276,24 @@ function sgcInitScrollHero() {
         }
 
         function startRenderLoop() {
-            if (renderLoopStarted) {
+            if (loopRunning) {
                 return;
             }
-            renderLoopStarted = true;
+            loopRunning = true;
+            stillFrames = 0;
             function tick() {
                 smoothedProgress += (targetProgress - smoothedProgress) * SGC_SMOOTHING;
-                if (Math.abs(targetProgress - smoothedProgress) < 0.0005) {
+                var delta = Math.abs(targetProgress - smoothedProgress);
+                stillFrames = delta < STILLNESS_THRESHOLD ? stillFrames + 1 : 0;
+
+                if (stillFrames >= STILLNESS_FRAMES_REQUIRED) {
                     smoothedProgress = targetProgress;
+                    applyProgress(smoothedProgress);
+                    drawFrameSettled(currentFrame);
+                    loopRunning = false;
+                    return; // at rest: stop scheduling further ticks
                 }
+
                 applyProgress(smoothedProgress);
                 requestAnimationFrame(tick);
             }
@@ -277,6 +331,7 @@ function sgcInitScrollHero() {
                 scrub: 0.4,
                 onUpdate: function (self) {
                     targetProgress = self.progress;
+                    startRenderLoop();
                 }
             });
             instances.set(section, { scrollTrigger: st });
@@ -286,6 +341,7 @@ function sgcInitScrollHero() {
         function startEngine() {
             if (reducedMotion) {
                 drawFrame(frameCount);
+                drawFrameSettled(frameCount);
                 gsap && gsap.set ? gsap.set(overlay, { opacity: 1 }) : (overlay.style.opacity = 1);
                 if (searchWrap) {
                     searchWrap.style.opacity = 1;
