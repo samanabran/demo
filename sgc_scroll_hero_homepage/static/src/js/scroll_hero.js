@@ -1,12 +1,21 @@
 /** @odoo-module **/
 
 // Scroll Story Hero — cinematic scroll-triggered image-sequence hero.
-// Plain vanilla JS with DOMContentLoaded, matching the rest of this site's
-// frontend code (see sgc_offplan_rental_property_management's
-// property_search.js / property_carousel.js) rather than publicWidget or
-// the newer Interaction class pattern.
+// Plain vanilla JS, matching the rest of this site's frontend code style
+// (see sgc_offplan_rental_property_management's property_search.js /
+// property_carousel.js) rather than publicWidget or the Interaction class.
+//
+// NOTE on the readiness check below (deliberately NOT a bare
+// `document.addEventListener('DOMContentLoaded', ...)`  like those files
+// use): Odoo 19 ships every module's `web.assets_frontend` JS inside a
+// lazily-loaded bundle that only starts executing after the `window.load`
+// event (see web/static/src/legacy/js/public/lazyloader.js). By then
+// `DOMContentLoaded` has already fired, so a plain listener for it here
+// would never run — this hero would stay black forever. Checking
+// `document.readyState` first makes init work correctly regardless of
+// when this file actually executes.
 
-document.addEventListener('DOMContentLoaded', function () {
+function sgcInitScrollHeroSections() {
 
     var EAGER_FRAME_COUNT = 10;
 
@@ -332,4 +341,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         observer.observe(document.body, { childList: true, subtree: true });
     }
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', sgcInitScrollHeroSections);
+} else {
+    // DOM is already parsed (always true by the time this lazy-loaded
+    // bundle runs) — just run now instead of waiting for an event that
+    // already fired.
+    sgcInitScrollHeroSections();
+}
