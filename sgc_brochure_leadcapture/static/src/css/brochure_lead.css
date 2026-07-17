@@ -1,0 +1,76 @@
+/* Reuses the --re-* design tokens injected site-wide by
+   sgc_scroll_hero_homepage/views/layout.xml. Falls back to literal values
+   if that template hasn't loaded for some reason. */
+.sgc_brochure_btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--re-accent, #C8A24A);
+    color: var(--re-primary, #10243B);
+    font-family: var(--re-font-body, 'Cabinet Grotesk', 'Inter', sans-serif);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.01em;
+    border: none;
+    border-radius: 999px;
+    padding: 12px 28px;
+    min-height: 44px;
+    touch-action: manipulation;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sgc_brochure_btn:hover {
+    background-color: #B6902F;
+    color: var(--re-primary, #10243B);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(200, 162, 74, 0.35);
+}
+
+.sgc_brochure_modal_content {
+    border-radius: 16px;
+    border: none;
+    font-family: var(--re-font-body, 'Cabinet Grotesk', 'Inter', sans-serif);
+}
+
+.sgc_brochure_modal_content .modal-title {
+    font-family: var(--re-font-display, 'Fraunces', Georgia, serif);
+    color: var(--re-text, #262421);
+}
+
+.sgc_brochure_form .form-label {
+    font-weight: 600;
+    color: var(--re-text, #262421);
+    font-size: 13px;
+}
+
+.sgc_brochure_form .form-control {
+    border-radius: 10px;
+    border: 1px solid rgba(107, 100, 89, 0.25);
+    min-height: 44px;
+}
+
+.sgc_brochure_form .form-control:focus {
+    border-color: var(--re-accent, #C8A24A);
+    box-shadow: 0 0 0 4px rgba(200, 162, 74, 0.2);
+    outline: none;
+}
+
+.sgc_brochure_submit_btn {
+    background-color: var(--re-accent, #C8A24A);
+    color: var(--re-primary, #10243B);
+    font-weight: 600;
+    border: none;
+    border-radius: 999px;
+    min-height: 44px;
+    touch-action: manipulation;
+    transition: background-color 0.2s ease;
+}
+
+.sgc_brochure_submit_btn:hover {
+    background-color: #B6902F;
+}
+
+.sgc_brochure_submit_btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

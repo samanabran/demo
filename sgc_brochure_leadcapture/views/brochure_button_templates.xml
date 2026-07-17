@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <template id="brochure_button_inject"
+            inherit_id="sgc_offplan_rental_property_management.offplan_property_detail"
+            name="Download Brochure button + lead-capture popup">
+    <xpath expr="//div[hasclass('property-highlights')]" position="before">
+      <button type="button"
+              class="btn sgc_brochure_btn mb-4"
+              t-att-data-property-id="property.id"
+              t-att-data-property-name="property.name"
+              data-bs-toggle="modal"
+              data-bs-target="#sgc_brochure_modal">
+        <span class="fa fa-file-pdf-o" aria-hidden="true"/>
+        Download Brochure
+      </button>
+    </xpath>
+
+    <xpath expr="//div[hasclass('property-highlights')]" position="after">
+      <div class="modal fade" id="sgc_brochure_modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content sgc_brochure_modal_content">
+            <div class="modal-header">
+              <h5 class="modal-title">Download Brochure</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"/>
+            </div>
+            <div class="modal-body">
+              <p class="text-muted mb-3">Leave your details and the brochure download will start right away.</p>
+              <form class="sgc_brochure_form">
+                <div class="mb-3">
+                  <label class="form-label">Name</label>
+                  <input type="text" class="form-control" name="name" required="required"/>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input type="email" class="form-control" name="email" required="required"/>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Phone</label>
+                  <input type="tel" class="form-control" name="phone" required="required"/>
+                </div>
+                <div class="sgc_brochure_form_error text-danger mb-2" style="display:none;"/>
+                <button type="submit" class="btn sgc_brochure_submit_btn w-100">
+                  <span class="sgc_brochure_submit_label">Download Brochure</span>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </xpath>
+  </template>
+
+</odoo>
