@@ -126,7 +126,11 @@ function sgcInitScrollHero() {
                     return;
                 }
                 loadOne(next++);
-                (window.requestIdleCallback || setTimeout)(lazyStep, 16);
+                if (window.requestIdleCallback) {
+                    window.requestIdleCallback(lazyStep, { timeout: 500 });
+                } else {
+                    setTimeout(lazyStep, 16);
+                }
             }
             lazyStep();
         }
