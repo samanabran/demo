@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <record id="view_sgc_llm_provider_list" model="ir.ui.view">
+    <field name="name">sgc.llm.provider.list</field>
+    <field name="model">sgc.llm.provider</field>
+    <field name="arch" type="xml">
+      <list string="LLM Providers">
+        <field name="sequence" widget="handle"/>
+        <field name="name"/>
+        <field name="provider_type"/>
+        <field name="model_id"/>
+        <field name="active" widget="boolean_toggle"/>
+        <field name="last_used"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_sgc_llm_provider_form" model="ir.ui.view">
+    <field name="name">sgc.llm.provider.form</field>
+    <field name="model">sgc.llm.provider</field>
+    <field name="arch" type="xml">
+      <form string="LLM Provider">
+        <sheet>
+          <group>
+            <group>
+              <field name="name"/>
+              <field name="provider_type"/>
+              <field name="sequence"/>
+              <field name="active"/>
+            </group>
+            <group>
+              <field name="base_url" placeholder="Verify against the provider's current API docs"/>
+              <field name="model_id" placeholder="Exact model slug expected by this provider"/>
+              <field name="api_key" password="True" placeholder="Enter the real key here -- never pre-filled"/>
+              <field name="timeout"/>
+            </group>
+          </group>
+          <group string="Last Attempt">
+            <field name="last_used"/>
+            <field name="last_error"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="action_sgc_llm_provider" model="ir.actions.act_window">
+    <field name="name">LLM Providers</field>
+    <field name="res_model">sgc.llm.provider</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <menuitem id="menu_sgc_llm_router_root"
+            name="LLM Router"
+            sequence="90"
+            groups="base.group_system"/>
+  <menuitem id="menu_sgc_llm_provider"
+            name="Providers"
+            parent="menu_sgc_llm_router_root"
+            action="action_sgc_llm_provider"
+            sequence="10"/>
+
+</odoo>

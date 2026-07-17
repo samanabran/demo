@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+  <!--
+    Seeded inactive: api_key is intentionally empty (never populated by
+    automation; enter real keys in the UI yourself) and the placeholder
+    base_url/model_id values below are NOT verified against current
+    provider docs. Fill in real values and flip active=True per record
+    before use. noupdate="1" means a module upgrade won't overwrite
+    whatever you edit here.
+  -->
+
+  <record id="llm_provider_opencode_default" model="sgc.llm.provider">
+    <field name="name">OpenCode - DeepSeek V4 Free (default)</field>
+    <field name="sequence">10</field>
+    <field name="active" eval="False"/>
+    <field name="provider_type">opencode</field>
+    <field name="base_url">https://REPLACE-WITH-OPENCODE-ENDPOINT</field>
+    <field name="model_id">REPLACE-WITH-EXACT-DEEPSEEK-V4-SLUG</field>
+  </record>
+
+  <record id="llm_provider_mistral_fallback" model="sgc.llm.provider">
+    <field name="name">Mistral (high context, fallback)</field>
+    <field name="sequence">20</field>
+    <field name="active" eval="False"/>
+    <field name="provider_type">mistral</field>
+    <field name="base_url">https://api.mistral.ai/v1/chat/completions</field>
+    <field name="model_id">REPLACE-WITH-EXACT-HIGH-CONTEXT-MODEL-SLUG</field>
+  </record>
+
+  <record id="llm_provider_groq_fallback" model="sgc.llm.provider">
+    <field name="name">Groq (high context, fallback)</field>
+    <field name="sequence">30</field>
+    <field name="active" eval="False"/>
+    <field name="provider_type">groq</field>
+    <field name="base_url">https://api.groq.com/openai/v1/chat/completions</field>
+    <field name="model_id">REPLACE-WITH-EXACT-HIGH-CONTEXT-MODEL-SLUG</field>
+  </record>
+
+  <record id="llm_provider_opencode_last_fallback" model="sgc.llm.provider">
+    <field name="name">OpenCode - Nemotron Ultra Free (last fallback)</field>
+    <field name="sequence">40</field>
+    <field name="active" eval="False"/>
+    <field name="provider_type">opencode</field>
+    <field name="base_url">https://REPLACE-WITH-OPENCODE-ENDPOINT</field>
+    <field name="model_id">REPLACE-WITH-EXACT-NEMOTRON-ULTRA-SLUG</field>
+  </record>
+
+</odoo>
