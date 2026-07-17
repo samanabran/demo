@@ -15,6 +15,7 @@ sgc_realestate_website.
     'data': [
         'views/snippets/s_re_scroll_hero.xml',
         'views/snippets/snippets.xml',
+        'views/layout.xml',
         'views/homepage.xml',
         'data/set_homepage_url.xml',
     ],
