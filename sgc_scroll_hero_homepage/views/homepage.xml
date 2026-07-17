@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+  <data>
     <template id="homepage_scroll_hero_page" name="SGC Scroll Hero Homepage" page="True">
       <t t-call="website.layout">
         <t t-set="pageName" t-value="'home'"/>
@@ -55,4 +56,5 @@
       <field name="is_published">True</field>
       <field name="website_indexed">True</field>
     </record>
+  </data>
 </odoo>
