@@ -154,6 +154,26 @@
           color: var(--re-primary);
           letter-spacing: 0.01em;
         }
+
+        /* sgc_offplan_rental_property_management renders prices as Bootstrap
+           .text-primary headings, which carry !important and override both
+           the rule above and the generic heading color rule. Verified real
+           markup (offplan_property_listing.xml / offplan_property_detail.xml):
+           listing price is h4.text-primary inside .property-card; detail
+           price is h2.text-primary plus a span.text-primary.font-weight-bold
+           for the "similar properties" price row. Neither template exposes a
+           page-level wrapper class, so scope by the verified ancestor where
+           one exists and by tag elsewhere rather than a bare .text-primary
+           override (which would also hit the navbar-brand link and decorative
+           icon spans elsewhere on the site). */
+        .property-card .text-primary,
+        h2.text-primary,
+        span.text-primary.font-weight-bold {
+          color: var(--re-primary) !important;
+          font-family: var(--re-font-body);
+          font-weight: 700;
+          font-size: 1.05em;
+        }
       </style>
     </xpath>
   </template>
