@@ -82,7 +82,7 @@ class SaleContract(models.Model):
     # Commission Distribution (dynamic lines)
     # -------------------------------------------------------------------------
     commission_line_ids = fields.One2many(
-        'commission.line', 'contract_id',
+        'property.commission.line', 'contract_id',
         string='Commission Lines',
         help='Dynamic commission distribution to external and internal parties',
     )
@@ -192,7 +192,7 @@ class SaleContract(models.Model):
         return {
             'name': _('Add Commission Line'),
             'type': 'ir.actions.act_window',
-            'res_model': 'commission.line',
+            'res_model': 'property.commission.line',
             'view_mode': 'form',
             'target': 'new',
             'context': {

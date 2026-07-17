@@ -6,8 +6,7 @@ from odoo.exceptions import UserError
 
 
 class CommissionLine(models.Model):
-    _name = 'commission.line'
-    _inherit = 'commission.line'
+    _name = 'property.commission.line'
     _description = 'Commission Distribution Line'
     _order = 'sequence, id'
 

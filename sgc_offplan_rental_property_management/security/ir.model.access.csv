@@ -100,7 +100,7 @@ access_property_sale_tenancy_xls_report,property.sale.tenancy.xls.report,model_p
 access_property_vendor_wizard,property.vendor.wizard,model_property_vendor_wizard,base.group_user,1,0,0,0
 access_subproject_creation,subproject.creation,model_subproject_creation,base.group_user,1,0,0,0
 access_unit_creation,unit.creation,model_unit_creation,base.group_user,1,0,0,0
-access_commission_line_manager,commission.line.manager,model_commission_line,property_rental_manager,1,1,1,1
-access_commission_line_officer,commission.line.officer,model_commission_line,property_rental_officer,1,1,1,0
+access_commission_line_manager,commission.line.manager,model_property_commission_line,property_rental_manager,1,1,1,1
+access_commission_line_officer,commission.line.officer,model_property_commission_line,property_rental_officer,1,1,1,0
 access_property_vendor_commission_line_manager,property.vendor.commission.line.manager,model_property_vendor_commission_line,property_rental_manager,1,1,1,1
 access_property_vendor_commission_line_officer,property.vendor.commission.line.officer,model_property_vendor_commission_line,property_rental_officer,1,1,1,0
