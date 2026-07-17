@@ -52,33 +52,40 @@
 
 .s_re_hero_search_wrap {
     position: absolute;
+    top: 50%;
     left: 50%;
-    bottom: 7%;
-    transform: translateX(-50%);
-    width: 92%;
+    /* Resting transform for pre-JS paint; GSAP takes over via xPercent/
+       yPercent once the final beat starts driving opacity/scale, and reads
+       this same translate to seed its internal transform cache. */
+    transform: translate(-50%, -50%);
+    width: 90%;
     opacity: 0;
     pointer-events: none;
     z-index: 3;
 }
 
+@media (max-width: 767.98px) {
+    .s_re_hero_search_wrap {
+        width: calc(100% - 40px);
+    }
+}
+
 .s_re_hero_search_form {
-    max-width: 940px;
-    background: rgba(20, 20, 22, 0.35);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
-    backdrop-filter: blur(20px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    border-radius: 20px;
-    padding: 14px;
-    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+    max-width: 760px;
+    background: #ffffff;
+    border-radius: 999px;
+    padding: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 }
 
 .s_re_hero_search_form .form-control,
 .s_re_hero_search_form .form-select {
-    height: 52px;
-    background-color: rgba(255, 255, 255, 0.95);
-    border: none;
+    height: 62px;
+    background-color: #f4f4f5;
+    border: 1px solid #e5e5e5;
     border-radius: 12px;
-    font-size: 15px;
+    font-size: 18px;
+    padding: 14px 18px;
 }
 
 .s_re_hero_search_form .form-control::placeholder {
@@ -86,18 +93,20 @@
 }
 
 .s_re_hero_search_btn {
-    height: 52px;
+    height: 62px;
+    padding: 0 36px;
     border: none;
     border-radius: 12px;
-    background: #fff;
-    color: #111;
+    background: #111111;
+    color: #fff;
     font-weight: 600;
+    font-size: 16px;
     letter-spacing: 0.01em;
     transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
 .s_re_hero_search_btn:hover {
-    background: #f0f0f0;
+    background: #2a2a2a;
     transform: translateY(-1px);
 }
 

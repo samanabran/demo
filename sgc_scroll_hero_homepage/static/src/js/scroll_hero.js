@@ -258,7 +258,13 @@ function sgcInitScrollHero() {
             var t = (progress - finalBeat.start) / (finalBeat.end - finalBeat.start);
             t = Math.min(1, Math.max(0, t));
             gsap.set(overlay, { opacity: t });
-            gsap.set(searchWrap, { opacity: t, pointerEvents: t > 0.5 ? 'auto' : 'none' });
+            gsap.set(searchWrap, {
+                xPercent: -50,
+                yPercent: -50,
+                opacity: t,
+                scale: 0.9 + 0.1 * t,
+                pointerEvents: t > 0.5 ? 'auto' : 'none'
+            });
             if (t > 0 && hint) {
                 gsap.set(hint, { opacity: 0 });
             }
