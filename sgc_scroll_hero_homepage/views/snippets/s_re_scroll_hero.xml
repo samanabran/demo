@@ -3,7 +3,7 @@
   <template id="s_re_scroll_hero" name="Scroll Story Hero">
     <section data-snippet="s_re_scroll_hero" data-name="Scroll Story Hero"
              data-frame-count="240" data-pin-height="600"
-             class="s_re_scroll_hero position-relative overflow-hidden p-0">
+             class="s_re_scroll_hero position-relative p-0">
 
       <!-- Guarded CDN + font injection, scoped to this snippet instance only.
            Sitewide assets_frontend bundle is deliberately NOT used for GSAP,
