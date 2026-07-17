@@ -26,15 +26,68 @@
     box-shadow: 0 8px 20px rgba(200, 162, 74, 0.35);
 }
 
-.sgc_brochure_modal_content {
-    border-radius: 16px;
-    border: none;
-    font-family: var(--re-font-body, 'Cabinet Grotesk', 'Inter', sans-serif);
+/* Self-contained overlay/dialog: this page's existing $.fn.modal executes
+   without error but doesn't actually toggle visibility (a stub or an
+   unrelated plugin sharing the name), so show/hide is driven entirely by
+   the .sgc_brochure_open class below rather than any host-page JS/CSS. */
+.sgc_brochure_overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1060;
+    background: rgba(16, 36, 59, 0.55);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-.sgc_brochure_modal_content .modal-title {
+.sgc_brochure_overlay.sgc_brochure_open {
+    display: flex;
+}
+
+.sgc_brochure_dialog {
+    width: 100%;
+    max-width: 420px;
+}
+
+.sgc_brochure_modal_content {
+    background: #fff;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    font-family: var(--re-font-body, 'Cabinet Grotesk', 'Inter', sans-serif);
+    overflow: hidden;
+}
+
+.sgc_brochure_modal_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(107, 100, 89, 0.15);
+}
+
+.sgc_brochure_modal_title {
     font-family: var(--re-font-display, 'Fraunces', Georgia, serif);
     color: var(--re-text, #262421);
+    font-size: 20px;
+    margin: 0;
+}
+
+.sgc_brochure_close_btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    line-height: 1;
+    color: var(--re-text-muted, #6B6459);
+    cursor: pointer;
+    padding: 4px;
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.sgc_brochure_modal_body {
+    padding: 24px;
 }
 
 .sgc_brochure_form .form-label {

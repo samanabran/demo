@@ -21,19 +21,26 @@
             return;
         }
 
+        // Fully self-contained overlay/dialog -- deliberately not using
+        // Bootstrap's .modal/.modal-dialog classes or relying on any
+        // show/hide plugin (this page has a $.fn.modal that runs without
+        // error but doesn't actually toggle visibility; rather than depend
+        // on whatever that stub is, show/hide is handled entirely with
+        // sgc_brochure_*-prefixed classes and CSS defined in
+        // brochure_lead.css).
         var wrap = document.createElement('div');
         wrap.innerHTML =
             '<button type="button" class="btn sgc_brochure_btn mb-4">' +
             '  <span class="fa fa-file-pdf-o" aria-hidden="true"></span> Download Brochure' +
             '</button>' +
-            '<div class="modal fade" id="sgc_brochure_modal" tabindex="-1" aria-hidden="true">' +
-            '  <div class="modal-dialog modal-dialog-centered">' +
-            '    <div class="modal-content sgc_brochure_modal_content">' +
-            '      <div class="modal-header">' +
-            '        <h5 class="modal-title">Download Brochure</h5>' +
-            '        <button type="button" class="btn-close sgc_brochure_close_btn" aria-label="Close">&#215;</button>' +
+            '<div class="sgc_brochure_overlay" id="sgc_brochure_modal" aria-hidden="true">' +
+            '  <div class="sgc_brochure_dialog">' +
+            '    <div class="sgc_brochure_modal_content">' +
+            '      <div class="sgc_brochure_modal_header">' +
+            '        <h5 class="sgc_brochure_modal_title">Download Brochure</h5>' +
+            '        <button type="button" class="sgc_brochure_close_btn" aria-label="Close">&#215;</button>' +
             '      </div>' +
-            '      <div class="modal-body">' +
+            '      <div class="sgc_brochure_modal_body">' +
             '        <p class="text-muted mb-3">Leave your details and the brochure download will start right away.</p>' +
             '        <form class="sgc_brochure_form">' +
             '          <div class="mb-3"><label class="form-label">Name</label><input type="text" class="form-control" name="name" required="required"/></div>' +
@@ -59,28 +66,21 @@
         var triggerBtn = document.querySelector('.sgc_brochure_btn');
         var closeBtn = modal.querySelector('.sgc_brochure_close_btn');
 
-        // This site's frontend ships jQuery + the Bootstrap 4-style jQuery
-        // modal plugin ($.fn.modal), not the Bootstrap 5 bootstrap.Modal
-        // class or its data-bs-* attribute auto-init -- wire the show/hide
-        // calls directly rather than relying on data attributes.
         function openModal() {
-            if (window.jQuery && window.jQuery.fn.modal) {
-                window.jQuery(modal).modal('show');
-            } else {
-                modal.classList.add('show');
-                modal.style.display = 'block';
-            }
+            modal.classList.add('sgc_brochure_open');
+            modal.setAttribute('aria-hidden', 'false');
         }
         function closeModal() {
-            if (window.jQuery && window.jQuery.fn.modal) {
-                window.jQuery(modal).modal('hide');
-            } else {
-                modal.classList.remove('show');
-                modal.style.display = 'none';
-            }
+            modal.classList.remove('sgc_brochure_open');
+            modal.setAttribute('aria-hidden', 'true');
         }
         triggerBtn.addEventListener('click', openModal);
         closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function (ev) {
+            if (ev.target === modal) {
+                closeModal();
+            }
+        });
 
         function setLoading(loading) {
             submitBtn.disabled = loading;
