@@ -215,4 +215,6 @@ Content-checked each before acting:
 - `/tmp/sgc_construction_management.bak_20260629_025833` (16 MB) — source checkout tied to the `construction_management` test database already confirmed test data and dropped in an earlier batch. Removed.
 - `/tmp/sgc_modules.tar.gz` (`sgc_appraisal` module, unrelated to current work) — removed.
 
-**Held back, not removed:** `/tmp/sgc_module.tar.gz` and `/tmp/sgc_module.tar` both contain `sgc_offplan_rental_property_management` — the module with active uncommitted changes in the `vps-root-planning` working tree at the time of this session, including a `MERGE_NOTES.md` and `PORTAL_INTEGRATION.md` suggesting substantive recent work. Flagged to the user rather than removed given its direct connection to in-progress work; awaiting an explicit decision.
+**Held back, not removed initially:** `/tmp/sgc_module.tar.gz` and `/tmp/sgc_module.tar` both contain `sgc_offplan_rental_property_management` — the module with active uncommitted changes in the `vps-root-planning` working tree at the time of this session, including a `MERGE_NOTES.md` and `PORTAL_INTEGRATION.md` suggesting substantive recent work. Flagged to the user rather than removed given its direct connection to in-progress work.
+
+**Update — removed on explicit confirmation:** user confirmed both were superseded copies ("we already have the latest one"). Both removed.
