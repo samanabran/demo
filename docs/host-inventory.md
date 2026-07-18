@@ -1,7 +1,9 @@
 # vps-root Host Inventory — Cleanup Planning Reconnaissance
 
 **Date:** 2026-07-18
-**Scope:** All 4 Postgres instances, all databases, all 19 containers on `vps-root` (80.241.218.108). Read-only reconnaissance — no action taken.
+**Scope:** All 4 Postgres instances, all databases, all 19 containers on `vps-root` (80.241.218.108). Read-only reconnaissance — no action taken at time of writing.
+
+**Update 2026-07-18 (later same day):** All 5 Tier C archived databases and all 5 stopped one-off containers listed below have since been removed, per explicit per-item user sign-off. Each database was re-verified immediately before drop (fresh `pg_stat_activity` zero-connection check + independent `pg_restore -l` against the locally-pulled Phase 1 dump); each container was re-confirmed still `exited` with unchanged `FinishedAt` before removal. See the "Actions taken" section at the bottom of this file for the full record. Every Tier A/B/D item below was left untouched.
 
 ---
 
@@ -107,3 +109,26 @@ Note: several Tier B databases (the `odoo-test-db` "test"/"staging"/"fresh"-name
 ---
 
 "Inventory complete. Awaiting your Tier classification review and explicit per-item go-ahead before any drop/stop/remove action begins."
+
+---
+
+## Actions taken (2026-07-18, post-approval)
+
+User gave explicit per-item sign-off to remove the 5 Tier C archived databases and 5 stopped one-off containers below (Tier A/B/D items were explicitly excluded from scope and left untouched). Executed one item at a time; each database was re-verified via a fresh `pg_stat_activity` zero-connection check and an independent `pg_restore -l` against the locally-pulled Phase 1 dump immediately before drop; each container was re-confirmed still `exited` with unchanged `FinishedAt` immediately before removal.
+
+| Item | Type | Size reclaimed | Pre-drop verification |
+|---|---|---|---|
+| `demo_presentation_archived_20260717` | DB (demo_presentation_db) | 71 MB | 0 active backends (1 idle cron-artifact conn, terminated via `WITH (FORCE)`); dump verified 13,032 TOC entries |
+| `erposus_archived_20260630` | DB (odoo-prod-db) | 7.4 MB | 0 connections; dump verified 6 TOC entries |
+| `odoo_prod_archived_20260630` | DB (odoo-prod-db) | 22 MB | 0 connections; dump verified 2,504 TOC entries |
+| `scholarix_master_archived_20260630` | DB (odoo-prod-db) | 7.7 MB | 0 connections; dump verified 55 TOC entries |
+| `sgctech_archived_20260630` | DB (odoo-prod-db) | 22 MB | 0 connections; dump verified 2,504 TOC entries |
+| `odoo-prod-odoo-prod-run-7beb470ebb1d` | Container | ~8 kB | Confirmed exited, FinishedAt unchanged since inventory |
+| `odoo-prod-odoo-prod-run-bd62d44d5726` | Container | ~8 kB | Confirmed exited, FinishedAt unchanged since inventory |
+| `odoo-prod-odoo-prod-run-5778a194261d` | Container | ~8 kB | Confirmed exited, FinishedAt unchanged since inventory |
+| `sgc-upgrade2` | Container | ~78 kB | Confirmed exited, FinishedAt unchanged since inventory |
+| `merged-odoo19` | Container | ~101 MB | Confirmed exited, FinishedAt unchanged since inventory |
+
+**Total reclaimed:** ≈130 MB (databases) + ≈101 MB (container writable layers) ≈ 231 MB. Container count on host: 19 → 14. `docker system df` post-cleanup: Containers 0B reclaimable (was 101.1 MB), Local Volumes still 135.2 MB reclaimable (untouched — not in scope), Images still 12.81 GB reclaimable (untouched — not in scope, shared layers with running containers).
+
+All Tier A (`demo_presentation`, `odoo19-sgc`, `osusproperties_v18`, `traffexcel_staging`), Tier B, and Tier D items (including the two ambiguous-ownership `osusproperties`/`osusproperties_source_v18` databases and the `odoo-staging`/`staging-traffexcel` duplicate-config anomaly) were explicitly out of scope for this batch and were not touched.
