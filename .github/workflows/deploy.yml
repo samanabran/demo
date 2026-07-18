@@ -1,0 +1,81 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/deploy.yml'
+      - 'sgc_scroll_hero_homepage/**'
+      - 'sgc_scroll_hero_v2/**'
+      - 'sgc_offplan_rental_property_management/**'
+      - 'sgc_realestate_website/**'
+      - 'sgc_appraisal/**'
+      - 'sgc_recruitment/**'
+      - 'sgc_commission/**'
+      - 'sgc_invoicing_dashboard/**'
+      - 'sgc_llm_router/**'
+      - 'sgc_brochure_leadcapture/**'
+      - 'sgc_construction_management/**'
+      - 'sgc_deals_management/**'
+      - 'sgc_elearning/**'
+      - 'sgc_employment_certificate/**'
+      - 'sgc_fix_context_eval/**'
+      - 'sgc_hr_memos/**'
+      - 'sgc_invoicing_dashboard/**'
+      - 'sgc_lead_scoring/**'
+      - 'sgc_video_conferencing/**'
+      - 'sgc_assessment/**'
+
+jobs:
+  deploy:
+    name: Pull and upgrade modules
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (needed to verify commit)
+        uses: actions/checkout@v4
+
+      - name: SSH to VPS and pull latest
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_HOST: 80.241.218.108
+        run: |
+          echo "$SSH_PRIVATE_KEY" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+
+          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no root@$SERVER_HOST << 'SSH_EOF'
+            set -e
+            cd /opt/odoo/demo_presentation/addons
+            echo "--- git status before ---"
+            git status --short | head -5
+            echo "--- pulling main from origin ---"
+            git fetch origin main
+            git reset --hard origin/main
+            echo "--- git log after ---"
+            git log --oneline -3
+            echo "--- running module upgrade ---"
+          SSH_EOF
+
+      - name: Run module upgrade via XML-RPC
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_HOST: 80.241.218.108
+        run: |
+          echo "$SSH_PRIVATE_KEY" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+
+          # Write the upgrade script to the container via docker cp
+          ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no root@$SERVER_HOST << 'SSH_EOF'
+            set -e
+
+            # Build upgrade-all script inside container
+            docker cp /tmp/upgrade_all.py demo_presentation:/tmp/upgrade_all.py 2>/dev/null || true
+
+            # Run the upgrade via docker exec + XML-RPC
+            docker exec demo_presentation python3 /tmp/upgrade_all.py
+
+            echo "--- upgrade complete ---"
+          SSH_EOF
+
+      - name: Cleanup
+        run: rm -f /tmp/deploy_key
