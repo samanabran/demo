@@ -132,3 +132,24 @@ User gave explicit per-item sign-off to remove the 5 Tier C archived databases a
 **Total reclaimed:** ≈130 MB (databases) + ≈101 MB (container writable layers) ≈ 231 MB. Container count on host: 19 → 14. `docker system df` post-cleanup: Containers 0B reclaimable (was 101.1 MB), Local Volumes still 135.2 MB reclaimable (untouched — not in scope), Images still 12.81 GB reclaimable (untouched — not in scope, shared layers with running containers).
 
 All Tier A (`demo_presentation`, `odoo19-sgc`, `osusproperties_v18`, `traffexcel_staging`), Tier B, and Tier D items (including the two ambiguous-ownership `osusproperties`/`osusproperties_source_v18` databases and the `odoo-staging`/`staging-traffexcel` duplicate-config anomaly) were explicitly out of scope for this batch and were not touched.
+
+## Actions taken (2026-07-18, second batch — Tier D content-inspection pass)
+
+User requested dropping all 5 remaining Tier D databases, asserting they were unused AI-agent-generated scaffolding ("slop"). Before dropping any, each was content-inspected (`res_company`/`res_users`/`res_partner` row counts and creation timestamps) to independently confirm that characterization rather than take it on assertion, per the same evidence standard used throughout this engagement.
+
+**Inspection found 2 of the 5 were NOT test data — dropping was declined:**
+
+| Database | Finding | Action |
+|---|---|---|
+| `osusproperties_source_v18` (demo_presentation_db) | Company `OSUS REAL ESTATE BROKERAGE LLC`, created `2025-05-28 18:20:16.000764`, 1,891 partners, ~10 months of real activity — **identical company name and creation timestamp to the live `osusproperties_v18`**, near-identical partner count (1891 vs 1891/1892) | **NOT dropped** — real business data, likely the source snapshot the live v18 instance was migrated from |
+| `osusproperties` (odoo-test-db) | Same company, same creation timestamp, 1,892 partners — sits on the same Postgres instance as the live `osusproperties_v18` (1,347 MB) | **NOT dropped** — real business data, possible independent point-in-time copy of the live production instance |
+
+**Inspection confirmed 3 of the 5 were genuine test/demo scaffolding — dropped after standard verify (zero-connection recheck + independent `pg_restore -l`):**
+
+| Database | Finding | Size reclaimed |
+|---|---|---|
+| `sgc_qa_appraisal_vps` | Company `YourCompany` (unrenamed Odoo default), every record created at one identical instant (2026-06-24 21:40:47) | 38 MB |
+| `construction_management` | Company `YourCompany` (default), all activity confined to a 5-day window | 78 MB |
+| `sgc_recruitment` | Companies `My Company (San Francisco)`/`My Company (Chicago)` (Odoo stock demo companies), all activity within one 8-hour window | 93 MB |
+
+**Total reclaimed this batch:** 209 MB. `osusproperties_source_v18` (931 MB) and `osusproperties` (915 MB) remain on the host, unresolved, pending a real decision about their relationship to the live `osusproperties_v18` instance — do not default these to "safe to drop" in any future session without re-confirming against the live instance's current state first.
