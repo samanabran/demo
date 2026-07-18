@@ -195,3 +195,13 @@ Of the folders with no active container reference, only one was actually unused:
 - `/opt/google/chrome` (403 MB) — a Chrome browser profile, likely automation-related; owner/purpose unconfirmed, left as-is
 
 **Also found, not a cleanup item — a config bug:** `odoo-staging` uses `/opt/deploy/config/odoo-staging.conf` and `staging-traffexcel` uses a separate `/opt/deploy/config/staging-traffexcel.conf`, but the two files contain an identical `dbfilter` value — apparent copy-paste error when `odoo-staging` was set up, explaining the earlier-flagged "duplicate config" anomaly. Needs a config fix, not a deletion, and wasn't touched in this pass.
+
+## Actions taken (2026-07-18, sixth batch — ambiguous /tmp items resolved)
+
+Before removing anything, checked `lsof +D /tmp` (no running process held any of these open) and inspected the two most recent items directly:
+- **`/opt/google/chrome`** — discovered to be the live Chrome binary for a **currently-running** `@playwright/mcp` browser-automation process (PID active at time of check, with renderer/gpu/utility child processes). **Not removed** — this is active infrastructure, not unused.
+- **`/tmp/demo_bare.git`** and **`/tmp/demo_clean`** — both git checkouts of the same repo behind `demo_presentation` (`samanabran/demo.git`); `demo_clean` was clean and up to date with `origin/main`, nothing unique in either. Removed — fully recoverable via re-clone.
+
+Removed after this check: `demo_clean`, `demo_bare.git`, `cmf_clone`, `cmf_addons`, `sgc_modules`, `all_sgc_modules.tar.gz`, `sgc_scroll_hero_v2.tar.gz`, `sgc_scroll_hero_homepage_fresh`, `sgc_scroll_homepage_fresh.tar.gz`, `addons_full_test2.tar.gz`, `odoo19-sgc-unique.tar.gz`, `scroll_modules_backup.tar.gz`, `addons_full_20260718_012554.tar.gz`, `node_modules`, `claude-0` (~1.9 GB estimated, ~4 GB actual per `df -h` delta — some items were larger on disk than the `du` estimate suggested).
+
+**Newly visible after the above were cleared — not yet actioned, flagged for a decision:** `/tmp/sgc_construction_management.bak_20260629_025833` (16 MB, timestamped-backup naming pattern, same class as the deliberate snapshots in `/opt/merged-addons-backups`), `/tmp/reporting-engine` (12 MB, unclear), `/tmp/test.dump` (11 MB, unclear), `/tmp/sgc_modules.tar.gz` + `/tmp/sgc_module.tar.gz` + `/tmp/sgc_module.tar` (~31 MB combined, unclear — note these are distinct filenames from the already-removed `sgc_modules`/`all_sgc_modules.tar.gz`), `/tmp/demo_presentation_20260718_012533.dump` (11 MB — likely redundant with `backups/demo_presentation_legacy_012533.dump`, already preserved and documented in the Phase 1 manifest, but not independently confirmed byte-identical before flagging here).
