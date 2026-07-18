@@ -177,3 +177,21 @@ After content inspection confirmed `osusproperties_source_v18` and `osusproperti
 | `osusproperties` | 915 MB |
 
 **Total reclaimed this batch:** ~1.85 GB. `osusproperties_v18` (the live, actively-serving-traffic database) is untouched and remains the sole copy.
+
+## Actions taken (2026-07-18, fifth batch — /opt filesystem review)
+
+User asked whether "ERPnext and other unused modules" under `/opt` could be removed. Cross-referenced every top-level `/opt` folder against actual `docker inspect` bind-mount sources for all 19 containers (running and stopped) before concluding anything was unused — most large folders (`odoo`, `odoo-prod`, `odoo-test`, `deploy`, `merged-addons`, `odoo-industry-19`, `sitemate-construction`, `oca-project-v19-test`, `staging-odoo19-construction`) turned out to be actively bind-mounted into running containers and were left untouched.
+
+Of the folders with no active container reference, only one was actually unused:
+
+| Folder | Finding | Action |
+|---|---|---|
+| `/opt/erpnext-deploy` (12 KB) | Contained a single `pwd.yml` — the unmodified official ERPNext/frappe docker-compose template, still using template default `admin`/`admin` credentials. Referenced a `frappe_network` and named volumes (`db-data`, `sites`, `logs`, etc.) that don't exist anywhere in the host's actual Docker state — confirmed never deployed. | **Removed** |
+
+**Explicitly NOT removed — inspection showed these are real, not unused, despite no container mount:**
+- `/opt/odoo19-sgc-workspace` (2.8 GB) — active development workspace for the live `odoo19-sgc` project (AI-agent working dirs, Python venv, 159-item addons source tree, Google OAuth credentials, a `crm_leads_import_ready.csv`)
+- `/opt/backups` (1.4 GB) and `/opt/merged-addons-backups` (767 MB) — deliberately-created pre-change safety snapshots by a prior operator (e.g. `*_pre_freshtest_uninstall_*.dump`, `aos_cm_pre_rename.sql`, a `_quarantine_*` folder)
+- `/opt/Evidence` (328 KB) — organized QA/UAT screenshot documentation
+- `/opt/google/chrome` (403 MB) — a Chrome browser profile, likely automation-related; owner/purpose unconfirmed, left as-is
+
+**Also found, not a cleanup item — a config bug:** `odoo-staging` uses `/opt/deploy/config/odoo-staging.conf` and `staging-traffexcel` uses a separate `/opt/deploy/config/staging-traffexcel.conf`, but the two files contain an identical `dbfilter` value — apparent copy-paste error when `odoo-staging` was set up, explaining the earlier-flagged "duplicate config" anomaly. Needs a config fix, not a deletion, and wasn't touched in this pass.
