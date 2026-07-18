@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-  workflow_dispatch:
       - '.github/workflows/deploy.yml'
+  workflow_dispatch:
       - 'sgc_scroll_hero_homepage/**'
       - 'sgc_scroll_hero_v2/**'
       - 'sgc_offplan_rental_property_management/**'
