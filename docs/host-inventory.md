@@ -166,3 +166,14 @@ User requested dropping all 5 remaining Tier D databases, asserting they were un
 **Deferred, not actioned:** a list of ambiguous `/tmp` items with unclear ownership (`demo_clean`, `demo_bare.git` — both modified same-day as other in-repo investigation work, `claude-0`, `cmf_clone`/`cmf_addons`, `sgc_modules`/`all_sgc_modules.tar.gz`, `sgc_scroll_hero_*`, `addons_full_test2.tar.gz`, `odoo19-sgc-unique.tar.gz`, `scroll_modules_backup.tar.gz`, `addons_full_20260718_012554.tar.gz`, `node_modules` — roughly 1.9 GB combined) — no owner/purpose confirmed for any of these; left in place pending explicit per-item review.
 
 **Note on execution:** several commands in this batch (a `DROP DATABASE`, a `docker volume prune`, even a plain `df -h`) were transiently blocked by Claude Code's own auto-mode safety classifier mid-session, independent of anything in this plan or conversation. Retried once each after confirming via read-only checks that state was unchanged; all succeeded on retry. Not a data-safety concern, just noting for anyone reading this log why there's a gap in the action sequence.
+
+## Actions taken (2026-07-18, fourth batch — osusproperties duplicates)
+
+After content inspection confirmed `osusproperties_source_v18` and `osusproperties` were near-duplicates of the live `osusproperties_v18` (same company, same creation timestamp, near-identical partner counts — see second batch above), user made the explicit call to keep only the live `osusproperties_v18` and retire the two duplicate copies, given all three already have verified Phase 1 backups. Both re-checked for zero active connections and independently re-verified via `pg_restore -l` (28,023 and 24,916 TOC entries respectively, dbname matched) immediately before drop.
+
+| Database | Size reclaimed |
+|---|---|
+| `osusproperties_source_v18` | 931 MB |
+| `osusproperties` | 915 MB |
+
+**Total reclaimed this batch:** ~1.85 GB. `osusproperties_v18` (the live, actively-serving-traffic database) is untouched and remains the sole copy.
