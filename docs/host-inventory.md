@@ -204,4 +204,15 @@ Before removing anything, checked `lsof +D /tmp` (no running process held any of
 
 Removed after this check: `demo_clean`, `demo_bare.git`, `cmf_clone`, `cmf_addons`, `sgc_modules`, `all_sgc_modules.tar.gz`, `sgc_scroll_hero_v2.tar.gz`, `sgc_scroll_hero_homepage_fresh`, `sgc_scroll_homepage_fresh.tar.gz`, `addons_full_test2.tar.gz`, `odoo19-sgc-unique.tar.gz`, `scroll_modules_backup.tar.gz`, `addons_full_20260718_012554.tar.gz`, `node_modules`, `claude-0` (~1.9 GB estimated, ~4 GB actual per `df -h` delta — some items were larger on disk than the `du` estimate suggested).
 
-**Newly visible after the above were cleared — not yet actioned, flagged for a decision:** `/tmp/sgc_construction_management.bak_20260629_025833` (16 MB, timestamped-backup naming pattern, same class as the deliberate snapshots in `/opt/merged-addons-backups`), `/tmp/reporting-engine` (12 MB, unclear), `/tmp/test.dump` (11 MB, unclear), `/tmp/sgc_modules.tar.gz` + `/tmp/sgc_module.tar.gz` + `/tmp/sgc_module.tar` (~31 MB combined, unclear — note these are distinct filenames from the already-removed `sgc_modules`/`all_sgc_modules.tar.gz`), `/tmp/demo_presentation_20260718_012533.dump` (11 MB — likely redundant with `backups/demo_presentation_legacy_012533.dump`, already preserved and documented in the Phase 1 manifest, but not independently confirmed byte-identical before flagging here).
+**Newly visible after the above were cleared — resolved in a follow-up seventh batch below.**
+
+## Actions taken (2026-07-18, seventh batch — final /tmp items)
+
+Content-checked each before acting:
+- `/tmp/demo_presentation_20260718_012533.dump` (11 MB) — checksum `ea8e660b...` confirmed **byte-identical** to the already-preserved `backups/2026-07-18/demo_presentation_legacy_012533.dump`. Removed.
+- `/tmp/test.dump` (11 MB) — an old ad hoc Postgres dump of `demo_presentation`, superseded by the verified Phase 1 backup set. Removed.
+- `/tmp/reporting-engine` (12 MB) — a clean git clone of the public OCA `reporting-engine` module, zero unique content. Removed.
+- `/tmp/sgc_construction_management.bak_20260629_025833` (16 MB) — source checkout tied to the `construction_management` test database already confirmed test data and dropped in an earlier batch. Removed.
+- `/tmp/sgc_modules.tar.gz` (`sgc_appraisal` module, unrelated to current work) — removed.
+
+**Held back, not removed:** `/tmp/sgc_module.tar.gz` and `/tmp/sgc_module.tar` both contain `sgc_offplan_rental_property_management` — the module with active uncommitted changes in the `vps-root-planning` working tree at the time of this session, including a `MERGE_NOTES.md` and `PORTAL_INTEGRATION.md` suggesting substantive recent work. Flagged to the user rather than removed given its direct connection to in-progress work; awaiting an explicit decision.
