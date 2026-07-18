@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - '.github/workflows/deploy.yml'
-  workflow_dispatch:
       - 'sgc_scroll_hero_homepage/**'
       - 'sgc_scroll_hero_v2/**'
       - 'sgc_offplan_rental_property_management/**'
@@ -23,10 +22,10 @@ on:
       - 'sgc_employment_certificate/**'
       - 'sgc_fix_context_eval/**'
       - 'sgc_hr_memos/**'
-      - 'sgc_invoicing_dashboard/**'
       - 'sgc_lead_scoring/**'
       - 'sgc_video_conferencing/**'
       - 'sgc_assessment/**'
+  workflow_dispatch:
 
 jobs:
   deploy:
