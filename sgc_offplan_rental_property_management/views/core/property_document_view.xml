@@ -8,6 +8,10 @@
                     <field name="property_id"/>
                     <field name="document_date"/>
                     <field name="doc_type"/>
+                    <field name="document_reference_number"/>
+                    <field name="expiry_date" optional="show"/>
+                    <field name="ownership_verified" widget="boolean_icon" optional="show"/>
+                    <field name="approval_state" optional="show"/>
                     <field name="file_name" column_invisible="1"/>
                     <field name="document" filename="file_name" widget="binary"/>
                 </list>
@@ -19,6 +23,14 @@
             <field name="arch" type="xml">
                 <kanban string="Kanban" class="">
                     <field name="id"/>
+                    <field name="doc_category"/>
+                    <field name="document_reference_number"/>
+                    <field name="expiry_date"/>
+                    <field name="ownership_verified"/>
+                    <field name="approval_state"/>
+                    <field name="document"/>
+                    <field name="file_name"/>
+                    <field name="is_expired"/>
                     <templates>
                         <t t-name="card">
                             <div class="row oe_kanban_global_click" style="max-width:250px !important;">
@@ -27,16 +39,79 @@
                                          t-att-alt="name" style="margin: 10px 0" width="200px"
                                          height="200px" class="img img-responsive"/>
                                 </div>
+                                <div class="col-12">
+                                    <div class="oe_kanban_details">
+                                        <strong><field name="doc_category"/></strong>
+                                        <div t-if="record.document_reference_number.raw_value">
+                                            <field name="document_reference_number"/>
+                                        </div>
+                                        <div t-if="record.expiry_date.raw_value">
+                                            Expires: <field name="expiry_date"/>
+                                            <t t-if="record.is_expired.raw_value">
+                                                <span class="badge badge-danger">Expired</span>
+                                            </t>
+                                        </div>
+                                        <div t-if="record.ownership_verified.raw_value">
+                                            <field name="ownership_verified" widget="boolean_icon"/> Verified
+                                        </div>
+                                        <div>
+                                            Status: <field name="approval_state"/>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </t>
                     </templates>
                 </kanban>
             </field>
         </record>
+        <record id="property_document_form_view" model="ir.ui.view">
+            <field name="name">property.document.form.view</field>
+            <field name="model">property.documents</field>
+            <field name="arch" type="xml">
+                <form string="Document">
+                    <sheet>
+                        <group>
+                            <group string="Document Information">
+                                <field name="property_id"/>
+                                <field name="doc_type"/>
+                                <field name="doc_category"/>
+                                <field name="document_date"/>
+                                <field name="file_name"/>
+                            </group>
+                            <group string="Compliance Details">
+                                <field name="document_reference_number"/>
+                                <field name="expiry_date"/>
+                                <field name="is_expired"/>
+                                <field name="days_until_expiry"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Approval &amp; Portal">
+                                <field name="approval_state"/>
+                                <field name="portal_visible"/>
+                                <field name="uploaded_by_partner_id"/>
+                            </group>
+                            <group string="Ownership Verification">
+                                <field name="ownership_verified"/>
+                                <field name="verified_by"/>
+                                <field name="verification_date"/>
+                            </group>
+                        </group>
+                        <group string="Notes">
+                            <field name="notes" nolabel="1" placeholder="Verification notes..."/>
+                        </group>
+                        <group string="Attachment">
+                            <field name="document" filename="file_name" widget="binary" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
         <record id="property_document_action" model="ir.actions.act_window">
             <field name="name">Document</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">property.documents</field>
-            <field name="view_mode">kanban,list</field>
+            <field name="view_mode">kanban,list,form</field>
         </record>
     </odoo>

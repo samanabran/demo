@@ -116,9 +116,11 @@ class XmlFeedController(http.Controller):
         ET.SubElement(agent_el, "email").text = contact.email or "" if contact else ""
         ET.SubElement(agent_el, "phone").text = (contact.mobile or contact.phone or "") if contact else ""
 
-        # No dedicated RERA/permit-number field exists on property.details
-        # yet; left empty rather than guessed until that field is added.
-        ET.SubElement(prop_el, "permit_number").text = ""
+        # Read from the RERA Trakheesi permit number; required by DLD
+        # for all property listings on external portals.
+        ET.SubElement(prop_el, "permit_number").text = (
+            property_rec.trakheesi_permit_number or ""
+        )
 
         ET.SubElement(prop_el, "last_updated").text = fields.Datetime.to_string(
             property_rec.write_date

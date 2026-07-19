@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
+from datetime import date, timedelta
 
 
 class PropertyImages(models.Model):
@@ -179,7 +180,42 @@ class PropertyDetails(models.Model):
             rec.image_512 = rec.image_1920
             rec.image_256 = rec.image_1920
 
-
+    # ------------------------------------------------------------------
+    # RERA / DLD COMPLIANCE FIELDS
+    # ------------------------------------------------------------------
+    trakheesi_permit_number = fields.Char(
+        string="Trakheesi Permit #", size=50,
+        help="DLD/RERA Trakheesi permit number required for all property listings")
+    permit_issue_date = fields.Date(string="Permit Issue Date")
+    permit_expiry_date = fields.Date(
+        string="Permit Expiry Date",
+        help="Trakheesi permits typically valid for 90 days")
+    permit_status = fields.Selection([
+        ('valid', 'Valid'),
+        ('expired', 'Expired'),
+        ('pending', 'Pending'),
+        ('revoked', 'Revoked'),
+    ], string="Permit Status", default='pending')
+    rera_form_a_ref = fields.Many2one(
+        'rera.form.a', string="RERA Form A",
+        help="Linked Form A listing agreement")
+    owner_noc_date = fields.Date(
+        string="Owner NOC Date",
+        help="Date of No Objection Certificate from owner")
+    owner_noc_document = fields.Many2one(
+        'property.documents', string="Owner NOC Document")
+    portal_ready = fields.Boolean(
+        compute='_compute_portal_ready', string="Portal Ready",
+        help="All compliance checks passed")
+    portal_compliance_errors = fields.Text(
+        string="Compliance Errors",
+        help="Description of what's blocking portal publishing")
+    title_deed_verified = fields.Boolean(
+        string="Title Deed Verified",
+        help="Title deed has been verified against DLD")
+    title_deed_verified_by = fields.Many2one(
+        'res.users', string="Verified By")
+    title_deed_verified_date = fields.Date(string="Verification Date")
 
     # ------------------------------------------------------------------
     # Contract smart-button counts
@@ -240,6 +276,75 @@ class PropertyDetails(models.Model):
             rec.total_internal_commission = sum(
                 rec.property_vendor_ids.mapped('total_internal_commission') or [0])
             rec.total_commission = rec.total_external_commission + rec.total_internal_commission
+
+    @api.depends('trakheesi_permit_number', 'permit_expiry_date',
+                 'title_deed_number', 'owner_id',
+                 'portal_line_ids')
+    def _compute_portal_ready(self):
+        for rec in self:
+            errors = []
+            # Check 1: trakheesi_permit_number is set and not expired
+            if not rec.trakheesi_permit_number:
+                errors.append("Trakheesi Permit Number is missing")
+            elif rec.permit_expiry_date and rec.permit_expiry_date < date.today():
+                errors.append("Trakheesi Permit has expired")
+                if rec.permit_status != 'revoked':
+                    rec.permit_status = 'expired'
+
+            # Check 2: title_deed_number or oqood number is present
+            if not rec.title_deed_number:
+                errors.append("Title Deed Number is missing")
+
+            # Check 3: At least one valid document of category 'title_deed' or 'oqood'
+            has_valid_doc = False
+            try:
+                for doc in self.env['property.documents'].search([
+                    ('property_id', '=', rec.id),
+                    '|', ('doc_category', '=', 'title_deed'),
+                    ('doc_category', '=', 'oqood'),
+                ]):
+                    has_valid_doc = True
+                    break
+            except Exception:
+                pass
+            if not has_valid_doc:
+                errors.append("No valid Title Deed or Oqood document on file")
+
+            # Check 4: owner_id is set
+            if not rec.owner_id:
+                errors.append("Property Owner is not set")
+
+            # Check 5: portal listings exist
+            has_portal_docs = False
+            try:
+                if rec.portal_line_ids:
+                    has_portal_docs = True
+            except Exception:
+                pass
+            if not has_portal_docs:
+                errors.append("No portal listings configured")
+
+            rec.portal_ready = len(errors) == 0
+            rec.portal_compliance_errors = "\n".join(errors) if errors else False
+
+    @api.onchange('trakheesi_permit_number')
+    def _onchange_trakheesi_permit_number(self):
+        if self.trakheesi_permit_number:
+            today = date.today()
+            self.permit_issue_date = today
+            self.permit_expiry_date = today + timedelta(days=90)
+            self.permit_status = 'valid'
+
+    def action_open_rera_form_a(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'RERA Form A',
+            'res_model': 'rera.form.a',
+            'view_mode': 'form',
+            'res_id': self.rera_form_a_ref.id,
+            'target': 'current',
+        }
 
     def action_view_sale_contracts(self):
         self.ensure_one()

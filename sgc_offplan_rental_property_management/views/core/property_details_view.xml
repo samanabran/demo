@@ -188,6 +188,11 @@
                                 invisible="document_count &lt;= 0">
                             <field name="document_count" widget="statinfo" string="Documents"/>
                         </button>
+                        <button name="action_open_rera_form_a" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o"
+                                invisible="not rera_form_a_ref">
+                            <field name="rera_form_a_ref" widget="statinfo" string="Form A"/>
+                        </button>
                     </div>
                     <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
                     <field name="active" invisible="1"/>
@@ -354,10 +359,37 @@
                                 </field>
                             </group>
                         </page>
+                        <page string="Compliance &amp; Permits" name="compliance_permits">
+                            <group string="RERA Permit">
+                                <field name="trakheesi_permit_number"/>
+                                <field name="permit_issue_date"/>
+                                <field name="permit_expiry_date"/>
+                                <field name="permit_status" widget="badge"/>
+                                <field name="rera_form_a_ref"/>
+                            </group>
+                            <group string="Ownership Verification">
+                                <field name="title_deed_verified"/>
+                                <field name="title_deed_verified_by"/>
+                                <field name="title_deed_verified_date"/>
+                                <field name="owner_noc_date"/>
+                                <field name="owner_noc_document"/>
+                            </group>
+                            <group string="Portal Readiness">
+                                <field name="portal_ready" widget="badge"/>
+                                <field name="portal_compliance_errors" nolabel="1" readonly="1" colspan="2"/>
+                            </group>
+                        </page>
                         <page string="Portal Publishing" name="portal_publishing">
                             <group>
-                                <field name="is_published_portal" widget="boolean_toggle"
-                                       string="Published on Property Portal"/>
+                            <field name="is_published_portal" widget="boolean_toggle"
+                                   string="Published on Property Portal"/>
+                            </group>
+                            <group string="Compliance Check" name="compliance_check">
+                                <field name="portal_ready" widget="badge"/>
+                                <field name="portal_compliance_errors" nolabel="1" readonly="1" invisible="portal_ready"/>
+                                <div class="alert alert-warning" role="alert" invisible="portal_ready or not is_published_portal">
+                                    <i class="fa fa-exclamation-triangle"/> This property is published on the portal but has compliance issues!
+                                </div>
                             </group>
                             <div class="oe_button_box" name="portal_button_box">
                                 <button name="action_open_portal_lines" type="object"

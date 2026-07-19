@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class PropertyDetails(models.Model):
@@ -56,8 +57,47 @@ class PropertyDetails(models.Model):
             "target": "current",
         }
 
+    def _check_portal_publish_ready(self):
+        """Check if property is compliant and ready for portal publishing.
+
+        Validates RERA permit, ownership documentation, portal-visible
+        documents, owner assignment, and pricing before allowing portal
+        publication. Returns a dict with ``ready`` (bool) and ``errors``
+        (list of string messages).
+        """
+        self.ensure_one()
+        errors = []
+
+        if not self.trakheesi_permit_number:
+            errors.append(_("Trakheesi permit number is required for portal listing"))
+        elif self.permit_expiry_date and self.permit_expiry_date < fields.Date.today():
+            errors.append(_("Trakheesi permit has expired"))
+
+        if not self.title_deed_number:
+            errors.append(_("Title deed number is required"))
+
+        docs = self.env["property.documents"].sudo().search([
+            ("property_id", "=", self.id),
+            ("portal_visible", "=", True),
+        ])
+        if not docs:
+            errors.append(_("At least one portal-visible document is required"))
+
+        if not self.owner_id:
+            errors.append(_("Property owner is required"))
+
+        if self.sale_lease == "sale" and not self.sale_price:
+            errors.append(_("Sale price is required for sale listings"))
+        elif self.sale_lease == "rent" and not self.rent_price:
+            errors.append(_("Rent price is required for rental listings"))
+
+        return {"ready": len(errors) == 0, "errors": errors}
+
     def action_publish_portal(self):
         for rec in self:
+            check = rec._check_portal_publish_ready()
+            if not check["ready"]:
+                raise UserError("\n".join(check["errors"]))
             rec.is_published_portal = True
 
     def action_unpublish_portal(self):

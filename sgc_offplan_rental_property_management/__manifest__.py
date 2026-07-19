@@ -62,6 +62,7 @@
         "data/property_book_mail_template.xml",
         # Core views
         "views/core/assets.xml",
+        "views/core/rera_form_a_view.xml",
         "views/core/property_details_view.xml",
         "views/core/property_vendor_view.xml",
         "views/core/tenancy_details_view.xml",
@@ -90,6 +91,8 @@
         "views/core/rent_contract_view.xml",
         "views/core/property_crm_lead_inherit_view.xml",
         "views/core/product_product_inherit_view.xml",
+        # Portal actions must load before core menus.xml (which references portal actions)
+        "views/portal/actions.xml",
         "views/core/menus.xml",
         # CRM compatibility views
         "views/compat/crm_lead_views_compatibility.xml",
@@ -102,8 +105,7 @@
         "views/website/offplan_property_detail.xml",
         "views/website/offplan_project_listing.xml",
         "views/website/offplan_project_detail.xml",
-        # Portal syndication admin (actions → menus → views)
-        "views/portal/actions.xml",
+        # Portal syndication admin (menus + views)
         "views/portal/menus.xml",
         "views/portal/portal_connector_views.xml",
         "views/portal/portal_sync_log_views.xml",

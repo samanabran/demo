@@ -83,10 +83,22 @@ class CustomerPortal(http.Controller):
             ('property_id', '=', property_id),
             ('customer_id', '=', request.env.user.partner_id.id),
         ])
-        invoices = request.env['account.move'].sudo().search([
-            '|', ('tenancy_property_id', '=', property_id),
-                 ('sold_property_id', '=', property_id),
-        ])
+        # IDOR guard: owners/landlords see all property invoices;
+        # tenants/buyers see only invoices addressed to them.
+        is_owner = property.owner_id == partner or property.landlord_id == partner
+        if is_owner:
+            invoices = request.env['account.move'].sudo().search([
+                '|', ('tenancy_property_id', '=', property_id),
+                     ('sold_property_id', '=', property_id),
+            ])
+        else:
+            invoices = request.env['account.move'].sudo().search([
+                '&',
+                ('partner_id', '=', partner.id),
+                '|',
+                ('tenancy_property_id', '=', property_id),
+                ('sold_property_id', '=', property_id),
+            ])
         maintenance = request.env['maintenance.request'].sudo().search([
             ('property_id', '=', property_id),
         ])

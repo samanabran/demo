@@ -33,4 +33,5 @@ from . import sale_contract
 from . import sale_contract_installment
 from . import sale_inquiry
 from . import tenancy_details
+from . import rera_form_a
 from . import tenancy_inquiry

@@ -48,5 +48,13 @@
             <field name="padding">5</field>
             <field name="company_id" eval="False"/>
         </record>
+        <record id="rera_form_a_sequence" model="ir.sequence">
+            <field name="name">RERA Form A Number Sequence</field>
+            <field name="code">rera.form.a</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">FA/%(year)s/</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
 
     </odoo>
