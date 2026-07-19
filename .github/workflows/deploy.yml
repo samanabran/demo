@@ -56,6 +56,19 @@ jobs:
             echo "--- running module upgrade ---"
           SSH_EOF
 
+      - name: Copy upgrade script to VPS
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_HOST: 80.241.218.108
+        run: |
+          echo "$SSH_PRIVATE_KEY" > /tmp/deploy_key
+          chmod 600 /tmp/deploy_key
+
+          # Sourced from the checked-out repo (not VPS-side /tmp state, which
+          # is not persistent and has been wiped by cleanup passes before).
+          scp -i /tmp/deploy_key -o StrictHostKeyChecking=no \
+            .github/scripts/upgrade_all.py root@$SERVER_HOST:/tmp/upgrade_all.py
+
       - name: Run module upgrade via XML-RPC
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
@@ -64,12 +77,12 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > /tmp/deploy_key
           chmod 600 /tmp/deploy_key
 
-          # Write the upgrade script to the container via docker cp
           ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no root@$SERVER_HOST << 'SSH_EOF'
             set -e
 
-            # Build upgrade-all script inside container
-            docker cp /tmp/upgrade_all.py demo_presentation:/tmp/upgrade_all.py 2>/dev/null || true
+            # Copy the freshly-scp'd script into the container (fails loudly
+            # if missing, instead of silently no-op-ing on a stale/absent file).
+            docker cp /tmp/upgrade_all.py demo_presentation:/tmp/upgrade_all.py
 
             # Run the upgrade via docker exec + XML-RPC
             docker exec demo_presentation python3 /tmp/upgrade_all.py
