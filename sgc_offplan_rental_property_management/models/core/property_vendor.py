@@ -61,6 +61,10 @@ class PropertyVendor(models.Model):
         string='Total Commission',
         currency_field='currency_id',
         compute='_compute_commission', store=True)
+    commission_line_count = fields.Integer(
+        string='Commission Line Count',
+        compute='_compute_commission',
+    )
     total_tax = fields.Monetary(
         string='Total Tax', currency_field='currency_id',
         compute='_compute_commission', store=True)
@@ -80,6 +84,7 @@ class PropertyVendor(models.Model):
             # Sum every line regardless of category (not just external + internal)
             # so an 'others' line isn't silently dropped from the grand total.
             rec.total_commission = sum(lines.mapped('commission_amount'))
+            rec.commission_line_count = len(lines)
             rec.total_tax = sum(lines.mapped('amount_tax'))
             rec.amount_total = sum(lines.mapped('amount_total'))
 
