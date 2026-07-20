@@ -43,11 +43,9 @@ class RentCommissionLine(models.Model):
              'landlord — set this per line to match the deal.')
 
     @api.depends('contract_id.annual_rent_amount', 'commission_type', 'commission_base',
-                 'commission_percentage', 'commission_fixed_amount',
-                 'base_line_id.commission_amount')
+                 'commission_percentage', 'commission_fixed_amount', 'base_line_id')
     def _compute_commission_amount(self):
-        for line in self:
-            line.commission_amount = line._calc_amount()
+        self._set_commission_amounts()
 
     def _get_contract_value_base(self):
         self.ensure_one()

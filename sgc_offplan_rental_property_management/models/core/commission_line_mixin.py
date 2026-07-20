@@ -69,7 +69,6 @@ class PropertyCommissionLineMixin(models.AbstractModel):
         currency_field='currency_id',
         compute='_compute_commission_amount',
         store=True,
-        recursive=True,
     )
     currency_id = fields.Many2one('res.currency', string='Currency')
     state = fields.Selection([
@@ -121,10 +120,24 @@ class PropertyCommissionLineMixin(models.AbstractModel):
     def _compute_commission_amount(self):
         # Concrete models override this with their own @api.depends (the base
         # amount lives on a different parent field per model) and call
-        # line._calc_amount(). Base implementation here is a safe no-op
-        # fallback so the abstract model itself stays instantiable-free.
+        # line._set_commission_amounts(). Base implementation here is a safe
+        # no-op fallback so the abstract model itself stays instantiable-free.
+        self._set_commission_amounts()
+
+    def _set_commission_amounts(self):
+        # Shared body for every concrete model's _compute_commission_amount.
+        # After computing each line's own amount, explicitly cascades to any
+        # OTHER line whose commission_base is "Another Commission Line"
+        # pointing at one of these — a bounded, one-level-deep cascade
+        # (matching the max-depth-1 chaining rule enforced in
+        # _check_base_line) done via plain method calls rather than a
+        # recursive stored @api.depends, which triggers an Odoo ORM edge
+        # case involving not-yet-saved records in an editable list.
         for line in self:
             line.commission_amount = line._calc_amount()
+        dependents = self.search([('base_line_id', 'in', self.ids)]) - self
+        if dependents:
+            dependents._set_commission_amounts()
 
     @api.constrains('commission_base')
     def _check_base_line(self):
