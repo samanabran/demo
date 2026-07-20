@@ -144,6 +144,14 @@ class RentContract(models.Model):
         string='Commission Bill Count',
         compute='_compute_commission_bill_ids',
     )
+    commission_total_tax = fields.Monetary(
+        string='Total Tax', currency_field='currency_id',
+        compute='_compute_commission_totals', store=True,
+        help='Sum of tax across all commission lines.')
+    commission_amount_total = fields.Monetary(
+        string='Total w/ Tax', currency_field='currency_id',
+        compute='_compute_commission_totals', store=True,
+        help='Grand total of commission lines including tax.')
     is_commission_eligible = fields.Boolean(
         string='Commission Eligible', compute='_compute_commission_eligibility')
     commission_ineligible_reason = fields.Char(

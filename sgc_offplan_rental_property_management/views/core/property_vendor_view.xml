@@ -111,6 +111,17 @@
                                            decoration-success="payment_state == 'paid'"/>
                                 </list>
                             </field>
+                            <div class="oe_subtotal_footer_separator"/>
+                            <group class="oe_subtotal_footer" col="4" name="commission_totals">
+                                <field name="commission_line_count"/>
+                                <field name="total_tax" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="total_commission" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="amount_total" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"
+                                       decoration-bf="True"/>
+                            </group>
                         </page>
 
                         <page string="Notes" name="notes">

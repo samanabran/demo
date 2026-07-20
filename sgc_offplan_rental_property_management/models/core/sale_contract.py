@@ -102,8 +102,18 @@ class SaleContract(models.Model):
         string='Commission Line Count',
         compute='_compute_commission_line_count',
     )
+    commission_total_tax = fields.Monetary(
+        string='Total Tax', currency_field='currency_id',
+        compute='_compute_commission_totals', store=True,
+        help='Sum of tax across all commission lines.')
+    commission_amount_total = fields.Monetary(
+        string='Total w/ Tax', currency_field='currency_id',
+        compute='_compute_commission_totals', store=True,
+        help='Grand total of commission lines including tax.')
 
-    @api.depends('commission_line_ids.commission_amount')
+    @api.depends('commission_line_ids.commission_amount',
+                 'commission_line_ids.amount_tax',
+                 'commission_line_ids.amount_total')
     def _compute_commission_totals(self):
         for rec in self:
             lines = rec.commission_line_ids
@@ -116,6 +126,8 @@ class SaleContract(models.Model):
             # Sum every line regardless of category (not just external + internal)
             # so an 'others' line isn't silently dropped from the grand total.
             rec.commission_total_amount = sum(lines.mapped('commission_amount'))
+            rec.commission_total_tax = sum(lines.mapped('amount_tax'))
+            rec.commission_amount_total = sum(lines.mapped('amount_total'))
 
     @api.depends('commission_line_ids')
     def _compute_commission_line_count(self):

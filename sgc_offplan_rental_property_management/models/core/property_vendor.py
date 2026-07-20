@@ -61,8 +61,15 @@ class PropertyVendor(models.Model):
         string='Total Commission',
         currency_field='currency_id',
         compute='_compute_commission', store=True)
+    total_tax = fields.Monetary(
+        string='Total Tax', currency_field='currency_id',
+        compute='_compute_commission', store=True)
+    amount_total = fields.Monetary(
+        string='Total w/ Tax', currency_field='currency_id',
+        compute='_compute_commission', store=True)
 
-    @api.depends('commission_line_ids.commission_amount', 'commission_line_ids.category')
+    @api.depends('commission_line_ids.commission_amount', 'commission_line_ids.category',
+                 'commission_line_ids.amount_tax', 'commission_line_ids.amount_total')
     def _compute_commission(self):
         for rec in self:
             lines = rec.commission_line_ids
@@ -73,6 +80,8 @@ class PropertyVendor(models.Model):
             # Sum every line regardless of category (not just external + internal)
             # so an 'others' line isn't silently dropped from the grand total.
             rec.total_commission = sum(lines.mapped('commission_amount'))
+            rec.total_tax = sum(lines.mapped('amount_tax'))
+            rec.amount_total = sum(lines.mapped('amount_total'))
 
     # -------------------------------------------------------------------------
     # State transitions

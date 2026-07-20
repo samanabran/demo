@@ -132,6 +132,7 @@
         "report/statement_of_account_template.xml",
         "report/payment_schedule_template.xml",
         "report/rent_contract_report_template.xml",
+        "report/commission_summary_template.xml",
         "report/sale_contract_installment_plan_template.xml",
         "report/maintenance_contract_report_template.xml",
         "report/booking_agreement_template.xml",

@@ -137,14 +137,6 @@
                                  invisible="is_commission_eligible or not commission_line_ids">
                                 <field name="commission_ineligible_reason" nolabel="1"/>
                             </div>
-                            <group>
-                                <group string="Commission Summary">
-                                    <field name="commission_external_total" widget="monetary"/>
-                                    <field name="commission_internal_total" widget="monetary"/>
-                                    <field name="commission_total_amount" widget="monetary"/>
-                                    <field name="commission_line_count"/>
-                                </group>
-                            </group>
                             <div class="mb-3">
                                 <button name="action_generate_commission_bills"
                                         string="Generate Commission Bills"
@@ -207,6 +199,20 @@
                                             class="btn-sm btn-secondary"/>
                                 </list>
                             </field>
+                            <!-- Totals footer — mirrors invoice/sale-order style. Sums
+                                 are computed and aggregated here so the layout doesn't
+                                 duplicate summary cards at the top of the page. -->
+                            <div class="oe_subtotal_footer_separator"/>
+                            <group class="oe_subtotal_footer" col="4" name="commission_totals">
+                                <field name="commission_line_count"/>
+                                <field name="commission_total_tax" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="commission_total_amount" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"/>
+                                <field name="commission_amount_total" widget="monetary"
+                                       options="{'currency_field': 'currency_id'}"
+                                       decoration-bf="True"/>
+                            </group>
                         </page>
                         <page string="Payment Plan" name="payment_plan">
                             <div class="mb-3">

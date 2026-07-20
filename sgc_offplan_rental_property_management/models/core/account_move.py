@@ -21,7 +21,7 @@ class AccountMove(models.Model):
     )
     
     sold_id = fields.Many2one(
-        'property.vendor',
+        'sale.contract',
         string='Sale Contract',
         readonly=True,
         help='Related sale contract'

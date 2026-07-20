@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (C) 2026 SGC TECH AI
+    Commission Summary report — sale.contract / rent.contract / property.vendor.
+
+    Layout: A4 portrait, branded header, line-items table with currency
+    formatting, grouped totals, and (when a sale contract is involved) an
+    eligibility-reminder banner. Renders cleanly whether or not any lines
+    exist (an empty state placeholder is shown).
+-->
+<odoo>
+
+    <template id="commission_summary_template" name="Commission Summary Report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <style>
+                    .o_cs_page {
+                        font-family: "Helvetica", "Arial", sans-serif;
+                        font-size: 10pt;
+                        line-height: 1.5;
+                        color: #1f2937;
+                        padding: 24px;
+                    }
+                    .o_cs_header {
+                        border-bottom: 2px solid #b45309;
+                        padding-bottom: 8px;
+                        margin-bottom: 16px;
+                    }
+                    .o_cs_header h1 {
+                        font-size: 18pt;
+                        margin: 0 0 4px 0;
+                        color: #b45309;
+                    }
+                    .o_cs_meta {
+                        display: flex;
+                        justify-content: space-between;
+                        font-size: 9pt;
+                        color: #4b5563;
+                    }
+                    .o_cs_parties { margin: 16px 0; display: flex; gap: 24px; }
+                    .o_cs_party {
+                        flex: 1; padding: 8px 12px;
+                        background: #f9fafb; border-radius: 4px;
+                    }
+                    .o_cs_party h3 {
+                        font-size: 9pt; text-transform: uppercase;
+                        letter-spacing: 0.5px; color: #6b7280;
+                        margin: 0 0 4px 0;
+                    }
+                    .o_cs_lines {
+                        width: 100%; border-collapse: collapse; margin: 16px 0;
+                    }
+                    .o_cs_lines th {
+                        background: #f3f4f6; text-align: left;
+                        padding: 6px 8px; font-size: 9pt;
+                        text-transform: uppercase; letter-spacing: 0.4px;
+                        border-bottom: 1px solid #d1d5db;
+                    }
+                    .o_cs_lines td {
+                        padding: 6px 8px;
+                        border-bottom: 1px solid #e5e7eb;
+                        vertical-align: top;
+                    }
+                    .o_cs_lines td.amount {
+                        text-align: right; font-variant-numeric: tabular-nums;
+                    }
+                    .o_cs_lines tr.category-external td { background: #fefce8; }
+                    .o_cs_lines tr.draft td { color: #9ca3af; }
+                    .o_cs_lines tr.paid td { background: #ecfdf5; }
+                    .o_cs_lines tfoot td {
+                        font-weight: bold; background: #fff7ed;
+                        border-top: 2px solid #b45309;
+                    }
+                    .o_cs_empty {
+                        padding: 32px; text-align: center;
+                        color: #9ca3af; font-style: italic;
+                    }
+                    .o_cs_banner {
+                        margin: 12px 0; padding: 10px 14px;
+                        background: #fffbeb; border-left: 4px solid #f59e0b;
+                        border-radius: 3px; font-size: 9pt; color: #92400e;
+                    }
+                    .o_cs_notes {
+                        margin-top: 16px; font-size: 9pt;
+                        color: #6b7280; font-style: italic;
+                    }
+                </style>
+
+                <t t-set="currency_obj"
+                   t-value="o.env['res.currency'].browse(o.currency_id.id) if o and o.currency_id else None"/>
+
+                <div class="o_cs_page">
+                    <div class="o_cs_header">
+                        <h1>Commission Summary</h1>
+                        <div class="o_cs_meta">
+                            <div>
+                                <strong t-esc="o.name or ''"/>
+                            </div>
+                            <div>
+                                Status:
+                                <span t-esc="dict(o._fields['state'].selection).get(o.state, o.state) if o.state else ''"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="o_cs_parties">
+                        <t t-if="hasattr(o, 'property_id') and o.property_id">
+                            <div class="o_cs_party">
+                                <h3>Property</h3>
+                                <div t-esc="o.property_id.name or ''"/>
+                            </div>
+                        </t>
+                        <div class="o_cs_party">
+                            <h3>Beneficiary</h3>
+                            <t t-if="hasattr(o, 'buyer_id') and o.buyer_id">
+                                <div>Buyer: <t t-esc="o.buyer_id.name or ''"/></div>
+                            </t>
+                            <t t-if="hasattr(o, 'seller_id') and o.seller_id">
+                                <div>Seller: <t t-esc="o.seller_id.name"/></div>
+                            </t>
+                            <t t-if="hasattr(o, 'tenant_id') and o.tenant_id">
+                                <div>Tenant: <t t-esc="o.tenant_id.name or ''"/></div>
+                            </t>
+                            <t t-if="hasattr(o, 'landlord_id') and o.landlord_id">
+                                <div>Landlord: <t t-esc="o.landlord_id.name"/></div>
+                            </t>
+                            <t t-if="hasattr(o, 'customer_id') and o.customer_id">
+                                <div>Customer: <t t-esc="o.customer_id.name or ''"/></div>
+                            </t>
+                            <t t-if="hasattr(o, 'vendor_id') and o.vendor_id">
+                                <div>Vendor: <t t-esc="o.vendor_id.name"/></div>
+                            </t>
+                        </div>
+                    </div>
+
+                    <div t-if="hasattr(o, 'is_commission_eligible') and not o.is_commission_eligible"
+                         class="o_cs_banner">
+                        <strong>Commission not yet eligible to bill.</strong>
+                        <span t-if="o.commission_ineligible_reason"
+                              t-esc="' ' + o.commission_ineligible_reason"/>
+                    </div>
+
+                    <t t-if="o.commission_line_ids">
+                        <table class="o_cs_lines">
+                            <thead>
+                                <tr>
+                                    <th style="width: 6%;">#</th>
+                                    <th style="width: 12%;">Category</th>
+                                    <th style="width: 18%;">Role</th>
+                                    <th style="width: 22%;">Beneficiary</th>
+                                    <th style="width: 16%;">Computation</th>
+                                    <th style="width: 8%;" class="amount">Rate %</th>
+                                    <th style="width: 8%;" class="amount">Fixed Amt</th>
+                                    <th style="width: 10%;" class="amount">W/o Tax</th>
+                                    <th style="width: 8%;" class="amount">Tax</th>
+                                    <th style="width: 10%;" class="amount">W/ Tax</th>
+                                    <th style="width: 6%;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.commission_line_ids" t-as="line">
+                                    <tr t-attf-class="category-{{ line.category }} {{ line.state }}">
+                                        <td><t t-esc="line.sequence"/></td>
+                                        <td><t t-esc="dict(line._fields['category'].selection).get(line.category, line.category)"/></td>
+                                        <td>
+                                            <t t-esc="line.get_role_label()"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.partner_id.name or ''"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="dict(line._fields['computation_type'].selection).get(line.computation_type, line.computation_type)"/>
+                                        </td>
+                                        <td class="amount">
+                                            <t t-if="line.computation_type != 'fixed_amount'"
+                                               t-esc="'%.2f%%' % line.commission_percentage"/>
+                                        </td>
+                                        <td class="amount">
+                                            <t t-if="line.computation_type == 'fixed_amount'"
+                                               t-esc="line.commission_fixed_amount"
+                                               t-options="{'widget': 'monetary', 'display_currency': currency_obj}"/>
+                                        </td>
+                                        <td class="amount">
+                                            <t t-esc="line.commission_amount"
+                                               t-options="{'widget': 'monetary', 'display_currency': currency_obj}"/>
+                                        </td>
+                                        <td class="amount">
+                                            <t t-esc="line.amount_tax"
+                                               t-options="{'widget': 'monetary', 'display_currency': currency_obj}"/>
+                                        </td>
+                                        <td class="amount">
+                                            <strong t-esc="line.amount_total"
+                                                    t-options="{'widget': 'monetary', 'display_currency': currency_obj}"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="dict(line._fields['state'].selection).get(line.state, line.state) if line.state else ''"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="6"></td>
+                                    <td class="amount">Total</td>
+                                    <td class="amount">
+                                        <t t-esc="o.commission_total_amount"
+                                           t-options="{'widget': 'monetary', 'display_currency': currency_obj}"/>
+                                    </td>
+                                    <td class="amount">
+                                        <t t-esc="o.commission_total_tax"
+                                           t-options="{'widget': 'monetary', 'display_currency': currency_obj}"/>
+                                    </td>
+                                    <td class="amount">
+                                        <t t-esc="o.commission_amount_total if hasattr(o, 'commission_amount_total') else (o.amount_total if hasattr(o, 'amount_total') else 0.0)"
+                                           t-options="{'widget': 'monetary', 'display_currency': currency_obj}"/>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <div class="o_cs_empty">
+                            No commission lines have been configured for this contract yet.
+                        </div>
+                    </t>
+
+                    <div class="o_cs_notes">
+                        Generated for SGC TECH AI Property Management — please
+                        verify with the source contract for the authoritative
+                        record.
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <!-- Report actions for each model. Each is registered in 'noupdate=1' -->
+    <!-- style so users can later override the template, paper format, or     -->
+    <!-- binding in their own database without being reset by module updates.  -->
+    <data noupdate="1">
+
+        <record id="action_print_commission_summary_sale" model="ir.actions.report">
+            <field name="name">Commission Summary</field>
+            <field name="model">sale.contract</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">sgc_offplan_rental_property_management.commission_summary_template</field>
+            <field name="binding_model_id" ref="model_sale_contract"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="base.paperformat_euro"/>
+            <field name="print_report_name">Commission Summary - %s</field>
+        </record>
+
+        <record id="action_print_commission_summary_rent" model="ir.actions.report">
+            <field name="name">Commission Summary</field>
+            <field name="model">rent.contract</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">sgc_offplan_rental_property_management.commission_summary_template</field>
+            <field name="binding_model_id" ref="model_rent_contract"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="base.paperformat_euro"/>
+            <field name="print_report_name">Commission Summary - %s</field>
+        </record>
+
+        <record id="action_print_commission_summary_vendor" model="ir.actions.report">
+            <field name="name">Commission Summary</field>
+            <field name="model">property.vendor</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">sgc_offplan_rental_property_management.commission_summary_template</field>
+            <field name="binding_model_id" ref="model_property_vendor"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="base.paperformat_euro"/>
+            <field name="print_report_name">Commission Summary - %s</field>
+        </record>
+
+    </data>
+
+</odoo>
