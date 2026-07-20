@@ -24,24 +24,42 @@
                 <kanban string="Kanban" class="">
                     <field name="id"/>
                     <field name="doc_category"/>
+                    <field name="doc_type"/>
                     <field name="document_reference_number"/>
                     <field name="expiry_date"/>
                     <field name="ownership_verified"/>
                     <field name="approval_state"/>
                     <field name="document"/>
                     <field name="file_name"/>
+                    <field name="file_extension"/>
+                    <field name="is_image_document"/>
                     <field name="is_expired"/>
                     <templates>
                         <t t-name="card">
                             <div class="row oe_kanban_global_click" style="max-width:250px !important;">
                                 <div class="col-12">
-                                    <img t-att-src="'data:image/png;base64,' + record.document.raw_value"
-                                         t-att-alt="name" style="margin: 10px 0" width="200px"
-                                         height="200px" class="img img-responsive"/>
+                                    <t t-if="record.is_image_document.raw_value">
+                                        <img t-att-src="'data:image/png;base64,' + record.document.raw_value"
+                                             t-att-alt="record.file_name.value" style="margin: 10px 0" width="200px"
+                                             height="200px" class="img img-responsive"/>
+                                    </t>
+                                    <t t-else="">
+                                        <div class="d-flex flex-column align-items-center justify-content-center text-muted"
+                                             style="height:160px; margin: 10px 0; background-color:#f8f9fa; border-radius:4px;">
+                                            <i t-if="record.file_extension.raw_value == 'pdf'" class="fa fa-file-pdf-o fa-3x text-danger"/>
+                                            <i t-elif="record.file_extension.raw_value == 'doc' or record.file_extension.raw_value == 'docx' or record.file_extension.raw_value == 'rtf'" class="fa fa-file-word-o fa-3x text-primary"/>
+                                            <i t-elif="record.file_extension.raw_value == 'xls' or record.file_extension.raw_value == 'xlsx' or record.file_extension.raw_value == 'csv'" class="fa fa-file-excel-o fa-3x text-success"/>
+                                            <i t-else="" class="fa fa-file-o fa-3x"/>
+                                            <span class="mt-2 small text-uppercase" t-esc="record.file_extension.raw_value or 'file'"/>
+                                        </div>
+                                    </t>
                                 </div>
                                 <div class="col-12">
                                     <div class="oe_kanban_details">
                                         <strong><field name="doc_category"/></strong>
+                                        <div t-if="record.doc_type.raw_value">
+                                            Type: <field name="doc_type"/>
+                                        </div>
                                         <div t-if="record.document_reference_number.raw_value">
                                             <field name="document_reference_number"/>
                                         </div>

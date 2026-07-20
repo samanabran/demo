@@ -41,6 +41,22 @@ class PropertyDocuments(models.Model):
     is_expired = fields.Boolean(compute='_compute_is_expired', string='Expired')
     days_until_expiry = fields.Integer(compute='_compute_is_expired', string='Days Until Expiry')
 
+    # --------------------------------------------------------------------------
+    # FILE TYPE (for the kanban preview — `document` can be any file type, not
+    # just images, so the card needs to know whether it can render an <img>
+    # preview or should fall back to a file-type icon instead).
+    # --------------------------------------------------------------------------
+    file_extension = fields.Char(compute='_compute_file_extension', string='File Extension')
+    is_image_document = fields.Boolean(compute='_compute_file_extension', string='Is Image')
+
+    @api.depends('file_name')
+    def _compute_file_extension(self):
+        image_extensions = ('png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'svg')
+        for rec in self:
+            ext = rec.file_name.rsplit('.', 1)[-1].lower() if rec.file_name and '.' in rec.file_name else ''
+            rec.file_extension = ext
+            rec.is_image_document = ext in image_extensions
+
     @api.depends('expiry_date')
     def _compute_is_expired(self):
         today = fields.Date.today()
