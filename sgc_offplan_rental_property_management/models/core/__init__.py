@@ -1,6 +1,7 @@
 from . import account_move
 from . import agreement_template
 from . import certificate_type
+from . import commission_line_mixin
 from . import commission_line
 from . import contract_duration
 from . import crm_lead
@@ -25,6 +26,7 @@ from . import property_image
 from . import property_vendor
 from . import property_vendor_commission_line
 from . import rent_bill
+from . import rent_commission_line
 from . import rent_contract
 from . import rent_invoice
 from . import res_config

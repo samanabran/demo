@@ -85,6 +85,15 @@ class RentalConfig(models.TransientModel):
         readonly=False,
         help='Fixed Admin Fee amount')
 
+    # Commission Eligibility
+    commission_eligibility_sale_pct = fields.Float(
+        string='Sale Commission Eligibility %',
+        default=20.0,
+        config_parameter='sgc_offplan_rental_property_management.commission_eligibility_sale_pct',
+        readonly=False,
+        help='For payment-plan sales, the minimum percentage of the sale price that must '
+             'be paid before commission bills can be generated.')
+
     # File Upload Security
     max_file_upload_size = fields.Integer(
         string='Max File Upload Size (MB)',

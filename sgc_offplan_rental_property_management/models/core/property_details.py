@@ -110,62 +110,6 @@ class PropertyDetails(models.Model):
     document_count = fields.Integer(string='Documents', compute='_compute_document_count')
 
     # ------------------------------------------------------------------
-    # DEFAULT COMMISSION SETTINGS (inherited when creating a booking/contract)
-    # ------------------------------------------------------------------
-    commission_type = fields.Selection([
-        ('percentage', 'Percentage'),
-        ('fixed', 'Fixed'),
-    ], string='Commission Type', default='percentage')
-    commission_percentage = fields.Float(string='Commission %', default=2.0,
-        help='Default broker commission percentage.')
-    commission_fixed_amount = fields.Monetary(string='Fixed Commission Amount',
-        currency_field='currency_id',
-        help='Default fixed commission amount when type is Fixed.')
-    broker_id = fields.Many2one('res.partner', string='Default Broker',
-        domain=[('user_type', '=', 'broker')])
-    broker_agency_id = fields.Many2one('res.partner', string='Default Brokerage Company',
-        domain=[('is_company', '=', True)],
-        help='The brokerage/agency company the broker belongs to.')
-    company_commission_pct = fields.Float(string='Company Commission %', default=0.0,
-        help='Commission percentage retained by the company.')
-    agent_commission_pct = fields.Float(string='Agent Commission %', default=0.0,
-        help='Commission percentage allocated to the sales agent.')
-    referral_commission_pct = fields.Float(string='Referral Commission %', default=0.0,
-        help='Commission percentage allocated for referral fees.')
-    office_commission_pct = fields.Float(string='Office Commission %', default=0.0,
-        help='Commission percentage allocated to the office/branch.')
-    commission_override_pct = fields.Float(string='Override %', default=0.0,
-        help='Override commission percentage for senior management/broker.')
-    commission_split_type = fields.Selection([
-        ('no_split', 'No Split — Full to Broker'),
-        ('percentage', 'Split by Percentage'),
-        ('fixed', 'Split by Fixed Amount'),
-    ], string='Commission Split Type', default='no_split')
-    commission_split_percentage = fields.Float(string='Broker Split %', default=100.0,
-        help='Percentage of commission going to the broker.')
-    commission_split_fixed_amount = fields.Monetary(string='Broker Split Fixed Amount',
-        currency_field='currency_id',
-        help='Fixed amount of commission going to the broker.')
-
-    # ------------------------------------------------------------------
-    # AGGREGATED COMMISSION (summed from related property.vendor bookings)
-    # ------------------------------------------------------------------
-    total_external_commission = fields.Monetary(
-        string='External Commission (Total)',
-        currency_field='currency_id',
-        compute='_compute_aggregated_commission', store=True,
-        help='Total external commission across all related bookings.')
-    total_internal_commission = fields.Monetary(
-        string='Internal Commission (Total)',
-        currency_field='currency_id',
-        compute='_compute_aggregated_commission', store=True,
-        help='Total internal commission across all related bookings.')
-    total_commission = fields.Monetary(
-        string='Total Commission',
-        currency_field='currency_id',
-        compute='_compute_aggregated_commission', store=True)
-
-    # ------------------------------------------------------------------
     # Main image (hero / form avatar)
     # ------------------------------------------------------------------
     image_1920 = fields.Binary(string='Image (1920px)', attachment=True)
@@ -266,16 +210,6 @@ class PropertyDetails(models.Model):
         for rec in self:
             rec.document_count = self.env['property.documents'].search_count(
                 [('property_id', '=', rec.id)])
-
-    @api.depends('property_vendor_ids.total_external_commission',
-                 'property_vendor_ids.total_internal_commission')
-    def _compute_aggregated_commission(self):
-        for rec in self:
-            rec.total_external_commission = sum(
-                rec.property_vendor_ids.mapped('total_external_commission') or [0])
-            rec.total_internal_commission = sum(
-                rec.property_vendor_ids.mapped('total_internal_commission') or [0])
-            rec.total_commission = rec.total_external_commission + rec.total_internal_commission
 
     @api.depends('trakheesi_permit_number', 'permit_expiry_date',
                  'title_deed_number', 'owner_id',
@@ -427,19 +361,6 @@ class PropertyDetails(models.Model):
                 'default_currency_id': self.currency_id.id if self.currency_id else self.company_id.currency_id.id,
                 'default_payment_schedule_id': self.payment_schedule_id.id if self.payment_schedule_id else False,
                 'default_company_id': self.company_id.id,
-                'default_commission_type': self.commission_type,
-                'default_commission_percentage': self.commission_percentage,
-                'default_commission_fixed_amount': self.commission_fixed_amount,
-                'default_broker_id': self.broker_id.id,
-                'default_broker_agency_id': self.broker_agency_id.id,
-                'default_company_commission_pct': self.company_commission_pct,
-                'default_agent_commission_pct': self.agent_commission_pct,
-                'default_referral_commission_pct': self.referral_commission_pct,
-                'default_office_commission_pct': self.office_commission_pct,
-                'default_commission_override_pct': self.commission_override_pct,
-                'default_commission_split_type': self.commission_split_type,
-                'default_commission_split_percentage': self.commission_split_percentage,
-                'default_commission_split_fixed_amount': self.commission_split_fixed_amount,
             },
         }
 
@@ -458,19 +379,6 @@ class PropertyDetails(models.Model):
                 'default_currency_id': self.currency_id.id if self.currency_id else self.company_id.currency_id.id,
                 'default_payment_schedule_id': self.payment_schedule_id.id if self.payment_schedule_id else False,
                 'default_company_id': self.company_id.id,
-                'default_commission_type': self.commission_type,
-                'default_commission_percentage': self.commission_percentage,
-                'default_commission_fixed_amount': self.commission_fixed_amount,
-                'default_broker_id': self.broker_id.id,
-                'default_broker_agency_id': self.broker_agency_id.id,
-                'default_company_commission_pct': self.company_commission_pct,
-                'default_agent_commission_pct': self.agent_commission_pct,
-                'default_referral_commission_pct': self.referral_commission_pct,
-                'default_office_commission_pct': self.office_commission_pct,
-                'default_commission_override_pct': self.commission_override_pct,
-                'default_commission_split_type': self.commission_split_type,
-                'default_commission_split_percentage': self.commission_split_percentage,
-                'default_commission_split_fixed_amount': self.commission_split_fixed_amount,
             },
         }
 
@@ -488,19 +396,6 @@ class PropertyDetails(models.Model):
                 'default_sale_price': self.sale_price or self.price or 0,
                 'default_currency_id': self.currency_id.id if self.currency_id else self.company_id.currency_id.id,
                 'default_company_id': self.company_id.id,
-                'default_commission_type': self.commission_type,
-                'default_commission_percentage': self.commission_percentage,
-                'default_commission_fixed_amount': self.commission_fixed_amount,
-                'default_broker_id': self.broker_id.id,
-                'default_broker_agency_id': self.broker_agency_id.id,
-                'default_company_commission_pct': self.company_commission_pct,
-                'default_agent_commission_pct': self.agent_commission_pct,
-                'default_referral_commission_pct': self.referral_commission_pct,
-                'default_office_commission_pct': self.office_commission_pct,
-                'default_commission_override_pct': self.commission_override_pct,
-                'default_commission_split_type': self.commission_split_type,
-                'default_commission_split_percentage': self.commission_split_percentage,
-                'default_commission_split_fixed_amount': self.commission_split_fixed_amount,
             },
         }
 

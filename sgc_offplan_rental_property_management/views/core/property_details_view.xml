@@ -273,36 +273,6 @@
                                 <field name="extra_service_cost" widget="monetary" invisible="not is_extra_service"/>
                                 <field name="total_customer_obligation" widget="monetary"/>
                             </group>
-                            <separator string="Commission Settings (defaults for new bookings)"/>
-                            <group>
-                                <group>
-                                    <field name="commission_type"/>
-                                    <field name="commission_percentage" invisible="commission_type != 'percentage'"/>
-                                    <field name="commission_fixed_amount" widget="monetary" invisible="commission_type != 'fixed'"/>
-                                    <field name="broker_id"/>
-                                    <field name="broker_agency_id"/>
-                                </group>
-                                <group>
-                                    <field name="company_commission_pct"/>
-                                    <field name="agent_commission_pct"/>
-                                    <field name="referral_commission_pct"/>
-                                    <field name="office_commission_pct"/>
-                                    <field name="commission_override_pct"/>
-                                </group>
-                            </group>
-                            <group string="Commission Split" name="commission_split">
-                                <field name="commission_split_type"/>
-                                <field name="commission_split_percentage" invisible="commission_split_type != 'percentage'"/>
-                                <field name="commission_split_fixed_amount" widget="monetary" invisible="commission_split_type != 'fixed'"/>
-                            </group>
-                            <separator string="Aggregated Commission (all bookings)"/>
-                            <group>
-                                <group>
-                                    <field name="total_external_commission" widget="monetary"/>
-                                    <field name="total_internal_commission" widget="monetary"/>
-                                    <field name="total_commission" widget="monetary"/>
-                                </group>
-                            </group>
                         </page>
                         <page string="Description" name="description">
                             <field name="description" placeholder="Marketing description, notes..."/>

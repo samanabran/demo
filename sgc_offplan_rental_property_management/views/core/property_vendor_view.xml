@@ -52,78 +52,24 @@
                             <field name="customer_id"/>
                             <field name="vendor_id"/>
                             <field name="broker_id"/>
-                            <field name="broker_agency_id"/>
                             <field name="contract_date"/>
                         </group>
                         <group string="Financial">
                             <field name="currency_id"/>
                             <field name="sale_price" widget="monetary"/>
-                            <field name="commission_type"/>
-                            <field name="commission_percentage"
-                                    invisible="commission_type != 'percentage'"/>
-                            <field name="commission_fixed_amount"
-                                    widget="monetary"
-                                    invisible="commission_type != 'fixed'"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                     </group>
 
                     <notebook>
-                        <page string="External Commission" name="external_commission">
+                        <page string="Commission" name="commission">
                             <group>
-                                <group string="Broker Details">
-                                    <field name="broker_id"/>
-                                    <field name="broker_agency_id"/>
-                                </group>
-                                <group string="Commission Calculation">
-                                    <field name="commission_type"/>
-                                    <field name="commission_percentage"
-                                            invisible="commission_type != 'percentage'"/>
-                                    <field name="commission_fixed_amount"
-                                            widget="monetary"
-                                            invisible="commission_type != 'fixed'"/>
+                                <group string="Commission Summary">
                                     <field name="total_external_commission" widget="monetary"/>
-                                </group>
-                            </group>
-                            <group string="Payment &amp; Split">
-                                <group>
-                                    <field name="commission_split_type"/>
-                                    <field name="commission_split_percentage"
-                                            invisible="commission_split_type != 'percentage'"/>
-                                    <field name="commission_split_fixed_amount"
-                                            widget="monetary"
-                                            invisible="commission_split_type != 'fixed'"/>
-                                </group>
-                                <group>
-                                    <field name="broker_bill_id"/>
-                                    <field name="broker_bill_payment_state"/>
-                                </group>
-                            </group>
-                        </page>
-
-                        <page string="Internal Commission" name="internal_commission">
-                            <group>
-                                <group string="Commission Split (%) — used only when no named Commission Lines below">
-                                    <field name="company_commission_pct"/>
-                                    <field name="agent_commission_pct"/>
-                                    <field name="referral_commission_pct"/>
-                                    <field name="office_commission_pct"/>
-                                    <field name="commission_override_pct"/>
-                                </group>
-                                <group string="Totals">
                                     <field name="total_internal_commission" widget="monetary"/>
-                                    <field name="total_external_commission" widget="monetary"/>
                                     <field name="total_commission" widget="monetary"/>
                                 </group>
                             </group>
-                        </page>
-
-                        <page string="Commission Lines" name="commission_lines">
-                            <p class="text-muted">
-                                Name each external or internal party involved in this deal and their
-                                individual commission rate. When lines are added here, they replace the
-                                single Broker field and the fixed percentage splits above.
-                            </p>
                             <field name="commission_line_ids"
                                    context="{'default_vendor_id': id, 'default_currency_id': currency_id}">
                                 <list editable="bottom"

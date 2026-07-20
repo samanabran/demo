@@ -79,9 +79,11 @@
                                     <span t-esc="o.sale_price" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
                                 </td>
                             </tr>
-                            <tr t-if="o.commission_type">
-                                <td><strong>Commission Type</strong></td>
-                                <td t-esc="dict(o._fields['commission_type'].selection).get(o.commission_type, o.commission_type)" class="text-right"/>
+                            <tr t-if="o.total_commission">
+                                <td><strong>Commission</strong></td>
+                                <td class="text-right">
+                                    <span t-esc="o.total_commission" t-options="{'widget': 'monetary', 'display_currency': o.currency_id or o.company_id.currency_id}"/>
+                                </td>
                             </tr>
                         </table>
                     </div>

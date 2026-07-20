@@ -38,16 +38,7 @@
                                 <field name="customer_id" />
                                 <field name="property_id" />
                                 <field name="sale_price" />
-                                <field name="commission_type" />
-                                <field name="broker_bill_id" readonly="1" />
-                                <field name="broker_bill_payment_state" widget="badge"
-                                    style="margin-left: 10px;"
-                                    decoration-success="broker_bill_payment_state=='paid'"
-                                    decoration-danger="broker_bill_payment_state=='not_paid'"
-                                    decoration-info="broker_bill_payment_state=='in_payment'"
-                                    decoration-primary="broker_bill_payment_state=='partial'"
-                                    decoration-warning="broker_bill_payment_state=='reversed'"
-                                />
+                                <field name="total_commission" widget="monetary" />
                             </list>
                         </field>
                     </page>

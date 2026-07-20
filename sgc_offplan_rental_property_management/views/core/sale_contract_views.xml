@@ -132,6 +132,11 @@
                     <!-- Notebook -->
                     <notebook>
                         <page string="Commission" name="commission">
+                            <field name="is_commission_eligible" invisible="1"/>
+                            <div class="alert alert-warning" role="alert"
+                                 invisible="is_commission_eligible or not commission_line_ids">
+                                <field name="commission_ineligible_reason" nolabel="1"/>
+                            </div>
                             <group>
                                 <group string="Commission Summary">
                                     <field name="commission_external_total" widget="monetary"/>
@@ -139,17 +144,13 @@
                                     <field name="commission_total_amount" widget="monetary"/>
                                     <field name="commission_line_count"/>
                                 </group>
-                                <group string="Broker Bill" invisible="not commission_external_total">
-                                    <field name="broker_bill_id"/>
-                                    <field name="broker_bill_payment_state"/>
-                                </group>
                             </group>
                             <div class="mb-3">
                                 <button name="action_generate_commission_bills"
                                         string="Generate Commission Bills"
                                         type="object"
                                         class="btn btn-primary"
-                                        invisible="not commission_line_ids"/>
+                                        invisible="not commission_line_ids or not is_commission_eligible"/>
                             </div>
                             <field name="commission_line_ids"
                                    context="{'default_contract_id': id, 'default_currency_id': currency_id}">

@@ -64,6 +64,13 @@
                                    widget="statinfo"
                                    string="Rent Bills"/>
                         </button>
+                        <button name="action_view_commission_bills"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-money"
+                                invisible="not commission_bill_count">
+                            <field name="commission_bill_count" widget="statinfo" string="Commission Bills"/>
+                        </button>
                     </div>
 
                     <!-- Cancelled ribbon -->
@@ -123,6 +130,78 @@
                             <p class="text-muted">
                                 Use the <strong>Rent Bills</strong> smart button above to view or generate bills for this contract.
                             </p>
+                        </page>
+                        <page string="Commission" name="commission">
+                            <field name="is_commission_eligible" invisible="1"/>
+                            <div class="alert alert-warning" role="alert"
+                                 invisible="is_commission_eligible or not commission_line_ids">
+                                <field name="commission_ineligible_reason" nolabel="1"/>
+                            </div>
+                            <group>
+                                <group string="Commission Summary">
+                                    <field name="annual_rent_amount" widget="monetary" readonly="1"/>
+                                    <field name="commission_external_total" widget="monetary"/>
+                                    <field name="commission_internal_total" widget="monetary"/>
+                                    <field name="commission_total_amount" widget="monetary"/>
+                                    <field name="commission_line_count"/>
+                                </group>
+                            </group>
+                            <div class="mb-3">
+                                <button name="action_generate_commission_bills"
+                                        string="Generate Commission Bills"
+                                        type="object"
+                                        class="btn btn-primary"
+                                        invisible="not commission_line_ids or not is_commission_eligible"/>
+                            </div>
+                            <field name="commission_line_ids"
+                                   context="{'default_contract_id': id, 'default_currency_id': currency_id}">
+                                <list editable="bottom"
+                                      decoration-success="state == 'paid'"
+                                      decoration-warning="state == 'approved'"
+                                      decoration-muted="state == 'draft'">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="category" readonly="1"/>
+                                    <field name="role"/>
+                                    <field name="custom_role_name"
+                                           invisible="role != 'custom'"/>
+                                    <field name="partner_id"/>
+                                    <field name="payer_type"/>
+                                    <field name="commission_type"/>
+                                    <field name="commission_percentage"
+                                           invisible="commission_type != 'percentage'"
+                                           digits="[5,2]"/>
+                                    <field name="commission_fixed_amount"
+                                           widget="monetary"
+                                           invisible="commission_type != 'fixed'"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="commission_amount" widget="monetary"
+                                           readonly="1"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="state" widget="badge"
+                                           decoration-info="state == 'draft'"
+                                           decoration-success="state == 'paid'"
+                                           decoration-warning="state == 'approved'"
+                                           decoration-danger="state == 'cancelled'"/>
+                                    <field name="bill_id" optional="hide"/>
+                                    <field name="payment_state" widget="badge"
+                                           decoration-info="payment_state == 'not_paid'"
+                                           decoration-success="payment_state == 'paid'"
+                                           decoration-warning="payment_state == 'partial'"/>
+                                    <button name="action_generate_bill"
+                                            string="Generate Bill"
+                                            type="object"
+                                            icon="fa-file-text-o"
+                                            invisible="bill_id or state != 'approved'"
+                                            class="btn-sm btn-primary"/>
+                                    <button name="action_view_bill"
+                                            string="View Bill"
+                                            type="object"
+                                            icon="fa-search"
+                                            invisible="not bill_id"
+                                            class="btn-sm btn-secondary"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Notes" name="notes">
                             <field name="notes"

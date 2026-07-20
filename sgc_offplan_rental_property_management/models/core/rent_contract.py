@@ -104,6 +104,51 @@ class RentContract(models.Model):
     rent_bill_count = fields.Integer(
         string="Rent Bills", compute="_compute_rent_bill_count")
 
+    # -------------------------------------------------------------------------
+    # Commission Distribution (dynamic lines)
+    # -------------------------------------------------------------------------
+    annual_rent_amount = fields.Monetary(
+        string="Annual Rent", currency_field="currency_id",
+        compute="_compute_annual_rent_amount", store=True,
+        help="Rent amount normalized to a 12-month basis. Used as the commission "
+             "calculation base, since rental commission is conventionally quoted "
+             "against annual rent regardless of the lease term or payment frequency.")
+    commission_line_ids = fields.One2many(
+        'rent.commission.line', 'contract_id',
+        string='Commission Lines',
+        help='Dynamic commission distribution to external and internal parties',
+    )
+    commission_total_amount = fields.Monetary(
+        string='Total Commission', currency_field='currency_id',
+        compute='_compute_commission_totals', store=True,
+    )
+    commission_external_total = fields.Monetary(
+        string='External Commission Total', currency_field='currency_id',
+        compute='_compute_commission_totals', store=True,
+    )
+    commission_internal_total = fields.Monetary(
+        string='Internal Commission Total', currency_field='currency_id',
+        compute='_compute_commission_totals', store=True,
+    )
+    commission_line_count = fields.Integer(
+        string='Commission Line Count',
+        compute='_compute_commission_totals',
+    )
+    commission_bill_ids = fields.Many2many(
+        'account.move',
+        relation='rent_contract_commission_bill_rel',
+        compute='_compute_commission_bill_ids',
+        string='Commission Bills',
+    )
+    commission_bill_count = fields.Integer(
+        string='Commission Bill Count',
+        compute='_compute_commission_bill_ids',
+    )
+    is_commission_eligible = fields.Boolean(
+        string='Commission Eligible', compute='_compute_commission_eligibility')
+    commission_ineligible_reason = fields.Char(
+        string='Commission Ineligibility Reason', compute='_compute_commission_eligibility')
+
     @api.depends("start_date", "end_date")
     def _compute_duration_months(self):
         for rec in self:
@@ -118,10 +163,45 @@ class RentContract(models.Model):
         for rec in self:
             rec.total_rent = rec.rent_amount * rec.duration_months
 
+    @api.depends("rent_amount", "payment_frequency")
+    def _compute_annual_rent_amount(self):
+        periods = {"monthly": 12, "quarterly": 4, "yearly": 1}
+        for rec in self:
+            rec.annual_rent_amount = rec.rent_amount * periods.get(rec.payment_frequency, 12)
+
     def _compute_rent_bill_count(self):
         for rec in self:
             rec.rent_bill_count = self.env["rent.bill"].search_count(
                 [("contract_id", "=", rec.id)])
+
+    @api.depends('commission_line_ids.commission_amount', 'commission_line_ids.category')
+    def _compute_commission_totals(self):
+        for rec in self:
+            lines = rec.commission_line_ids
+            rec.commission_external_total = sum(
+                l.commission_amount for l in lines if l.category == 'external')
+            rec.commission_internal_total = sum(
+                l.commission_amount for l in lines if l.category == 'internal')
+            rec.commission_total_amount = rec.commission_external_total + rec.commission_internal_total
+            rec.commission_line_count = len(lines)
+
+    @api.depends('commission_line_ids.bill_id')
+    def _compute_commission_bill_ids(self):
+        for rec in self:
+            bills = rec.commission_line_ids.bill_id
+            rec.commission_bill_ids = bills
+            rec.commission_bill_count = len(bills)
+
+    @api.depends('state')
+    def _compute_commission_eligibility(self):
+        for rec in self:
+            if rec.state == 'active':
+                rec.is_commission_eligible = True
+                rec.commission_ineligible_reason = False
+            else:
+                rec.is_commission_eligible = False
+                rec.commission_ineligible_reason = _(
+                    'Commission is eligible once the rent contract is confirmed (Active).')
 
     def _assign_reference(self):
         for contract in self:
@@ -269,6 +349,34 @@ class RentContract(models.Model):
             "view_mode": "list,form",
             "domain": [("contract_id", "=", self.id)],
             "context": {"default_contract_id": self.id},
+        }
+
+    # -------------------------------------------------------------------------
+    # One-click: generate bills for every approved commission line on this
+    # contract that hasn't been billed yet (vendor bill to landlord/company,
+    # or customer invoice to the tenant depending on each line's payer_type).
+    # -------------------------------------------------------------------------
+    def action_generate_commission_bills(self):
+        for contract in self:
+            billable = contract.commission_line_ids.filtered(
+                lambda l: l.state == 'approved' and not l.bill_id)
+            if not billable:
+                continue
+            bills = billable._generate_bills(post=True)
+            contract.message_post(
+                body=_('%d commission bill(s) generated for %d line(s).') % (
+                    len(bills), len(billable)))
+        return True
+
+    def action_view_commission_bills(self):
+        self.ensure_one()
+        return {
+            'name': _('Commission Bills'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move',
+            'view_mode': 'list,form',
+            'domain': [('id', 'in', self.commission_bill_ids.ids)],
+            'context': {'create': False},
         }
 
     # E-signature method

@@ -107,3 +107,5 @@ access_property_vendor_commission_line_officer,property.vendor.commission.line.o
 access_rera_form_a_officer,rera.form.a.officer,model_rera_form_a,property_rental_officer,1,1,1,0
 access_rera_form_a_manager,rera.form.a.manager,model_rera_form_a,property_rental_manager,1,1,1,1
 access_rera_form_a_portal,rera.form.a.portal,model_rera_form_a,base.group_portal,1,0,0,0
+access_rent_commission_line_manager,rent.commission.line.manager,model_rent_commission_line,property_rental_manager,1,1,1,1
+access_rent_commission_line_officer,rent.commission.line.officer,model_rent_commission_line,property_rental_officer,1,1,1,0

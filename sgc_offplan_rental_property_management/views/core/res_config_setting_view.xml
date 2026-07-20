@@ -35,6 +35,11 @@
                                     required="1" />
                             </setting>
                         </block>
+                        <block title="Commission Eligibility">
+                            <setting help="Minimum percentage of sale price paid before commission can be billed (payment-plan sales)">
+                                <field name="commission_eligibility_sale_pct" required="1" />
+                            </setting>
+                        </block>
                         <block title="Default Items">
                             <setting help="Installment Default Item">
                                 <field name="installment_item_id" required="1" />

@@ -122,70 +122,44 @@ class SaleContract(models.Model):
         for rec in self:
             rec.commission_line_count = len(rec.commission_line_ids)
 
-    # Legacy fields (kept for backward compatibility during migration)
-    commission_type = fields.Selection([
-        ('percentage', 'Percentage'),
-        ('fixed', 'Fixed'),
-    ], string='Commission Type (Legacy)', default='percentage',
-        help='Deprecated: use commission lines instead.')
-    commission_percentage = fields.Float(
-        string='Commission % (Legacy)', default=2.0,
-        help='Deprecated: use commission lines instead.')
-    commission_fixed_amount = fields.Monetary(
-        string='Fixed Commission Amount (Legacy)', currency_field='currency_id',
-        help='Deprecated: use commission lines instead.')
-    broker_id = fields.Many2one('res.partner', string='Broker (Legacy)',
-                                domain=[('user_type', '=', 'broker')],
-                                help='Deprecated: use commission lines instead.')
-    broker_agency_id = fields.Many2one(
-        'res.partner', string='Brokerage Company (Legacy)',
-        domain=[('is_company', '=', True)],
-        help='Deprecated: use commission lines instead.')
-    broker_bill_id = fields.Many2one('account.move', string='Broker Bill', readonly=True)
-    broker_bill_payment_state = fields.Selection([
-        ('not_paid', 'Not Paid'),
-        ('in_payment', 'In Payment'),
-        ('paid', 'Paid'),
-        ('partial', 'Partially Paid'),
-        ('reversed', 'Reversed'),
-    ], string='Broker Bill Payment Status', default='not_paid')
-    total_external_commission = fields.Monetary(
-        string='External Commission (Legacy)', currency_field='currency_id',
-        compute='_compute_commission_legacy', store=True)
+    # -------------------------------------------------------------------------
+    # Commission eligibility gate — checked server-side inside
+    # property.commission.line.mixin._generate_bills before any bill is
+    # raised, not just hidden in the UI.
+    # -------------------------------------------------------------------------
+    is_commission_eligible = fields.Boolean(
+        string='Commission Eligible', compute='_compute_commission_eligibility')
+    commission_ineligible_reason = fields.Char(
+        string='Commission Ineligibility Reason', compute='_compute_commission_eligibility')
 
-    # Legacy internal commission fields
-    company_commission_pct = fields.Float(string='Company Commission % (Legacy)', default=0.0)
-    agent_commission_pct = fields.Float(string='Agent Commission % (Legacy)', default=0.0)
-    referral_commission_pct = fields.Float(string='Referral Commission % (Legacy)', default=0.0)
-    office_commission_pct = fields.Float(string='Office Commission % (Legacy)', default=0.0)
-    commission_override_pct = fields.Float(string='Override % (Legacy)', default=0.0)
-    total_internal_commission = fields.Monetary(
-        string='Internal Commission (Legacy)', currency_field='currency_id',
-        compute='_compute_commission_legacy', store=True)
-
-    total_commission = fields.Monetary(
-        string='Total Commission (Legacy)', currency_field='currency_id',
-        compute='_compute_commission_legacy', store=True)
-
-    @api.depends('sale_price', 'commission_type', 'commission_percentage',
-                 'commission_fixed_amount')
-    def _compute_commission_legacy(self):
-        for rec in self:
-            base = rec.sale_price or 0.0
-            if rec.commission_type == 'percentage':
-                ext = base * (rec.commission_percentage / 100.0)
+    @api.depends('payment_schedule_id', 'sale_price', 'overall_payment_state',
+                 'installment_ids.amount', 'installment_ids.state')
+    def _compute_commission_eligibility(self):
+        threshold = float(self.env['ir.config_parameter'].sudo().get_param(
+            'sgc_offplan_rental_property_management.commission_eligibility_sale_pct', 20.0))
+        for contract in self:
+            if contract.payment_schedule_id:
+                paid = sum(l.amount for l in contract.installment_ids if l.state == 'paid')
+                pct = (paid / contract.sale_price * 100.0) if contract.sale_price else 0.0
+                if pct >= threshold:
+                    contract.is_commission_eligible = True
+                    contract.commission_ineligible_reason = False
+                else:
+                    contract.is_commission_eligible = False
+                    contract.commission_ineligible_reason = _(
+                        'Only %.1f%% of the sale price has been paid; %.0f%% is required '
+                        'before commission can be billed.'
+                    ) % (pct, threshold)
             else:
-                ext = rec.commission_fixed_amount or 0.0
-            rec.total_external_commission = ext
-            internal_pct = (
-                rec.company_commission_pct +
-                rec.agent_commission_pct +
-                rec.referral_commission_pct +
-                rec.office_commission_pct +
-                rec.commission_override_pct
-            )
-            rec.total_internal_commission = base * (internal_pct / 100.0)
-            rec.total_commission = ext + rec.total_internal_commission
+                if contract.overall_payment_state == 'paid':
+                    contract.is_commission_eligible = True
+                    contract.commission_ineligible_reason = False
+                else:
+                    contract.is_commission_eligible = False
+                    contract.commission_ineligible_reason = _(
+                        'This is a full-payment sale; commission is eligible once the sale '
+                        'is fully paid.'
+                    )
 
     def action_create_commission_line(self):
         self.ensure_one()

@@ -119,10 +119,15 @@ class BookingWizard(models.TransientModel):
             'contract_date': fields.Date.context_today(self),
             'state': 'draft',
         }
-        if self.commission_type:
-            data['commission_type'] = commission_type_map.get(self.commission_type, 'percentage')
-            data['commission_percentage'] = self.broker_commission_percentage
-            data['commission_fixed_amount'] = self.broker_commission
+        if self.commission_type and self.broker_id:
+            data['commission_line_ids'] = [(0, 0, {
+                'partner_id': self.broker_id.id,
+                'category': 'external',
+                'role': 'broker',
+                'commission_type': commission_type_map.get(self.commission_type, 'percentage'),
+                'commission_percentage': self.broker_commission_percentage,
+                'commission_fixed_amount': self.broker_commission,
+            })]
 
         booking_id = self.env['property.vendor'].create(data)
         self.property_id.sold_booking_id = booking_id.id
