@@ -26,9 +26,10 @@ class PropertyCommissionLineMixin(models.AbstractModel):
         help='Person or company receiving this commission (broker, brokerage company, agent, or internal employee).',
     )
     category = fields.Selection([
-        ('external', 'External'),
         ('internal', 'Internal'),
-    ], string='Category', required=True, default='internal')
+        ('external', 'External'),
+        ('others', 'Others'),
+    ], string='Commission Role', required=True, default='internal')
     role = fields.Selection([
         ('broker', 'Broker'),
         ('brokerage', 'Brokerage Company'),
@@ -43,32 +44,50 @@ class PropertyCommissionLineMixin(models.AbstractModel):
         string='Custom Role Name',
         help='Specify role name when role is "Custom"',
     )
-    commission_type = fields.Selection([
-        ('percentage', 'Percentage'),
-        ('fixed', 'Fixed Amount'),
-    ], string='Commission Type', required=True, default='percentage')
-    commission_base = fields.Selection([
-        ('contract_value', 'Total Contract Value'),
-        ('commission_line', 'Another Commission Line'),
-    ], string='Commission Base', default='contract_value', required=True,
-        help='What the percentage is calculated against — the total property/contract '
-             'value, or another beneficiary\'s commission amount (e.g. an agent split '
-             'quoted as a percentage of the broker\'s commission, not of the sale price).')
+    computation_type = fields.Selection([
+        ('property_price', 'Property Price'),
+        ('fixed_amount', 'Fixed Amount'),
+        ('commission_received', 'Commission Received'),
+    ], string='Computation Type', required=True, default='property_price',
+        help='Property Price: a percentage of the total property/contract value. '
+             'Fixed Amount: a flat amount, no percentage involved. '
+             'Commission Received: a percentage of another beneficiary\'s commission '
+             '(e.g. an agent split quoted against the broker\'s payout, not the price).')
     commission_percentage = fields.Float(
-        string='Commission %',
+        string='Rate %',
         default=0.0,
-        help='Percentage of the Commission Base selected above.',
+        help='Percentage applied under Property Price or Commission Received.',
     )
     commission_fixed_amount = fields.Monetary(
         string='Fixed Amount',
         currency_field='currency_id',
-        help='Fixed commission amount',
+        help='Flat commission amount, used when Computation Type is Fixed Amount.',
     )
     commission_amount = fields.Monetary(
-        string='Commission Amount',
+        string='Total w/o Tax',
         currency_field='currency_id',
         compute='_compute_commission_amount',
         store=True,
+        help='Commission amount before tax.',
+    )
+    tax_ids = fields.Many2many(
+        'account.tax',
+        string='Taxes',
+        help='Optional. Typically only set for External party commission '
+             '(e.g. VAT on a brokerage invoice) — leave empty for internal splits.',
+    )
+    amount_tax = fields.Monetary(
+        string='Tax Amount',
+        currency_field='currency_id',
+        compute='_compute_amount_total',
+        store=True,
+    )
+    amount_total = fields.Monetary(
+        string='Total w/ Tax',
+        currency_field='currency_id',
+        compute='_compute_amount_total',
+        store=True,
+        help='Commission amount including tax. This is the amount actually billed.',
     )
     currency_id = fields.Many2one('res.currency', string='Currency')
     state = fields.Selection([
@@ -94,28 +113,29 @@ class PropertyCommissionLineMixin(models.AbstractModel):
 
     def _get_contract_value_base(self):
         """Override: return the total property/contract value (sale price,
-        annual rent, etc.) used when commission_base == 'contract_value'."""
+        annual rent, etc.) used when computation_type == 'property_price'."""
         self.ensure_one()
         return 0.0
 
     def _get_base_line(self):
         """Override: return the self-referencing base_line_id field value
-        used when commission_base == 'commission_line'. Empty recordset by
-        default for concrete models that don't declare that field."""
+        used when computation_type == 'commission_received'. Empty
+        recordset by default for concrete models that don't declare that
+        field."""
         self.ensure_one()
         return self.browse()
 
     def _get_base_amount(self):
         self.ensure_one()
-        if self.commission_base == 'commission_line':
+        if self.computation_type == 'commission_received':
             return self._get_base_line().commission_amount
         return self._get_contract_value_base()
 
     def _calc_amount(self):
         self.ensure_one()
-        if self.commission_type == 'percentage':
-            return (self._get_base_amount() or 0.0) * (self.commission_percentage / 100.0)
-        return self.commission_fixed_amount or 0.0
+        if self.computation_type == 'fixed_amount':
+            return self.commission_fixed_amount or 0.0
+        return (self._get_base_amount() or 0.0) * (self.commission_percentage / 100.0)
 
     def _compute_commission_amount(self):
         # Concrete models override this with their own @api.depends (the base
@@ -127,36 +147,53 @@ class PropertyCommissionLineMixin(models.AbstractModel):
     def _set_commission_amounts(self):
         # Shared body for every concrete model's _compute_commission_amount.
         # After computing each line's own amount, explicitly cascades to any
-        # OTHER line whose commission_base is "Another Commission Line"
-        # pointing at one of these — a bounded, one-level-deep cascade
-        # (matching the max-depth-1 chaining rule enforced in
-        # _check_base_line) done via plain method calls rather than a
-        # recursive stored @api.depends, which triggers an Odoo ORM edge
-        # case involving not-yet-saved records in an editable list.
+        # OTHER line whose computation_type is "Commission Received" pointing
+        # at one of these — a bounded, one-level-deep cascade (matching the
+        # max-depth-1 chaining rule enforced in _check_base_line) done via
+        # plain method calls rather than a recursive stored @api.depends,
+        # which triggers an Odoo ORM edge case involving not-yet-saved
+        # records in an editable list.
         for line in self:
             line.commission_amount = line._calc_amount()
         dependents = self.search([('base_line_id', 'in', self.ids)]) - self
         if dependents:
             dependents._set_commission_amounts()
 
-    @api.constrains('commission_base')
+    @api.depends('commission_amount', 'tax_ids')
+    def _compute_amount_total(self):
+        for line in self:
+            if line.tax_ids:
+                taxes = line.tax_ids.compute_all(
+                    line.commission_amount,
+                    currency=line.currency_id,
+                    quantity=1.0,
+                    product=False,
+                    partner=line.partner_id,
+                )
+                line.amount_total = taxes['total_included']
+                line.amount_tax = taxes['total_included'] - taxes['total_excluded']
+            else:
+                line.amount_total = line.commission_amount
+                line.amount_tax = 0.0
+
+    @api.constrains('computation_type')
     def _check_base_line(self):
         for line in self:
-            if line.commission_base != 'commission_line':
+            if line.computation_type != 'commission_received':
                 continue
             base_line = line._get_base_line()
             if not base_line:
                 raise ValidationError(_(
-                    'Select a Commission Line to use as the base when Commission Base '
-                    'is "Another Commission Line".'))
+                    'Select a Commission Line to use as the base when Computation '
+                    'Type is "Commission Received".'))
             if base_line.id == line.id:
                 raise ValidationError(_(
                     'A commission line cannot use itself as its own commission base.'))
-            if base_line.commission_base == 'commission_line':
+            if base_line.computation_type == 'commission_received':
                 raise ValidationError(_(
                     'The base commission line ("%s") is itself based on another '
                     'commission line. Chaining more than one level deep is not '
-                    'supported — pick a line whose base is the contract value.'
+                    'supported — pick a line whose Computation Type is Property Price.'
                 ) % base_line.display_name)
 
     @api.depends('bill_id.payment_state', 'bill_id.state')
@@ -217,7 +254,9 @@ class PropertyCommissionLineMixin(models.AbstractModel):
     # -------------------------------------------------------------------------
     # Commission billing — one click generates a bill for every approved,
     # unbilled commission line, one document per (payer, move type) so lines
-    # billed to different parties (e.g. tenant vs landlord) don't merge.
+    # billed to different parties (e.g. tenant vs landlord) don't merge. The
+    # line's own tax_ids travel onto the invoice line so Odoo computes
+    # untaxed/tax/total natively instead of pre-baking a tax-inclusive price.
     # -------------------------------------------------------------------------
 
     def action_generate_bill(self):
@@ -242,6 +281,7 @@ class PropertyCommissionLineMixin(models.AbstractModel):
                 'name': _('%s - %s') % (contract.display_name, line.display_name),
                 'quantity': 1,
                 'price_unit': line.commission_amount,
+                'tax_ids': [(6, 0, line.tax_ids.ids)],
             }) for line in lines]
             move = AccountMove.create({
                 'move_type': move_type,

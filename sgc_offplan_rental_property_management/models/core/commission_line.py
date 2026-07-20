@@ -22,19 +22,19 @@ class CommissionLine(models.Model):
         related='contract_id.currency_id',
         store=True,
     )
-    commission_base = fields.Selection(
-        selection_add=[('contract_value', 'Sale Price')],
-        ondelete={'contract_value': 'set default'},
+    computation_type = fields.Selection(
+        selection_add=[('property_price', 'Sale Price')],
+        ondelete={'property_price': 'set default'},
     )
     base_line_id = fields.Many2one(
         'property.commission.line',
         string='Base Commission Line',
         domain="[('contract_id', '=', contract_id), ('id', '!=', id)]",
         help='The other beneficiary line this percentage is calculated against, '
-             'when Commission Base is "Another Commission Line".',
+             'when Computation Type is "Commission Received".',
     )
 
-    @api.depends('contract_id.sale_price', 'commission_type', 'commission_base',
+    @api.depends('contract_id.sale_price', 'computation_type',
                  'commission_percentage', 'commission_fixed_amount', 'base_line_id')
     def _compute_commission_amount(self):
         self._set_commission_amounts()
@@ -47,7 +47,7 @@ class CommissionLine(models.Model):
         self.ensure_one()
         return self.base_line_id
 
-    @api.constrains('commission_base', 'base_line_id')
+    @api.constrains('computation_type', 'base_line_id')
     def _check_base_line(self):
         super()._check_base_line()
 

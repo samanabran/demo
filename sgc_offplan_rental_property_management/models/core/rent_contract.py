@@ -182,7 +182,9 @@ class RentContract(models.Model):
                 l.commission_amount for l in lines if l.category == 'external')
             rec.commission_internal_total = sum(
                 l.commission_amount for l in lines if l.category == 'internal')
-            rec.commission_total_amount = rec.commission_external_total + rec.commission_internal_total
+            # Sum every line regardless of category (not just external + internal)
+            # so an 'others' line isn't silently dropped from the grand total.
+            rec.commission_total_amount = sum(lines.mapped('commission_amount'))
             rec.commission_line_count = len(lines)
 
     @api.depends('commission_line_ids.bill_id')

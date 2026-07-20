@@ -160,24 +160,26 @@
                                       decoration-muted="state == 'draft'">
                                     <field name="sequence" widget="handle"/>
                                     <field name="category" readonly="1"/>
+                                    <field name="partner_id"/>
                                     <field name="role"/>
                                     <field name="custom_role_name"
                                            invisible="role != 'custom'"/>
-                                    <field name="partner_id"/>
-                                    <field name="commission_type"/>
-                                    <field name="commission_base"
-                                           invisible="commission_type == 'fixed'"/>
+                                    <field name="computation_type"/>
                                     <field name="base_line_id"
-                                           invisible="commission_type == 'fixed' or commission_base != 'commission_line'"
+                                           invisible="computation_type != 'commission_received'"
                                            context="{'default_contract_id': contract_id}"/>
                                     <field name="commission_percentage"
-                                           invisible="commission_type != 'percentage'"
+                                           invisible="computation_type == 'fixed_amount'"
                                            digits="[5,2]"/>
                                     <field name="commission_fixed_amount"
                                            widget="monetary"
-                                           invisible="commission_type != 'fixed'"
+                                           invisible="computation_type != 'fixed_amount'"
                                            options="{'currency_field': 'currency_id'}"/>
+                                    <field name="tax_ids" widget="many2many_tags" optional="show"/>
                                     <field name="commission_amount" widget="monetary"
+                                           readonly="1"
+                                           options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_total" widget="monetary"
                                            readonly="1"
                                            options="{'currency_field': 'currency_id'}"/>
                                     <field name="currency_id" column_invisible="1"/>

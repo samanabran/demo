@@ -70,7 +70,9 @@ class PropertyVendor(models.Model):
                 l.commission_amount for l in lines if l.category == 'external')
             rec.total_internal_commission = sum(
                 l.commission_amount for l in lines if l.category == 'internal')
-            rec.total_commission = rec.total_external_commission + rec.total_internal_commission
+            # Sum every line regardless of category (not just external + internal)
+            # so an 'others' line isn't silently dropped from the grand total.
+            rec.total_commission = sum(lines.mapped('commission_amount'))
 
     # -------------------------------------------------------------------------
     # State transitions
