@@ -163,6 +163,21 @@ class PropertyCommissionLineMixin(models.AbstractModel):
             return self.custom_role_name or 'Custom'
         return dict(self._fields['role'].selection).get(self.role, self.role)
 
+    @api.depends('partner_id.name', 'role', 'custom_role_name', 'commission_amount',
+                 'currency_id.symbol')
+    def _compute_display_name(self):
+        # Default Odoo display_name for a model with no name/_rec_name field
+        # falls back to "model.name,id" (e.g. "property.commission.line,4"),
+        # which is meaningless in the Base Commission Line picker or on a
+        # generated bill line. Show who gets paid, in what role, and how
+        # much instead.
+        for line in self:
+            beneficiary = line.partner_id.name or _('New Commission Line')
+            role = line.get_role_label()
+            amount = '{:,.2f}'.format(line.commission_amount or 0.0)
+            currency = line.currency_id.symbol or ''
+            line.display_name = ('%s — %s (%s %s)' % (beneficiary, role, amount, currency)).strip()
+
     # -------------------------------------------------------------------------
     # Hooks — override in concrete models
     # -------------------------------------------------------------------------
@@ -211,8 +226,7 @@ class PropertyCommissionLineMixin(models.AbstractModel):
         for (partner_id, move_type), lines in groups.items():
             contract = lines[0]._get_parent_contract()
             move_lines = [(0, 0, {
-                'name': _('%s - %s (%s)') % (
-                    contract.display_name, line.get_role_label(), line.display_name),
+                'name': _('%s - %s') % (contract.display_name, line.display_name),
                 'quantity': 1,
                 'price_unit': line.commission_amount,
             }) for line in lines]
