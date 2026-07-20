@@ -167,6 +167,11 @@
                                     <field name="partner_id"/>
                                     <field name="payer_type"/>
                                     <field name="commission_type"/>
+                                    <field name="commission_base"
+                                           invisible="commission_type == 'fixed'"/>
+                                    <field name="base_line_id"
+                                           invisible="commission_type == 'fixed' or commission_base != 'commission_line'"
+                                           context="{'default_contract_id': contract_id}"/>
                                     <field name="commission_percentage"
                                            invisible="commission_type != 'percentage'"
                                            digits="[5,2]"/>

@@ -2,7 +2,7 @@
 # Copyright 2026 SGC TECH AI
 # Part of SGC Odoo Suite. See LICENSE file for full copyright and licensing details.
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class PropertyCommissionLineMixin(models.AbstractModel):
@@ -47,10 +47,17 @@ class PropertyCommissionLineMixin(models.AbstractModel):
         ('percentage', 'Percentage'),
         ('fixed', 'Fixed Amount'),
     ], string='Commission Type', required=True, default='percentage')
+    commission_base = fields.Selection([
+        ('contract_value', 'Total Contract Value'),
+        ('commission_line', 'Another Commission Line'),
+    ], string='Commission Base', default='contract_value', required=True,
+        help='What the percentage is calculated against — the total property/contract '
+             'value, or another beneficiary\'s commission amount (e.g. an agent split '
+             'quoted as a percentage of the broker\'s commission, not of the sale price).')
     commission_percentage = fields.Float(
         string='Commission %',
         default=0.0,
-        help='Percentage of the commission base (sale price / annual rent)',
+        help='Percentage of the Commission Base selected above.',
     )
     commission_fixed_amount = fields.Monetary(
         string='Fixed Amount',
@@ -85,19 +92,58 @@ class PropertyCommissionLineMixin(models.AbstractModel):
     ], string='Payment Status', compute='_compute_payment_state', store=True, default='not_paid')
     notes = fields.Text(string='Notes')
 
-    def _calc_amount(self, base):
+    def _get_contract_value_base(self):
+        """Override: return the total property/contract value (sale price,
+        annual rent, etc.) used when commission_base == 'contract_value'."""
+        self.ensure_one()
+        return 0.0
+
+    def _get_base_line(self):
+        """Override: return the self-referencing base_line_id field value
+        used when commission_base == 'commission_line'. Empty recordset by
+        default for concrete models that don't declare that field."""
+        self.ensure_one()
+        return self.browse()
+
+    def _get_base_amount(self):
+        self.ensure_one()
+        if self.commission_base == 'commission_line':
+            return self._get_base_line().commission_amount
+        return self._get_contract_value_base()
+
+    def _calc_amount(self):
         self.ensure_one()
         if self.commission_type == 'percentage':
-            return (base or 0.0) * (self.commission_percentage / 100.0)
+            return (self._get_base_amount() or 0.0) * (self.commission_percentage / 100.0)
         return self.commission_fixed_amount or 0.0
 
     def _compute_commission_amount(self):
         # Concrete models override this with their own @api.depends (the base
         # amount lives on a different parent field per model) and call
-        # line._calc_amount(base). Base implementation here is a safe no-op
+        # line._calc_amount(). Base implementation here is a safe no-op
         # fallback so the abstract model itself stays instantiable-free.
         for line in self:
-            line.commission_amount = line._calc_amount(0.0)
+            line.commission_amount = line._calc_amount()
+
+    @api.constrains('commission_base')
+    def _check_base_line(self):
+        for line in self:
+            if line.commission_base != 'commission_line':
+                continue
+            base_line = line._get_base_line()
+            if not base_line:
+                raise ValidationError(_(
+                    'Select a Commission Line to use as the base when Commission Base '
+                    'is "Another Commission Line".'))
+            if base_line.id == line.id:
+                raise ValidationError(_(
+                    'A commission line cannot use itself as its own commission base.'))
+            if base_line.commission_base == 'commission_line':
+                raise ValidationError(_(
+                    'The base commission line ("%s") is itself based on another '
+                    'commission line. Chaining more than one level deep is not '
+                    'supported — pick a line whose base is the contract value.'
+                ) % base_line.display_name)
 
     @api.depends('bill_id.payment_state', 'bill_id.state')
     def _compute_payment_state(self):
