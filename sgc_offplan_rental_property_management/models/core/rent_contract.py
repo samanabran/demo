@@ -132,7 +132,7 @@ class RentContract(models.Model):
     )
     commission_line_count = fields.Integer(
         string='Commission Line Count',
-        compute='_compute_commission_totals',
+        compute='_compute_commission_totals', store=True,
     )
     commission_bill_ids = fields.Many2many(
         'account.move',
