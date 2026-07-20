@@ -69,6 +69,7 @@ class PropertyCommissionLineMixin(models.AbstractModel):
         currency_field='currency_id',
         compute='_compute_commission_amount',
         store=True,
+        recursive=True,
     )
     currency_id = fields.Many2one('res.currency', string='Currency')
     state = fields.Selection([
