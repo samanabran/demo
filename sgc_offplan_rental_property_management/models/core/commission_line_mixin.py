@@ -29,7 +29,7 @@ class PropertyCommissionLineMixin(models.AbstractModel):
         ('internal', 'Internal'),
         ('external', 'External'),
         ('others', 'Others'),
-    ], string='Commission Role', required=True, default='internal')
+    ], string='Category', required=True, default='internal')
     role = fields.Selection([
         ('broker', 'Broker'),
         ('brokerage', 'Brokerage Company'),
