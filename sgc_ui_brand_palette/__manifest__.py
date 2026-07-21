@@ -1,0 +1,47 @@
+# -*- coding: utf-8 -*-
+# SGC TECH AI - UI Brand Palette
+# Copyright (c) 2026 SGC TECH AI (https://sgctech.ai)
+# License OPL-1
+{
+    "name": "SGC TECH AI - UI Brand Palette",
+    "version": "19.0.1.0.1",
+    "category": "Theme/Brand",
+    "summary": "Uniform SGC brand icons for native + SGC main-menu apps",
+    "description": "Patches the web_icon field of every native Odoo 19 root menu displayed in the Apps grid so the entire launcher shares the same SGC TECH AI visual identity (transparent background, gold glyph). Replaces the default colorful Odoo icons with the uniform set shipped in static/icons/.",
+    "author": "SGC TECH AI",
+    "website": "https://sgctech.ai",
+    "license": "OPL-1",
+    "depends": [
+        "base",
+        "web",
+        "mail",
+        "calendar",
+        "contacts",
+        "crm",
+        "hr",
+        "account",
+        "utm",
+        "maintenance",
+        "hr_payroll_community",
+        "project",
+        "project_todo",
+        "purchase",
+        "hr_recruitment",
+        "sale_management",
+        "survey",
+        "hr_holidays",
+        "hr_attendance",
+        "website",
+        "eh_uae_payroll_wps",
+        "spreadsheet_dashboard",
+    "sgc_employment_certificate",
+    "sgc_hr_memos",
+    "sgc_invoicing_dashboard",
+    ],
+    "data": [
+        "data/sgc_brand_menu_overrides.xml",
+    ],
+    "installable": True,
+    "application": False,
+    "auto_install": False,
+}

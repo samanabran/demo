@@ -27,6 +27,7 @@ on:
       - 'sgc_video_conferencing/**'
       - 'sgc_assessment/**'
       - 'kyc_management/**'
+      - 'sgc_ui_brand_palette/**'
   workflow_dispatch:
 
 jobs:

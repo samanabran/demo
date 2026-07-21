@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SGC TECH AI - UI Brand Palette -->
+<!-- Copyright (c) 2026 SGC TECH AI (https://sgctech.ai) -->
+<!-- License OPL-1 -->
+<odoo>
+
+    <!-- =================================================================
+         Uniform SGC TECH AI icons for native Odoo 19 root menus.
+         Each record overrides:
+           - web_icon        : Apps grid (path to PNG inside this module)
+           - web_icon_data   : Appsbar / home menu (binary, populated from
+                               the same PNG via type="file" file ref)
+         The image files live in this module at static/icons/<name>.png
+         and share the same navy/gold brand palette produced by the bulk
+         slice step. Re-installing this module is safe; upgrades re-apply.
+         ================================================================= -->
+    <record id="mail.menu_root_discuss" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_discuss.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_discuss.png</field>
+    </record>
+    <record id="calendar.mail_menu_calendar" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_calendar.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_calendar.png</field>
+    </record>
+    <record id="contacts.menu_contacts" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_contacts.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_contacts.png</field>
+    </record>
+    <record id="crm.crm_menu_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_crm.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_crm.png</field>
+    </record>
+    <record id="hr.menu_hr_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_employees.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_employees.png</field>
+    </record>
+    <record id="account.menu_finance" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_invoicing.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_invoicing.png</field>
+    </record>
+    <record id="utm.menu_link_tracker_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_link_tracker.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_link_tracker.png</field>
+    </record>
+    <record id="maintenance.menu_maintenance_title" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_maintenance.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_maintenance.png</field>
+    </record>
+    <record id="hr_payroll_community.menu_hr_payroll_community_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_payroll.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_payroll.png</field>
+    </record>
+    <record id="project.menu_main_pm" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_project.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_project.png</field>
+    </record>
+    <record id="project_todo.menu_todo_todos" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_todo.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_todo.png</field>
+    </record>
+    <record id="purchase.menu_purchase_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_purchase.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_purchase.png</field>
+    </record>
+    <record id="hr_recruitment.menu_hr_recruitment_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_recruitment.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_recruitment.png</field>
+    </record>
+    <record id="sale.sale_menu_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_sales.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_sales.png</field>
+    </record>
+    <record id="survey.menu_surveys" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_surveys.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_surveys.png</field>
+    </record>
+    <record id="hr_holidays.menu_hr_holidays_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_timeoff.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_timeoff.png</field>
+    </record>
+    <record id="hr_attendance.menu_hr_attendance_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_attendances.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_attendances.png</field>
+    </record>
+    <record id="website.menu_website_configuration" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_website.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_website.png</field>
+    </record>
+    <record id="eh_uae_payroll_wps.menu_eh_uae_wps_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_payroll.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_payroll.png</field>
+    </record>
+    <record id="spreadsheet_dashboard.spreadsheet_dashboard_menu_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/core_dashboards.png</field>
+        <field name="web_icon_data" type="file">static/icons/core_dashboards.png</field>
+    </record>
+    <record id="sgc_employment_certificate.menu_hr_employment_certificates" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/sgc_employment_certificate.png</field>
+        <field name="web_icon_data" type="file">static/icons/sgc_employment_certificate.png</field>
+    </record>
+    <record id="sgc_hr_memos.menu_hr_memo_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/sgc_hr_memos.png</field>
+        <field name="web_icon_data" type="file">static/icons/sgc_hr_memos.png</field>
+    </record>
+    <record id="sgc_invoicing_dashboard.menu_sgc_sales_invoicing_dashboard" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/sgc_invoicing_dashboard.png</field>
+        <field name="web_icon_data" type="file">static/icons/sgc_invoicing_dashboard.png</field>
+    </record>
+    <!-- =================================================================
+         Nested SGC module menus under parent apps - only web_icon is
+         needed for the Apps grid; the appsbar reaches them via parent.
+         sgc_brochure_leadcapture is installed but has no menu registered
+         in this DB, so it is intentionally not listed here; its icon
+         file is in place for when a menu is added.
+         ================================================================= -->
+
+    <record id="sgc_employment_certificate.menu_hr_employment_certificates" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/sgc_employment_certificate.png</field>
+    </record>
+
+    <record id="sgc_hr_memos.menu_hr_memo_root" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/sgc_hr_memos.png</field>
+    </record>
+
+    <record id="sgc_invoicing_dashboard.menu_sgc_sales_invoicing_dashboard" model="ir.ui.menu">
+        <field name="web_icon">sgc_ui_brand_palette,static/icons/sgc_invoicing_dashboard.png</field>
+    </record>
+</odoo>
