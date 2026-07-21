@@ -54,7 +54,8 @@
   <menuitem id="menu_sgc_llm_router_root"
             name="LLM Router"
             sequence="90"
-            groups="base.group_system"/>
+            groups="base.group_system"
+            web_icon="sgc_llm_router,static/description/icon.png"/>
   <menuitem id="menu_sgc_llm_provider"
             name="Providers"
             parent="menu_sgc_llm_router_root"

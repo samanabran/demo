@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <menuitem id="menu_learning_root" name="Learning" sequence="10"/>
+    <menuitem id="menu_learning_root" name="Learning" sequence="10" web_icon="sgc_elearning,static/description/icon.png"/>
     <menuitem id="menu_learning_content" name="Content" parent="menu_learning_root" sequence="10"/>
     <menuitem id="menu_learning_quizzes" name="Quizzes" parent="menu_learning_root" sequence="20"/>
     <menuitem id="menu_learning_gamification" name="Gamification" parent="menu_learning_root" sequence="30"/>

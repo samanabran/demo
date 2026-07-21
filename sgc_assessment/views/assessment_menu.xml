@@ -2,7 +2,7 @@
 <odoo>
 
         <!-- Root Menu -->
-        <menuitem id="menu_assessment_root" name="Assessment" sequence="50" groups="sgc_assessment.group_assessment_viewer"/>
+        <menuitem id="menu_assessment_root" name="Assessment" sequence="50" groups="sgc_assessment.group_assessment_viewer" web_icon="sgc_assessment,static/description/icon.png"/>
 
         <!-- Candidates Submenu -->
         <menuitem id="menu_assessment_candidates" name="Candidates" parent="menu_assessment_root" action="action_assessment_candidate" sequence="10"/>

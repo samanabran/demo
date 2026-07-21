@@ -91,7 +91,7 @@
     <menuitem id="menu_llm_lead_scoring_root"
               name="LLM Lead Scoring"
               sequence="100"
-              web_icon="llm_lead_scoring,static/description/icon.png"/>
+              web_icon="sgc_lead_scoring,static/description/icon.png"/>
 
     <menuitem id="menu_llm_configuration"
               name="Configuration"

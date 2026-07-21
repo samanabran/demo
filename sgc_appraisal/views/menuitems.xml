@@ -3,7 +3,8 @@
 <!--    Main appraisal menu see in app list-->
     <menuitem name="Appraisal"
               id="hr_appraisal_menu_root"
-              groups="oh_appraisal_group_manager,oh_appraisal_group_employee"/>
+              groups="oh_appraisal_group_manager,oh_appraisal_group_employee"
+              web_icon="sgc_appraisal,static/description/icon.png"/>
 <!--    Appraisal records menu see inside oh appraisal module-->
     <menuitem name="Appraisal Records"
               id="hr_appraisal_menu"
