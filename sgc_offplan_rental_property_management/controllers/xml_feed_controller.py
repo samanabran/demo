@@ -19,6 +19,7 @@
 # change.
 from odoo import http, fields, _
 from odoo.http import request
+from odoo.tools import html2plaintext
 import hmac
 import logging
 import xml.etree.ElementTree as ET
@@ -52,7 +53,11 @@ class XmlFeedController(http.Controller):
             property_rec.property_code or str(property_rec.id)
         )
         ET.SubElement(prop_el, "title").text = property_rec.name or ""
-        ET.SubElement(prop_el, "description").text = property_rec.description or ""
+        # description is stored as HTML (rich-text editable in the backend); the
+        # feed schema is plain text, so strip markup before it reaches portals.
+        ET.SubElement(prop_el, "description").text = (
+            html2plaintext(property_rec.description) if property_rec.description else ""
+        )
         ET.SubElement(prop_el, "property_type").text = _PROPERTY_TYPE_MAP.get(
             property_rec.property_type, property_rec.property_type or ""
         )

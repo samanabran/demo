@@ -35,7 +35,7 @@ class ConstructionProject(models.Model):
         ('ras_al_khaimah', 'Ras Al Khaimah'),
         ('fujairah', 'Fujairah'),
     ], string='Emirate', tracking=True)
-    description = fields.Text()
+    description = fields.Html()
     analytic_account_id = fields.Many2one('account.analytic.account', index=True, string='Analytic Account', copy=False)
     company_id = fields.Many2one('res.company', index=True, string='Company', required=True, default=lambda self: self.env.company)
 

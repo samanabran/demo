@@ -58,7 +58,7 @@
                         <div class="card mb-4">
                             <div class="card-body">
                                 <h3 class="mb-3">Description</h3>
-                                <p t-esc="property.description or 'No description available.'"/>
+                                <div t-out="property.description or 'No description available.'"/>
                             </div>
                         </div>
                         <div class="card mb-4">

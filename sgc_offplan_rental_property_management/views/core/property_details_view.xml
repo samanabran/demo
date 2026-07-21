@@ -200,8 +200,9 @@
                         <table class="o_inner_group">
                             <tbody>
                                 <tr>
-                                    <td class="o_avatar">
-                                        <field name="image_1920" widget="image" options="{'preview_image': 'image_256', 'size': [96, 96]}" class="o_form_avatar"/>
+                                    <td class="o_property_avatar">
+                                        <field name="image_1920" widget="image"
+                                               options="{'preview_image': 'image_256', 'size': [128, 128], 'img_class': 'object-fit-contain rounded border'}"/>
                                     </td>
                                     <td style="width: 100%">
                                         <label for="name" string="Property Name"/>
@@ -275,7 +276,8 @@
                             </group>
                         </page>
                         <page string="Description" name="description">
-                            <field name="description" placeholder="Marketing description, notes..."/>
+                            <field name="description" widget="html"
+                                   placeholder="Marketing description, notes... (type / for the Powerbox, then use Ask SGC AI to draft this with AI)"/>
                         </page>
                         <page string="Amenities &amp; Connectivity" name="amenities_connectivity">
                             <group string="Amenities">

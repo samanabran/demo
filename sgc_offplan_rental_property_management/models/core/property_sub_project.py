@@ -11,7 +11,7 @@ class PropertySubProject(models.Model):
     name = fields.Char(string='Sub Project Name', required=True)
     code = fields.Char(string='Sub Project Code')
     project_id = fields.Many2one('property.project', string='Project', required=True)
-    description = fields.Text(string='Description')
+    description = fields.Html(string='Description')
     active = fields.Boolean(string='Active', default=True)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 

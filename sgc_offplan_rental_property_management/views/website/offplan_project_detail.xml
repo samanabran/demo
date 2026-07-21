@@ -7,7 +7,7 @@
                 <div class="row mb-4">
                     <div class="col-md-8">
                         <h1 t-esc="project.name"/>
-                        <p class="text-muted" t-esc="project.description or ''"/>
+                        <div class="text-muted" t-out="project.description or ''"/>
                     </div>
                 </div>
 

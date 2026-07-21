@@ -105,8 +105,9 @@
                         <table class="o_inner_group">
                             <tbody>
                                 <tr>
-                                    <td class="o_avatar">
-                                        <field name="image_1920" widget="image" options="{'preview_image': 'image_256', 'size': [96, 96]}" class="o_form_avatar"/>
+                                    <td class="o_property_avatar">
+                                        <field name="image_1920" widget="image"
+                                               options="{'preview_image': 'image_256', 'size': [128, 128], 'img_class': 'object-fit-contain rounded border'}"/>
                                     </td>
                                     <td style="width: 100%">
                                         <label for="name" string="Project Name"/>
@@ -133,7 +134,8 @@
                         </group>
                     </group>
                     <group string="Description">
-                        <field name="description" nolabel="1"/>
+                        <field name="description" widget="html" nolabel="1"
+                               placeholder="Marketing description... (type / for the Powerbox, then use Ask SGC AI to draft this with AI)"/>
                     </group>
                 </sheet>
                 <chatter/>
@@ -223,8 +225,9 @@
                         <table class="o_inner_group">
                             <tbody>
                                 <tr>
-                                    <td class="o_avatar">
-                                        <field name="image_1920" widget="image" options="{'preview_image': 'image_256', 'size': [96, 96]}" class="o_form_avatar"/>
+                                    <td class="o_property_avatar">
+                                        <field name="image_1920" widget="image"
+                                               options="{'preview_image': 'image_256', 'size': [128, 128], 'img_class': 'object-fit-contain rounded border'}"/>
                                     </td>
                                     <td style="width: 100%">
                                         <label for="name" string="Sub Project Name"/>
@@ -242,7 +245,8 @@
                         <field name="company_id" groups="base.group_multi_company"/>
                     </group>
                     <group string="Description">
-                        <field name="description" nolabel="1"/>
+                        <field name="description" widget="html" nolabel="1"
+                               placeholder="Marketing description... (type / for the Powerbox, then use Ask SGC AI to draft this with AI)"/>
                     </group>
                 </sheet>
                 <chatter/>

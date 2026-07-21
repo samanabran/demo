@@ -93,7 +93,7 @@ class PropertyDetails(models.Model):
     active = fields.Boolean(string='Active', default=True)
     is_published_website = fields.Boolean(string='Published on Website', default=False)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
-    description = fields.Text(string='Description')
+    description = fields.Html(string='Description')
     amenity_ids = fields.Many2many(
         'property.amenities',
         'property_details_amenity_rel',
