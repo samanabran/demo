@@ -8,6 +8,7 @@ on:
       - '.github/workflows/deploy.yml'
       - 'sgc_scroll_hero_homepage/**'
       - 'sgc_scroll_hero_v2/**'
+      - 'sgc_tech_ai_theme/**'
       - 'sgc_offplan_rental_property_management/**'
       - 'sgc_realestate_website/**'
       - 'sgc_appraisal/**'
