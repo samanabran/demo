@@ -11,31 +11,110 @@
  *   1. Define a Plugin class (SgcAIPowerboxPlugin) with `resources =
  *      { user_commands, powerbox_categories, powerbox_items }` following the
  *      same pattern as emoji_plugin.js / banner_plugin.js / chatgpt_translate_plugin.js.
- *   2. Patch HtmlField.prototype.getConfig so it appends our plugin class to the
- *      existing `Plugins` array (which already contains MAIN_PLUGINS, etc.).
- *      We can't mutate MAIN_PLUGINS directly because it's a frozen constant.
+ *   2. Patch HtmlField.prototype.getConfig so it appends our plugin class to
+ *      the existing `Plugins` array (which already contains MAIN_PLUGINS, etc.).
  *
  * Runtime behavior:
  *   - Type `/sgcai` in any editable area to open the Powerbox.
  *   - The item appears under a new category "SGC AI".
- *   - When selected, the plugin reads the selection text, calls the
- *     /sgc_ai_powerbox/get_response RPC route (see controllers/main.py), and
- *     replaces the selection with the AI response.
+ *   - When selected, the plugin opens a dialog with a textarea so the user
+ *     can type a prompt OR (if text was pre-selected in the editor) edit /
+ *     extend it before sending. The response is inserted into the editor at
+ *     the selection position via dom.insert + history.addStep.
+ *   - This avoids the previous UX failure where running /sgcai with an empty
+ *     selection just bounced back a "please select text first" warning.
  */
 
 import { Plugin } from "@html_editor/plugin";
 import { HtmlField } from "@html_editor/fields/html_field";
+import { Dialog } from "@web/core/dialog/dialog";
 import { withSequence } from "@html_editor/utils/resource";
+import { Component, useState, xml } from "@odoo/owl";
 import { _t } from "@web/core/l10n/translation";
 import { rpc } from "@web/core/network/rpc";
+import { useService } from "@web/core/utils/hooks";
 import { patch } from "@web/core/utils/patch";
 
 const RPC_URL = "/sgc_ai_powerbox/get_response";
-const THINKING_PLACEHOLDER = "🌀 Asking SGC AI…";
+
+export class SgcAIPromptDialog extends Component {
+    static template = xml`
+        <Dialog title="props.title" size="'md'" onClose="() => this.props.close()">
+            <div class="o_sgc_ai_powerbox_dialog p-3">
+                <p t-if="props.helpText" class="text-muted small mb-2" t-esc="props.helpText"/>
+                <textarea
+                    class="form-control"
+                    rows="6"
+                    placeholder="props.placeholder"
+                    t-model="state.prompt"
+                    t-ref="textarea"
+                />
+                <div t-if="state.error" class="alert alert-danger mt-3 mb-0" role="alert">
+                    <t t-esc="state.error"/>
+                </div>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-secondary" t-on-click="cancel" disabled="state.busy">
+                    Cancel
+                </button>
+                <button class="btn btn-primary" t-on-click="confirm" disabled="state.busy or !state.prompt.trim()">
+                    <span t-if="state.busy">Thinking…</span>
+                    <span t-else="">Ask SGC AI</span>
+                </button>
+            </t>
+        </Dialog>
+    `;
+    static components = { Dialog };
+    static props = {
+        initialPrompt: { type: String, optional: true },
+        title: { type: String, optional: true },
+        helpText: { type: String, optional: true },
+        placeholder: { type: String, optional: true },
+        onConfirm: { type: Function },
+        close: { type: Function },
+    };
+
+    setup() {
+        this.notificationService = useService("notification");
+        this.state = useState({
+            prompt: this.props.initialPrompt || "",
+            busy: false,
+            error: "",
+        });
+    }
+
+    cancel() {
+        if (this.state.busy) return;
+        this.props.close();
+    }
+
+    async confirm() {
+        const prompt = this.state.prompt.trim();
+        if (!prompt) return;
+        this.state.busy = true;
+        this.state.error = "";
+        try {
+            const response = await this.props.onConfirm(prompt);
+            if (response && response.error) {
+                this.state.error = response.error;
+                this.state.busy = false;
+                return;
+            }
+            this.props.close();
+        } catch (error) {
+            const message =
+                error?.data?.message ||
+                error?.message ||
+                _t("SGC AI request failed. Check the server logs.");
+            this.state.error = message;
+            this.state.busy = false;
+        }
+    }
+}
 
 export class SgcAIPowerboxPlugin extends Plugin {
     static id = "sgc_ai";
-    static dependencies = ["history", "dom", "selection", "userCommand"];
+    static dependencies = ["history", "dom", "selection", "userCommand", "dialog"];
     /** @type {import("plugins").EditorResources} */
     resources = {
         powerbox_categories: [
@@ -48,7 +127,7 @@ export class SgcAIPowerboxPlugin extends Plugin {
             {
                 id: "sgcai",
                 title: _t("Ask SGC AI"),
-                description: _t("Replace the selection with a response from SGC AI."),
+                description: _t("Open a chat prompt. The response is inserted at the cursor."),
                 icon: "fa-magic",
                 run: () => this.executeSgcai(),
             },
@@ -64,64 +143,52 @@ export class SgcAIPowerboxPlugin extends Plugin {
     async executeSgcai() {
         const selection = this.dependencies.selection.getEditableSelection();
         const selectedText = (selection?.textContent?.() || "").trim();
-        if (!selectedText) {
-            this.services.notification.add(
-                _t("Select some text first, then run the /sgcai command."),
-                { type: "warning" }
-            );
-            return;
-        }
 
-        // Insert a placeholder while waiting for the response so the user sees
-        // something is happening. dom.insert wraps plain strings in a paragraph
-        // when needed — emojipicker-style insertion here replaces the selection.
-        const insertedNodes = this.dependencies.dom.insert(THINKING_PLACEHOLDER);
-        this.dependencies.history.addStep();
+        // dom.insert already deletes the current selection when not collapsed,
+        // so we don't need to do anything special here — we just need to know
+        // whether the user had pre-selected text so the dialog can be helpful.
 
+        this.dependencies.dialog.addDialog(SgcAIPromptDialog, {
+            title: _t("Ask SGC AI"),
+            initialPrompt: selectedText || "",
+            placeholder: _t(
+                "Ask anything. The AI response will be inserted into the editor."
+            ),
+            helpText: selectedText
+                ? _t("Editing your selected text. The AI will rewrite / extend it.")
+                : _t("Type a prompt. The AI response will be inserted at the cursor."),
+            onConfirm: async (prompt) => {
+                return await this._askAiAndInsert(prompt);
+            },
+        });
+    }
+
+    async _askAiAndInsert(prompt) {
         let response;
         try {
-            response = await rpc(RPC_URL, { prompt: selectedText });
+            response = await rpc(RPC_URL, { prompt });
         } catch (error) {
-            // Best-effort: remove the placeholder block and surface the error.
-            if (Array.isArray(insertedNodes)) {
-                for (const node of insertedNodes) {
-                    node?.parentNode?.removeChild(node);
-                }
-            }
-            const message =
-                error?.data?.message ||
-                error?.message ||
-                _t("SGC AI request failed. Check the server logs.");
-            this.services.notification.add(message, { type: "danger" });
-            return;
+            return {
+                error:
+                    error?.data?.message ||
+                    error?.message ||
+                    _t("SGC AI request failed. Check the server logs."),
+            };
         }
 
-        // Backend returns either { response: "..." } or { error: "..." }.
         const aiText = response?.response;
         const errText = response?.error;
+        if (errText) return { error: errText };
+        if (!aiText) return { error: _t("SGC AI returned an empty response.") };
 
-        // Remove the placeholder nodes we inserted.
-        if (Array.isArray(insertedNodes)) {
-            for (const node of insertedNodes) {
-                node?.parentNode?.removeChild(node);
-            }
-        }
-
-        if (errText) {
-            this.services.notification.add(errText, { type: "danger" });
-            return;
-        }
-        if (!aiText) {
-            this.services.notification.add(_t("SGC AI returned an empty response."), {
-                type: "warning",
-            });
-            return;
-        }
-
+        // dom.insert(content) deletes the current selection (if not collapsed)
+        // and inserts the content at the caret. This is exactly the behavior
+        // we want for both "replace selection" and "insert at cursor" cases.
         this.dependencies.dom.insert(aiText);
         this.dependencies.history.addStep();
         this.dependencies.selection.focusEditable();
         this.services.notification.add(_t("SGC AI content inserted."), { type: "success" });
+        return null;
     }
 }
 
