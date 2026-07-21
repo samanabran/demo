@@ -199,6 +199,22 @@ export class SgcAIPowerboxPlugin extends Plugin {
         });
     }
 
+    /**
+     * dom.insert() only parses markup when given a DocumentFragment/Element —
+     * a plain string is inserted as literal text (container.textContent = ...),
+     * which is why bullet lists / tables / bold text never rendered before.
+     * Parse the AI's HTML response into real nodes owned by the editor's
+     * document so dom.insert() treats it as rich content.
+     */
+    _htmlToFragment(html) {
+        const parsed = new DOMParser().parseFromString(html, "text/html");
+        const fragment = this.document.createDocumentFragment();
+        for (const node of [...parsed.body.childNodes]) {
+            fragment.appendChild(this.document.importNode(node, true));
+        }
+        return fragment;
+    }
+
     async _askAiAndInsert(prompt, context) {
         let response;
         try {
@@ -218,8 +234,10 @@ export class SgcAIPowerboxPlugin extends Plugin {
         if (!aiText) return { error: _t("SGC AI returned an empty response.") };
 
         // dom.insert(content) deletes the current selection (if not collapsed)
-        // and inserts the content at the caret.
-        this.dependencies.dom.insert(aiText);
+        // and inserts the content at the caret. Pass parsed DOM nodes (not the
+        // raw string) so headings/lists/tables/bold actually render.
+        const fragment = this._htmlToFragment(aiText);
+        this.dependencies.dom.insert(fragment);
         this.dependencies.history.addStep();
         this.dependencies.selection.focusEditable();
         this.services.notification.add(_t("SGC AI content inserted."), {
