@@ -15,8 +15,18 @@
              had the commission_ax fork installed. -->
         <delete model="ir.ui.view" search="[('name', 'in', [
             'commission.main.tree', 'commission.main.form', 'commission.main.search',
-            'purchase.order.commission.form', 'res.partner.commission.form',
-            'sale.order.commission.form'])]"/>
+            'purchase.order.commission.form', 'res.partner.commission.form'])]"/>
+        <!-- commission_ax's sale.order view is named 'sale.order.commission.form'
+             — the SAME name (not xmlid) sgc_commission's own, legitimate
+             Commission Management tab view happens to use. ir.ui.view.name
+             isn't unique and <delete search=...> isn't module-scoped, so a
+             plain name match here would delete BOTH (this exact mistake
+             shipped once and had to be reverted — see CHANGELOG). Match on
+             arch content instead: commission_ax's version is the only one
+             referencing the 'commission_ids' field (sgc_commission's real
+             tab uses 'commission_line_ids', which does not contain the
+             substring 'commission_ids' as itself). -->
+        <delete model="ir.ui.view" search="[('model', '=', 'sale.order'), ('arch_db', 'ilike', 'commission_ids')]"/>
         <delete model="ir.actions.act_window" search="[('res_model', '=', 'commission.main')]"/>
         <!-- ir.cron must go before its backing ir.actions.server row, or the
              server-action delete hits ir_cron_ir_actions_server_id_fkey. -->
