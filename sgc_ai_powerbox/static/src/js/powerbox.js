@@ -1,136 +1,139 @@
 /** @odoo-module **/
 
-import { patch } from "@web/core/utils/patch";
-import { Wysiwyg } from "@html_editor/wysiwyg";
+/**
+ * SGC AI Powerbox — registers the /sgcai Powerbox command on Odoo 19.
+ *
+ * Rewritten for Odoo 19's html_editor plugin architecture (released ~Q1 2025),
+ * which replaces the pre-19 Wysiwyg.prototype.getConfig hook with proper
+ * Plugin classes registered on the editor's Plugins array.
+ *
+ * Strategy:
+ *   1. Define a Plugin class (SgcAIPowerboxPlugin) with `resources =
+ *      { user_commands, powerbox_categories, powerbox_items }` following the
+ *      same pattern as emoji_plugin.js / banner_plugin.js / chatgpt_translate_plugin.js.
+ *   2. Patch HtmlField.prototype.getConfig so it appends our plugin class to the
+ *      existing `Plugins` array (which already contains MAIN_PLUGINS, etc.).
+ *      We can't mutate MAIN_PLUGINS directly because it's a frozen constant.
+ *
+ * Runtime behavior:
+ *   - Type `/sgcai` in any editable area to open the Powerbox.
+ *   - The item appears under a new category "SGC AI".
+ *   - When selected, the plugin reads the selection text, calls the
+ *     /sgc_ai_powerbox/get_response RPC route (see controllers/main.py), and
+ *     replaces the selection with the AI response.
+ */
+
+import { Plugin } from "@html_editor/plugin";
+import { HtmlField } from "@html_editor/fields/html_field";
+import { withSequence } from "@html_editor/utils/resource";
 import { _t } from "@web/core/l10n/translation";
 import { rpc } from "@web/core/network/rpc";
+import { patch } from "@web/core/utils/patch";
 
-patch(Wysiwyg.prototype, {
-    setup() {
-        super.setup();
-        // Ensure we have the RPC route available
-        if (!this.sgc_ai_initialized) {
-            this._initSgcAI();
-            this.sgc_ai_initialized = true;
+const RPC_URL = "/sgc_ai_powerbox/get_response";
+const THINKING_PLACEHOLDER = "🌀 Asking SGC AI…";
+
+export class SgcAIPowerboxPlugin extends Plugin {
+    static id = "sgc_ai";
+    static dependencies = ["history", "dom", "selection", "userCommand"];
+    /** @type {import("plugins").EditorResources} */
+    resources = {
+        powerbox_categories: [
+            withSequence(80, {
+                id: "sgc_ai",
+                name: _t("SGC AI"),
+            }),
+        ],
+        user_commands: [
+            {
+                id: "sgcai",
+                title: _t("Ask SGC AI"),
+                description: _t("Replace the selection with a response from SGC AI."),
+                icon: "fa-magic",
+                run: () => this.executeSgcai(),
+            },
+        ],
+        powerbox_items: [
+            {
+                categoryId: "sgc_ai",
+                commandId: "sgcai",
+            },
+        ],
+    };
+
+    async executeSgcai() {
+        const selection = this.dependencies.selection.getEditableSelection();
+        const selectedText = (selection?.textContent?.() || "").trim();
+        if (!selectedText) {
+            this.services.notification.add(
+                _t("Select some text first, then run the /sgcai command."),
+                { type: "warning" }
+            );
+            return;
         }
+
+        // Insert a placeholder while waiting for the response so the user sees
+        // something is happening. dom.insert wraps plain strings in a paragraph
+        // when needed — emojipicker-style insertion here replaces the selection.
+        const insertedNodes = this.dependencies.dom.insert(THINKING_PLACEHOLDER);
+        this.dependencies.history.addStep();
+
+        let response;
+        try {
+            response = await rpc(RPC_URL, { prompt: selectedText });
+        } catch (error) {
+            // Best-effort: remove the placeholder block and surface the error.
+            if (Array.isArray(insertedNodes)) {
+                for (const node of insertedNodes) {
+                    node?.parentNode?.removeChild(node);
+                }
+            }
+            const message =
+                error?.data?.message ||
+                error?.message ||
+                _t("SGC AI request failed. Check the server logs.");
+            this.services.notification.add(message, { type: "danger" });
+            return;
+        }
+
+        // Backend returns either { response: "..." } or { error: "..." }.
+        const aiText = response?.response;
+        const errText = response?.error;
+
+        // Remove the placeholder nodes we inserted.
+        if (Array.isArray(insertedNodes)) {
+            for (const node of insertedNodes) {
+                node?.parentNode?.removeChild(node);
+            }
+        }
+
+        if (errText) {
+            this.services.notification.add(errText, { type: "danger" });
+            return;
+        }
+        if (!aiText) {
+            this.services.notification.add(_t("SGC AI returned an empty response."), {
+                type: "warning",
+            });
+            return;
+        }
+
+        this.dependencies.dom.insert(aiText);
+        this.dependencies.history.addStep();
+        this.dependencies.selection.focusEditable();
+        this.services.notification.add(_t("SGC AI content inserted."), { type: "success" });
+    }
+}
+
+// Inject our Plugin class into the editor. We patch HtmlField.getConfig so the
+// append happens in the same merge step that includes MAIN_PLUGINS.
+patch(HtmlField.prototype, {
+    getConfig() {
+        const config = super.getConfig();
+        const plugins = Array.isArray(config.Plugins) ? config.Plugins : [];
+        if (!plugins.includes(SgcAIPowerboxPlugin)) {
+            config.Plugins = [...plugins, SgcAIPowerboxPlugin];
+        }
+        return config;
     },
-
-    _initSgcAI() {
-        // Store original methods
-        this._originalGetConfig = this.getConfig || function() {};
-        this._originalDestroy = this.destroy || function() {};
-        
-        // Override getConfig to inject our powerbox items
-        this.getConfig = function() {
-            const config = this._originalGetConfig.call(this) || {};
-            
-            // Initialize arrays if they don't exist
-            config.powerbox_items = config.powerbox_items || [];
-            config.powerbox_categories = config.powerbox_categories || [];
-            config.user_commands = config.user_commands || [];
-            
-            // Check if already added to avoid duplicates
-            const hasSgcaiCategory = config.powerbox_categories.some(cat => 
-                cat.id === 'sgc_ai');
-            if (!hasSgcaiCategory) {
-                config.powerbox_categories.push({
-                    id: 'sgc_ai',
-                    name: _t('SGC AI'),
-                    sequence: 80  // Place it after standard categories
-                });
-            }
-            
-            const hasSgcaiItem = config.powerbox_items.some(item => 
-                item.categoryId === 'sgc_ai' && item.commandId === 'sgc_ai_cmd');
-            if (!hasSgcaiItem) {
-                config.powerbox_items.push({
-                    categoryId: 'sgc_ai',
-                    commandId: 'sgc_ai_cmd',
-                    icon: 'fa-robot',
-                    // For backwards compatibility with older powerbox systems
-                    title: _t('Ask SGC AI'),
-                    description: _t('Send selected text to SGC AI and insert the response')
-                });
-            }
-            
-            const hasSgcaiUserCmd = config.user_commands.some(cmd => 
-                cmd.id === 'sgc_ai_cmd');
-            if (!hasSgcaiUserCmd) {
-                // We'll handle the actual execution via RPC in the powerbox item handler
-                config.user_commands.push({
-                    id: 'sgc_ai_cmd',
-                    label: _t('Ask SGC AI'),
-                    // This will be handled by our custom powerbox item logic below
-                });
-            }
-            
-            return config;
-        };
-        
-        // Override destroy to clean up
-        this.destroy = function() {
-            // Restore original methods if needed
-            if (this._originalGetConfig) {
-                this.getConfig = this._originalGetConfig;
-            }
-            if (this._originalDestroy) {
-                this.destroy = this._originalDestroy;
-            }
-            return this._originalDestroy.call(this);
-        };
-    }
 });
-
-// Global handler for powerbox item execution
-// This gets called when the powerbox item is selected
-window.sgc_ai_powerbox_execute = function() {
-    // Get the current editor instance
-    const editor = document.querySelector('.o_editor:not(.o_hidden)')?.['__editor__'] ||
-                  document.querySelector('.o_field_widget[widget="html"] .o_editor:not(.o_hidden)')?.['__editor__'] ||
-                  document.querySelector('.o_field_html_editor .o_editor:not(.o_hidden)')?.['__editor__'];
-    
-    if (!editor || !editor.getSelectedRange) {
-        console.warn('SGC AI: Could not find active editor');
-        return;
-    }
-    
-    const range = editor.getSelectedRange();
-    if (!range) {
-        editor._notify ? editor._notify('Select some text first, then type /sgcai.') : 
-                         alert('Select some text first, then type /sgcai.');
-        return;
-    }
-    
-    const selectedText = editor.getSelectedText ? editor.getSelectedText() : 
-                        (range.toString ? range.toString() : '');
-    
-    if (!selectedText || !selectedText.trim()) {
-        editor._notify ? editor._notify('Selected text is empty.') : 
-                         alert('Selected text is empty.');
-        return;
-    }
-    
-    // Show loading state
-    editor._replaceRange ? editor._replaceRange(range, '🌀 Thinking...') : 
-                          console.log('Would replace with thinking...');
-    
-    // Call our backend
-    rpc({
-        url: '/sgc_ai_powerbox/get_response',
-        params: { 
-            pad: selectedText.trim()
-        }
-    }).then(function(result) {
-        if (result.error) {
-            editor._replaceRange ? 
-                editor._replaceRange(range, '⚠️ Error: ' + result.error) :
-                console.error('SGC AI Error:', result.error);
-        } else {
-            editor._replaceRange ? 
-                editor._replaceRange(range, result.response) :
-                console.log('Would replace with:', result.response);
-        }
-    }).catch(function(error) {
-        console.error('SGC AJAX Error:', error);
-    });
-};
