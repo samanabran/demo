@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- User preferences: sidebar type -->
+    <record id="view_res_users_form_sidebar" model="ir.ui.view">
+        <field name="name">res.users.form.sidebar</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='other_preferences']" position="inside">
+                <field name="sidebar_type" readonly="0"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Settings: sidebar logo, favicon, background image -->
+    <record id="view_res_config_settings_theme" model="ir.ui.view">
+        <field name="name">res.config.settings.theme.form</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//setting[@id='inter_company']" position="before">
+                <setting
+                    string="SGC Enterprise Theme"
+                    company_dependent="1"
+                    help="Customize the SGC Enterprise Theme appearance"
+                >
+                    <div class="border rounded p-3 bg-white">
+                        <h6 class="mb-3 text-uppercase text-muted" style="font-size: 0.85rem; letter-spacing: 0.5px;">
+                            Theme Settings
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="appbar_image" string="Sidebar Logo"/>
+                                <field name="appbar_image" widget="image" class="oe_avatar mt8"/>
+                                <div class="form-text text-muted small" style="font-size: 0.75rem;">
+                                    Recommended: 120x40px PNG with transparent background. Max 200KB.
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="theme_favicon" string="Favicon"/>
+                                <field name="theme_favicon" widget="image" class="oe_avatar mt8"/>
+                                <div class="form-text text-muted small" style="font-size: 0.75rem;">
+                                    Recommended: 32x32px ICO or PNG. Max 50KB.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt16">
+                            <div class="col-12">
+                                <label for="theme_background_image" string="Home Menu Background"/>
+                                <field name="theme_background_image" widget="image" class="w-75 mt8"/>
+                                <div class="form-text text-muted small" style="font-size: 0.75rem;">
+                                    Recommended: 1920x1080px JPG or PNG. Max 500KB.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt16">
+                            <div class="col-12">
+                                <label for="theme_mode" string="Default Theme"/>
+                                <field name="theme_mode" class="o_group_col_6"/>
+                                <div class="form-text text-muted small" style="font-size: 0.75rem;">
+                                    Default theme for all users in this company. Users can override per session via the sidebar button.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

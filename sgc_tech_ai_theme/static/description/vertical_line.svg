@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 6 400" fill="none">
+  <defs>
+    <linearGradient id="goldLineV" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#B79554; stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#B79554; stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#B79554; stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="0" width="1.5" height="400" rx="0.75" fill="url(#goldLineV)"/>
+</svg>

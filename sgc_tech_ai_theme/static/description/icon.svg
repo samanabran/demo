@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <rect width="120" height="120" rx="20" fill="#091528"/>
+  <rect x="12" y="12" width="96" height="96" rx="14" fill="none" stroke="#B79554" stroke-width="1.5" opacity="0.4"/>
+  <text x="60" y="72" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="36" fill="#B79554" letter-spacing="6">SGC</text>
+  <line x1="24" y1="86" x2="96" y2="86" stroke="#B79554" stroke-width="1" opacity="0.5"/>
+  <text x="60" y="100" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="400" font-size="9" fill="#5F6775" letter-spacing="3">TECH AI</text>
+</svg>

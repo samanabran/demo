@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+
+    <t t-name="sgc_tech_ai_theme.LauncherGrid">
+        <div
+            class="sgc_launcher_grid"
+            role="menu"
+            t-att-aria-label="props.ariaLabel"
+            t-att-data-icon-size="props.iconSize"
+            t-ref="gridRoot"
+            t-on-keydown="_onGridKeyDown"
+        >
+            <t t-foreach="props.apps" t-as="app" t-key="app.id">
+                <div
+                    t-if="props.reorderable"
+                    class="sgc_launcher_dnd_wrap"
+                    t-att-class="dnd.overId === app.id ? 'sgc_launcher_dnd_over' : ''"
+                    draggable="true"
+                    t-on-dragstart="(ev) => this._onDragStart(app, ev)"
+                    t-on-dragover="(ev) => this._onDragOver(app, ev)"
+                    t-on-dragend="_onDragEnd"
+                    t-on-drop="(ev) => this._onDrop(app, ev)"
+                >
+                    <LauncherCard
+                        app="app"
+                        favorite="isFavorite(app)"
+                        onSelect="props.onSelect"
+                        onTogglePin="props.onTogglePin"
+                        tabIndex="app_index === 0 ? 0 : -1"
+                    />
+                </div>
+                <LauncherCard
+                    t-else=""
+                    app="app"
+                    favorite="isFavorite(app)"
+                    onSelect="props.onSelect"
+                    onTogglePin="props.onTogglePin"
+                    tabIndex="app_index === 0 ? 0 : -1"
+                />
+            </t>
+        </div>
+    </t>
+
+</templates>

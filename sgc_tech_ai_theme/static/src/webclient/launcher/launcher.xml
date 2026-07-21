@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+
+    <t t-name="sgc_tech_ai_theme.Launcher">
+        <div
+            t-if="state.open"
+            id="sgc_launcher_root"
+            class="sgc_launcher_backdrop"
+            t-on-click="_onBackdropClick"
+            t-ref="launcherRoot"
+        >
+            <div
+                class="sgc_launcher_panel"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Application launcher"
+                t-att-data-background-style="settingsState.background_style"
+                t-att-data-animation-speed="settingsState.animation_speed"
+                t-att-style="panelStyle"
+                t-on-click.stop=""
+            >
+                <div class="sgc_launcher_header">
+                    <h2 class="sgc_launcher_title">Applications</h2>
+                    <button
+                        type="button"
+                        class="sgc_launcher_settings_trigger"
+                        aria-label="Open launcher settings"
+                        aria-haspopup="dialog"
+                        t-on-click="_onOpenSettings"
+                    >
+                        <span aria-hidden="true">&#9881;</span>
+                    </button>
+                    <button
+                        type="button"
+                        class="sgc_launcher_close"
+                        aria-label="Close application launcher"
+                        t-on-click="_onCloseClick"
+                    >
+                        <span aria-hidden="true">&#10005;</span>
+                    </button>
+                </div>
+                <LauncherSettings
+                    t-if="settingsPanelState.open"
+                    settings="settingsState"
+                    hasBackgroundImage="user.activeCompany and user.activeCompany.has_launcher_background_image or false"
+                    onChange.bind="_onSettingsChange"
+                    onImageUpload.bind="_onImageUpload"
+                    onImageRemove.bind="_onImageRemove"
+                    onClose.bind="_onCloseSettings"
+                />
+                <LauncherSearch
+                    onResultsChange.bind="_onSearchResultsChange"
+                    onCommandSelect.bind="_onCommandSelect"
+                />
+                <div class="sgc_launcher_body" t-att-data-density="settingsState.grid_density">
+                    <t t-if="searchState.results === null">
+                        <div t-if="favoriteApps.length" class="sgc_launcher_section">
+                            <p class="sgc_launcher_favorites_header">Favorites</p>
+                            <LauncherGrid
+                                apps="favoriteApps"
+                                iconSize="settingsState.icon_size"
+                                favoriteMenuIds="favoriteMenuIds"
+                                onSelect.bind="_onAppSelect"
+                                onTogglePin.bind="_onTogglePin"
+                                reorderable="true"
+                                onReorder.bind="_onReorderFavorites"
+                                ariaLabel="'Favorite applications'"
+                            />
+                        </div>
+                        <div t-if="recentApps.length" class="sgc_launcher_section">
+                            <p class="sgc_launcher_favorites_header">Recent</p>
+                            <LauncherGrid
+                                apps="recentApps"
+                                iconSize="settingsState.icon_size"
+                                favoriteMenuIds="favoriteMenuIds"
+                                onSelect.bind="_onAppSelect"
+                                onTogglePin.bind="_onTogglePin"
+                                ariaLabel="'Recently used applications'"
+                            />
+                        </div>
+                        <div t-if="frequentApps.length" class="sgc_launcher_section">
+                            <p class="sgc_launcher_favorites_header">Frequently Used</p>
+                            <LauncherGrid
+                                apps="frequentApps"
+                                iconSize="settingsState.icon_size"
+                                favoriteMenuIds="favoriteMenuIds"
+                                onSelect.bind="_onAppSelect"
+                                onTogglePin.bind="_onTogglePin"
+                                ariaLabel="'Frequently used applications'"
+                            />
+                        </div>
+                        <div class="sgc_launcher_section">
+                            <p class="sgc_launcher_favorites_header">All Applications</p>
+                            <LauncherGrid
+                                apps="apps"
+                                iconSize="settingsState.icon_size"
+                                favoriteMenuIds="favoriteMenuIds"
+                                onSelect.bind="_onAppSelect"
+                                onTogglePin.bind="_onTogglePin"
+                                ariaLabel="'All applications'"
+                            />
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

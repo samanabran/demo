@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <!-- SGC Signature Gold Corner Geometry — Top Left -->
+  <line x1="0" y1="0" x2="0" y2="40" stroke="#B79554" stroke-width="0.5" opacity="0.6"/>
+  <line x1="0" y1="0" x2="40" y2="0" stroke="#B79554" stroke-width="0.5" opacity="0.6"/>
+  <!-- Secondary diagonal -->
+  <line x1="0" y1="0" x2="28" y2="28" stroke="#B79554" stroke-width="0.3" opacity="0.3"/>
+  <!-- Tertiary inner -->
+  <line x1="0" y1="0" x2="0" y2="20" stroke="#B79554" stroke-width="0.2" opacity="0.4"/>
+  <line x1="0" y1="0" x2="20" y2="0" stroke="#B79554" stroke-width="0.2" opacity="0.4"/>
+</svg>

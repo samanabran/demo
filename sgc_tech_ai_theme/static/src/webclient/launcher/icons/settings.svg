@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Settings">
+  <defs>
+    <linearGradient id="sgcBgsettings" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#091528"/>
+      <stop offset="100%" stop-color="#091528"/>
+    </linearGradient>
+    <radialGradient id="sgcSheensettings" cx="30%" cy="20%" r="80%">
+      <stop offset="0%" stop-color="#B79554" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#B79554" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#sgcBgsettings)"/>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#sgcSheensettings)"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="15.5" fill="none" stroke="#B79554" stroke-opacity="0.18" stroke-width="1"/>
+  <circle cx="32" cy="32" r="7" fill="none" stroke="#B79554" stroke-width="3"/>
+  <rect x="30" y="14" width="4" height="6" rx="1" fill="#D9C08A" transform="rotate(0 32 32)"/>
+  <rect x="30" y="46" width="4" height="6" rx="1" fill="#D9C08A" transform="rotate(45 32 32)"/>
+  <rect x="30" y="46" width="4" height="6" rx="1" fill="#D9C08A" transform="rotate(90 32 32)"/>
+  <rect x="30" y="46" width="4" height="6" rx="1" fill="#D9C08A" transform="rotate(135 32 32)"/>
+  <rect x="30" y="46" width="4" height="6" rx="1" fill="#D9C08A" transform="rotate(180 32 32)"/>
+  <rect x="30" y="46" width="4" height="6" rx="1" fill="#D9C08A" transform="rotate(225 32 32)"/>
+  <rect x="30" y="46" width="4" height="6" rx="1" fill="#D9C08A" transform="rotate(270 32 32)"/>
+  <rect x="30" y="46" width="4" height="6" rx="1" fill="#D9C08A" transform="rotate(315 32 32)"/>
+
+</svg>

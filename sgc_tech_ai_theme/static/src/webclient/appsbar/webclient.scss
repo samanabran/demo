@@ -1,0 +1,81 @@
+// ============================================================================
+// SGC TECH AI — WebClient Grid Layout
+// Integrates the sidebar into Odoo's CSS Grid webclient
+// ============================================================================
+
+.o_web_client {
+    display: grid !important;
+    grid-template-areas:
+        "banner  banner"
+        "navbar  navbar"
+        "sidebar content"
+        "components components";
+    grid-template-rows: auto auto 1fr auto;
+    grid-template-columns: auto 1fr;
+
+    > div:has(#oe_neutralize_banner) {
+        grid-area: banner;
+    }
+    > .o_navbar {
+        grid-area: navbar;
+    }
+    > .sgc_appsbar_panel {
+        grid-area: sidebar;
+    }
+    > .o_action_manager {
+        grid-area: content;
+    }
+    > .o-main-components-container {
+        grid-area: components;
+    }
+    > iframe {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    // ---- Responsive Grid Adjustments ----
+
+    // Tablet landscape: sidebar narrows, content must not overflow
+    @include media-breakpoint-down(lg) {
+        grid-template-columns: auto minmax(0, 1fr);
+
+        > .o_action_manager {
+            min-width: 0;
+            overflow-x: auto;
+        }
+    }
+
+    // Tablet portrait: sidebar becomes overlay, content takes full width
+    @include media-breakpoint-down(md) {
+        grid-template-areas:
+            "banner  banner"
+            "navbar  navbar"
+            "content content"
+            "components components";
+        grid-template-columns: 1fr;
+
+        > .sgc_appsbar_panel {
+            // Removed from grid flow when in overlay mode; use fixed positioning
+            // from appsbar.scss .overlay-mode rules instead
+            grid-area: unset;
+        }
+
+        > .o_action_manager {
+            min-width: 0;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+
+    // Mobile: compact single-column, prevent overflow
+    @include media-breakpoint-down(sm) {
+        > .o_action_manager {
+            padding-top: 0;
+            .o_content {
+                margin-left: 0;
+                margin-right: 0;
+            }
+        }
+        // Navbar height is reduced via appsbar.scss @include media-breakpoint-down(sm)
+    }
+}

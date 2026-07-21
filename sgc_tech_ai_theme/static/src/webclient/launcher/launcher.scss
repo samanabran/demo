@@ -1,0 +1,178 @@
+// ============================================================================
+// SGC TECH AI — Enterprise Application Launcher Styles
+// Reuses the shipped AppsBar token set only (no new hex values — see
+// artifacts/launcher-plan.md "User-approved decisions", palette = reuse
+// shipped). --sgc-sidebar-* custom properties are defined in
+// appsbar/appsbar.scss and are available globally (:root scope).
+// ============================================================================
+
+.sgc_launcher_backdrop {
+    position: fixed;
+    inset: 0;
+    // Same navy as --sgc-sidebar-bg (#091528 = rgb(9, 21, 40)), alpha-blended
+    // for a scrim — not a new color, the shipped navy decomposed to RGB.
+    background: rgba(9, 21, 40, 0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+    padding: 24px;
+}
+
+.sgc_launcher_panel {
+    position: relative;
+    border: 1px solid var(--sgc-sidebar-border);
+    border-radius: 12px;
+    // NOT min()/max(): Dart Sass shadows those with compile-time math
+    // functions that require comparable units, so mixing px with %/vh
+    // here throws "Incompatible units" at build time even though the
+    // equivalent is valid runtime CSS. max-width/max-height achieve the
+    // identical constraint without invoking Sass's own function.
+    width: 100%;
+    max-width: 1200px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+
+    // Real content always paints above the background/scrim layer.
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    // ---- Background styles (US-012) ----
+    &[data-background-style="solid"] {
+        background: var(--sgc-sidebar-bg);
+    }
+
+    &[data-background-style="gradient"],
+    &:not([data-background-style]) {
+        // color-mix() darkens the SHIPPED navy token itself — not a new
+        // brand color, a computed shade of the existing one — per the
+        // "reuse shipped tokens only" decision.
+        background: linear-gradient(
+            180deg,
+            var(--sgc-sidebar-bg) 0%,
+            color-mix(in srgb, var(--sgc-sidebar-bg) 65%, black) 100%
+        );
+    }
+
+    &[data-background-style="image"],
+    &[data-background-style="company_branding"] {
+        background-color: var(--sgc-sidebar-bg);
+        background-image: var(--sgc-launcher-bg-image, none);
+        background-size: cover;
+        background-position: center;
+        // WCAG-AA (4.5:1 body text, 3:1 large text/icons) is the
+        // authoritative acceptance gate, NOT this specific value — per
+        // artifacts/launcher-plan.md Follow-up #1, which flagged a
+        // lighter 0.55 example as failing 4.5:1 over a bright image.
+        // 0.78 is deliberately heavier so every foreground element in
+        // the panel clears the body-text floor regardless of upload
+        // content. Exposed as a custom property so a future per-image
+        // luminance check (Stage 5 production-qa automated contrast
+        // pass) can override it without touching this rule.
+        --scrim-opacity: 0.78;
+
+        &::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(9, 21, 40, var(--scrim-opacity, 0.78));
+            border-radius: inherit;
+            pointer-events: none;
+            z-index: 0;
+        }
+    }
+
+    // ---- Animation speed (US-011/US-013) ----
+    // prefers-reduced-motion (below) always wins regardless of this.
+    &[data-animation-speed="none"] {
+        --sgc-launcher-anim-speed: 0ms;
+    }
+    &[data-animation-speed="fast"] {
+        --sgc-launcher-anim-speed: 90ms;
+    }
+    &[data-animation-speed="normal"],
+    &:not([data-animation-speed]) {
+        --sgc-launcher-anim-speed: 180ms;
+    }
+}
+
+.sgc_launcher_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--sgc-sidebar-border);
+    flex-shrink: 0;
+}
+
+.sgc_launcher_title {
+    color: var(--sgc-sidebar-text-hover);
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.sgc_launcher_close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--sgc-sidebar-border);
+    border-radius: 4px;
+    color: var(--sgc-sidebar-text);
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    line-height: 1;
+    transition: background 0.15s ease, color 0.15s ease, outline-color 0.15s ease;
+
+    &:hover {
+        background: var(--sgc-sidebar-hover-bg);
+        color: var(--sgc-sidebar-text-hover);
+    }
+
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--sgc-focus-ring-color);
+        outline-offset: var(--sgc-focus-ring-offset);
+    }
+}
+
+.sgc_launcher_body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+}
+
+.sgc_launcher_placeholder {
+    color: var(--sgc-sidebar-text);
+    text-align: center;
+    margin-top: 48px;
+}
+
+// ---- Accessibility: honor prefers-reduced-motion ----
+@media (prefers-reduced-motion: reduce) {
+    .sgc_launcher_backdrop,
+    .sgc_launcher_panel {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+// ---- Accessibility: forced-colors / high-contrast mode ----
+@media (forced-colors: active) {
+    .sgc_launcher_panel {
+        border: 1px solid CanvasText;
+    }
+    .sgc_launcher_close:focus-visible {
+        outline: 2px solid Highlight;
+    }
+}

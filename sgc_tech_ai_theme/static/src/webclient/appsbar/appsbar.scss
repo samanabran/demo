@@ -1,0 +1,546 @@
+// ============================================================================
+// SGC TECH AI — Enterprise Sidebar (AppsBar) Styles
+// Midnight background, gold accents, clean icon navigation
+// ============================================================================
+
+// ---- Mixin: hide scrollbar cross-browser ----
+@mixin sgc-hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    &::-webkit-scrollbar { display: none; }
+}
+
+// ---- CSS Custom Properties ----
+:root {
+    --sgc-sidebar-width: 66px;
+    --sgc-sidebar-expanded-width: 210px;
+    --sgc-sidebar-bg: #091528;
+    --sgc-sidebar-border: rgba(183, 149, 84, 0.15);
+    --sgc-sidebar-text: #D9C08A;
+    --sgc-sidebar-text-hover: #F7F4EE;
+    --sgc-sidebar-active-bg: rgba(183, 149, 84, 0.15);
+    --sgc-sidebar-active-border: #B79554;
+    --sgc-sidebar-hover-bg: rgba(183, 149, 84, 0.08);
+    --sgc-sidebar-brand-text: #B79554;
+    --sgc-transition-speed: 0.2s;
+    // Accessibility: gold focus ring — chosen for ≥3:1 contrast against
+    // the midnight background (#091528). Contrast ratio ≈ 8.4:1.
+    --sgc-focus-ring-color: #FFD66B;
+    --sgc-focus-ring-offset: 2px;
+}
+
+// ---- Screen-reader-only utility (visually hidden but announced) ----
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+// ---- Sidebar Panel ----
+.sgc_appsbar_panel {
+    @include sgc-hide-scrollbar();
+    background-color: var(--sgc-sidebar-bg);
+    width: var(--sgc-sidebar-width);
+    overflow-y: auto;
+    overflow-x: hidden;
+    transition: width var(--sgc-transition-speed) ease;
+    border-right: 1px solid var(--sgc-sidebar-border);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+}
+
+// ---- Inner Container ----
+.sgc_appsbar {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    white-space: nowrap;
+
+    // Brand header at top of sidebar
+    .sgc_appsbar_brand {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px 6px;
+        border-bottom: 1px solid var(--sgc-sidebar-border);
+        min-height: 46px;
+        flex-shrink: 0;
+
+        .sgc_appsbar_logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            object-fit: contain;
+            flex-shrink: 0;
+        }
+
+        .sgc_appsbar_brand_text {
+            color: var(--sgc-sidebar-brand-text);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-left: 8px;
+            text-transform: uppercase;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: max-width var(--sgc-transition-speed) ease,
+                        opacity var(--sgc-transition-speed) ease,
+                        margin var(--sgc-transition-speed) ease;
+        }
+    }
+
+    // Sidebar toggle / hamburger button — sits between the brand header
+    // and the menu list. aria-expanded is mirrored from OWL state.
+    .sgc_appsbar_toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: 1px solid var(--sgc-sidebar-border);
+        border-radius: 4px;
+        color: var(--sgc-sidebar-text);
+        cursor: pointer;
+        margin: 6px 8px 4px;
+        padding: 6px 0;
+        font-size: 16px;
+        line-height: 1;
+        transition: background 0.15s ease,
+                    color 0.15s ease,
+                    outline-color 0.15s ease;
+
+        &:hover {
+            background: var(--sgc-sidebar-hover-bg);
+            color: var(--sgc-sidebar-text-hover);
+        }
+
+        .sgc_appsbar_toggle_icon {
+            display: inline-block;
+        }
+    }
+
+    // Theme toggle button — sits below the sidebar toggle
+    .sgc_appsbar_theme_toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: 1px solid var(--sgc-sidebar-border);
+        border-radius: 4px;
+        color: var(--sgc-sidebar-text);
+        cursor: pointer;
+        margin: 2px 8px 6px;
+        padding: 5px 0;
+        font-size: 15px;
+        line-height: 1;
+        transition: background 0.15s ease,
+                    color 0.15s ease,
+                    outline-color 0.15s ease;
+
+        &:hover {
+            background: var(--sgc-sidebar-hover-bg);
+            color: var(--sgc-sidebar-text-hover);
+        }
+
+        .sgc_appsbar_theme_icon {
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        // Same focus contract as other interactive elements (WCAG 2.4.7)
+        transition: background 0.15s ease,
+                    color 0.15s ease,
+                    outline-color 0.15s ease;
+
+        &:focus:not(:focus-visible) {
+            outline: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--sgc-focus-ring-color);
+            outline-offset: var(--sgc-focus-ring-offset);
+        }
+    }
+
+    // App menu list
+    .sgc_appsbar_menu {
+        padding: 4px 0;
+        list-style: none;
+        margin: 0;
+        flex: 1;
+        overflow-y: auto;
+        overflow-x: hidden;
+        @include sgc-hide-scrollbar();
+
+        > li {
+            > a {
+                cursor: pointer;
+                font-size: 12px;
+                font-weight: 400;
+                overflow: hidden;
+                padding: 9px 0;
+                margin: 1px 8px;
+                text-decoration: none;
+                color: var(--sgc-sidebar-text);
+                text-overflow: ellipsis;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.15s ease;
+                border-left: 3px solid transparent;
+                border-radius: 4px;
+                position: relative;
+
+                .sgc_appsbar_icon {
+                    width: 28px;
+                    height: 28px;
+                    flex-shrink: 0;
+                    border-radius: 6px;
+                    object-fit: contain;
+                    transition: transform 0.15s ease, box-shadow 0.15s ease;
+                }
+
+                .sgc_appsbar_name {
+                    margin-left: 0;
+                    max-width: 0;
+                    opacity: 0;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    transition: max-width var(--sgc-transition-speed) ease,
+                                opacity var(--sgc-transition-speed) ease,
+                                margin var(--sgc-transition-speed) ease;
+                    font-size: 12px;
+                    letter-spacing: 0.2px;
+                }
+
+                .o_app_icon {
+                    width: 28px;
+                    height: 28px;
+                    flex-shrink: 0;
+                    border-radius: 6px;
+                }
+            }
+
+            &:hover > a {
+                background: var(--sgc-sidebar-hover-bg);
+                color: var(--sgc-sidebar-text-hover);
+                border-left-color: rgba(183, 149, 84, 0.4);
+
+                .sgc_appsbar_icon,
+                .o_app_icon {
+                    transform: scale(1.05);
+                }
+            }
+
+            &.active > a {
+                background: var(--sgc-sidebar-active-bg);
+                color: var(--sgc-sidebar-text-hover);
+                border-left-color: var(--sgc-sidebar-active-border);
+                font-weight: 500;
+
+                .sgc_appsbar_icon,
+                .o_app_icon {
+                    box-shadow: 0 0 0 2px rgba(183, 149, 84, 0.25);
+                }
+            }
+
+            // aria-current="page" mirrors .active for assistive-tech-only
+            // styling hooks (e.g. when the active class is suppressed).
+            // Visual treatment stays identical to .active so we don't
+            // fork the design.
+            > a[aria-current="page"] {
+                background: var(--sgc-sidebar-active-bg);
+                color: var(--sgc-sidebar-text-hover);
+                border-left-color: var(--sgc-sidebar-active-border);
+                font-weight: 500;
+
+                .sgc_appsbar_icon,
+                .o_app_icon {
+                    box-shadow: 0 0 0 2px rgba(183, 149, 84, 0.25);
+                }
+            }
+        }
+    }
+}
+
+// ============================================================================
+// Accessibility — Focus indicators (WCAG 2.4.7 / 2.1 AA)
+// ============================================================================
+//
+// Rule: outline: none on :focus (mouse click) but a visible 2px gold
+// outline on :focus-visible (keyboard nav). The gold (#FFD66B) is
+// chosen so that contrast against every sidebar background tone
+// (#091528, the active gold tint, and hover overlays) stays ≥ 3:1.
+
+// Menu items — keep mouse clicks clean, ring on keyboard nav.
+.sgc_appsbar_menu .nav-link {
+    // Smooth focus appearance.
+    transition: background 0.15s ease,
+                color 0.15s ease,
+                outline-color 0.15s ease;
+
+    // Mouse focus: suppress the default ring.
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    // Keyboard focus: visible 2px gold ring with 2px offset.
+    &:focus-visible {
+        outline: 2px solid var(--sgc-focus-ring-color);
+        outline-offset: var(--sgc-focus-ring-offset);
+        // Drop the existing left border in favour of the ring so the two
+        // don't stack and shift the layout when both active+focused.
+        border-left-color: transparent;
+    }
+
+    // Active item must stay visually distinct while also showing focus.
+    &[aria-current="page"]:focus-visible {
+        outline: 2px solid var(--sgc-focus-ring-color);
+        outline-offset: var(--sgc-focus-ring-offset);
+    }
+}
+
+// Toggle button — same focus contract as menu items.
+.sgc_appsbar_toggle {
+    transition: background 0.15s ease,
+                color 0.15s ease,
+                outline-color 0.15s ease;
+
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--sgc-focus-ring-color);
+        outline-offset: var(--sgc-focus-ring-offset);
+    }
+}
+
+// Brand logo: focusable only if it ever becomes a link; covered for
+// safety in case the brand becomes interactive later.
+.sgc_appsbar_logo {
+    &:focus:not(:focus-visible) {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--sgc-focus-ring-color);
+        outline-offset: var(--sgc-focus-ring-offset);
+    }
+}
+
+// ---- Expanded State ----
+.sgc_sidebar_type_expanded .sgc_appsbar_panel {
+    width: var(--sgc-sidebar-expanded-width);
+
+    .sgc_appsbar_brand {
+        justify-content: flex-start;
+        padding-left: 12px;
+
+        .sgc_appsbar_logo {
+            width: 28px;
+            height: 28px;
+        }
+
+        .sgc_appsbar_brand_text {
+            max-width: 160px;
+            opacity: 1;
+            margin-left: 10px;
+        }
+    }
+
+    .sgc_appsbar_menu > li > a {
+        justify-content: flex-start;
+        padding: 9px 12px;
+        margin: 1px 6px;
+
+        .sgc_appsbar_name {
+            max-width: 150px;
+            opacity: 0.85;
+            margin-left: 10px;
+        }
+
+        &.sgc_appsbar_name {
+            margin-left: 10px;
+        }
+    }
+}
+
+// ---- Collapsed State (default) ----
+.sgc_sidebar_type_collapsed .sgc_appsbar_panel {
+    width: var(--sgc-sidebar-width);
+}
+
+// ---- Hidden State ----
+.sgc_sidebar_type_hidden .sgc_appsbar_panel {
+    width: 0;
+    border-right: none;
+}
+
+// ---- Contextual Overrides ----
+.editor_has_snippets_hide_backend_navbar .sgc_appsbar_panel,
+.o_home_menu_background .sgc_appsbar_panel,
+.o_fullscreen .sgc_appsbar_panel {
+    width: 0;
+    border-right: none;
+    overflow: hidden;
+}
+
+.editor_has_snippets_hide_backend_navbar .sgc_appsbar_panel {
+    transition: width 300ms;
+}
+
+// ---- Responsive ----
+// Tablet landscape: 992px-1200px — reduce expanded width
+@include media-breakpoint-down(lg) {
+    .sgc_sidebar_type_expanded .sgc_appsbar_panel {
+        width: 180px;
+
+        .sgc_appsbar_brand {
+            .sgc_appsbar_logo {
+                width: 24px;
+                height: 24px;
+            }
+            .sgc_appsbar_brand_text {
+                max-width: 120px;
+                font-size: 9px;
+                letter-spacing: 1.5px;
+            }
+        }
+
+        .sgc_appsbar_menu > li > a {
+            .sgc_appsbar_name {
+                max-width: 110px;
+                font-size: 11px;
+            }
+        }
+    }
+
+    // Hidden state must collapse fully at this breakpoint
+    .sgc_sidebar_type_hidden .sgc_appsbar_panel {
+        width: 0 !important;
+        border-right: none;
+        overflow: hidden;
+    }
+}
+
+// Tablet portrait: 768px-992px — collapse + overlay variant
+@include media-breakpoint-down(md) {
+    .sgc_appsbar_panel {
+        width: 0 !important;
+        border-right: none;
+        overflow: hidden;
+    }
+
+    // Overlay variant: sidebar slides over content when expanded on mobile
+    .sgc_appsbar_panel.overlay-mode {
+        width: var(--sgc-sidebar-expanded-width) !important;
+        position: fixed;
+        top: 46px;
+        left: 0;
+        bottom: 0;
+        z-index: 1050;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        border-right: 1px solid var(--sgc-sidebar-border);
+
+        &.overlay-open {
+            transform: translateX(0);
+        }
+    }
+
+    // Semi-transparent backdrop for overlay mode
+    .sgc_sidebar_overlay_backdrop {
+        display: none;
+        position: fixed;
+        top: 46px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.35);
+        z-index: 1049;
+
+        &.show {
+            display: block;
+        }
+    }
+}
+
+// Mobile phones: under 576px — hide sidebar, floating toggle, compact navbar
+@include media-breakpoint-down(sm) {
+    .sgc_appsbar_panel {
+        width: 0 !important;
+        border-right: none;
+        overflow: hidden;
+    }
+
+    // Floating mobile toggle button (bottom-right)
+    .sgc_appsbar_mobile_toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        z-index: 1060;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-color: var(--sgc-sidebar-bg);
+        border: 1px solid var(--sgc-sidebar-border);
+        color: var(--sgc-sidebar-brand-text);
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.15s ease;
+
+        &:active {
+            transform: scale(0.92);
+        }
+    }
+
+    // Compact navbar for small screens
+    .o_main_navbar {
+        --o-navbar-height: 40px;
+        height: var(--o-navbar-height);
+
+        .o_menu_brand {
+            font-size: 13px;
+            letter-spacing: -0.2px;
+        }
+
+        .o_menu_systray {
+            font-size: 12px;
+        }
+    }
+
+    // Settings sidebar-specific overrides for mobile
+    .o_sidebar_sidebar {
+        max-width: 280px;
+    }
+}
+
+@include media-breakpoint-only(md) {
+    .sgc_sidebar_type_expanded .sgc_appsbar_panel {
+        width: var(--sgc-sidebar-width);
+        .sgc_appsbar_brand_text { max-width: 0; opacity: 0; margin-left: 0; }
+        .sgc_appsbar_menu > li > a .sgc_appsbar_name { max-width: 0; opacity: 0; margin-left: 0; }
+    }
+}
+
+@media print {
+    .sgc_appsbar_panel {
+        width: 0 !important;
+        border-right: none;
+        overflow: hidden;
+    }
+}

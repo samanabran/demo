@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="HRM">
+  <defs>
+    <linearGradient id="sgcBghrm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#091528"/>
+      <stop offset="100%" stop-color="#091528"/>
+    </linearGradient>
+    <radialGradient id="sgcSheenhrm" cx="30%" cy="20%" r="80%">
+      <stop offset="0%" stop-color="#B79554" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#B79554" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#sgcBghrm)"/>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#sgcSheenhrm)"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="15.5" fill="none" stroke="#B79554" stroke-opacity="0.18" stroke-width="1"/>
+  <circle cx="32" cy="24" r="8" fill="#B79554"/>
+  <path d="M18 46c0-9 6-14 14-14s14 5 14 14" fill="none" stroke="#B79554" stroke-width="3" stroke-linecap="round"/>
+
+</svg>

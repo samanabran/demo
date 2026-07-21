@@ -1,0 +1,138 @@
+// ============================================================================
+// SGC TECH AI — Launcher Card
+// Reuses shipped tokens only (--sgc-sidebar-*, --sgc-focus-ring-color).
+// ============================================================================
+
+.sgc_launcher_card {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    background: rgba(183, 149, 84, 0.04);
+    border: 1px solid transparent;
+    // var(--sgc-launcher-anim-speed) is set on .sgc_launcher_panel per
+    // the user's launcher_animation_speed setting (US-011); falls back
+    // to 180ms outside the panel context (e.g. isolated component tests).
+    transition:
+        transform var(--sgc-launcher-anim-speed, 180ms) ease,
+        box-shadow var(--sgc-launcher-anim-speed, 180ms) ease,
+        background var(--sgc-launcher-anim-speed, 180ms) ease;
+
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        border-color: var(--sgc-sidebar-active-border);
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--sgc-focus-ring-color);
+        outline-offset: var(--sgc-focus-ring-offset);
+    }
+
+    // CSS-only ripple: a radial gradient that snaps in on :active and
+    // fades back out — no JS animation engine involved.
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle, rgba(183, 149, 84, 0.35) 0%, transparent 70%);
+        opacity: 0;
+        transform: scale(0.3);
+        transition:
+            opacity var(--sgc-launcher-anim-speed, 180ms) ease,
+            transform var(--sgc-launcher-anim-speed, 180ms) ease;
+        pointer-events: none;
+    }
+
+    &:active::before {
+        opacity: 1;
+        transform: scale(1);
+        transition: opacity 0ms, transform 0ms;
+    }
+}
+
+.sgc_launcher_card_icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    object-fit: contain;
+    transition: transform var(--sgc-launcher-anim-speed, 180ms) ease;
+}
+
+.sgc_launcher_card_name {
+    color: var(--sgc-sidebar-text-hover);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.sgc_launcher_card_pin {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background: transparent;
+    border: none;
+    color: var(--sgc-sidebar-text);
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 2px;
+    opacity: 0;
+    transition: opacity 150ms ease, color 150ms ease;
+
+    &:focus-visible {
+        opacity: 1;
+        outline: 2px solid var(--sgc-focus-ring-color);
+        outline-offset: 1px;
+    }
+}
+
+.sgc_launcher_card:hover .sgc_launcher_card_pin,
+.sgc_launcher_card:focus-within .sgc_launcher_card_pin {
+    opacity: 1;
+}
+
+.sgc_launcher_card_badge {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 8px;
+    background: var(--sgc-sidebar-active-border);
+    color: var(--sgc-sidebar-bg);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 16px;
+    text-align: center;
+}
+
+// ---- Accessibility: honor prefers-reduced-motion ----
+@media (prefers-reduced-motion: reduce) {
+    .sgc_launcher_card {
+        transition: none !important;
+
+        &:hover {
+            transform: none;
+        }
+
+        &::before {
+            transition: none !important;
+        }
+    }
+
+    .sgc_launcher_card_icon {
+        transition: none !important;
+    }
+}

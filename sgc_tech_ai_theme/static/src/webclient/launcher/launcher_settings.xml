@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+
+    <t t-name="sgc_tech_ai_theme.LauncherSettings">
+        <div
+            class="sgc_launcher_settings_backdrop"
+            t-on-click="props.onClose"
+        >
+            <div
+                class="sgc_launcher_settings_panel"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Launcher settings"
+                t-on-click.stop=""
+            >
+                <div class="sgc_launcher_settings_header">
+                    <h3>Launcher Settings</h3>
+                    <button
+                        type="button"
+                        class="sgc_launcher_close"
+                        aria-label="Close settings"
+                        t-on-click="props.onClose"
+                    >
+                        <span aria-hidden="true">&#10005;</span>
+                    </button>
+                </div>
+
+                <div class="sgc_launcher_settings_field">
+                    <label for="sgc_launcher_setting_density">Grid Density</label>
+                    <select
+                        id="sgc_launcher_setting_density"
+                        t-att-value="props.settings.grid_density"
+                        t-on-change="(ev) => this._onFieldChange('grid_density', ev)"
+                    >
+                        <option value="compact">Compact</option>
+                        <option value="comfortable">Comfortable</option>
+                        <option value="spacious">Spacious</option>
+                    </select>
+                </div>
+
+                <div class="sgc_launcher_settings_field">
+                    <label for="sgc_launcher_setting_icon_size">Icon Size</label>
+                    <select
+                        id="sgc_launcher_setting_icon_size"
+                        t-att-value="props.settings.icon_size"
+                        t-on-change="(ev) => this._onFieldChange('icon_size', ev)"
+                    >
+                        <option value="small">Small</option>
+                        <option value="medium">Medium</option>
+                        <option value="large">Large</option>
+                    </select>
+                </div>
+
+                <div class="sgc_launcher_settings_field">
+                    <label for="sgc_launcher_setting_animation">Animation Speed</label>
+                    <select
+                        id="sgc_launcher_setting_animation"
+                        t-att-value="props.settings.animation_speed"
+                        t-on-change="(ev) => this._onFieldChange('animation_speed', ev)"
+                    >
+                        <option value="none">None</option>
+                        <option value="normal">Normal</option>
+                        <option value="fast">Fast</option>
+                    </select>
+                </div>
+
+                <div class="sgc_launcher_settings_field">
+                    <label for="sgc_launcher_setting_background">Background</label>
+                    <select
+                        id="sgc_launcher_setting_background"
+                        t-att-value="props.settings.background_style"
+                        t-on-change="(ev) => this._onFieldChange('background_style', ev)"
+                    >
+                        <option value="solid">Solid</option>
+                        <option value="gradient">Gradient</option>
+                        <option value="image">Image</option>
+                        <option value="company_branding">Company Branding</option>
+                    </select>
+                </div>
+
+                <div
+                    t-if="props.settings.background_style === 'image'"
+                    class="sgc_launcher_settings_field sgc_launcher_settings_image"
+                >
+                    <label for="sgc_launcher_setting_image">Background Image</label>
+                    <div class="sgc_launcher_settings_image_controls">
+                        <input
+                            id="sgc_launcher_setting_image"
+                            type="file"
+                            accept="image/*"
+                            t-att-disabled="uploadState.uploading"
+                            t-on-change="_onFileChange"
+                        />
+                        <button
+                            t-if="props.hasBackgroundImage"
+                            type="button"
+                            class="sgc_launcher_settings_image_remove"
+                            t-att-disabled="uploadState.uploading"
+                            t-on-click="_onRemoveClick"
+                        >
+                            Remove
+                        </button>
+                    </div>
+                    <p
+                        t-if="!props.hasBackgroundImage"
+                        class="sgc_launcher_settings_image_hint"
+                    >
+                        Upload an image to use as your personal launcher background.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

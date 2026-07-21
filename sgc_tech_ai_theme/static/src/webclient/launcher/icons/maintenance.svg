@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Maintenance">
+  <defs>
+    <linearGradient id="sgcBgmaintenance" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#091528"/>
+      <stop offset="100%" stop-color="#091528"/>
+    </linearGradient>
+    <radialGradient id="sgcSheenmaintenance" cx="30%" cy="20%" r="80%">
+      <stop offset="0%" stop-color="#B79554" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#B79554" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#sgcBgmaintenance)"/>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#sgcSheenmaintenance)"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="15.5" fill="none" stroke="#B79554" stroke-opacity="0.18" stroke-width="1"/>
+  <path d="M40 18a8 8 0 00-10.6 10.6L18 40l6 6 11.4-11.4A8 8 0 0046 24z" fill="none" stroke="#B79554" stroke-width="3" stroke-linejoin="round"/>
+
+</svg>

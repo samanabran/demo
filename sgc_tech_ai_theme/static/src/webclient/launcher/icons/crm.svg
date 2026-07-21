@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="CRM">
+  <defs>
+    <linearGradient id="sgcBgcrm" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#091528"/>
+      <stop offset="100%" stop-color="#091528"/>
+    </linearGradient>
+    <radialGradient id="sgcSheencrm" cx="30%" cy="20%" r="80%">
+      <stop offset="0%" stop-color="#B79554" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#B79554" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#sgcBgcrm)"/>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#sgcSheencrm)"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="15.5" fill="none" stroke="#B79554" stroke-opacity="0.18" stroke-width="1"/>
+  <circle cx="24" cy="26" r="9" fill="none" stroke="#B79554" stroke-width="3"/>
+  <circle cx="38" cy="30" r="9" fill="none" stroke="#D9C08A" stroke-width="3"/>
+
+</svg>

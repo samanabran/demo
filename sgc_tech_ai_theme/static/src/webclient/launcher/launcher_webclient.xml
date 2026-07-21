@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+
+    <!--
+        A distinct t-name from appsbar/webclient.xml's
+        "sgc_tech_ai_theme.WebClient" — Odoo allows multiple extension
+        templates to independently t-inherit="web.WebClient" as long as
+        each has its own unique name; they compose rather than conflict.
+    -->
+    <t
+        t-name="sgc_tech_ai_theme.WebClientLauncher"
+        t-inherit="web.WebClient"
+        t-inherit-mode="extension"
+    >
+        <xpath expr="//NavBar" position="after">
+            <Launcher/>
+        </xpath>
+    </t>
+
+</templates>

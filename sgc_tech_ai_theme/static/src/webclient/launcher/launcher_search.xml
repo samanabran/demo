@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+
+    <t t-name="sgc_tech_ai_theme.LauncherSearch">
+        <div class="sgc_launcher_search_container">
+            <div class="sgc_launcher_search">
+                <span class="sgc_launcher_search_icon" aria-hidden="true">&#128269;</span>
+                <!--
+                    Combobox-with-list-autocomplete pattern (WAI-ARIA 1.2):
+                    focus stays on the input, aria-activedescendant tracks
+                    the visually-highlighted option. Arrow keys update the
+                    active descendant; Enter activates it.
+                -->
+                <input
+                    t-ref="searchInput"
+                    type="text"
+                    class="sgc_launcher_search_input"
+                    role="combobox"
+                    aria-autocomplete="list"
+                    aria-haspopup="listbox"
+                    aria-controls="sgc_launcher_results"
+                    t-att-aria-expanded="state.results !== null and state.results.length > 0 ? 'true' : 'false'"
+                    t-att-aria-activedescendant="state.activeIndex >= 0 ? 'sgc_launcher_result_' + state.activeIndex : ''"
+                    placeholder="Search applications..."
+                    aria-label="Search applications"
+                    t-att-value="state.query"
+                    t-on-input="_onInput"
+                    t-on-keydown="_onKeyDown"
+                />
+            </div>
+            <t t-if="state.results !== null">
+                <div
+                    id="sgc_launcher_results"
+                    class="sgc_launcher_results"
+                    role="listbox"
+                    aria-label="Search results"
+                >
+                    <t t-if="state.results.length">
+                        <p class="sgc_launcher_results_header">Matching results</p>
+                        <t t-foreach="state.results" t-as="item" t-key="item_index">
+                            <button
+                                type="button"
+                                class="sgc_launcher_result_item"
+                                role="option"
+                                t-att-id="'sgc_launcher_result_' + item_index"
+                                t-att-aria-selected="state.activeIndex === item_index ? 'true' : 'false'"
+                                t-att-data-active="state.activeIndex === item_index ? 'true' : 'false'"
+                                t-on-click="() => this._selectResult(item)"
+                            >
+                                <t t-esc="item.name"/>
+                            </button>
+                        </t>
+                    </t>
+                    <t t-else="">
+                        <p class="sgc_launcher_no_results">No matching applications or commands.</p>
+                    </t>
+                </div>
+            </t>
+            <!-- Polite live region: announces result counts as they appear. -->
+            <div
+                class="sgc_launcher_search_live"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+            >
+                <t t-if="state.results !== null and state.results.length > 0">
+                    <t t-esc="state.results.length"/> results.
+                </t>
+            </div>
+        </div>
+    </t>
+
+</templates>

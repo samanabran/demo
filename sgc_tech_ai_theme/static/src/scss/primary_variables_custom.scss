@@ -1,0 +1,171 @@
+// ============================================================================
+// SGC TECH AI Enterprise Theme — Primary Variables
+// Odoo v19 Compatible | Brand Guidelines v3.0
+// DIFC, Dubai, UAE
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// Bootstrap core color guards — this file is prepended into the shared
+// web._assets_primary_variables bundle. Once a third-party module extends
+// that bundle, Odoo's own web/static/src/scss/pre_variables.scss (which
+// normally pre-seeds these for web/static/src/scss/bootstrap_overridden_frontend.scss,
+// per that file's own "Need to be included before .../_variables.scss"
+// comment) ends up compiled AFTER bootstrap_overridden_frontend.scss instead
+// of before it, so $black/$gray-900/etc. are undefined when first read and
+// the whole bundle (every page using it, frontend and backend) fails to
+// compile. Mirroring pre_variables.scss's own !default values here — ahead
+// of Bootstrap's real _variables.scss in the compile order — is a no-op
+// once the real files load (same values, !default only assigns once) and
+// makes this file self-sufficient regardless of that ordering bug.
+// ---------------------------------------------------------------------------
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
+
+$grays: () !default;
+$grays: map-merge((
+        "100": $gray-100,
+        "200": $gray-200,
+        "300": $gray-300,
+        "400": $gray-400,
+        "500": $gray-500,
+        "600": $gray-600,
+        "700": $gray-700,
+        "800": $gray-800,
+        "900": $gray-900
+), $grays);
+
+$blue:    #0d6efd !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #d63384 !default;
+$red:     #dc3545 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   #198754 !default;
+$teal:    #20c997 !default;
+$cyan:    #0dcaf0 !default;
+
+$colors: () !default;
+$colors: map-merge((
+        "blue":       $blue,
+        "indigo":     $indigo,
+        "purple":     $purple,
+        "pink":       $pink,
+        "red":        $red,
+        "orange":     $orange,
+        "yellow":     $yellow,
+        "green":      $green,
+        "teal":       $teal,
+        "cyan":       $cyan,
+        "white":      $white,
+        "gray":       $gray-600,
+        "gray-dark":  $gray-800
+), $colors);
+
+$primary:   $blue !default;
+$secondary: $gray-600 !default;
+$success:   $green !default;
+$info:      $cyan !default;
+$warning:   $yellow !default;
+$danger:    $red !default;
+$light:     $gray-100 !default;
+$dark:      $gray-900 !default;
+
+$theme-colors: () !default;
+$theme-colors: map-merge((
+        "primary":    $primary,
+        "secondary":  $secondary,
+        "success":    $success,
+        "info":       $info,
+        "warning":    $warning,
+        "danger":     $danger,
+        "light":      $light,
+        "dark":       $dark
+), $theme-colors);
+
+// ---------------------------------------------------------------------------
+// Color System — Derived from SGC TECH AI Brand Guidelines v3.0
+// Iron Law: larger area → lower saturation
+// ---------------------------------------------------------------------------
+
+// Core Brand Palette
+$o-brand-odoo:             #0F213D;   // SGC Navy — Primary Dark
+$o-brand-primary:          #0F213D;   // SGC Navy — Primary actions & headers
+$o-brand-secondary:        #5F6775;   // SGC Slate — Secondary text & borders
+$o-brand-lightsecondary:   #ECE7DF;   // SGC Parchment — Light surfaces
+
+// Extended Brand Palette
+$sgc-ivory:                #F7F4EE;   // Primary background
+$sgc-navy:                 #0F213D;   // Primary dark
+$sgc-gold:                 #B79554;   // Primary accent
+$sgc-charcoal:             #1C2430;   // Primary text
+$sgc-slate:                #5F6775;   // Secondary text
+$sgc-champagne:            #D9C08A;   // Secondary gold
+$sgc-parchment:            #ECE7DF;   // Light gray
+$sgc-midnight:             #091528;   // Deep navy
+$sgc-emerald:              #2C6654;   // Success / Positive
+$sgc-amber:                #C78F2B;   // Warning / Caution
+$sgc-wine:                 #A24949;   // Danger / Alert / Negative
+
+// Semantic Colors
+$o-success:                $sgc-emerald;
+$o-warning:                $sgc-amber;
+$o-danger:                 $sgc-wine;
+$o-info:                   $sgc-navy;
+
+// Text Colors
+$o-main-text-color:        $sgc-charcoal;
+$o-secondary-text-color:   $sgc-slate;
+
+// Surface Colors
+$o-view-background-color:  $sgc-ivory;
+$o-list-footer-bg-color:   #FFFFFF;
+
+// Button Colors
+$o-btn-primary-bg:         $sgc-navy;
+$o-btn-primary-hover-bg:   $sgc-midnight;
+$o-btn-secondary-bg:       #FFFFFF;
+$o-btn-secondary-hover-bg: darken($o-btn-secondary-bg, 5%);
+$o-btn-secondary-active-bg: darken($o-btn-secondary-bg, 3%);
+
+// ---------------------------------------------------------------------------
+// Typography — IBM Plex System (from Brand Guidelines v3.0)
+// ---------------------------------------------------------------------------
+$o-font-family-base: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$o-font-family-heading: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+
+$o-font-size-base-touch: 15px;
+
+// ---------------------------------------------------------------------------
+// Layout — 12-column grid philosophy, 20mm margins concept mapped to px
+// ---------------------------------------------------------------------------
+$o-home-menu-container-size: 850px;
+$o-home-menu-app-icon-max-width: 70px;
+$o-home-studio-menu-shadow: 0 1px 0 rgba($sgc-midnight, 0.08);
+
+// ---------------------------------------------------------------------------
+// Snackbar — Subtle institutional notification
+// ---------------------------------------------------------------------------
+$o-snackbar-background-color: $sgc-charcoal;
+$o-snackbar-color: #FFFFFF;
+$o-snackbar-height: 46px;
+$o-snackbar-left: 15px;
+$o-snackbar-right: $o-snackbar-left;
+$o-snackbar-bottom: 20px;
+$o-snackbar-inner-padding: 16px;
+
+// ---------------------------------------------------------------------------
+// Border Radius — Sharp, architectural (matches brand precision)
+// ---------------------------------------------------------------------------
+$border-radius-sm: 2px;
+$border-radius-base: 3px;
+$border-radius-lg: 4px;

@@ -1,0 +1,18 @@
+// ============================================================================
+// SGC TECH AI Enterprise Theme — Secondary Variables
+// Odoo v19 Compatible | Brand Guidelines v3.0
+// ============================================================================
+
+$o-form-lightsecondary: lighten($o-brand-secondary, 25%) !default;
+
+$o-tooltip-background-color: #FFFFFF !default;
+$o-tooltip-color: $o-main-text-color !default;
+$o-tooltip-arrow-color: $sgc-champagne !default;
+
+// Sheet spacing — architectural precision
+$o-sheet-cancel-tpadding: $o-horizontal-padding !default;
+$o-sheet-cancel-bpadding: $o-horizontal-padding + $o-sheet-vpadding !default;
+
+// Side chatter — comfortable width for executive review
+$o-chatter-min-width: 530px !default;
+$o-form-sheet-min-width: 990px !default;

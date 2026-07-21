@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+
+    <t t-name="sgc_tech_ai_theme.LauncherCard">
+        <div
+            class="sgc_launcher_card"
+            role="menuitem"
+            t-att-tabindex="props.tabIndex"
+            t-att-aria-label="'Open ' + props.app.name"
+            t-on-click="_onClick"
+            t-on-keydown="_onKeyDown"
+        >
+            <button
+                type="button"
+                class="sgc_launcher_card_pin"
+                t-att-aria-pressed="props.favorite ? 'true' : 'false'"
+                t-att-aria-label="props.favorite ? 'Unpin ' + props.app.name : 'Pin ' + props.app.name"
+                t-on-click="_onPinClick"
+            >
+                <span aria-hidden="true" t-esc="props.favorite ? '★' : '☆'"/>
+            </button>
+            <span
+                t-if="props.notificationCount &gt; 0"
+                class="sgc_launcher_card_badge"
+                t-esc="props.notificationCount"
+            />
+            <img
+                class="sgc_launcher_card_icon"
+                t-att-src="iconSrc"
+                alt=""
+                aria-hidden="true"
+            />
+            <span class="sgc_launcher_card_name" t-esc="props.app.name"/>
+        </div>
+    </t>
+
+</templates>

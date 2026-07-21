@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Favicon: use company-specific favicon if uploaded -->
+    <template id="layout" inherit_id="web.layout">
+        <xpath expr="//link[@rel='shortcut icon']" position="before">
+            <t
+                t-set="x_icon"
+                t-value="x_icon or '/web/image/res.company/%s/favicon' % request.env.company.id"
+            />
+        </xpath>
+    </template>
+
+    <!-- Mobile browser theme-color meta tag -->
+    <template id="webclient_bootstrap_theme" inherit_id="web.webclient_bootstrap">
+        <xpath expr="//meta[@name='theme-color']" position="replace">
+            <meta name="theme-color" content="#091528"/>
+        </xpath>
+    </template>
+
+    <!-- Inject sidebar type class on <body> from user preference -->
+    <template id="webclient_bootstrap_sidebar" inherit_id="web.webclient_bootstrap">
+        <xpath expr="//t[@t-set='body_classname']" position="after">
+            <t t-set="body_sidebar_class" t-value="'sgc_sidebar_type_' + (request.env.user.sidebar_type or 'collapsed')"/>
+            <t t-set="body_classname" t-value="body_classname + ' ' + body_sidebar_class"/>
+        </xpath>
+    </template>
+
+</odoo>

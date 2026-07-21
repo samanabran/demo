@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SGC TECH AI Enterprise Theme — Odoo v19</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@700&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --sgc-ivory: #F7F4EE;
+            --sgc-navy: #0F213D;
+            --sgc-gold: #B79554;
+            --sgc-charcoal: #1C2430;
+            --sgc-slate: #5F6775;
+            --sgc-champagne: #D9C08A;
+            --sgc-parchment: #ECE7DF;
+            --sgc-midnight: #091528;
+            --sgc-emerald: #2C6654;
+            --sgc-amber: #C78F2B;
+            --sgc-wine: #A24949;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--sgc-ivory);
+            color: var(--sgc-charcoal);
+            margin: 0;
+            padding: 0;
+            line-height: 1.75;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'IBM Plex Serif', Georgia, serif;
+            color: var(--sgc-navy);
+        }
+        .section-pad { padding: 80px 20px; }
+        .gold-divider {
+            width: 80px; height: 2px; background: var(--sgc-gold); margin: 16px auto;
+            border-radius: 1px;
+        }
+        .gold-divider-left { margin: 16px 0; }
+
+        /* Header */
+        .hero-header {
+            background: linear-gradient(180deg, var(--sgc-navy) 0%, var(--sgc-midnight) 100%);
+            padding: 60px 20px 50px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image:
+                linear-gradient(rgba(183,149,84,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(183,149,84,0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            pointer-events: none;
+        }
+        .hero-header h1 {
+            font-size: 38px; font-weight: 700; color: #FFFFFF; letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+        .hero-header .subtitle {
+            font-size: 14px; font-weight: 500; color: var(--sgc-champagne);
+            letter-spacing: 6px; text-transform: uppercase;
+        }
+        .hero-header .tagline {
+            font-size: 13px; color: var(--sgc-slate); letter-spacing: 3px;
+            margin-top: 24px;
+        }
+        .hero-gold-line {
+            width: 200px; height: 1.5px; margin: 20px auto;
+            background: linear-gradient(90deg, transparent, var(--sgc-gold), transparent);
+        }
+        .hero-coords {
+            font-family: monospace; font-size: 8px; color: var(--sgc-gold);
+            opacity: 0.3; margin-top: 16px;
+        }
+
+        /* Stats Cards */
+        .stat-card {
+            background: #FFFFFF;
+            border: 1px solid var(--sgc-champagne);
+            border-radius: 4px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: border-color 0.2s ease;
+        }
+        .stat-card:hover { border-color: var(--sgc-gold); }
+        .stat-card .stat-icon {
+            width: 48px; height: 48px; margin: 0 auto 16px;
+            stroke: var(--sgc-gold); fill: none;
+        }
+        .stat-card h3 {
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 24px; font-weight: 700; color: var(--sgc-navy);
+            margin-bottom: 4px;
+        }
+        .stat-card p {
+            font-size: 12px; color: var(--sgc-slate); margin: 0;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* Service Cards */
+        .service-card {
+            background: #FFFFFF;
+            border: 1px solid var(--sgc-parchment);
+            border-radius: 4px;
+            padding: 28px 24px;
+            height: 100%;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .service-card:hover {
+            border-color: var(--sgc-gold);
+            box-shadow: 0 2px 12px rgba(15,33,61,0.06);
+        }
+        .service-card h4 {
+            font-size: 16px; font-weight: 600; margin-bottom: 12px;
+        }
+        .service-card p {
+            font-size: 13px; color: var(--sgc-slate); margin: 0;
+        }
+        .service-icon {
+            width: 36px; height: 36px; margin-bottom: 16px;
+            stroke: var(--sgc-gold); fill: none;
+        }
+
+        /* Tabs */
+        .nav-tabs { border-bottom: 1px solid var(--sgc-champagne); }
+        .nav-tabs .nav-link {
+            color: var(--sgc-slate); font-weight: 500; border: none;
+            border-bottom: 2px solid transparent;
+            padding: 12px 20px; background: none; transition: all 0.2s ease;
+        }
+        .nav-tabs .nav-link:hover { color: var(--sgc-gold); }
+        .nav-tabs .nav-link.active {
+            color: var(--sgc-navy); font-weight: 600;
+            border-bottom: 2px solid var(--sgc-navy);
+        }
+
+        /* Feature List */
+        .feature-item { padding: 12px 0; border-bottom: 1px solid var(--sgc-parchment); }
+        .feature-item:last-child { border-bottom: none; }
+        .feature-item strong { color: var(--sgc-navy); }
+
+        /* FAQ Accordion */
+        .sgc-accordion .accordion-item {
+            border: 1px solid var(--sgc-parchment);
+            border-radius: 4px !important;
+            margin-bottom: 8px; overflow: hidden;
+        }
+        .sgc-accordion .accordion-button {
+            background: rgba(247,244,238,0.5);
+            color: var(--sgc-charcoal); font-weight: 600;
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 14px; border: none;
+            box-shadow: none !important;
+        }
+        .sgc-accordion .accordion-button:not(.collapsed) {
+            background: rgba(183,149,84,0.08);
+            color: var(--sgc-navy);
+        }
+        .sgc-accordion .accordion-button::after { filter: none; }
+        .sgc-accordion .accordion-body {
+            font-size: 13px; color: var(--sgc-slate);
+            line-height: 1.75; padding: 16px 20px;
+        }
+
+        /* Screenshots */
+        .screenshot-card {
+            border: 1px solid var(--sgc-parchment);
+            border-radius: 4px; overflow: hidden;
+            background: #FFFFFF;
+        }
+        .screenshot-card img {
+            width: 100%; display: block;
+        }
+        .screenshot-card .caption {
+            padding: 12px 16px;
+            font-size: 12px; color: var(--sgc-slate);
+            font-weight: 500; text-transform: uppercase;
+            letter-spacing: 1px; text-align: center;
+        }
+
+        /* Release Notes */
+        .release-card {
+            border: 1px solid var(--sgc-parchment);
+            border-radius: 4px; padding: 24px;
+            background: #FFFFFF;
+        }
+        .release-badge {
+            display: inline-block; padding: 2px 10px; border-radius: 2px;
+            background: rgba(44,102,84,0.1); color: var(--sgc-emerald);
+            font-size: 11px; font-weight: 600;
+        }
+
+        /* Footer */
+        .sgc-footer {
+            background: var(--sgc-navy);
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .sgc-footer p { color: var(--sgc-slate); font-size: 12px; margin: 0; }
+        .sgc-footer .brand { color: var(--sgc-champagne); font-weight: 600; }
+        .sgc-footer .coords {
+            font-family: monospace; font-size: 8px;
+            color: var(--sgc-gold); opacity: 0.3; margin-top: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================================================================== -->
+<!-- HERO HEADER                                                          -->
+<!-- ================================================================== -->
+<header class="hero-header">
+    <h1>SGC TECH AI</h1>
+    <div class="hero-gold-line"></div>
+    <div class="subtitle">Enterprise Theme for Odoo v19</div>
+    <div class="tagline">Built in Dubai. Designed for the world.</div>
+    <div class="hero-coords">25.2048 N &nbsp;&middot;&nbsp; 55.2708 E</div>
+</header>
+
+<!-- ================================================================== -->
+<!-- STATS SECTION                                                        -->
+<!-- ================================================================== -->
+<section class="section-pad" style="background: #FFFFFF;">
+    <div class="container">
+        <h2 class="text-center" style="font-size: 28px; letter-spacing: -0.5px;">Architectural Finance Design</h2>
+        <div class="gold-divider"></div>
+        <p class="text-center mb-5" style="color: var(--sgc-slate); max-width: 640px; margin-left: auto; margin-right: auto;">
+            A design language that feels simultaneously institutional and innovative,
+            traditional and forward-looking. Every element serves a purpose.
+        </p>
+        <div class="row g-4 justify-content-center">
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <h3>11</h3>
+                    <p>Brand Colors</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <h3>2</h3>
+                    <p>Typeface Families</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <h3>100%</h3>
+                    <p>Odoo v19 Compatible</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card">
+                    <h3>0</h3>
+                    <p>Hardcoded Colors</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================================== -->
+<!-- WHY SECTION                                                          -->
+<!-- ================================================================== -->
+<section class="section-pad">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 style="font-size: 28px;">Why SGC TECH AI Enterprise Theme?</h2>
+                <div class="gold-divider-left"></div>
+                <p style="color: var(--sgc-slate); font-size: 14px; margin-top: 16px;">
+                    Standard Odoo themes apply a generic visual layer that fails to reflect
+                    the identity and authority of your organization. The SGC TECH AI Enterprise
+                    Theme replaces every visual element with a meticulously engineered design
+                    system derived from our Brand Guidelines v3.0.
+                </p>
+                <p style="color: var(--sgc-slate); font-size: 14px;">
+                    Drawing from the precision of Swiss finance, the innovation of modern
+                    technology design, and the gravitas of executive publications, this theme
+                    transforms your Odoo backend into an environment that communicates competence,
+                    stability, and forward-thinking innovation.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="service-card text-center">
+                            <h4>Navy &amp; Gold</h4>
+                            <p>Institutional color system with 11 brand-defined tones</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="service-card text-center">
+                            <h4>IBM Plex</h4>
+                            <p>Dual-typeface system: serif headlines, sans body</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="service-card text-center">
+                            <h4>Centralized</h4>
+                            <p>All colors in SCSS variables, zero hardcoded values</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="service-card text-center">
+                            <h4>Accessible</h4>
+                            <p>High contrast ratios, clear visual hierarchy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================================== -->
+<!-- SCREENSHOTS (Tabbed)                                                -->
+<!-- ================================================================== -->
+<section class="section-pad" style="background: #FFFFFF;">
+    <div class="container">
+        <h2 class="text-center" style="font-size: 28px;">Interface Preview</h2>
+        <div class="gold-divider"></div>
+
+        <ul class="nav nav-tabs justify-content-center mt-4" id="screenshotTabs">
+            <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#tab-overview">Overview</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-forms">Forms &amp; Lists</a></li>
+            <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#tab-details">Detail Views</a></li>
+        </ul>
+
+        <div class="tab-content mt-4">
+            <!-- Overview Tab -->
+            <div class="tab-pane fade show active" id="tab-overview">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="screenshot-card">
+                            <img src="updated_screenshots/snap_2.png" alt="SGC Enterprise Theme Overview"/>
+                            <div class="caption">Enterprise Theme Applied</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="screenshot-card">
+                            <img src="updated_screenshots/snap_3.png" alt="Sale Order View"/>
+                            <div class="caption">Sale Order — Form View</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Forms Tab -->
+            <div class="tab-pane fade" id="tab-forms">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="screenshot-card">
+                            <img src="updated_screenshots/snap_4.png" alt="Invoice View"/>
+                            <div class="caption">Invoice — Professional Layout</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="screenshot-card">
+                            <img src="updated_screenshots/snap_5.png" alt="Purchase Order"/>
+                            <div class="caption">Purchase Order — Clean Form</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Details Tab -->
+            <div class="tab-pane fade" id="tab-details">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="screenshot-card">
+                            <img src="updated_screenshots/snap_0.png" alt="Community Theme"/>
+                            <div class="caption">Before — Default Community</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="screenshot-card">
+                            <img src="updated_screenshots/snap_1.png" alt="Installation"/>
+                            <div class="caption">Installation — App Store</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================================== -->
+<!-- FEATURES                                                             -->
+<!-- ================================================================== -->
+<section class="section-pad">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <h2 style="font-size: 28px;">Key Features</h2>
+                <div class="gold-divider-left"></div>
+                <p style="color: var(--sgc-slate); font-size: 14px; margin-top: 16px;">
+                    Every feature is designed to enhance the daily workflow of enterprise
+                    users while maintaining strict adherence to the SGC TECH AI brand identity.
+                </p>
+            </div>
+            <div class="col-lg-7">
+                <div class="feature-item">
+                    <strong>Centralized Color System</strong>
+                    <p style="color: var(--sgc-slate); font-size: 13px; margin: 4px 0 0;">
+                        All 11 brand colors defined as SCSS variables. Zero hardcoded hex values
+                        in component styles. Every color change propagates from a single source of truth.
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <strong>IBM Plex Typography</strong>
+                    <p style="color: var(--sgc-slate); font-size: 13px; margin: 4px 0 0;">
+                        Dual-typeface system: IBM Plex Serif for headings (authority, editorial weight),
+                        IBM Plex Sans for body and interface text (clarity, technical fluency).
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <strong>Gold Accent Interaction Model</strong>
+                    <p style="color: var(--sgc-slate); font-size: 13px; margin: 4px 0 0;">
+                        Required fields highlighted with gold bottom borders. Links transition to gold
+                        on hover. Tabs use navy active state with gold hover. Consistent accent language.
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <strong>Architectural Navbar</strong>
+                    <p style="color: var(--sgc-slate); font-size: 13px; margin: 4px 0 0;">
+                        Clean white navbar with champagne border, subtle shadow, and gold-tinted
+                        hover states. No colored backgrounds — precision over decoration.
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <strong>Semantic Status Colors</strong>
+                    <p style="color: var(--sgc-slate); font-size: 13px; margin: 4px 0 0;">
+                        Emerald for success, amber for warning, wine for danger, navy for info.
+                        Each semantic color derived from the brand palette with appropriate contrast.
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <strong>Enhanced List Views</strong>
+                    <p style="color: var(--sgc-slate); font-size: 13px; margin: 4px 0 0;">
+                        Navy header stripe, alternating parchment row tinting, champagne borders,
+                        and improved column header styling for enterprise data review.
+                    </p>
+                </div>
+                <div class="feature-item">
+                    <strong>Full Odoo v19 Compatibility</strong>
+                    <p style="color: var(--sgc-slate); font-size: 13px; margin: 4px 0 0;">
+                        No deprecated APIs. Compatible with OWL components, Bootstrap 5, and modern
+                        SCSS compilation. Clean asset pipeline with proper prepend ordering.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================================== -->
+<!-- FAQ                                                                  -->
+<!-- ================================================================== -->
+<section class="section-pad" style="background: #FFFFFF;">
+    <div class="container" style="max-width: 800px;">
+        <h2 class="text-center" style="font-size: 28px;">Frequent Questions</h2>
+        <div class="gold-divider"></div>
+
+        <div class="accordion sgc-accordion mt-4">
+            <div class="accordion-item">
+                <h3 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq1">Which Odoo versions are supported?</button></h3>
+                <div id="faq1" class="accordion-collapse collapse" data-bs-parent=".sgc-accordion">
+                    <div class="accordion-body">
+                        This theme is designed and tested exclusively for Odoo v19. It leverages the latest
+                        SCSS variable system, OWL component architecture, and Bootstrap 5 framework that
+                        ship with Odoo v19. Compatibility with earlier versions (v16, v17, v18) is not
+                        guaranteed and would require independent testing and potential modifications.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq2">Can I customize the colors without editing SCSS?</button></h3>
+                <div id="faq2" class="accordion-collapse collapse" data-bs-parent=".sgc-accordion">
+                    <div class="accordion-body">
+                        All colors are centralized in <code>primary_variables_custom.scss</code> as SCSS variables
+                        prefixed with <code>$sgc-</code>. To change any brand color, modify the corresponding
+                        variable and restart Odoo to recompile the assets. No component-level edits are needed.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq3">Does this theme work with the Odoo Enterprise edition?</button></h3>
+                <div id="faq3" class="accordion-collapse collapse" data-bs-parent=".sgc-accordion">
+                    <div class="accordion-body">
+                        Yes. The theme is compatible with both Odoo Community and Enterprise editions.
+                        It only modifies backend web assets and does not interfere with Enterprise-only
+                        features such as studio, web client enhancements, or field service modules.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq4">Will this theme conflict with other installed modules?</button></h3>
+                <div id="faq4" class="accordion-collapse collapse" data-bs-parent=".sgc-accordion">
+                    <div class="accordion-body">
+                        The theme uses <code>('prepend', ...)</code> for the primary variables file to ensure
+                        its variables take priority. This follows Odoo best practices for theme modules.
+                        However, if another theme module is installed simultaneously, variable conflicts
+                        may occur. Only one theme module should be active at a time.
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h3 class="accordion-header"><button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq5">How do I uninstall the theme and revert to default?</button></h3>
+                <div id="faq5" class="accordion-collapse collapse" data-bs-parent=".sgc-accordion">
+                    <div class="accordion-body">
+                        Navigate to Apps, search for "SGC TECH AI Enterprise Theme", and click Uninstall.
+                        After uninstallation, clear your browser cache and restart Odoo. The default Odoo
+                        visual styling will be fully restored as the theme's SCSS assets are removed
+                        from the compilation pipeline.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================================== -->
+<!-- RELEASE NOTES                                                        -->
+<!-- ================================================================== -->
+<section class="section-pad">
+    <div class="container" style="max-width: 800px;">
+        <h2 class="text-center" style="font-size: 28px;">Latest Release</h2>
+        <div class="gold-divider"></div>
+
+        <div class="release-card mt-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <h3 style="font-size: 18px; margin: 0;">Version 19.0.1.0.0</h3>
+                <span class="release-badge">Initial Release</span>
+            </div>
+            <p style="font-size: 12px; color: var(--sgc-slate); margin-bottom: 16px;">July 2025</p>
+            <ul style="color: var(--sgc-slate); font-size: 13px; padding-left: 18px; margin: 0;">
+                <li>Complete SGC TECH AI Brand Guidelines v3.0 implementation</li>
+                <li>11-color brand palette with centralized SCSS variables</li>
+                <li>IBM Plex typography system (serif + sans)</li>
+                <li>Architectural navbar with champagne borders and gold hover states</li>
+                <li>Enhanced list views with navy headers and alternating rows</li>
+                <li>Semantic color system: emerald, amber, wine, navy</li>
+                <li>Gold accent interaction model for required fields and links</li>
+                <li>Full Odoo v19 compatibility validated</li>
+                <li>Zero hardcoded colors — all values inherit from variables</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ================================================================== -->
+<!-- FOOTER                                                               -->
+<!-- ================================================================== -->
+<footer class="sgc-footer">
+    <p class="brand">SGC TECH AI</p>
+    <p>Enterprise Theme for Odoo v19 &middot; Version 19.0.1.0.0</p>
+    <p>DIFC, Dubai, UAE &middot; info@sgctech.ai &middot; sgctech.ai</p>
+    <div class="coords">25.2048 N &nbsp;&middot;&nbsp; 55.2708 E</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

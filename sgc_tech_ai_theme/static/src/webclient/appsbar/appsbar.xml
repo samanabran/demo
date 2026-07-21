@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+
+    <t t-name="sgc_tech_ai_theme.AppsBar">
+        <div
+            class="sgc_appsbar_panel"
+            role="navigation"
+            aria-label="Main navigation"
+            t-ref="menuRef"
+        >
+            <!-- Screen-reader live region for sidebar state changes -->
+            <div
+                id="sgc_appsbar_live_region"
+                class="visually-hidden"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+            />
+
+            <div class="sgc_appsbar">
+                <!-- Brand Header -->
+                <div class="sgc_appsbar_brand">
+                    <img
+                        t-if="sidebarImageUrl"
+                        class="sgc_appsbar_logo"
+                        t-att-src="sidebarImageUrl"
+                        alt="SGC Tech AI logo"
+                    />
+                    <img
+                        t-else=""
+                        class="sgc_appsbar_logo"
+                        src="/sgc_tech_ai_theme/static/description/icon.png"
+                        alt="SGC Tech AI logo"
+                    />
+                    <span class="sgc_appsbar_brand_text" aria-hidden="true">SGC TECH AI</span>
+                </div>
+
+                <!-- SGC Enterprise Application Launcher Trigger -->
+                <!--
+                    Fires an `SGC:OPEN_LAUNCHER` event on env.bus that the
+                    Launcher root component (mounted once on the webclient)
+                    listens for. AppsBar itself does not own the Launcher;
+                    it only signals the open request so multiple triggers
+                    (keyboard shortcut, navbar button, this icon) can all
+                    funnel through one entry point.
+                -->
+                <button
+                    type="button"
+                    class="sgc_appsbar_launcher_toggle"
+                    aria-label="Open application launcher"
+                    aria-haspopup="dialog"
+                    aria-controls="sgc_launcher_root"
+                    t-att-aria-expanded="launcherState.open ? 'true' : 'false'"
+                    t-on-click="_openLauncher"
+                    t-on-keydown="_onLauncherTriggerKeyDown"
+                >
+                    <span class="sgc_appsbar_launcher_icon" aria-hidden="true">&#9783;</span>
+                </button>
+
+                <!-- Sidebar Toggle Button -->
+                <button
+                    type="button"
+                    class="sgc_appsbar_toggle"
+                    t-att-aria-expanded="state.expanded ? 'true' : 'false'"
+                    aria-label="Toggle sidebar"
+                    aria-controls="sgc_appsbar_menu"
+                    t-on-click="_toggleSidebar"
+                    t-on-keydown="_onToggleKeyDown"
+                >
+                    <span class="sgc_appsbar_toggle_icon" aria-hidden="true">&#9776;</span>
+                </button>
+
+                <!-- Theme Toggle Button -->
+                <button
+                    type="button"
+                    class="sgc_appsbar_theme_toggle"
+                    t-att-aria-label="isDarkMode ? 'Switch to light theme' : 'Switch to dark theme'"
+                    t-att-title="isDarkMode ? 'Switch to light theme' : 'Switch to dark theme'"
+                    t-on-click="_toggleTheme"
+                >
+                    <span class="sgc_appsbar_theme_icon" aria-hidden="true" t-attf-class="sgc_appsbar_theme_icon {{ isDarkMode ? 'sgc_theme_dark_icon' : '' }}">
+                        <t t-if="isDarkMode">&#9790;</t>
+                        <t t-else="">&#9788;</t>
+                    </span>
+                </button>
+
+                <!-- App Navigation -->
+                <ul
+                    id="sgc_appsbar_menu"
+                    class="sgc_appsbar_menu"
+                    role="menubar"
+                    aria-label="Applications"
+                >
+                    <t t-foreach="apps" t-as="app" t-key="app.id">
+                        <li
+                            role="none"
+                            t-attf-class="nav-item {{ isActiveApp(app) ? 'active' : '' }}"
+                        >
+                            <a
+                                t-att-href="getMenuItemHref(app)"
+                                t-att-data-menu-id="app.id"
+                                t-att-data-menu-xmlid="app.xmlid"
+                                t-att-data-action-id="app.actionID"
+                                t-att-aria-current="isActiveApp(app) ? 'page' : undefined"
+                                t-att-aria-label="'Open ' + app.name"
+                                t-att-tabindex="getMenuItemTabIndex(app)"
+                                t-on-click.prevent="() => this._onAppClick(app)"
+                                t-on-keydown="(ev) => this._onKeyDown(ev, app)"
+                                class="nav-link"
+                                role="menuitem"
+                                t-att-title="app.name"
+                            >
+                                <img
+                                    t-if="app.webIconData"
+                                    class="sgc_appsbar_icon"
+                                    t-att-src="app.webIconData"
+                                    alt=""
+                                    aria-hidden="true"
+                                />
+                                <img
+                                    t-else=""
+                                    class="sgc_appsbar_icon"
+                                    src="/base/static/description/icon.png"
+                                    alt=""
+                                    aria-hidden="true"
+                                />
+                                <span class="sgc_appsbar_name">
+                                    <t t-out="app.name"/>
+                                </span>
+                            </a>
+                        </li>
+                    </t>
+                </ul>
+            </div>
+        </div>
+    </t>
+
+</templates>

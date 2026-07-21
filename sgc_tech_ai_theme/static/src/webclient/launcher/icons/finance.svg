@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Finance">
+  <defs>
+    <linearGradient id="sgcBgfinance" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#091528"/>
+      <stop offset="100%" stop-color="#091528"/>
+    </linearGradient>
+    <radialGradient id="sgcSheenfinance" cx="30%" cy="20%" r="80%">
+      <stop offset="0%" stop-color="#B79554" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#B79554" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#sgcBgfinance)"/>
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="url(#sgcSheenfinance)"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="15.5" fill="none" stroke="#B79554" stroke-opacity="0.18" stroke-width="1"/>
+  <circle cx="26" cy="32" r="12" fill="none" stroke="#B79554" stroke-width="3"/>
+  <path d="M23 27v10M29 27v10" stroke="#B79554" stroke-width="2" stroke-linecap="round"/>
+  <path d="M36 22l8 4v14l-8 4" fill="none" stroke="#D9C08A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+</svg>

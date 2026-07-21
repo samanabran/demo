@@ -1,0 +1,68 @@
+// ============================================================================
+// SGC TECH AI — Launcher Grid
+// Breakpoints per artifacts/launcher-plan.md US-005: >=1280px -> 6-8 cols,
+// 768-1279px -> 4-5 cols, <768px -> 3 cols (hard override, icon-size
+// independent). Desktop/tablet column counts are CSS auto-fill derived
+// from the user's launcher_icon_size preference rather than hardcoded,
+// so they naturally land in range at the Launcher panel's actual width
+// (panel max-width: 1200px, see launcher.scss).
+// ============================================================================
+
+.sgc_launcher_grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(var(--sgc-launcher-icon-col, 160px), 1fr));
+
+    &[data-icon-size="small"] {
+        --sgc-launcher-icon-col: 128px;
+    }
+
+    &[data-icon-size="medium"] {
+        --sgc-launcher-icon-col: 160px;
+    }
+
+    &[data-icon-size="large"] {
+        --sgc-launcher-icon-col: 192px;
+    }
+
+    // Mobile: hard override to exactly 3 columns regardless of icon size.
+    @media (max-width: 767px) {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+}
+
+.sgc_launcher_dnd_wrap {
+    border-radius: 10px;
+    transition: outline-color 120ms ease;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+
+    &.sgc_launcher_dnd_over {
+        outline-color: var(--sgc-sidebar-active-border);
+    }
+}
+
+.sgc_launcher_favorites_header {
+    color: var(--sgc-sidebar-text);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0 0 12px;
+}
+
+.sgc_launcher_section + .sgc_launcher_section {
+    margin-top: 28px;
+}
+
+// ---- Grid density (US-011) ----
+.sgc_launcher_body[data-density="compact"] .sgc_launcher_grid {
+    gap: 8px;
+}
+.sgc_launcher_body[data-density="comfortable"] .sgc_launcher_grid,
+.sgc_launcher_body:not([data-density]) .sgc_launcher_grid {
+    gap: 16px;
+}
+.sgc_launcher_body[data-density="spacious"] .sgc_launcher_grid {
+    gap: 28px;
+}

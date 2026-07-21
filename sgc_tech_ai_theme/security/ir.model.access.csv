@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sgc_tech_ai_theme.access_sgc_launcher_favorite,sgc_tech_ai_theme.access_sgc_launcher_favorite,model_sgc_launcher_favorite,base.group_user,1,1,1,1
+sgc_tech_ai_theme.access_sgc_launcher_usage,sgc_tech_ai_theme.access_sgc_launcher_usage,model_sgc_launcher_usage,base.group_user,1,1,1,1

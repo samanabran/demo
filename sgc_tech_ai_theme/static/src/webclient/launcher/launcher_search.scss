@@ -1,0 +1,113 @@
+// ============================================================================
+// SGC TECH AI — Launcher Search
+// Reuses shipped tokens only.
+// ============================================================================
+
+.sgc_launcher_search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    margin: 0 24px 16px;
+    background: rgba(183, 149, 84, 0.06);
+    border: 1px solid var(--sgc-sidebar-border);
+    border-radius: 8px;
+    flex-shrink: 0;
+
+    &:focus-within {
+        border-color: var(--sgc-sidebar-active-border);
+    }
+}
+
+.sgc_launcher_search_input:focus-visible {
+    outline: 2px solid var(--sgc-focus-ring-color);
+    outline-offset: 1px;
+}
+
+.sgc_launcher_search_icon {
+    font-size: 14px;
+    opacity: 0.7;
+    flex-shrink: 0;
+}
+
+.sgc_launcher_search_input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--sgc-sidebar-text-hover);
+    font-size: 14px;
+
+    &::placeholder {
+        color: var(--sgc-sidebar-text);
+    }
+}
+
+.sgc_launcher_results {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sgc_launcher_results_header {
+    color: var(--sgc-sidebar-text);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin: 0 0 8px;
+}
+
+.sgc_launcher_result_item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: var(--sgc-sidebar-text-hover);
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: 13px;
+
+    &:hover {
+        background: var(--sgc-sidebar-hover-bg);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--sgc-focus-ring-color);
+        outline-offset: -2px;
+    }
+
+    // Active descendant — combobox pattern keeps focus on the input, so
+    // the visual highlight follows aria-activedescendant via data-active.
+    &[data-active="true"] {
+        background: var(--sgc-sidebar-hover-bg);
+        outline: 1px solid var(--sgc-sidebar-active-border);
+        outline-offset: -1px;
+    }
+
+    &[aria-selected="true"] {
+        color: var(--sgc-sidebar-text-hover);
+        font-weight: 600;
+    }
+}
+
+.sgc_launcher_no_results {
+    color: var(--sgc-sidebar-text);
+    text-align: center;
+    padding: 32px 0;
+}
+
+.sgc_launcher_search_live {
+    // Visually hidden but kept in the accessibility tree so screen
+    // readers announce result-count updates as the user types.
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    border: 0;
+}
