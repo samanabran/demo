@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Purge leftover XML-data records from the retired commission_ax
+             fork (deleted from disk in 19.0.3.0, superseded by depending on
+             sgc_commission directly). Odoo's own orphaned-xmlid sweep only
+             runs at the very end of a module upgrade, which is too late —
+             it crashed mid-upgrade validating the combined sale.order form
+             against the still-present view_sale_order_commission_form
+             (adding a commission_ids field that no longer exists once
+             commission.main's Python model was removed). Deleting these
+             explicitly, first, mirrors the pattern
+             sgc_commission/data/cleanup_views.xml already uses for its own
+             legacy view cleanup. This is a no-op on any database that never
+             had the commission_ax fork installed. -->
+        <delete model="ir.ui.view" search="[('name', 'in', [
+            'commission.main.tree', 'commission.main.form', 'commission.main.search',
+            'purchase.order.commission.form', 'res.partner.commission.form',
+            'sale.order.commission.form'])]"/>
+        <delete model="ir.actions.act_window" search="[('res_model', '=', 'commission.main')]"/>
+        <delete model="ir.actions.server" search="[('model_id.model', '=', 'commission.main')]"/>
+        <delete model="ir.cron" search="[('ir_actions_server_id.model_id.model', '=', 'commission.main')]"/>
+        <delete model="ir.model.access" search="[('name', 'in', [
+            'commission.main.user', 'commission.main.manager'])]"/>
+        <!-- The old singular "Commissions" root menu (menu_commission_root)
+             from commission_ax, distinct from deals_menu.xml's surviving
+             menu_commissions_root (plural) which points at
+             sgc_commission.action_commission_line. Both were named
+             "Commissions" — a second source of the duplication the user
+             reported, at the app-switcher level. -->
+        <delete model="ir.ui.menu" search="[('id', '=', 522)]"/>
+    </data>
+</odoo>

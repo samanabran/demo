@@ -41,6 +41,9 @@ Key Features:
         'sgc_commission',
     ],
     'data': [
+        # Must load first: purges leftover XML-data records from the
+        # retired commission_ax fork before anything else loads/validates.
+        'data/cleanup_views.xml',
         'security/ir.model.access.csv',
 
         # ============================================
