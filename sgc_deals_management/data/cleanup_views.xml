@@ -18,8 +18,10 @@
             'purchase.order.commission.form', 'res.partner.commission.form',
             'sale.order.commission.form'])]"/>
         <delete model="ir.actions.act_window" search="[('res_model', '=', 'commission.main')]"/>
-        <delete model="ir.actions.server" search="[('model_id.model', '=', 'commission.main')]"/>
+        <!-- ir.cron must go before its backing ir.actions.server row, or the
+             server-action delete hits ir_cron_ir_actions_server_id_fkey. -->
         <delete model="ir.cron" search="[('ir_actions_server_id.model_id.model', '=', 'commission.main')]"/>
+        <delete model="ir.actions.server" search="[('model_id.model', '=', 'commission.main')]"/>
         <delete model="ir.model.access" search="[('name', 'in', [
             'commission.main.user', 'commission.main.manager'])]"/>
         <!-- The old singular "Commissions" root menu (menu_commission_root)
