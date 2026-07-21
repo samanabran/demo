@@ -73,7 +73,7 @@ jobs:
           scp -i /tmp/deploy_key -o StrictHostKeyChecking=no \
             .github/scripts/upgrade_all.py root@$SERVER_HOST:/tmp/upgrade_all.py
 
-      - name: Run module upgrade via XML-RPC
+      - name: Restart Odoo and run module upgrade via XML-RPC
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SERVER_HOST: 80.241.218.108
@@ -83,6 +83,30 @@ jobs:
 
           ssh -i /tmp/deploy_key -o StrictHostKeyChecking=no root@$SERVER_HOST << 'SSH_EOF'
             set -e
+
+            # Odoo's long-running server process caches each module's manifest
+            # in memory, so ir.module.module.update_list() can miss an on-disk
+            # version bump even right after the git reset above — it silently
+            # reports "nothing to upgrade" and the old code/views stay live
+            # while this job reports success. Restarting first guarantees the
+            # upgrade always sees fresh manifests; it's also required anyway
+            # for JS/asset changes, which are cached per-process the same way.
+            echo "--- restarting demo_presentation to refresh manifest cache ---"
+            docker restart demo_presentation
+
+            echo "--- waiting for Odoo to come back up ---"
+            for i in $(seq 1 30); do
+              code=$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:18030/web/login || true)
+              if [ "$code" = "200" ]; then
+                echo "Odoo is up (attempt $i)"
+                break
+              fi
+              if [ "$i" = "30" ]; then
+                echo "Odoo did not come back up after restart"
+                exit 1
+              fi
+              sleep 2
+            done
 
             # Copy the freshly-scp'd script into the container (fails loudly
             # if missing, instead of silently no-op-ing on a stale/absent file).
