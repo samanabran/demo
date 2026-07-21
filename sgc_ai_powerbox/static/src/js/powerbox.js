@@ -42,6 +42,7 @@ export class SgcAIPromptDialog extends Component {
                     rows="6"
                     t-att-placeholder="props.placeholder"
                     t-model="state.prompt"
+                    t-on-keydown="onPromptKeydown"
                 />
                 <div t-if="state.error" class="alert alert-danger mt-3 mb-0" role="alert">
                     <t t-esc="state.error"/>
@@ -78,6 +79,14 @@ export class SgcAIPromptDialog extends Component {
             busy: false,
             error: "",
         });
+    }
+
+    onPromptKeydown(ev) {
+        // Enter (without Shift) submits the prompt; Shift+Enter inserts a newline.
+        if (ev.key === "Enter" && !ev.shiftKey) {
+            ev.preventDefault();
+            this.confirm();
+        }
     }
 
     cancel() {
