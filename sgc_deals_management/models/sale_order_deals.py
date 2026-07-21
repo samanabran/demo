@@ -14,9 +14,6 @@ class SaleOrderDeal(models.Model):
     deal_project_id = fields.Many2one('realestate.project', string='Deal Project',
                                        help="Real estate project (separate from Odoo project_manager projects).")
     unit_id = fields.Many2one('realestate.unit', string='Unit')
-    commission_amount = fields.Monetary(string='Commission Amount', currency_field='currency_id')
-    commission_paid = fields.Boolean(string='Commission Paid', default=False)
-    broker_id = fields.Many2one('res.partner', string='Broker')
     deal_date = fields.Date(string='Deal Date', default=fields.Date.today)
     booking_date = fields.Date(string='Booking Date', help='Date when the unit was booked/reserved')
     payment_terms_summary = fields.Text(string='Payment Terms Summary')
@@ -30,7 +27,6 @@ class SaleOrderDeal(models.Model):
     secondary_buyer_id = fields.Many2one('res.partner', string='Secondary Buyer',
                                          domain="[('is_company', '=', False)]")
     deal_sales_value = fields.Monetary(string='Unit Sale Value', currency_field='currency_id')
-    deal_commission_rate = fields.Float(string='Commission Rate (%)')
     sales_type = fields.Selection([
         ('primary', 'Primary'),
         ('secondary', 'Secondary'),

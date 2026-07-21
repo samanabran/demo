@@ -64,13 +64,6 @@ class AccountMove(models.Model):
         currency_field='currency_id'
     )
     
-    deal_commission_rate = fields.Float(
-        string='Commission Rate (%)',
-        related='sale_order_deal_id.deal_commission_rate',
-        readonly=True,
-        store=True
-    )
-    
     sales_type = fields.Selection(
         [
             ('primary', 'Primary'),

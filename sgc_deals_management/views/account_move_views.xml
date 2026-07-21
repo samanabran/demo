@@ -21,7 +21,6 @@
                             <field name="project_id" readonly="1" />
                             <field name="unit_id" readonly="1" />
                             <field name="deal_sales_value" readonly="1" />
-                            <field name="deal_commission_rate" readonly="1" />
                         </group>
                     </group>
                 </page>

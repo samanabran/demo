@@ -15,11 +15,7 @@
                 <field name="deal_project_id" string="Project"/>
                 <field name="unit_id" string="Unit"/>
                 <field name="primary_buyer_id" string="Buyer"/>
-                <field name="broker_id" string="Broker"/>
                 <field name="deal_sales_value" string="Unit Value" widget="monetary"/>
-                <field name="deal_commission_rate" string="Comm %"/>
-                <field name="commission_amount" string="Commission" widget="monetary"/>
-                <field name="commission_paid" string="Paid" widget="boolean_toggle"/>
                 <field name="deal_date" string="Deal Date"/>
                 <field name="currency_id" invisible="1"/>
                 <field name="state" widget="badge"
@@ -46,23 +42,17 @@
                             <field name="deal_type"/>
                             <field name="sales_type"/>
                         </group>
-                        <group string="Commission">
-                            <field name="deal_commission_rate"/>
-                            <field name="commission_amount" widget="monetary"/>
-                            <field name="commission_paid"/>
-                        </group>
-                    </group>
-                    <group>
                         <group string="Property">
                             <field name="deal_project_id" string="Project"/>
                             <field name="unit_id" string="Unit"
                                    domain="[('project_id', '=', deal_project_id)]"/>
                             <field name="deal_sales_value" widget="monetary"/>
                         </group>
+                    </group>
+                    <group>
                         <group string="Parties">
                             <field name="primary_buyer_id"/>
                             <field name="secondary_buyer_id"/>
-                            <field name="broker_id"/>
                         </group>
                     </group>
                     <group string="Dates">
@@ -89,19 +79,14 @@
                 <field name="primary_buyer_id" string="Buyer"/>
                 <field name="deal_project_id" string="Project"/>
                 <field name="unit_id" string="Unit"/>
-                <field name="broker_id" string="Broker"/>
                 <filter string="Confirmed" name="confirmed" domain="[('state', '=', 'sale')]"/>
                 <filter string="Off-Plan" name="offplan" domain="[('deal_type', '=', 'offplan')]"/>
                 <filter string="Resale" name="resale" domain="[('deal_type', '=', 'resale')]"/>
                 <filter string="Rental" name="rental" domain="[('deal_type', '=', 'rental')]"/>
-                <separator/>
-                <filter string="Commission Unpaid" name="unpaid"
-                        domain="[('commission_paid', '=', False), ('state', '=', 'sale')]"/>
                 <group>
                     <filter string="Deal Type" name="group_deal_type" context="{'group_by': 'deal_type'}"/>
                     <filter string="Project" name="group_project" context="{'group_by': 'deal_project_id'}"/>
                     <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
-                    <filter string="Broker" name="group_broker" context="{'group_by': 'broker_id'}"/>
                 </group>
             </search>
         </field>
