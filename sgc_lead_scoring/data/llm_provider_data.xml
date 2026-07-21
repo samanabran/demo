@@ -88,15 +88,22 @@
         </record>
 
         <!-- FreeLLMAPI (self-hosted on this VPS) — large-context model for
-             long lead-research prompts. Seeded inactive: replace api_key
-             with the real FREELLM_API_KEY value via the UI, then flip
-             active=True and is_default=True. noupdate="1" on this <data>
-             block means a module upgrade won't overwrite whatever you set. -->
+             long lead-research prompts. Model verified live against
+             freellmapi-prod on 2026-07-21: gemini-2.5-flash returned HTTP 429
+             ("empty completion", effectively broken); nemotron-3-super-120b
+             (1,000,000 token context) returned correct, well-formed output
+             on a realistic rewrite prompt, so that's what's seeded here.
+             Seeded inactive: replace api_key with the real FREELLM_API_KEY
+             value via the UI, then flip active=True and is_default=True.
+             noupdate="1" on this <data> block means a module upgrade won't
+             overwrite whatever you set — if this record already exists from
+             an earlier install, edit its Model Name field to
+             nemotron-3-super-120b by hand too. -->
         <record id="llm_provider_freellmapi" model="llm.provider">
-            <field name="name">FreeLLMAPI - Gemini 2.5 Flash (self-hosted)</field>
+            <field name="name">FreeLLMAPI - Nemotron 3 Super 120B (self-hosted)</field>
             <field name="sequence">5</field>
             <field name="provider_type">custom</field>
-            <field name="model_name">gemini-2.5-flash</field>
+            <field name="model_name">nemotron-3-super-120b</field>
             <field name="api_endpoint">http://freellmapi-prod:3001/v1</field>
             <field name="api_key">REPLACE-WITH-FREELLM-API-KEY</field>
             <field name="temperature">0.7</field>

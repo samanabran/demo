@@ -27,7 +27,7 @@ class SgcAIController(http.Controller):
             'sgc_ai.api_endpoint', 'http://freellmapi-prod:3001/v1/chat/completions'
         )
         api_key = ICPSudo.get_param('sgc_ai.api_key', '')
-        model = ICPSudo.get_param('sgc_ai.model', 'gemini-2.5-flash')
+        model = ICPSudo.get_param('sgc_ai.model', 'nemotron-3-super-120b')
 
         if not api_endpoint or not api_key:
             return {
