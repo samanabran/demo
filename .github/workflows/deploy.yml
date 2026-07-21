@@ -28,6 +28,7 @@ on:
       - 'sgc_assessment/**'
       - 'kyc_management/**'
       - 'sgc_ui_brand_palette/**'
+      - 'sgc_ai_powerbox/**'
   workflow_dispatch:
 
 jobs:
