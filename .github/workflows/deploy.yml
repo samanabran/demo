@@ -26,6 +26,7 @@ on:
       - 'sgc_lead_scoring/**'
       - 'sgc_video_conferencing/**'
       - 'sgc_assessment/**'
+      - 'kyc_management/**'
   workflow_dispatch:
 
 jobs:
