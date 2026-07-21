@@ -23,62 +23,17 @@
 
 import { Plugin } from "@html_editor/plugin";
 import { HtmlField } from "@html_editor/fields/html_field";
+import { Dialog } from "@web/core/dialog/dialog";
 import { withSequence } from "@html_editor/utils/resource";
+import { Component, useState, xml } from "@odoo/owl";
 import { _t } from "@web/core/l10n/translation";
 import { rpc } from "@web/core/network/rpc";
 import { patch } from "@web/core/utils/patch";
 
 const RPC_URL = "/sgc_ai_powerbox/get_response";
 
-// Inline template is intentionally simple: we forward `prompt` and `busy` via
-// component state and call `props.onConfirm(prompt)`. The parent (the plugin)
-// owns the actual RPC + insert logic and returns `{ error }` to surface
-// failures, otherwise closes the dialog.
-const SgcAIPromptDialog = {
-    name: "SgcAIPromptDialog",
-    props: {
-        initialPrompt: { type: String, optional: true },
-        title: { type: String, optional: true },
-        helpText: { type: String, optional: true },
-        placeholder: { type: String, optional: true },
-        onConfirm: { type: Function },
-        close: { type: Function },
-    },
-    data() {
-        return {
-            prompt: this.props.initialPrompt || "",
-            busy: false,
-            error: "",
-        };
-    },
-    methods: {
-        async confirm() {
-            const value = (this.prompt || "").trim();
-            if (!value) return;
-            this.busy = true;
-            this.error = "";
-            try {
-                const result = await this.props.onConfirm(value);
-                if (result && result.error) {
-                    this.error = result.error;
-                    this.busy = false;
-                    return;
-                }
-                this.props.close();
-            } catch (e) {
-                this.error =
-                    e?.data?.message ||
-                    e?.message ||
-                    "SGC AI request failed. Check the server logs.";
-                this.busy = false;
-            }
-        },
-        cancel() {
-            if (this.busy) return;
-            this.props.close();
-        },
-    },
-    template: /* xml */ `
+export class SgcAIPromptDialog extends Component {
+    static template = xml`
         <Dialog title="props.title" size="'md'" footer="true">
             <div class="o_sgc_ai_powerbox_dialog p-3">
                 <p t-if="props.helpText" class="text-muted small mb-2" t-esc="props.helpText"/>
@@ -86,26 +41,72 @@ const SgcAIPromptDialog = {
                     class="form-control"
                     rows="6"
                     t-att-placeholder="props.placeholder"
-                    t-model="prompt"
+                    t-model="state.prompt"
                 />
-                <div t-if="error" class="alert alert-danger mt-3 mb-0" role="alert">
-                    <t t-esc="error"/>
+                <div t-if="state.error" class="alert alert-danger mt-3 mb-0" role="alert">
+                    <t t-esc="state.error"/>
                 </div>
             </div>
             <t t-set-slot="footer">
-                <button class="btn btn-secondary" t-on-click="cancel" t-att-disabled="busy">
+                <button class="btn btn-secondary"
+                        t-on-click="cancel"
+                        t-att-disabled="state.busy">
                     Cancel
                 </button>
                 <button class="btn btn-primary"
                         t-on-click="confirm"
-                        t-att-disabled="busy || !prompt.trim()">
-                    <span t-if="busy">Thinking…</span>
+                        t-att-disabled="state.busy or !state.prompt.trim()">
+                    <span t-if="state.busy">Thinking…</span>
                     <span t-else="">Ask SGC AI</span>
                 </button>
             </t>
         </Dialog>
-    `,
-};
+    `;
+    static components = { Dialog };
+    static props = {
+        initialPrompt: { type: String, optional: true },
+        title: { type: String, optional: true },
+        helpText: { type: String, optional: true },
+        placeholder: { type: String, optional: true },
+        onConfirm: { type: Function },
+        close: { type: Function },
+    };
+
+    setup() {
+        this.state = useState({
+            prompt: this.props.initialPrompt || "",
+            busy: false,
+            error: "",
+        });
+    }
+
+    cancel() {
+        if (this.state.busy) return;
+        this.props.close();
+    }
+
+    async confirm() {
+        const value = (this.state.prompt || "").trim();
+        if (!value) return;
+        this.state.busy = true;
+        this.state.error = "";
+        try {
+            const result = await this.props.onConfirm(value);
+            if (result && result.error) {
+                this.state.error = result.error;
+                this.state.busy = false;
+                return;
+            }
+            this.props.close();
+        } catch (e) {
+            this.state.error =
+                e?.data?.message ||
+                e?.message ||
+                _t("SGC AI request failed. Check the server logs.");
+            this.state.busy = false;
+        }
+    }
+}
 
 export class SgcAIPowerboxPlugin extends Plugin {
     static id = "sgc_ai";
