@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "SGC - Lead Scoring",
-    "version": "19.0.1.1",
+    "version": "19.0.1.2",
     "category": "CRM",
     "summary": "AI-Powered Lead Scoring with Multi-LLM Support",
     "description": """

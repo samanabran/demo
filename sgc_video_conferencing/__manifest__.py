@@ -12,7 +12,7 @@
 
 {
     "name": "SGC - Unified Video Conferencing",
-    "version": "19.0.1.1",
+    "version": "19.0.1.2",
     "category": "Productivity/Video Conferencing",
     "summary": "Unified video conferencing integration — Google Meet, Teams, Zoom, Webex, Jitsi, Zoho, GoTo",
     "description": """

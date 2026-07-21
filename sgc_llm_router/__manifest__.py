@@ -11,7 +11,7 @@
         ordering) so MuK IT's vendor module is never modified directly --
         their updates can't overwrite this.
     """,
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'category': 'Tools/API',
     'license': 'LGPL-3',
     'depends': ['base', 'muk_mcp'],

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "SGC - E-Learning",
-    "version": "19.0.1.1",
+    "version": "19.0.1.2",
     "category": "Education",
     "summary": "Sequential learning paths for real estate operations with quizzes, badges, and certificates",
     "description": "Guided learning for rental, sales, commissions, accounting, and HR with quizzes and certification.",

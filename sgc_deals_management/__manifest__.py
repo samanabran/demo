@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'SGC - Deals Management',
-    "version": "19.0.2.2",
+    "version": "19.0.2.3",
     'category': 'Sales',
     'summary': 'Real estate deals + commission + project/unit management',
     'description': """

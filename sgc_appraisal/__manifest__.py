@@ -12,7 +12,7 @@
 
 {
     "name": "SGC - Employee Appraisal",
-    "version": "19.0.1.1",
+    "version": "19.0.1.2",
     "category": "Human Resources",
     "summary": """Roll out appraisal plans and get the best of your 
     workforce""",
