@@ -196,6 +196,53 @@ class TestLLMService(TransactionCase):
         self.assertEqual(sent_json['response_format']['json_schema'], schema)
 
     @patch('requests.post')
+    def test_call_llm_response_schema_mistral(self, mock_post):
+        """Mistral provider gets response_format with json_schema payload."""
+        self._mock_ok(mock_post)
+        mistral_provider = self._make_provider('mistral')
+        schema = {'type': 'object', 'properties': {'x': {'type': 'string'}}}
+
+        result = self.LLMService.call_llm(
+            [{'role': 'user', 'content': 'q'}],
+            provider=mistral_provider,
+            response_schema=schema,
+        )
+
+        self.assertTrue(result['success'])
+        sent_json = mock_post.call_args.kwargs.get('json') or mock_post.call_args[1].get('json')
+        self.assertIn('response_format', sent_json)
+        self.assertEqual(sent_json['response_format']['type'], 'json_schema')
+        self.assertEqual(sent_json['response_format']['json_schema'], schema)
+
+    @patch('requests.post')
+    def test_call_llm_response_schema_google(self, mock_post):
+        """Google provider gets response_format with json_schema payload
+        (structurally distinct branch: contents/generationConfig, not messages)."""
+        resp = Mock()
+        resp.status_code = 200
+        resp.json.return_value = {
+            'candidates': [{'content': {'parts': [{'text': 'ok'}]}}]
+        }
+        mock_post.return_value = resp
+        google_provider = self._make_provider('google')
+        schema = {'type': 'object', 'properties': {'x': {'type': 'string'}}}
+
+        result = self.LLMService.call_llm(
+            [{'role': 'user', 'content': 'q'}],
+            provider=google_provider,
+            response_schema=schema,
+        )
+
+        self.assertTrue(result['success'])
+        sent_json = mock_post.call_args.kwargs.get('json') or mock_post.call_args[1].get('json')
+        self.assertIsNotNone(sent_json)
+        # Google payload uses 'contents'/'generationConfig', not 'messages'
+        self.assertIn('contents', sent_json)
+        self.assertIn('response_format', sent_json)
+        self.assertEqual(sent_json['response_format']['type'], 'json_schema')
+        self.assertEqual(sent_json['response_format']['json_schema'], schema)
+
+    @patch('requests.post')
     def test_call_llm_response_schema_anthropic(self, mock_post):
         """Anthropic provider gets tool-use payload with JSON-only argument."""
         # Anthropic returns a different response shape (no 'choices')
@@ -223,6 +270,10 @@ class TestLLMService(TransactionCase):
         self.assertEqual(tools[0]['name'], 'json_output')
         # Input schema should match what we passed
         self.assertEqual(tools[0]['input_schema'], schema)
+        # tool_choice must force the model to use the json_output tool,
+        # otherwise Anthropic defaults to tool_choice "auto" and may
+        # respond in free text instead of constrained JSON.
+        self.assertEqual(sent_json['tool_choice'], {'type': 'tool', 'name': 'json_output'})
 
     @patch('requests.post')
     def test_call_llm_response_schema_huggingface_no_op(self, mock_post):

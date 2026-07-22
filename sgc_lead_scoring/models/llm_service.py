@@ -56,6 +56,15 @@ class LlmService(models.Model):
         return provider.provider_type in {'openai', 'groq', 'anthropic', 'mistral', 'google'}
 
     @api.model
+    def _json_schema_response_format(self, response_schema):
+        """Shared `response_format` shape for providers that accept a
+        top-level JSON-schema response format (OpenAI/Groq/Mistral/Google)."""
+        return {
+            'type': 'json_schema',
+            'json_schema': response_schema,
+        }
+
+    @api.model
     def _get_payload(self, provider, messages, response_schema=None):
         if provider.provider_type == 'anthropic':
             payload = {
@@ -64,7 +73,7 @@ class LlmService(models.Model):
                 'max_tokens': provider.max_tokens or 2000,
                 'temperature': provider.temperature or 0.7,
             }
-            if response_schema:
+            if response_schema is not None and self._supports_structured_output(provider):
                 payload['tools'] = [
                     {
                         'name': 'json_output',
@@ -72,6 +81,9 @@ class LlmService(models.Model):
                         'input_schema': response_schema,
                     }
                 ]
+                # Force the model to use the tool instead of defaulting to
+                # tool_choice "auto", which would allow free-text replies.
+                payload['tool_choice'] = {'type': 'tool', 'name': 'json_output'}
             return payload
         if provider.provider_type == 'google':
             payload = {
@@ -81,11 +93,8 @@ class LlmService(models.Model):
                     'temperature': provider.temperature or 0.7,
                 },
             }
-            if response_schema:
-                payload['response_format'] = {
-                    'type': 'json_schema',
-                    'json_schema': response_schema,
-                }
+            if response_schema is not None and self._supports_structured_output(provider):
+                payload['response_format'] = self._json_schema_response_format(response_schema)
             return payload
         if provider.provider_type == 'huggingface':
             return {
@@ -102,11 +111,8 @@ class LlmService(models.Model):
             'max_tokens': provider.max_tokens or 2000,
             'temperature': provider.temperature or 0.7,
         }
-        if response_schema and provider.provider_type in {'openai', 'groq', 'mistral'}:
-            payload['response_format'] = {
-                'type': 'json_schema',
-                'json_schema': response_schema,
-            }
+        if response_schema is not None and self._supports_structured_output(provider):
+            payload['response_format'] = self._json_schema_response_format(response_schema)
         return payload
 
     @api.model
