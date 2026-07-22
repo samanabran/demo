@@ -48,6 +48,20 @@ class ResConfigSettings(models.TransientModel):
         help='Use Google Custom Search API for real-time web research (Free: 100 queries/day)',
     )
 
+    allow_third_party_search = fields.Boolean(
+        string='Allow Third-Party Web Search',
+        config_parameter='llm_lead_scoring.allow_third_party_search',
+        default=False,
+        help='Master kill switch. When off, only the self-hosted SearXNG provider may run.',
+    )
+
+    anonymize_company_names = fields.Boolean(
+        string='Anonymize Company Names in Research Queries',
+        config_parameter='llm_lead_scoring.anonymize_company_names',
+        default=False,
+        help='Hash company name before sending to any third-party provider; results are re-associated locally.',
+    )
+
     google_search_api_key = fields.Char(
         string='Google Custom Search API Key',
         config_parameter='llm_lead_scoring.google_search_api_key',
