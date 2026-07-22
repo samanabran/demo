@@ -11,5 +11,23 @@
             <field name="interval_type">hours</field>
             <field name="active" eval="False"/>
         </record>
+        <record id="ir_cron_purge_web_research_audit" model="ir.cron">
+            <field name="name">Web Research: Purge Audit Log (90 days)</field>
+            <field name="model_id" ref="model_web_research_audit"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_purge_old()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+        <record id="ir_cron_purge_web_research_cache" model="ir.cron">
+            <field name="name">Web Research: Purge Expired Cache (7 days)</field>
+            <field name="model_id" ref="model_web_research_result"/>
+            <field name="state">code</field>
+            <field name="code">model._cron_purge_expired()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
     </data>
 </odoo>
