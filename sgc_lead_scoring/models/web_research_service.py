@@ -2,6 +2,7 @@
 import hashlib
 import logging
 import time
+from concurrent.futures import ThreadPoolExecutor
 
 import requests
 
@@ -61,6 +62,8 @@ class WebResearchService(models.Model):
         self.env['web.research.audit'].log_call(provider, query_hash, None, success, latency_ms, len(results))
 
         if success:
+            for r in results:
+                r['_provider'] = provider.provider_type
             self.env['web.research.result'].store(query_hash, query, results, provider.provider_type)
 
         return {
@@ -71,6 +74,56 @@ class WebResearchService(models.Model):
             'latency_ms': latency_ms,
             'reason': None if success else 'provider_call_failed',
         }
+
+    @api.model
+    def multi_search(self, queries, parallel=True, num_results=_DEFAULT_NUM_RESULTS, min_results=3, providers=None):
+        cache_hits = 0
+        providers_used = set()
+        all_raw_results = []
+
+        if parallel:
+            with ThreadPoolExecutor(max_workers=min(len(queries), 5) or 1) as executor:
+                futures = [executor.submit(self.search, q, num_results, providers) for q in queries]
+                per_query_results = [f.result() for f in futures]
+        else:
+            per_query_results = [self.search(q, num_results, providers) for q in queries]
+
+        for res in per_query_results:
+            if res.get('cache_hit'):
+                cache_hits += 1
+            providers_used.update(res.get('providers_used', []))
+            all_raw_results.extend(res.get('results', []))
+
+        merged = self._dedupe_by_domain(all_raw_results)
+
+        if len(merged) < min_results:
+            _logger.info(
+                'web.research.service.multi_search: only %d results (< min_results=%d)',
+                len(merged), min_results,
+            )
+
+        return {
+            'success': bool(merged) or any(r['success'] for r in per_query_results),
+            'results': merged,
+            'providers_used': sorted(providers_used),
+            'cache_hits': cache_hits,
+            'latency_ms': sum(r.get('latency_ms', 0) for r in per_query_results),
+        }
+
+    def _dedupe_by_domain(self, results):
+        by_domain = {}
+        for r in results:
+            url = r.get('url') or ''
+            domain = url.split('//')[-1].split('/')[0].lower()
+            if not domain:
+                continue
+            if domain not in by_domain:
+                merged = dict(r)
+                merged['sources'] = [r.get('_provider', 'unknown')]
+                by_domain[domain] = merged
+            else:
+                by_domain[domain]['sources'].append(r.get('_provider', 'unknown'))
+        return list(by_domain.values())
 
     @api.model
     def search_google_custom(self, query, num_results=_DEFAULT_NUM_RESULTS):
