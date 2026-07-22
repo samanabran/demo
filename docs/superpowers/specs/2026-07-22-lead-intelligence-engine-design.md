@@ -343,6 +343,19 @@ need arises for "stop calling LLMs on customer data but keep
 searching," that becomes a new toggle, not a hijack of the existing
 one.
 
+**Accepted trade-off (F.1):** When `anonymize_customer_names` is
+enabled, the `relationship_intelligence` and `conversation_intelligence`
+sections (ice breakers, common ground, rapport builders, safe
+conversation topics, personal milestones) will be materially weaker
+for that lead, since the model loses access to the one signal most
+search results are keyed on. The parser handles this gracefully — those
+sections degrade to `Unknown` / empty arrays rather than fabricated
+content — so the scoring engine stays load-bearing (need, budget,
+authority, timeline, urgency, win_probability all derive from other
+signals), but Sales loses the personalized "I saw you recently moved
+to Dubai" hooks. This degradation is **accepted, not a bug** — a
+partial anonymized enrichment beats a leak.
+
 ### G. Native-Field Promotion Mapping
 
 The LLM's JSON must drive these `crm.lead` fields (populated by the
