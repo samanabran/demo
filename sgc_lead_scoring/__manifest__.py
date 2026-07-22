@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     "name": "SGC - Lead Scoring",
-    "version": "19.0.1.5",
+    "version": "19.0.1.6",
     "category": "CRM",
     "summary": "AI-Powered Lead Scoring with Multi-LLM Support",
     "description": """
@@ -44,10 +44,13 @@
         "security/llm_provider_security.xml",
         "security/ir.model.access.csv",
         "data/llm_provider_data.xml",
+        "data/web_research_provider_data.xml",
         "data/ir_cron_data.xml",
         "wizards/lead_enrichment_wizard_views.xml",
         "wizards/google_search_setup_wizard_views.xml",
+        "wizards/setup_web_research_wizard_views.xml",
         "views/llm_provider_views.xml",
+        "views/web_research_provider_views.xml",
         "views/res_config_settings_views.xml",
         "views/crm_lead_views.xml",
     ],

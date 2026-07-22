@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
+import json
+import logging
+from concurrent.futures import ThreadPoolExecutor
+from datetime import date
 
 from odoo import models, fields, api, _
+
+_logger = logging.getLogger(__name__)
 
 
 class CrmLead(models.Model):
@@ -15,6 +21,7 @@ class CrmLead(models.Model):
         ('pending', 'Pending'),
         ('processing', 'Processing'),
         ('completed', 'Completed'),
+        ('partial', 'Partial'),
         ('failed', 'Failed'),
     ], string='AI Enrichment Status', default='pending')
     ai_last_enrichment_date = fields.Datetime(
@@ -87,23 +94,91 @@ class CrmLead(models.Model):
         return True
 
     def _enrich_lead(self):
-        """Enrich a single lead with AI analysis (stub - no API call)."""
+        """Run web research + LLM summarization for a single lead."""
         self.ensure_one()
-        self.ai_enrichment_status = 'completed'
+        if self.ai_enrichment_status == 'processing':
+            return
+        self.ai_enrichment_status = 'processing'
+
+        company_name = self.partner_name or self.name
+        queries = [
+            '%s company profile about' % company_name,
+            '%s news %s' % (company_name, date.today().year),
+        ]
+        if self.website:
+            queries.append('site:%s products services' % self.website)
+
+        anonymize = self.env['ir.config_parameter'].sudo().get_param(
+            'llm_lead_scoring.anonymize_company_names', 'False'
+        ) == 'True'
+        search_kwargs = {'parallel': True}
+        if anonymize:
+            search_kwargs['providers'] = ['searxng']
+        research = self.env['web.research.service'].multi_search(queries, **search_kwargs)
+
+        anon_id = self.env['web.research.service'].anonymize_lead_id(self.id)
+        prompt_template = self.env['ir.config_parameter'].sudo().get_param(
+            'llm_lead_scoring.enrichment_prompt_template',
+            default=(
+                'You are analyzing a sales lead (ref: {anon_id}). Company: {company_name}. '
+                'Web research findings:\n{research_summary}\n\n'
+                'Write a concise 3-5 sentence summary of this company for a sales rep, '
+                'noting any relevant recent news.'
+            ),
+        )
+        research_summary = '\n'.join(
+            '- %s: %s' % (r.get('title', ''), r.get('snippet', '')) for r in research.get('results', [])
+        ) or 'No web research results available.'
+        prompt = prompt_template.format(
+            anon_id=anon_id, company_name=company_name, research_summary=research_summary,
+        )
+
+        llm_resp = self.env['llm.service'].call_llm(messages=[{'role': 'user', 'content': prompt}])
+
+        self.ai_enrichment_data = json.dumps({
+            'results': research.get('results', []),
+            'providers_used': research.get('providers_used', []),
+            'cache_hits': research.get('cache_hits', 0),
+        })
+
+        if llm_resp.get('success'):
+            self.ai_enrichment_report = llm_resp.get('content')
+            self.ai_enrichment_status = 'completed' if research.get('success') else 'partial'
+        else:
+            self.ai_enrichment_report = False
+            self.ai_enrichment_status = 'partial' if research.get('results') else 'failed'
+
         self.ai_last_enrichment_date = fields.Datetime.now()
+
+        if self.ai_enrichment_status != 'failed':
+            note_lines = ['<b>AI Research Summary</b>']
+            if self.ai_enrichment_report:
+                note_lines.append('<p>%s</p>' % self.ai_enrichment_report)
+            if research.get('providers_used'):
+                note_lines.append('<p><i>Sources: %s</i></p>' % ', '.join(research['providers_used']))
+            self.message_post(body=''.join(note_lines), subtype_xmlid='mail.mt_note')
 
     @api.model
     def _cron_enrich_leads(self):
-        """Scheduled cron method to auto-enrich leads.
-        Override with actual LLM integration logic.
-        """
+        """Scheduled cron: auto-enrich up to 50 leads, 5 at a time, each
+        worker on its own cursor so one lead's failure/rollback can't
+        affect another's commit."""
         leads = self.search([
             ('auto_enrich', '=', True),
             ('ai_enrichment_status', '!=', 'processing'),
         ], limit=50)
-        for lead in leads:
-            try:
-                lead._enrich_lead()
-            except Exception:
-                lead.ai_enrichment_status = 'failed'
+
+        def _enrich_one(lead_id):
+            with self.env.registry.cursor() as cr:
+                env = api.Environment(cr, self.env.uid, self.env.context)
+                lead = env['crm.lead'].browse(lead_id)
+                try:
+                    lead._enrich_lead()
+                except Exception:
+                    _logger.exception('crm.lead._cron_enrich_leads: lead %s failed', lead_id)
+                    lead.ai_enrichment_status = 'failed'
+                cr.commit()
+
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            list(executor.map(_enrich_one, leads.ids))
         return True

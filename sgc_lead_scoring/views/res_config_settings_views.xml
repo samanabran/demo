@@ -52,6 +52,21 @@
                             </div>
                         </setting>
                     </block>
+                    <block title="Multi-Provider Web Research">
+                        <setting id="allow_third_party_search_setting" string="Allow Third-Party Web Search"
+                                 help="Master kill switch. Off by default: only self-hosted SearXNG may run until enabled.">
+                            <field name="allow_third_party_search"/>
+                        </setting>
+                        <setting id="anonymize_company_names_setting" string="Anonymize Company Names"
+                                 help="Hash company name before sending to any third-party search provider.">
+                            <field name="anonymize_company_names"/>
+                        </setting>
+                        <setting id="web_research_providers_setting" string="Web Research Providers"
+                                 help="Configure Tavily, Exa, SearXNG, and legacy Google Custom Search.">
+                            <button name="%(sgc_lead_scoring.action_web_research_provider)d" type="action"
+                                    string="Manage Providers" icon="fa-arrow-right" class="btn-link"/>
+                        </setting>
+                    </block>
                     <block title="Enhanced Research (Google Maps &amp; Digital Presence)">
                         <div class="alert alert-warning" role="alert">
                             <strong>📍 Google Maps Integration</strong>
