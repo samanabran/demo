@@ -103,3 +103,44 @@ class TestProviderClients(TransactionCase):
         result = self.service.search_google_custom('epsilon corp', num_results=3)
         self.assertTrue(result['success'])
         self.assertEqual(result['results'][0]['title'], 'Epsilon')
+
+
+class TestProviderErrorHandling(TransactionCase):
+
+    def setUp(self):
+        super().setUp()
+        self.env['web.research.provider'].search([]).unlink()
+        self.env['ir.config_parameter'].sudo().set_param('llm_lead_scoring.allow_third_party_search', 'True')
+        self.service = self.env['web.research.service']
+
+    def _mock_response(self, status_code, json_data, headers=None):
+        resp = MagicMock()
+        resp.status_code = status_code
+        resp.json.return_value = json_data
+        resp.headers = headers or {}
+        return resp
+
+    @patch('requests.post')
+    def test_429_marks_provider_at_quota_for_today(self, mock_post):
+        provider = self.env['web.research.provider'].create({
+            'name': 'Tavily', 'provider_type': 'tavily', 'api_key': 'k',
+            'daily_quota_limit': 1000, 'active': True,
+        })
+        mock_post.return_value = self._mock_response(429, {}, headers={'Retry-After': '30'})
+        self.service.search('acme corp', providers=['tavily'])
+        self.assertGreaterEqual(provider.daily_quota_used, provider.daily_quota_limit)
+        self.assertFalse(provider.is_available())
+
+    @patch('requests.get')
+    def test_401_deactivates_provider_and_notifies_admin(self, mock_get):
+        provider = self.env['web.research.provider'].create({
+            'name': 'Google', 'provider_type': 'google', 'api_key': 'bad',
+            'search_engine_id': 'eid', 'active': True,
+        })
+        mock_get.return_value = self._mock_response(401, {})
+        self.service.search('acme corp', providers=['google'])
+        self.assertFalse(provider.active)
+        activities = self.env['mail.activity'].search([
+            ('res_model', '=', 'web.research.provider'), ('res_id', '=', provider.id),
+        ])
+        self.assertTrue(activities)

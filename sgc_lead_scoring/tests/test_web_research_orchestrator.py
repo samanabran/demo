@@ -150,3 +150,23 @@ class TestWebResearchOrchestratorMultiSearch(TransactionCase):
             mock_post.side_effect = lambda url, **kw: self._exa_response()
             result = self.service.multi_search([query], parallel=True, min_results=1)
         self.assertGreaterEqual(result['cache_hits'], 1)
+
+    def test_multi_search_retries_with_relaxed_query_below_min_results(self):
+        def empty_then_full(url, **kw):
+            payload = kw.get('json', {})
+            query = payload.get('query', '')
+            resp = MagicMock()
+            resp.status_code = 200
+            if len(query.split()) > 3:
+                resp.json.return_value = {'results': []}
+            else:
+                resp.json.return_value = {
+                    'results': [{'title': 'Acme', 'url': 'https://acme.com', 'content': 'x'}]
+                }
+            return resp
+
+        with patch('requests.post', side_effect=empty_then_full):
+            result = self.service.multi_search(
+                ['acme corp exact restrictive phrase match'], parallel=False, min_results=1
+            )
+        self.assertGreaterEqual(len(result['results']), 1)
