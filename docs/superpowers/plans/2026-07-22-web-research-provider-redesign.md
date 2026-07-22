@@ -8,6 +8,17 @@
 
 **Tech Stack:** Odoo 19 (Python 3.10+), `requests`, `concurrent.futures.ThreadPoolExecutor`, Odoo `TransactionCase`/`HttpCase` test framework, `unittest.mock.patch`.
 
+**Test Environment:** All `docker compose` / `web odoo-bin` commands in this plan target the **live `demo_presentation` container** on the `vps-root` VPS (SSH alias `vps-root` → 80.241.218.108). Each task's first step is to publish its changes to the VPS so tests have the latest code:
+```bash
+git push origin worktree-web-research-provider
+ssh vps-root "cd /opt/odoo/demo_presentation/addons && git fetch origin worktree-web-research-provider && git checkout worktree-web-research-provider"
+```
+Before the next task, switch the VPS back to main (so deploy.yml stays aligned):
+```bash
+ssh vps-root "cd /opt/odoo/demo_presentation/addons && git checkout main"
+```
+Test commands use `docker exec demo_presentation odoo ...` and run against DB `demo_presentation` with `--test-enable --stop-after-init` — Odoo auto-creates a `demo_presentation-test-*` shadow DB so the live data is untouched. The long-running server in `demo_presentation` is unaffected. The DB container for psql is `demo_presentation_db`.
+
 ## Global Constraints
 
 - Module tech-name stays `sgc_lead_scoring`; version bumps to `19.0.1.6` in Task 4 (first data-bearing change) and stays there for the rest of this plan (no further version bumps needed for later tasks — one migration step covers the whole feature).
@@ -211,7 +222,7 @@ class TestWebResearchProviderModel(TransactionCase):
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchProviderModel`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchProviderModel`
 Expected: FAIL — `KeyError: 'web.research.provider'` (model does not exist yet).
 
 - [ ] **Step 3: Implement the model**
@@ -448,7 +459,7 @@ from . import test_web_research_provider_model
 
 - [ ] **Step 8: Run tests to verify they pass**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchProviderModel`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchProviderModel`
 Expected: PASS — 12 tests, 0 failures.
 
 - [ ] **Step 9: Commit**
@@ -519,7 +530,7 @@ class TestWebResearchResultModel(TransactionCase):
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchResultModel`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchResultModel`
 Expected: FAIL — `KeyError: 'web.research.result'`.
 
 - [ ] **Step 3: Implement the model**
@@ -602,7 +613,7 @@ from . import test_web_research_result_model
 
 - [ ] **Step 7: Run tests to verify they pass**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchResultModel`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchResultModel`
 Expected: PASS — 4 tests, 0 failures.
 
 - [ ] **Step 8: Commit**
@@ -675,7 +686,7 @@ class TestWebResearchAuditModel(TransactionCase):
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchAuditModel`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchAuditModel`
 Expected: FAIL — `KeyError: 'web.research.audit'`.
 
 - [ ] **Step 3: Implement the model**
@@ -772,7 +783,7 @@ from . import test_web_research_audit_model
 
 - [ ] **Step 8: Run tests to verify they pass**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchAuditModel`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchAuditModel`
 Expected: PASS — 3 tests, 0 failures.
 
 - [ ] **Step 9: Commit**
@@ -917,12 +928,12 @@ and in `"data"`, insert after `"data/llm_provider_data.xml",`:
 
 `web.research.provider.get_available_chain()` (Task 1) restricts the chain to `searxng` only while `llm_lead_scoring.allow_third_party_search` is `False` — which is the default on both fresh installs and upgrades. This is intentional per spec ("Master kill switch... default False on upgrade"): a migrated Google provider record (created by `post-migrate.py` above) exists and is `active=True`, but won't actually be selected by `search()`/`multi_search()` until an admin flips the kill switch on in Settings (Task 9). This preserves the letter of "backward compatible" (the record and the `search_google_custom()` method both keep working when explicitly invoked) while honoring the spec's intent of not silently continuing to leak data to Google after upgrade. No code change needed for this step — it's a consequence of Task 1 + this task's migration running together, documented here so it isn't mistaken for a bug during Task 4's own verification.
 
-- [ ] **Step 5: Verify install/upgrade on `sgc_theme_dev`**
+- [ ] **Step 5: Verify install/upgrade on `demo_presentation`**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev -u sgc_lead_scoring --stop-after-init`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation -u sgc_lead_scoring --stop-after-init`
 Expected: exits 0, no traceback. Then verify seed rows landed:
 
-Run: `docker exec odoo-db-1 psql -U odoo -d sgc_theme_dev -c "select name, provider_type, active from web_research_provider order by sequence;"`
+Run: `docker exec demo_presentation_db psql -U odoo -d demo_presentation -c "select name, provider_type, active from web_research_provider order by sequence;"`
 Expected: 4 rows (tavily, exa, searxng, google), all `active=f` on a fresh install (no legacy config params set yet in this dev DB).
 
 - [ ] **Step 6: Commit**
@@ -1031,7 +1042,7 @@ Remove the placeholder `test_search_cache_hit_skips_provider_call` stub method b
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorCore`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorCore`
 Expected: FAIL — `AttributeError: 'web.research.service' object has no attribute 'hash_query'`.
 
 - [ ] **Step 3: Rewrite the orchestrator**
@@ -1128,7 +1139,7 @@ from . import test_web_research_orchestrator
 
 - [ ] **Step 5: Run the tests that don't need `_call_provider` and verify they pass**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorCore`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorCore`
 Expected: PASS on `test_hash_query_is_deterministic`, `test_hash_query_differs_for_different_queries`, `test_anonymize_lead_id_is_deterministic_sha256`, `test_search_cache_hit_skips_provider_call_real`, `test_search_no_available_provider_returns_failure`, `test_search_writes_audit_row_with_hash_not_raw_query` — 6 tests, 0 failures. (These 6 exercise only the cache-hit and no-provider paths, which don't call `_call_provider`.)
 
 - [ ] **Step 6: Commit**
@@ -1266,7 +1277,7 @@ class TestProviderClients(TransactionCase):
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestProviderClients`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestProviderClients`
 Expected: FAIL — `NotImplementedError: Provider client dispatch is added in Task 6.`
 
 - [ ] **Step 3: Implement provider clients**
@@ -1377,12 +1388,12 @@ from . import test_provider_clients
 
 Read `sgc_lead_scoring/wizards/google_search_setup_wizard.py` line 89 — it already calls `self.env['web.research.service'].search_google_custom(self.test_query, num_results=3)` with a keyword `num_results=`. No change needed; this step is a verification-only check, not an edit.
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestProviderClients`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestProviderClients`
 Expected: PASS — 7 tests, 0 failures.
 
 - [ ] **Step 6: Run the full orchestrator suite together**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorCore,/sgc_lead_scoring:TestProviderClients`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorCore,/sgc_lead_scoring:TestProviderClients`
 Expected: PASS — 13 tests, 0 failures (Task 5's 6 + this task's 7).
 
 - [ ] **Step 7: Commit**
@@ -1493,7 +1504,7 @@ class TestWebResearchOrchestratorMultiSearch(TransactionCase):
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorMultiSearch`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorMultiSearch`
 Expected: FAIL — `AttributeError: 'web.research.service' object has no attribute 'multi_search'`.
 
 - [ ] **Step 3: Implement `multi_search`**
@@ -1565,12 +1576,12 @@ Also tag each result with its originating provider so `_dedupe_by_domain` can po
 
 - [ ] **Step 4: Run tests to verify they pass**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorMultiSearch`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorMultiSearch`
 Expected: PASS — 4 tests, 0 failures.
 
 - [ ] **Step 5: Run the full orchestrator + provider-client suite together**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorCore,/sgc_lead_scoring:TestProviderClients,/sgc_lead_scoring:TestWebResearchOrchestratorMultiSearch`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorCore,/sgc_lead_scoring:TestProviderClients,/sgc_lead_scoring:TestWebResearchOrchestratorMultiSearch`
 Expected: PASS — 17 tests, 0 failures.
 
 - [ ] **Step 6: Commit**
@@ -1668,7 +1679,7 @@ Append to `sgc_lead_scoring/tests/test_web_research_orchestrator.py`, inside `Te
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestProviderErrorHandling`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestProviderErrorHandling`
 Expected: FAIL — `test_429_marks_provider_at_quota_for_today` and `test_401_deactivates_provider_and_notifies_admin` fail because current code only calls `provider.record_call(success)`, which doesn't touch quota/active/activity.
 
 - [ ] **Step 3: Implement error-status handling**
@@ -1763,15 +1774,15 @@ Place this block right before the final `return` statement in `multi_search`, af
 
 - [ ] **Step 5: Run tests to verify they pass**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestProviderErrorHandling`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestProviderErrorHandling`
 Expected: PASS — 2 tests, 0 failures.
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorMultiSearch`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchOrchestratorMultiSearch`
 Expected: PASS — 5 tests, 0 failures (4 from Task 7 + this task's retry test).
 
 - [ ] **Step 6: Run the entire web-research test surface together**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchProviderModel,/sgc_lead_scoring:TestWebResearchResultModel,/sgc_lead_scoring:TestWebResearchAuditModel,/sgc_lead_scoring:TestWebResearchOrchestratorCore,/sgc_lead_scoring:TestProviderClients,/sgc_lead_scoring:TestProviderErrorHandling,/sgc_lead_scoring:TestWebResearchOrchestratorMultiSearch`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestWebResearchProviderModel,/sgc_lead_scoring:TestWebResearchResultModel,/sgc_lead_scoring:TestWebResearchAuditModel,/sgc_lead_scoring:TestWebResearchOrchestratorCore,/sgc_lead_scoring:TestProviderClients,/sgc_lead_scoring:TestProviderErrorHandling,/sgc_lead_scoring:TestWebResearchOrchestratorMultiSearch`
 Expected: PASS — 39 tests total, 0 failures. This closes out Phase 1 (Shadow) — `crm.lead._enrich_lead()` still hasn't been touched, so nothing user-facing has changed yet.
 
 - [ ] **Step 7: Commit**
@@ -1908,7 +1919,7 @@ Edit `sgc_lead_scoring/__manifest__.py`, in `"data"`, insert `"views/web_researc
 
 - [ ] **Step 5: Verify install/upgrade**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev -u sgc_lead_scoring --stop-after-init`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation -u sgc_lead_scoring --stop-after-init`
 Expected: exits 0, no traceback (XML view validation happens at load time — a bad `invisible` expression or missing action reference would fail here).
 
 - [ ] **Step 6: Commit**
@@ -2003,7 +2014,7 @@ class TestSetupWebResearchWizard(TransactionCase):
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestSetupWebResearchWizard`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestSetupWebResearchWizard`
 Expected: FAIL — `KeyError: 'setup.web.research.wizard'`.
 
 - [ ] **Step 3: Implement the wizard**
@@ -2164,7 +2175,7 @@ from . import test_setup_web_research_wizard
 
 - [ ] **Step 9: Run tests to verify they pass**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestSetupWebResearchWizard`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestSetupWebResearchWizard`
 Expected: PASS — 4 tests, 0 failures.
 
 - [ ] **Step 10: Commit**
@@ -2216,12 +2227,12 @@ Edit `sgc_lead_scoring/wizards/google_search_setup_wizard_views.xml` — add thi
 
 - [ ] **Step 4: Verify install/upgrade**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev -u sgc_lead_scoring --stop-after-init`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation -u sgc_lead_scoring --stop-after-init`
 Expected: exits 0, no traceback.
 
 - [ ] **Step 5: Manually verify the wizard still opens and the old test-connection path still works**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestProviderClients`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestProviderClients`
 Expected: PASS — `test_search_google_custom_compat_shim` (from Task 6) still passes, confirming the wizard's underlying call path is untouched.
 
 - [ ] **Step 6: Commit**
@@ -2355,7 +2366,7 @@ class TestCrmLeadEnrichment(TransactionCase):
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestCrmLeadEnrichment`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestCrmLeadEnrichment`
 Expected: FAIL — `AssertionError: 'completed' != 'pending'` (current `_enrich_lead` is still the stub).
 
 - [ ] **Step 3: Rewrite `_enrich_lead`**
@@ -2439,7 +2450,7 @@ from . import test_crm_lead_enrichment
 
 - [ ] **Step 5: Run tests to verify they pass**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestCrmLeadEnrichment`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestCrmLeadEnrichment`
 Expected: PASS — 7 tests, 0 failures.
 
 - [ ] **Step 6: Commit**
@@ -2519,7 +2530,7 @@ class TestCronConcurrency(TransactionCase):
 
 - [ ] **Step 2: Run tests to verify they fail or pass trivially**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestCronConcurrency`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestCronConcurrency`
 Expected: `test_cron_enrich_leads_all_reach_terminal_status` may already pass against the current sequential `_cron_enrich_leads()` (it doesn't assert on timing, only terminal status) — that's fine, it's a regression guard for the rewrite. `test_cron_enrich_leads_one_failure_does_not_block_others` should also already pass against the sequential version's existing try/except. Both are kept as regression tests through the parallelization change in Step 3.
 
 - [ ] **Step 3: Parallelize `_cron_enrich_leads`**
@@ -2565,7 +2576,7 @@ from . import test_cron_concurrency
 
 - [ ] **Step 5: Run tests to verify they pass**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestCronConcurrency`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestCronConcurrency`
 Expected: PASS — 2 tests, 0 failures. If `test_cron_enrich_leads_one_failure_does_not_block_others` fails because `patch.object` can't cleanly intercept a per-cursor-environment method lookup, fall back to patching `web.research.service.multi_search` to raise on the 2nd call instead of patching `_enrich_lead` directly — same assertion, more realistic failure injection point.
 
 - [ ] **Step 6: Commit**
@@ -2647,7 +2658,7 @@ class TestLeadEnrichmentWizard(TransactionCase):
 
 - [ ] **Step 2: Run tests to verify they fail**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestLeadEnrichmentWizard`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestLeadEnrichmentWizard`
 Expected: FAIL — `test_parallel_defaults_true` fails with `AttributeError` (no `parallel` field yet).
 
 - [ ] **Step 3: Add the toggle and parallelize the action**
@@ -2712,7 +2723,7 @@ from . import test_lead_enrichment_wizard
 
 - [ ] **Step 6: Run tests to verify they pass**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestLeadEnrichmentWizard`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestLeadEnrichmentWizard`
 Expected: PASS — 3 tests, 0 failures.
 
 - [ ] **Step 7: Commit**
@@ -2787,12 +2798,12 @@ from . import test_lead_enrichment_e2e
 
 - [ ] **Step 3: Run the E2E test**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestLeadEnrichmentE2E`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring --test-tags /sgc_lead_scoring:TestLeadEnrichmentE2E`
 Expected: PASS — 1 test, 0 failures.
 
 - [ ] **Step 4: Run the full module test suite as a final regression gate**
 
-Run: `docker compose -p odoo run --rm web odoo-bin -d sgc_theme_dev --test-enable --stop-after-init -i sgc_lead_scoring`
+Run: `docker exec demo_presentation odoo --db_host=db --db_user=odoo --db_password=odoo_demo_pw --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/extra-addons -d demo_presentation --test-enable --stop-after-init -i sgc_lead_scoring`
 Expected: all tests across `test_llm_provider.py`, `test_llm_service.py`, `test_lead_scoring.py`, and every new file from Tasks 1-15 pass — 0 failures. This is the readiness gate before Phase 3's "default flip" (enabling the new chain by default) can be considered for a future release; this plan stops at "flip is code-complete and tested," matching the spec's Phase 3 description — the actual `allow_third_party_search` default-on flip is a config/ops decision made after 2 weeks of stable opt-in usage (spec "Rollout"), not a code task.
 
 - [ ] **Step 5: Commit**
