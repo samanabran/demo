@@ -8,3 +8,4 @@ from . import test_web_research_result_model
 from . import test_web_research_audit_model
 from . import test_web_research_orchestrator
 from . import test_provider_clients
+from . import test_setup_web_research_wizard
