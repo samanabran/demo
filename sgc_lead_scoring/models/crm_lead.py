@@ -167,6 +167,7 @@ class CrmLead(models.Model):
             ('auto_enrich', '=', True),
             ('ai_enrichment_status', '!=', 'processing'),
         ], limit=50)
+        _logger.warning('DIAGNOSTIC cron search found ids=%s names=%s', leads.ids, leads.mapped('name'))
 
         def _enrich_one(lead_id):
             with self.env.registry.cursor() as cr:
