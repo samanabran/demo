@@ -25,6 +25,7 @@ _MAX_BACKOFF_SECONDS = 600
 
 class WebResearchProvider(models.Model):
     _name = 'web.research.provider'
+    _inherit = ['mail.thread']
     _description = 'Web Research Provider'
     _order = 'sequence, name'
 
