@@ -1,9 +1,22 @@
 # -*- coding: utf-8 -*-
+import json
 from unittest.mock import patch
 
 from odoo import api
 from odoo.modules.registry import Registry
 from odoo.tests.common import TransactionCase
+
+# Minimal valid Universal JSON Contract response. Since the Lead Intelligence
+# Engine landed, `_enrich_lead()` parses the LLM reply as a versioned JSON
+# contract (metadata + classification required) instead of accepting any free
+# text; a non-JSON reply now yields the terminal 'parse_failure' status. These
+# concurrency tests care about failure isolation and every lead reaching a
+# terminal status, not about the enrichment payload, so they feed the smallest
+# contract that parses cleanly to a 'completed' result.
+_VALID_CONTRACT = json.dumps({
+    'metadata': {'schema_version': '1.0'},
+    'classification': {'entity_type': 'b2b_company', 'confidence': 'low'},
+})
 
 
 class _SyncExecutor:
@@ -127,7 +140,7 @@ class TestCronConcurrency(TransactionCase):
             return_value={'success': True, 'results': [], 'providers_used': [], 'cache_hits': 0, 'latency_ms': 0},
         ), patch(
             'odoo.addons.sgc_lead_scoring.models.llm_service.LlmService.call_llm',
-            return_value={'success': True, 'content': 'summary', 'error': None, 'retries': 0},
+            return_value={'success': True, 'content': _VALID_CONTRACT, 'error': None, 'retries': 0},
         ), patch(
             'odoo.addons.sgc_lead_scoring.models.crm_lead.ThreadPoolExecutor', _SyncExecutor,
         ):
@@ -146,7 +159,7 @@ class TestCronConcurrency(TransactionCase):
             call_count['n'] += 1
             if call_count['n'] == 2:
                 raise Exception('simulated provider outage')
-            return {'success': True, 'content': 'summary', 'error': None, 'retries': 0}
+            return {'success': True, 'content': _VALID_CONTRACT, 'error': None, 'retries': 0}
 
         with patch(
             'odoo.addons.sgc_lead_scoring.models.web_research_service.WebResearchService.multi_search',
