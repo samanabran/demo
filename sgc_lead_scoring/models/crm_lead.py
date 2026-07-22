@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
+import logging
+from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 
 from odoo import models, fields, api, _
+
+_logger = logging.getLogger(__name__)
 
 
 class CrmLead(models.Model):
@@ -156,16 +160,25 @@ class CrmLead(models.Model):
 
     @api.model
     def _cron_enrich_leads(self):
-        """Scheduled cron method to auto-enrich leads.
-        Override with actual LLM integration logic.
-        """
+        """Scheduled cron: auto-enrich up to 50 leads, 5 at a time, each
+        worker on its own cursor so one lead's failure/rollback can't
+        affect another's commit."""
         leads = self.search([
             ('auto_enrich', '=', True),
             ('ai_enrichment_status', '!=', 'processing'),
         ], limit=50)
-        for lead in leads:
-            try:
-                lead._enrich_lead()
-            except Exception:
-                lead.ai_enrichment_status = 'failed'
+
+        def _enrich_one(lead_id):
+            with self.env.registry.cursor() as cr:
+                env = api.Environment(cr, self.env.uid, self.env.context)
+                lead = env['crm.lead'].browse(lead_id)
+                try:
+                    lead._enrich_lead()
+                except Exception:
+                    _logger.exception('crm.lead._cron_enrich_leads: lead %s failed', lead_id)
+                    lead.ai_enrichment_status = 'failed'
+                cr.commit()
+
+        with ThreadPoolExecutor(max_workers=5) as executor:
+            list(executor.map(_enrich_one, leads.ids))
         return True
