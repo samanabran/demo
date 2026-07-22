@@ -40,6 +40,7 @@
 
 ## Latest commits
 
+- `e6b1110` docs(lead-intelligence): implementation plan + F resolution recorded
 - `b8f3c06` docs(lead-intelligence): F.1 trade-off note for LLM-leg anonymization
 - `f3074c1` docs(lead-intelligence): add resolved decisions A-I to spec
 - `6a60c6e` docs: design spec for universal lead intelligence engine
