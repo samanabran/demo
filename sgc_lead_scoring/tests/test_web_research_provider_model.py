@@ -105,6 +105,7 @@ class TestWebResearchProviderModel(TransactionCase):
         p2 = Provider.create({'name': 'B', 'provider_type': 'exa', 'sequence': 10})
         for _i in range(5):
             p2._cb_record_failure()
+        self.env['ir.config_parameter'].sudo().set_param('llm_lead_scoring.allow_third_party_search', 'True')
         chain = Provider.get_available_chain()
         self.assertEqual(chain.ids, [p1.id])
 
