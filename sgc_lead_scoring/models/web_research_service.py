@@ -70,6 +70,15 @@ class WebResearchService(models.Model):
             'reason': None if success else 'provider_call_failed',
         }
 
+    def search_google_custom(self, query, num_results=_DEFAULT_NUM_RESULTS):
+        """Backward-compat shim: delegates to search() constrained to Google.
+
+        Preserved through the redesign so the Google setup wizard's
+        action_test_connection keeps working. Task 6 implements the actual
+        Google HTTP client behind this.
+        """
+        return self.search(query, num_results=num_results, providers=['google'])
+
     def _call_provider(self, provider, query, num_results):
         """Dispatch to the per-provider client. Implemented in Task 6."""
         raise NotImplementedError('Provider client dispatch is added in Task 6.')
