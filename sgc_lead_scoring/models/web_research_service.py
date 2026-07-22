@@ -3,6 +3,8 @@ import hashlib
 import logging
 import time
 
+import requests
+
 from odoo import models, api
 
 _logger = logging.getLogger(__name__)
@@ -70,15 +72,92 @@ class WebResearchService(models.Model):
             'reason': None if success else 'provider_call_failed',
         }
 
+    @api.model
     def search_google_custom(self, query, num_results=_DEFAULT_NUM_RESULTS):
-        """Backward-compat shim: delegates to search() constrained to Google.
-
-        Preserved through the redesign so the Google setup wizard's
-        action_test_connection keeps working. Task 6 implements the actual
-        Google HTTP client behind this.
-        """
+        """Backward-compat shim: pre-redesign callers (google.search.setup.wizard)
+        keep this exact signature; it now delegates to the orchestrator restricted
+        to the google provider type."""
         return self.search(query, num_results=num_results, providers=['google'])
 
     def _call_provider(self, provider, query, num_results):
-        """Dispatch to the per-provider client. Implemented in Task 6."""
-        raise NotImplementedError('Provider client dispatch is added in Task 6.')
+        dispatch = {
+            'tavily': self._call_tavily,
+            'exa': self._call_exa,
+            'searxng': self._call_searxng,
+            'google': self._call_google,
+        }
+        handler = dispatch.get(provider.provider_type)
+        if not handler:
+            _logger.warning('web.research.service: unknown provider_type %s', provider.provider_type)
+            return [], False
+        try:
+            return handler(provider, query, num_results)
+        except requests.RequestException as exc:
+            _logger.warning('web.research.service: %s request failed: %s', provider.provider_type, exc)
+            return [], False
+
+    def _call_tavily(self, provider, query, num_results):
+        resp = requests.post(
+            'https://api.tavily.com/search',
+            json={'api_key': provider.api_key, 'query': query, 'max_results': num_results},
+            timeout=15,
+        )
+        if resp.status_code != 200:
+            return [], False
+        data = resp.json()
+        results = [
+            {'title': r.get('title'), 'url': r.get('url'), 'snippet': r.get('content')}
+            for r in data.get('results', [])[:num_results]
+        ]
+        return results, True
+
+    def _call_exa(self, provider, query, num_results):
+        resp = requests.post(
+            'https://api.exa.ai/search',
+            json={'query': query, 'numResults': num_results},
+            headers={'x-api-key': provider.api_key},
+            timeout=15,
+        )
+        if resp.status_code != 200:
+            return [], False
+        data = resp.json()
+        results = [
+            {'title': r.get('title'), 'url': r.get('url'), 'snippet': r.get('text')}
+            for r in data.get('results', [])[:num_results]
+        ]
+        return results, True
+
+    def _call_searxng(self, provider, query, num_results):
+        resp = requests.get(
+            provider.base_url,
+            params={'q': query, 'format': 'json'},
+            timeout=15,
+        )
+        if resp.status_code != 200:
+            return [], False
+        data = resp.json()
+        results = [
+            {'title': r.get('title'), 'url': r.get('url'), 'snippet': r.get('content')}
+            for r in data.get('results', [])[:num_results]
+        ]
+        return results, True
+
+    def _call_google(self, provider, query, num_results):
+        resp = requests.get(
+            'https://www.googleapis.com/customsearch/v1',
+            params={
+                'key': provider.api_key,
+                'cx': provider.search_engine_id,
+                'q': query,
+                'num': min(num_results, 10),
+            },
+            timeout=15,
+        )
+        if resp.status_code != 200:
+            return [], False
+        data = resp.json()
+        results = [
+            {'title': r.get('title'), 'url': r.get('link'), 'snippet': r.get('snippet')}
+            for r in data.get('items', [])[:num_results]
+        ]
+        return results, True
