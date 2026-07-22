@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from . import lead_intelligence
 from . import llm_provider
 from . import llm_service
 from . import web_research_provider
