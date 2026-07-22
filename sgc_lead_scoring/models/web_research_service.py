@@ -7,6 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 
 from odoo import models, api
+from odoo.modules.registry import Registry
 
 _logger = logging.getLogger(__name__)
 
@@ -82,8 +83,14 @@ class WebResearchService(models.Model):
         all_raw_results = []
 
         if parallel:
+            dbname = self.env.cr.dbname
+            uid = self.env.uid
+            context = self.env.context
             with ThreadPoolExecutor(max_workers=min(len(queries), 5) or 1) as executor:
-                futures = [executor.submit(self.search, q, num_results, providers) for q in queries]
+                futures = [
+                    executor.submit(self._search_with_own_cursor, dbname, uid, context, q, num_results, providers)
+                    for q in queries
+                ]
                 per_query_results = [f.result() for f in futures]
         else:
             per_query_results = [self.search(q, num_results, providers) for q in queries]
@@ -109,6 +116,17 @@ class WebResearchService(models.Model):
             'cache_hits': cache_hits,
             'latency_ms': sum(r.get('latency_ms', 0) for r in per_query_results),
         }
+
+    def _search_with_own_cursor(self, dbname, uid, context, query, num_results, providers):
+        """Each ThreadPoolExecutor worker needs its own DB cursor/environment.
+
+        Odoo's ORM cursor (self.env.cr) is not safe for concurrent use across
+        threads, so worker threads must never share self.env with the
+        submitting thread or with each other.
+        """
+        with Registry(dbname).cursor() as cr:
+            env = api.Environment(cr, uid, context)
+            return env['web.research.service'].search(query, num_results, providers)
 
     def _dedupe_by_domain(self, results):
         by_domain = {}
