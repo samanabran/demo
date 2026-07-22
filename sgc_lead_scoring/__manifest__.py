@@ -48,6 +48,7 @@
         "data/ir_cron_data.xml",
         "wizards/lead_enrichment_wizard_views.xml",
         "wizards/google_search_setup_wizard_views.xml",
+        "wizards/setup_web_research_wizard_views.xml",
         "views/llm_provider_views.xml",
         "views/web_research_provider_views.xml",
         "views/res_config_settings_views.xml",
