@@ -93,6 +93,21 @@ class TestCronConcurrency(TransactionCase):
                 env['crm.lead'].browse(lead_id).write({'ai_enrichment_status': status})
             cr.commit()
 
+    def _run_cron(self):
+        """_cron_enrich_leads()'s own self.search() must also run through a
+        fresh cursor/environment, not self.env. TransactionCase shares ONE
+        transaction across every test method in this class (savepoints only
+        isolate rollback, not the REPEATABLE READ snapshot), so self.env's
+        snapshot is frozen at whichever test method happens to run first --
+        confirmed live: a second test method's self.search() still returned
+        the first test method's already-deleted lead ids instead of its own
+        freshly committed ones. A real production cron invocation always
+        gets a brand-new environment; only this test harness's class-shared
+        transaction makes routing around self.env necessary here."""
+        with Registry(self.env.cr.dbname).cursor() as cr:
+            env = api.Environment(cr, self.env.uid, self.env.context)
+            env['crm.lead']._cron_enrich_leads()
+
     def _read_statuses(self):
         """Odoo sets ISOLATION_LEVEL_REPEATABLE_READ on every connection
         (odoo/sql_db.py), including self.env.cr. That means self.env's
@@ -116,7 +131,7 @@ class TestCronConcurrency(TransactionCase):
         ), patch(
             'odoo.addons.sgc_lead_scoring.models.crm_lead.ThreadPoolExecutor', _SyncExecutor,
         ):
-            self.env['crm.lead']._cron_enrich_leads()
+            self._run_cron()
 
         statuses = self._read_statuses()
         for lead_id, status in statuses.items():
@@ -142,7 +157,7 @@ class TestCronConcurrency(TransactionCase):
         ), patch(
             'odoo.addons.sgc_lead_scoring.models.crm_lead.ThreadPoolExecutor', _SyncExecutor,
         ):
-            self.env['crm.lead']._cron_enrich_leads()
+            self._run_cron()
 
         statuses = list(self._read_statuses().values())
         self.assertIn('failed', statuses)
