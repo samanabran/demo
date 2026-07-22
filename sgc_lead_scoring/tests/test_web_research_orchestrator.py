@@ -152,6 +152,8 @@ class TestWebResearchOrchestratorMultiSearch(TransactionCase):
         self.assertGreaterEqual(result['cache_hits'], 1)
 
     def test_multi_search_retries_with_relaxed_query_below_min_results(self):
+        from unittest.mock import MagicMock
+
         def empty_then_full(url, **kw):
             payload = kw.get('json', {})
             query = payload.get('query', '')

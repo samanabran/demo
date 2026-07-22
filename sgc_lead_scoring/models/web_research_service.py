@@ -135,7 +135,7 @@ class WebResearchService(models.Model):
         """Main-thread-only: deactivate a provider that failed authentication
         and post a to-do activity for every system-admin user."""
         provider.sudo().write({'active': False})
-        admins = self.env['res.users'].sudo().search([('groups_id', '=', self.env.ref('base.group_system').id)])
+        admins = self.env['res.users'].sudo().search([('all_group_ids', '=', self.env.ref('base.group_system').id)])
         for admin in admins:
             self.env['mail.activity'].sudo().create({
                 'res_model_id': self.env['ir.model']._get_id('web.research.provider'),
