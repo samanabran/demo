@@ -53,7 +53,25 @@ class TestCronConcurrency(TransactionCase):
         super().setUp()
         with Registry(self.env.cr.dbname).cursor() as cr:
             env = api.Environment(cr, self.env.uid, self.env.context)
-            leads = env['crm.lead'].create([
+            Lead = env['crm.lead']
+
+            # This runs against a shared, already-populated demo database, not
+            # a throwaway CI database. _cron_enrich_leads()'s search domain
+            # (auto_enrich=True, status != processing) is unscoped -- it would
+            # also sweep up any other pre-existing lead that happens to match
+            # (auto_enrich defaults to True for every crm.lead). Temporarily
+            # mark those excluded (by flipping them to 'processing', which the
+            # same domain excludes) so this test's _cron_enrich_leads() call
+            # only ever touches its own 3 fixture leads; restore their real
+            # status in cleanup.
+            other_matching = Lead.search([
+                ('auto_enrich', '=', True),
+                ('ai_enrichment_status', '!=', 'processing'),
+            ])
+            self._other_lead_original_status = {lead.id: lead.ai_enrichment_status for lead in other_matching}
+            other_matching.write({'ai_enrichment_status': 'processing'})
+
+            leads = Lead.create([
                 {'name': 'Lead A', 'partner_name': 'Acme A', 'auto_enrich': True},
                 {'name': 'Lead B', 'partner_name': 'Acme B', 'auto_enrich': True},
                 {'name': 'Lead C', 'partner_name': 'Acme C', 'auto_enrich': True},
@@ -66,11 +84,27 @@ class TestCronConcurrency(TransactionCase):
     def _cleanup_committed_leads(self):
         """The leads above were committed on a separate connection, so they
         survive this test's own rollback -- delete them the same way so no
-        fake leads accumulate in the shared database across test runs."""
+        fake leads accumulate in the shared database across test runs, and
+        restore any other pre-existing lead's real status."""
         with Registry(self.env.cr.dbname).cursor() as cr:
             env = api.Environment(cr, self.env.uid, self.env.context)
             env['crm.lead'].browse(self.lead_ids).unlink()
+            for lead_id, status in self._other_lead_original_status.items():
+                env['crm.lead'].browse(lead_id).write({'ai_enrichment_status': status})
             cr.commit()
+
+    def _read_statuses(self):
+        """Odoo sets ISOLATION_LEVEL_REPEATABLE_READ on every connection
+        (odoo/sql_db.py), including self.env.cr. That means self.env's
+        snapshot was taken before _cron_enrich_leads()'s worker committed its
+        writes on a separate connection -- no amount of invalidate_recordset()
+        can make self.env see them, because REPEATABLE READ freezes
+        visibility at transaction start, not at query time. Reading back
+        through a brand new cursor (a fresh snapshot) is the only way to
+        observe another connection's already-committed writes."""
+        with Registry(self.env.cr.dbname).cursor() as cr:
+            env = api.Environment(cr, self.env.uid, self.env.context)
+            return {lead.id: lead.ai_enrichment_status for lead in env['crm.lead'].browse(self.lead_ids)}
 
     def test_cron_enrich_leads_all_reach_terminal_status(self):
         with patch(
@@ -84,11 +118,11 @@ class TestCronConcurrency(TransactionCase):
         ):
             self.env['crm.lead']._cron_enrich_leads()
 
-        for lead in self.leads:
-            lead.invalidate_recordset()
-            self.assertIn(lead.ai_enrichment_status, ('completed', 'partial', 'failed'))
-            self.assertNotEqual(lead.ai_enrichment_status, 'pending')
-            self.assertNotEqual(lead.ai_enrichment_status, 'processing')
+        statuses = self._read_statuses()
+        for lead_id, status in statuses.items():
+            self.assertIn(status, ('completed', 'partial', 'failed'), 'lead %s status=%s' % (lead_id, status))
+            self.assertNotEqual(status, 'pending')
+            self.assertNotEqual(status, 'processing')
 
     def test_cron_enrich_leads_one_failure_does_not_block_others(self):
         call_count = {'n': 0}
@@ -110,6 +144,6 @@ class TestCronConcurrency(TransactionCase):
         ):
             self.env['crm.lead']._cron_enrich_leads()
 
-        statuses = [lead.ai_enrichment_status for lead in self.leads.browse(self.lead_ids)]
+        statuses = list(self._read_statuses().values())
         self.assertIn('failed', statuses)
         self.assertIn('completed', statuses)
