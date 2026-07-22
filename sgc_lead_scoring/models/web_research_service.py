@@ -1,63 +1,75 @@
 # -*- coding: utf-8 -*-
+import hashlib
+import logging
+import time
 
-import requests
-import json
+from odoo import models, api
 
-from odoo import models, fields, api, _
+_logger = logging.getLogger(__name__)
+
+_DEFAULT_NUM_RESULTS = 5
 
 
 class WebResearchService(models.Model):
     _name = 'web.research.service'
-    _description = 'Web Research Service'
+    _description = 'Web Research Orchestrator'
 
-    name = fields.Char(string='Name')
+    @api.model
+    def hash_query(self, query):
+        return hashlib.sha256(query.encode('utf-8')).hexdigest()
 
-    def search_google_custom(self, query, num_results=5):
-        """Search using Google Custom Search API.
-        
-        This is a minimal stub for module installation purposes.
-        Full implementation requires google-api-python-client.
-        """
-        config = self.env['ir.config_parameter'].sudo()
-        api_key = config.get_param('llm_lead_scoring.google_search_api_key', '')
-        search_engine_id = config.get_param('llm_lead_scoring.google_search_engine_id', '')
+    @api.model
+    def anonymize_lead_id(self, lead_id):
+        return hashlib.sha256(str(lead_id).encode('utf-8')).hexdigest()
 
-        if not api_key or not search_engine_id:
-            return {
-                'success': False,
-                'error': 'Google Custom Search not configured. Set API Key and Search Engine ID in settings.',
-                'results': [],
-            }
-
-        try:
-            url = 'https://www.googleapis.com/customsearch/v1'
-            params = {
-                'key': api_key,
-                'cx': search_engine_id,
-                'q': query,
-                'num': min(num_results, 10),
-            }
-            response = requests.get(url, params=params, timeout=15)
-            response.raise_for_status()
-            data = response.json()
-
-            results = []
-            for item in data.get('items', []):
-                results.append({
-                    'title': item.get('title', ''),
-                    'link': item.get('link', ''),
-                    'snippet': item.get('snippet', ''),
-                })
-
+    @api.model
+    def search(self, query, num_results=_DEFAULT_NUM_RESULTS, providers=None):
+        """Single-query search. Provider fan-out is added by multi_search();
+        this path uses the first available provider in the chain."""
+        query_hash = self.hash_query(query)
+        cached = self.env['web.research.result'].get_cached(query_hash)
+        if cached:
+            import json
             return {
                 'success': True,
-                'results': results,
-                'error': None,
+                'results': json.loads(cached.results_json),
+                'providers_used': cached.providers_used.split(',') if cached.providers_used else [],
+                'cache_hit': True,
+                'latency_ms': 0,
             }
 
-        except requests.exceptions.RequestException as e:
+        chain = self.env['web.research.provider'].get_available_chain(provider_types=providers)
+        if not chain:
+            _logger.info('web.research.service: no available provider for query_hash=%s', query_hash)
             return {
                 'success': False,
-                'error': str(e),
                 'results': [],
+                'providers_used': [],
+                'cache_hit': False,
+                'latency_ms': 0,
+                'reason': 'all_providers_unavailable',
             }
+
+        provider = chain[0]
+        start = time.monotonic()
+        results, success = self._call_provider(provider, query, num_results)
+        latency_ms = int((time.monotonic() - start) * 1000)
+
+        provider.record_call(success)
+        self.env['web.research.audit'].log_call(provider, query_hash, None, success, latency_ms, len(results))
+
+        if success:
+            self.env['web.research.result'].store(query_hash, query, results, provider.provider_type)
+
+        return {
+            'success': success,
+            'results': results,
+            'providers_used': [provider.provider_type] if success else [],
+            'cache_hit': False,
+            'latency_ms': latency_ms,
+            'reason': None if success else 'provider_call_failed',
+        }
+
+    def _call_provider(self, provider, query, num_results):
+        """Dispatch to the per-provider client. Implemented in Task 6."""
+        raise NotImplementedError('Provider client dispatch is added in Task 6.')
