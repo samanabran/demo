@@ -70,9 +70,9 @@ class WebResearchService(models.Model):
         if prepared['phase'] != 'call_provider':
             return prepared
         start = time.monotonic()
-        results, success = self._call_provider(prepared['provider_config'], prepared['query'], num_results)
+        results, success, status_code = self._call_provider(prepared['provider_config'], prepared['query'], num_results)
         latency_ms = int((time.monotonic() - start) * 1000)
-        return {**prepared, 'results': results, 'success': success, 'latency_ms': latency_ms}
+        return {**prepared, 'results': results, 'success': success, 'status_code': status_code, 'latency_ms': latency_ms}
 
     def _finalize_result(self, outcome):
         """Main-thread-only phase: circuit breaker, audit log, cache write (DB writes).
@@ -103,10 +103,16 @@ class WebResearchService(models.Model):
 
         provider = outcome['provider']
         success = outcome['success']
+        status_code = outcome.get('status_code')
         results = outcome['results']
         latency_ms = outcome['latency_ms']
         query_hash = outcome['query_hash']
         query = outcome['query']
+
+        if status_code == 429:
+            provider.sudo().write({'daily_quota_used': provider.daily_quota_limit})
+        elif status_code in (401, 403):
+            self._disable_provider_and_notify(provider)
 
         provider.record_call(success)
         self.env['web.research.audit'].log_call(provider, query_hash, None, success, latency_ms, len(results))
@@ -125,25 +131,43 @@ class WebResearchService(models.Model):
             'reason': None if success else 'provider_call_failed',
         }
 
-    @api.model
-    def multi_search(self, queries, parallel=True, num_results=_DEFAULT_NUM_RESULTS, min_results=3, providers=None):
-        cache_hits = 0
-        providers_used = set()
-        all_raw_results = []
+    def _disable_provider_and_notify(self, provider):
+        """Main-thread-only: deactivate a provider that failed authentication
+        and post a to-do activity for every system-admin user."""
+        provider.sudo().write({'active': False})
+        admins = self.env['res.users'].sudo().search([('groups_id', '=', self.env.ref('base.group_system').id)])
+        for admin in admins:
+            self.env['mail.activity'].sudo().create({
+                'res_model_id': self.env['ir.model']._get_id('web.research.provider'),
+                'res_id': provider.id,
+                'activity_type_id': self.env.ref('mail.mail_activity_data_todo').id,
+                'summary': 'Web research provider disabled: authentication failed',
+                'note': 'Provider "%s" returned 401/403 and was disabled. Update its credentials.' % provider.name,
+                'user_id': admin.id,
+            })
 
-        # Cache lookup + provider selection always run on the main thread/cursor.
+    def _run_search_round(self, queries, parallel, num_results, providers):
+        """Runs prepare -> (parallel) HTTP call -> finalize for a batch of
+        queries. Used by multi_search() for both the initial pass and the
+        relaxed-query retry, so both passes get the same thread-safety
+        guarantees (only _run_provider_call ever runs on a worker thread).
+        """
         prepared_list = [self._prepare_query(q, num_results, providers) for q in queries]
-
         if parallel:
             with ThreadPoolExecutor(max_workers=min(len(queries), 5) or 1) as executor:
                 futures = [executor.submit(self._run_provider_call, p, num_results) for p in prepared_list]
                 outcomes = [f.result() for f in futures]
         else:
             outcomes = [self._run_provider_call(p, num_results) for p in prepared_list]
+        return [self._finalize_result(o) for o in outcomes]
 
-        # Circuit breaker, audit log, and cache writes always run back on the
-        # main thread/cursor after every HTTP call has returned.
-        per_query_results = [self._finalize_result(o) for o in outcomes]
+    @api.model
+    def multi_search(self, queries, parallel=True, num_results=_DEFAULT_NUM_RESULTS, min_results=3, providers=None):
+        cache_hits = 0
+        providers_used = set()
+        all_raw_results = []
+
+        per_query_results = self._run_search_round(queries, parallel, num_results, providers)
 
         for res in per_query_results:
             if res.get('cache_hit'):
@@ -152,11 +176,21 @@ class WebResearchService(models.Model):
             all_raw_results.extend(res.get('results', []))
 
         merged = self._dedupe_by_domain(all_raw_results)
+        total_latency_ms = sum(r.get('latency_ms', 0) for r in per_query_results)
 
         if len(merged) < min_results:
+            relaxed_queries = [' '.join(q.split()[:3]) for q in queries]
+            retry_results = self._run_search_round(relaxed_queries, parallel, num_results, providers)
+            for res in retry_results:
+                if res.get('cache_hit'):
+                    cache_hits += 1
+                providers_used.update(res.get('providers_used', []))
+                all_raw_results.extend(res.get('results', []))
+            merged = self._dedupe_by_domain(all_raw_results)
+            total_latency_ms += sum(r.get('latency_ms', 0) for r in retry_results)
             _logger.info(
-                'web.research.service.multi_search: only %d results (< min_results=%d)',
-                len(merged), min_results,
+                'web.research.service.multi_search: relaxed-query retry produced %d results',
+                len(merged),
             )
 
         return {
@@ -164,7 +198,7 @@ class WebResearchService(models.Model):
             'results': merged,
             'providers_used': sorted(providers_used),
             'cache_hits': cache_hits,
-            'latency_ms': sum(r.get('latency_ms', 0) for r in per_query_results),
+            'latency_ms': total_latency_ms,
         }
 
     def _dedupe_by_domain(self, results):
@@ -203,7 +237,7 @@ class WebResearchService(models.Model):
         handler = dispatch.get(provider_config['provider_type'])
         if not handler:
             _logger.warning('web.research.service: unknown provider_type %s', provider_config['provider_type'])
-            return [], False
+            return [], False, None
         try:
             return handler(provider_config, query, num_results)
         except requests.RequestException as exc:
@@ -212,7 +246,7 @@ class WebResearchService(models.Model):
                 'web.research.service: %s request failed (%s) for query_hash=%s',
                 provider_config['provider_type'], type(exc).__name__, query_hash,
             )
-            return [], False
+            return [], False, None
 
     def _call_tavily(self, provider_config, query, num_results):
         resp = requests.post(
@@ -221,13 +255,13 @@ class WebResearchService(models.Model):
             timeout=15,
         )
         if resp.status_code != 200:
-            return [], False
+            return [], False, resp.status_code
         data = resp.json()
         results = [
             {'title': r.get('title'), 'url': r.get('url'), 'snippet': r.get('content')}
             for r in data.get('results', [])[:num_results]
         ]
-        return results, True
+        return results, True, resp.status_code
 
     def _call_exa(self, provider_config, query, num_results):
         resp = requests.post(
@@ -237,13 +271,13 @@ class WebResearchService(models.Model):
             timeout=15,
         )
         if resp.status_code != 200:
-            return [], False
+            return [], False, resp.status_code
         data = resp.json()
         results = [
             {'title': r.get('title'), 'url': r.get('url'), 'snippet': r.get('text')}
             for r in data.get('results', [])[:num_results]
         ]
-        return results, True
+        return results, True, resp.status_code
 
     def _call_searxng(self, provider_config, query, num_results):
         resp = requests.get(
@@ -252,13 +286,13 @@ class WebResearchService(models.Model):
             timeout=15,
         )
         if resp.status_code != 200:
-            return [], False
+            return [], False, resp.status_code
         data = resp.json()
         results = [
             {'title': r.get('title'), 'url': r.get('url'), 'snippet': r.get('content')}
             for r in data.get('results', [])[:num_results]
         ]
-        return results, True
+        return results, True, resp.status_code
 
     def _call_google(self, provider_config, query, num_results):
         resp = requests.get(
@@ -272,10 +306,10 @@ class WebResearchService(models.Model):
             timeout=15,
         )
         if resp.status_code != 200:
-            return [], False
+            return [], False, resp.status_code
         data = resp.json()
         results = [
             {'title': r.get('title'), 'url': r.get('link'), 'snippet': r.get('snippet')}
             for r in data.get('items', [])[:num_results]
         ]
-        return results, True
+        return results, True, resp.status_code
