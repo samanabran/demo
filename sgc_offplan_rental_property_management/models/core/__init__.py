@@ -1,7 +1,6 @@
 from . import account_move
 from . import agreement_template
 from . import certificate_type
-from . import commission_line_mixin
 from . import commission_line
 from . import contract_duration
 from . import crm_lead

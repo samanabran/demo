@@ -15,11 +15,6 @@ class SaleOrder(models.Model):
         compute='_compute_commission_counts',
         store=True
     )
-    purchase_order_count = fields.Integer(
-        string='Purchase Orders',
-        compute='_compute_commission_counts',
-        store=True
-    )
     total_commission_amount = fields.Monetary(
         string='Total Commission',
         compute='_compute_commission_amounts',
@@ -51,20 +46,18 @@ class SaleOrder(models.Model):
     def _compute_commission_counts(self):
         for order in self:
             order.commission_lines_count = len(order.commission_line_ids)
-            order.purchase_order_count = len(self.env['purchase.order'].search([
-                ('commission_sale_order_id', '=', order.id)
-            ]))
 
-    @api.depends('commission_line_ids', 'commission_line_ids.commission_amount')
+    @api.depends('commission_line_ids', 'commission_line_ids.commission_amount',
+                 'commission_line_ids.category')
     def _compute_commission_amounts(self):
         for order in self:
             lines = order.commission_line_ids
             order.total_commission_amount = sum(lines.mapped('commission_amount')) if lines else 0.0
             order.total_internal_commission_amount = sum(
-                lines.filtered(lambda l: l.partner_id.is_company).mapped('commission_amount')
+                lines.filtered(lambda l: l.category == 'internal').mapped('commission_amount')
             ) if lines else 0.0
             order.total_external_commission_amount = sum(
-                lines.filtered(lambda l: not l.partner_id.is_company).mapped('commission_amount')
+                lines.filtered(lambda l: l.category == 'external').mapped('commission_amount')
             ) if lines else 0.0
 
     @api.depends('commission_line_ids.state')

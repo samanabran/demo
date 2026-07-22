@@ -6,7 +6,7 @@ from odoo import api, fields, models
 
 class PropertyVendorCommissionLine(models.Model):
     _name = 'property.vendor.commission.line'
-    _inherit = ['property.commission.line.mixin']
+    _inherit = ['commission.line.mixin']
     _description = 'Booking Commission Distribution Line'
 
     vendor_id = fields.Many2one(

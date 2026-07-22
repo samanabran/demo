@@ -1,6 +1,6 @@
 {
     "name": "SGC - Commission",
-    "version": "19.0.3.4",
+    "version": "19.0.4.0",
     "category": "Sales",
     "summary": "Professional commission management with full workflow and analytics",
     "description": """

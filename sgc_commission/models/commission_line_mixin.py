@@ -1,20 +1,29 @@
 # -*- coding: utf-8 -*-
 # Copyright 2026 SGC TECH AI
 # Part of SGC Odoo Suite. See LICENSE file for full copyright and licensing details.
+#
+# Relocated from sgc_offplan_rental_property_management/models/core/
+# commission_line_mixin.py (was _name='property.commission.line.mixin').
+# The model was renamed to a neutral commission.line.mixin so it can be the
+# shared base for every per-beneficiary commission line in the suite —
+# property mgmt's sale/rent/vendor lines AND sgc_commission's own
+# commission.line. Pure code move, zero runtime behavior change.
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 
 
-class PropertyCommissionLineMixin(models.AbstractModel):
+class CommissionLineMixin(models.AbstractModel):
     """Shared field set + billing logic for per-beneficiary commission lines.
 
-    Concrete models (property.commission.line for sale.contract,
-    rent.commission.line for rent.contract, property.vendor.commission.line
-    for property.vendor bookings) add their own parent Many2one and override
-    the hooks below to plug in their parent's price base, eligibility rule,
-    and which partner/move type a generated bill should target.
+    Concrete models (commission.line for sale.order,
+    property.commission.line for sale.contract,
+    rent.commission.line for rent.contract,
+    property.vendor.commission.line for property.vendor bookings) add their
+    own parent Many2one and override the hooks below to plug in their parent's
+    price base, eligibility rule, and which partner/move type a generated
+    bill should target.
     """
-    _name = 'property.commission.line.mixin'
+    _name = 'commission.line.mixin'
     _description = 'Commission Distribution Line (shared)'
     _order = 'sequence, id'
 
@@ -217,7 +226,7 @@ class PropertyCommissionLineMixin(models.AbstractModel):
                  'currency_id.symbol')
     def _compute_display_name(self):
         # Default Odoo display_name for a model with no name/_rec_name field
-        # falls back to "model.name,id" (e.g. "property.commission.line,4"),
+        # falls back to "model.name,id" (e.g. "commission.line.mixin,4"),
         # which is meaningless in the Base Commission Line picker or on a
         # generated bill line. Show who gets paid, in what role, and how
         # much instead.

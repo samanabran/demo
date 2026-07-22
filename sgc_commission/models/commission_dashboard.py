@@ -40,12 +40,7 @@ class CommissionDashboard(models.TransientModel):
         string="Commission Lines",
         readonly=True
     )
-    
-    purchase_orders_count = fields.Integer(
-        string="Purchase Orders",
-        readonly=True
-    )
-    
+
     currency_id = fields.Many2one(
         'res.currency',
         string="Currency",
@@ -76,7 +71,6 @@ class CommissionDashboard(models.TransientModel):
                     'internal_commission_amount': sale_order.total_internal_commission_amount,
                     'external_commission_amount': sale_order.total_external_commission_amount,
                     'commission_lines_count': sale_order.commission_lines_count,
-                    'purchase_orders_count': sale_order.purchase_order_count,
                     'currency_id': sale_order.currency_id.id,
                     'commission_status': sale_order.commission_status,
                 })
@@ -98,21 +92,6 @@ class CommissionDashboard(models.TransientModel):
             'context': {
                 'default_sale_order_id': self.sale_order_id.id,
             }
-        }
-
-    def action_view_purchase_orders(self):
-        """View purchase orders for this sale order"""
-        self.ensure_one()
-        if not self.sale_order_id:
-            raise UserError(_("No sale order selected"))
-        
-        return {
-            'type': 'ir.actions.act_window',
-            'name': _('Commission Purchase Orders'),
-            'res_model': 'purchase.order',
-            'view_mode': 'list,form',
-            'domain': [('commission_sale_order_id', '=', self.sale_order_id.id)],
-            'context': {}
         }
 
     def action_process_commissions(self):

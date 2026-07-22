@@ -136,7 +136,7 @@ class SaleContract(models.Model):
 
     # -------------------------------------------------------------------------
     # Commission eligibility gate — checked server-side inside
-    # property.commission.line.mixin._generate_bills before any bill is
+    # commission.line.mixin._generate_bills before any bill is
     # raised, not just hidden in the UI.
     # -------------------------------------------------------------------------
     is_commission_eligible = fields.Boolean(

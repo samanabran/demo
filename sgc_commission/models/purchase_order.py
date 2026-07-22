@@ -5,11 +5,6 @@ from odoo import api, fields, models
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    commission_sale_order_id = fields.Many2one(
-        'sale.order',
-        string='Commission Source Sale Order',
-        ondelete='set null'
-    )
     commission_posted = fields.Boolean(
         string='Commission Posted',
         default=False,

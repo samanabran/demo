@@ -3,8 +3,14 @@ from odoo import api, fields, models
 
 
 class CommissionLine(models.Model):
-    """Individual commission line for a sale order."""
+    """Individual commission line for a sale order.
+
+    Inherits commission.line.mixin (shared field set: beneficiary/role/category,
+    tax_ids, billing, display_name). Adds sale-order-specific parent and an
+    extended 6-state workflow (mixin's 4-state + calculated/confirmed/processed).
+    """
     _name = 'commission.line'
+    _inherit = ['commission.line.mixin']
     _description = 'Commission Line'
     _order = 'id desc'
 
@@ -13,21 +19,9 @@ class CommissionLine(models.Model):
         string='Sale Order',
         ondelete='cascade'
     )
-    partner_id = fields.Many2one(
-        'res.partner',
-        string='Commission Agent',
-        required=True
-    )
     commission_type_id = fields.Many2one(
         'commission.type',
         string='Commission Type'
-    )
-    commission_amount = fields.Monetary(
-        string='Commission Amount',
-        currency_field='currency_id',
-        compute='_compute_amounts',
-        store=True,
-        readonly=False,
     )
     commission_rate = fields.Float(
         string='Commission Rate (%)',
@@ -43,20 +37,14 @@ class CommissionLine(models.Model):
              'Commission Type\'s Calculation Base (Sale Value / Order Total '
              'excl. tax / Order Total incl. tax). Overridable.',
     )
-    currency_id = fields.Many2one(
-        'res.currency',
-        string='Currency',
-        related='sale_order_id.currency_id',
-        store=True
+    state = fields.Selection(
+        selection_add=[
+            ('calculated', 'Calculated'),
+            ('confirmed', 'Confirmed'),
+            ('processed', 'Processed'),
+        ],
+        ondelete={'calculated': 'cascade', 'confirmed': 'cascade', 'processed': 'cascade'},
     )
-    state = fields.Selection([
-        ('draft', 'Draft'),
-        ('calculated', 'Calculated'),
-        ('confirmed', 'Confirmed'),
-        ('processed', 'Processed'),
-        ('paid', 'Paid'),
-        ('cancelled', 'Cancelled')
-    ], string='Status', default='draft', required=True)
     company_id = fields.Many2one(
         'res.company',
         string='Company',
@@ -83,6 +71,10 @@ class CommissionLine(models.Model):
                  'commission_type_id.default_rate',
                  'commission_rate')
     def _compute_amounts(self):
+        """Sale-order-aware base amount. After populating base_amount, route
+        through the mixin's _set_commission_amounts so commission_amount is
+        recomputed via the shared hook chain (and stays consistent with
+        property-mgmt's concrete lines)."""
         for line in self:
             order = line.sale_order_id
             ctype = line.commission_type_id
@@ -101,3 +93,21 @@ class CommissionLine(models.Model):
                 line.commission_amount = rate
             else:
                 line.commission_amount = base * (rate / 100.0)
+
+    # ----- mixin hooks (sale.order doesn't have a per-line contract value
+    #       beyond what commission_type_id gave us — base_amount carries it) --
+
+    def _get_contract_value_base(self):
+        self.ensure_one()
+        return self.base_amount or 0.0
+
+    def _get_parent_contract(self):
+        self.ensure_one()
+        return self.sale_order_id
+
+    def _get_base_line(self):
+        # commission.line has no self-referencing base_line_id; commission-
+        # received style cascading is reserved for property-mgmt's concrete
+        # lines. Empty recordset keeps _check_base_line valid.
+        self.ensure_one()
+        return self.browse()

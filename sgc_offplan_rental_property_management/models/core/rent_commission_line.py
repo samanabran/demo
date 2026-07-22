@@ -7,7 +7,7 @@ from odoo.exceptions import UserError
 
 class RentCommissionLine(models.Model):
     _name = 'rent.commission.line'
-    _inherit = ['property.commission.line.mixin']
+    _inherit = ['commission.line.mixin']
     _description = 'Rent Commission Distribution Line'
 
     contract_id = fields.Many2one(
