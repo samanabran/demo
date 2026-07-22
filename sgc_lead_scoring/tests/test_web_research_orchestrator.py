@@ -64,7 +64,7 @@ class TestWebResearchOrchestratorCore(TransactionCase):
             self.assertNotEqual(row.query_hash, query)
 
     def test_search_google_custom_shim_delegates_to_search_with_google_provider(self):
-        with patch.object(self.service, 'search', return_value={'success': True, 'results': [], 'providers_used': ['google'], 'cache_hit': False, 'latency_ms': 0}) as mock_search:
+        with patch.object(type(self.service), 'search', return_value={'success': True, 'results': [], 'providers_used': ['google'], 'cache_hit': False, 'latency_ms': 0}) as mock_search:
             result = self.service.search_google_custom('epsilon corp', num_results=3)
         mock_search.assert_called_once_with('epsilon corp', num_results=3, providers=['google'])
         self.assertTrue(result['success'])
