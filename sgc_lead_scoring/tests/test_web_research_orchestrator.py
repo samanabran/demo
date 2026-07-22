@@ -68,3 +68,85 @@ class TestWebResearchOrchestratorCore(TransactionCase):
             result = self.service.search_google_custom('epsilon corp', num_results=3)
         mock_search.assert_called_once_with('epsilon corp', num_results=3, providers=['google'])
         self.assertTrue(result['success'])
+
+
+class TestWebResearchOrchestratorMultiSearch(TransactionCase):
+
+    def setUp(self):
+        super().setUp()
+        self.env['web.research.provider'].search([]).unlink()
+        self.env['ir.config_parameter'].sudo().set_param('llm_lead_scoring.allow_third_party_search', 'True')
+        self.tavily = self.env['web.research.provider'].create({
+            'name': 'Tavily', 'provider_type': 'tavily', 'api_key': 'k', 'sequence': 10, 'active': True,
+        })
+        self.exa = self.env['web.research.provider'].create({
+            'name': 'Exa', 'provider_type': 'exa', 'api_key': 'k', 'sequence': 20, 'active': True,
+        })
+        self.service = self.env['web.research.service']
+
+    def _tavily_response(self, *_a, **_k):
+        from unittest.mock import MagicMock
+        resp = MagicMock()
+        resp.status_code = 200
+        resp.json.return_value = {
+            'results': [
+                {'title': 'Acme', 'url': 'https://acme.com/about', 'content': 'from tavily'},
+                {'title': 'Acme News', 'url': 'https://news.acme.com/2026', 'content': 'from tavily'},
+            ]
+        }
+        return resp
+
+    def _exa_response(self, *_a, **_k):
+        from unittest.mock import MagicMock
+        resp = MagicMock()
+        resp.status_code = 200
+        resp.json.return_value = {
+            'results': [
+                {'title': 'Acme (dup)', 'url': 'https://acme.com/duplicate-path', 'text': 'from exa'},
+                {'title': 'Acme Products', 'url': 'https://acme.com/products', 'text': 'from exa'},
+            ]
+        }
+        return resp
+
+    def test_multi_search_dedupes_by_domain_and_merges_sources(self):
+        with patch('requests.post') as mock_post:
+            mock_post.side_effect = lambda url, **kw: (
+                self._tavily_response() if 'tavily' in url else self._exa_response()
+            )
+            result = self.service.multi_search(['acme corp'], parallel=True, min_results=1)
+        self.assertTrue(result['success'])
+        domains = [r['url'].split('/')[2] for r in result['results']]
+        self.assertEqual(len(domains), len(set(['acme.com', 'news.acme.com'])) + 0)
+        acme_com_result = next(r for r in result['results'] if 'acme.com/about' in r['url'] or 'acme.com/duplicate-path' in r['url'] or 'acme.com/products' in r['url'])
+        self.assertGreaterEqual(len(acme_com_result['sources']), 1)
+
+    def test_multi_search_sequential_when_parallel_false(self):
+        with patch('requests.post') as mock_post:
+            mock_post.side_effect = lambda url, **kw: (
+                self._tavily_response() if 'tavily' in url else self._exa_response()
+            )
+            result = self.service.multi_search(['acme corp'], parallel=False, min_results=1)
+        self.assertTrue(result['success'])
+        self.assertIn('tavily', result['providers_used'])
+
+    def test_multi_search_multiple_queries_merged(self):
+        with patch('requests.post') as mock_post:
+            mock_post.side_effect = lambda url, **kw: (
+                self._tavily_response() if 'tavily' in url else self._exa_response()
+            )
+            result = self.service.multi_search(
+                ['acme corp profile', 'acme corp news 2026'], parallel=True, min_results=1
+            )
+        self.assertTrue(result['success'])
+        self.assertGreater(len(result['results']), 0)
+
+    def test_multi_search_reports_cache_hits(self):
+        query = 'acme corp profile'
+        query_hash = self.service.hash_query(query)
+        self.env['web.research.result'].store(
+            query_hash, query, [{'title': 'Cached Acme', 'url': 'https://acme.com'}], 'tavily'
+        )
+        with patch('requests.post') as mock_post:
+            mock_post.side_effect = lambda url, **kw: self._exa_response()
+            result = self.service.multi_search([query], parallel=True, min_results=1)
+        self.assertGreaterEqual(result['cache_hits'], 1)
