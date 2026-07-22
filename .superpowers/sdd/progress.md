@@ -38,6 +38,7 @@
 ## Task execution log
 
 - Task 1: complete (commits bbfd742..a2d8dd0, review clean)
+- Task 2: complete (commits 23ed3c3..aafc023, 1 fix round for 3 Important findings [missing mistral/google test coverage, unused _supports_structured_output(), missing Anthropic tool_choice], re-review clean)
 
 ## Latest commits
 
