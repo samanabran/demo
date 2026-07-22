@@ -93,7 +93,11 @@ class WebResearchService(models.Model):
         try:
             return handler(provider, query, num_results)
         except requests.RequestException as exc:
-            _logger.warning('web.research.service: %s request failed: %s', provider.provider_type, exc)
+            query_hash = self.hash_query(query)
+            _logger.warning(
+                'web.research.service: %s request failed (%s) for query_hash=%s',
+                provider.provider_type, type(exc).__name__, query_hash,
+            )
             return [], False
 
     def _call_tavily(self, provider, query, num_results):
