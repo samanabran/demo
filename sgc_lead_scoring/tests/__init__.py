@@ -7,3 +7,4 @@ from . import test_web_research_provider_model
 from . import test_web_research_result_model
 from . import test_web_research_audit_model
 from . import test_web_research_orchestrator
+from . import test_provider_clients
