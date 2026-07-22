@@ -15,7 +15,9 @@ def migrate(cr, version):
     if not api_key or not engine_id:
         return
     Provider = env['web.research.provider'].sudo()
-    existing = Provider.search([('provider_type', '=', 'google'), ('api_key', '=', api_key)], limit=1)
+    existing = Provider.with_context(active_test=False).search(
+        [('provider_type', '=', 'google'), ('api_key', '=', api_key)], limit=1
+    )
     if existing:
         return
     Provider.create({
