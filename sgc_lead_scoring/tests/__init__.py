@@ -11,3 +11,4 @@ from . import test_provider_clients
 from . import test_setup_web_research_wizard
 from . import test_crm_lead_enrichment
 from . import test_cron_concurrency
+from . import test_lead_enrichment_wizard
