@@ -10,6 +10,8 @@ class SetupWebResearchWizard(models.TransientModel):
     provider_type = fields.Selection([
         ('tavily', 'Tavily'),
         ('exa', 'Exa'),
+        ('serper', 'Serper.dev'),
+        ('serpapi', 'SerpAPI'),
         ('searxng', 'SearXNG (self-hosted)'),
         ('google', 'Google Custom Search (legacy)'),
     ], required=True, default='tavily')

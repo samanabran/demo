@@ -2,6 +2,7 @@
 import hashlib
 import json
 import logging
+import os
 import time
 from concurrent.futures import ThreadPoolExecutor
 
@@ -12,6 +13,18 @@ from odoo import models, api
 _logger = logging.getLogger(__name__)
 
 _DEFAULT_NUM_RESULTS = 5
+
+# Live deployments source provider credentials from environment variables
+# rather than the ir/web.research.provider api_key field, so real keys never
+# touch the database or git. Falls back to provider.api_key (e.g. tests,
+# or an admin who prefers DB-stored credentials).
+_ENV_KEY_VAR = {
+    'tavily': 'TAVILY_API_KEY',
+    'exa': 'EXA_API_KEY',
+    'serper': 'SERPER_API_KEY',
+    'serpapi': 'SERPAPI_API_KEY',
+    'google': 'GOOGLE_API_KEY',
+}
 
 
 class WebResearchService(models.Model):
@@ -48,9 +61,11 @@ class WebResearchService(models.Model):
             return {'query': query, 'query_hash': query_hash, 'phase': 'no_provider'}
 
         provider = chain[0]
+        env_var = _ENV_KEY_VAR.get(provider.provider_type)
+        api_key = (os.environ.get(env_var) if env_var else None) or provider.api_key
         provider_config = {
             'provider_type': provider.provider_type,
-            'api_key': provider.api_key,
+            'api_key': api_key,
             'base_url': provider.base_url,
             'search_engine_id': provider.search_engine_id,
         }
@@ -231,6 +246,8 @@ class WebResearchService(models.Model):
         dispatch = {
             'tavily': self._call_tavily,
             'exa': self._call_exa,
+            'serper': self._call_serper,
+            'serpapi': self._call_serpapi,
             'searxng': self._call_searxng,
             'google': self._call_google,
         }
@@ -276,6 +293,42 @@ class WebResearchService(models.Model):
         results = [
             {'title': r.get('title'), 'url': r.get('url'), 'snippet': r.get('text')}
             for r in data.get('results', [])[:num_results]
+        ]
+        return results, True, resp.status_code
+
+    def _call_serper(self, provider_config, query, num_results):
+        resp = requests.post(
+            'https://google.serper.dev/search',
+            json={'q': query, 'num': num_results},
+            headers={'X-API-KEY': provider_config['api_key']},
+            timeout=15,
+        )
+        if resp.status_code != 200:
+            return [], False, resp.status_code
+        data = resp.json()
+        results = [
+            {'title': r.get('title'), 'url': r.get('link'), 'snippet': r.get('snippet')}
+            for r in data.get('organic', [])[:num_results]
+        ]
+        return results, True, resp.status_code
+
+    def _call_serpapi(self, provider_config, query, num_results):
+        resp = requests.get(
+            'https://serpapi.com/search',
+            params={
+                'engine': 'google',
+                'api_key': provider_config['api_key'],
+                'q': query,
+                'num': num_results,
+            },
+            timeout=15,
+        )
+        if resp.status_code != 200:
+            return [], False, resp.status_code
+        data = resp.json()
+        results = [
+            {'title': r.get('title'), 'url': r.get('link'), 'snippet': r.get('snippet')}
+            for r in data.get('organic_results', [])[:num_results]
         ]
         return results, True, resp.status_code
 
