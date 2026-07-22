@@ -176,6 +176,7 @@ class CrmLead(models.Model):
                     lead._enrich_lead()
                 except Exception:
                     _logger.exception('crm.lead._cron_enrich_leads: lead %s failed', lead_id)
+                    _logger.warning('DIAGNOSTIC lead_id=%s exists()=%s', lead_id, lead.exists())
                     lead.ai_enrichment_status = 'failed'
                 cr.commit()
 
