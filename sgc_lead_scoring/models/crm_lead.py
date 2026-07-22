@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 
 from odoo import models, fields, api, _
+from odoo.modules.registry import Registry
 
 _logger = logging.getLogger(__name__)
 
@@ -169,9 +170,13 @@ class CrmLead(models.Model):
         ], limit=50)
         _logger.warning('DIAGNOSTIC cron search found ids=%s names=%s', leads.ids, leads.mapped('name'))
 
+        dbname = self.env.cr.dbname
+        uid = self.env.uid
+        context = self.env.context
+
         def _enrich_one(lead_id):
-            with self.env.registry.cursor() as cr:
-                env = api.Environment(cr, self.env.uid, self.env.context)
+            with Registry(dbname).cursor() as cr:
+                env = api.Environment(cr, uid, context)
                 lead = env['crm.lead'].browse(lead_id)
                 try:
                     lead._enrich_lead()
