@@ -130,3 +130,118 @@ class TestLLMService(TransactionCase):
 
         self.assertFalse(result['success'])
         self.assertIn('No LLM provider configured', result['error'])
+
+    # ------------------------------------------------------------------
+    # Structured output (response_schema) — Decision C
+    # ------------------------------------------------------------------
+
+    def _make_provider(self, provider_type, model_name='test-model'):
+        return self.LLMProvider.create({
+            'name': 'Test %s' % provider_type,
+            'provider_type': provider_type,
+            'api_key': 'test-api-key',
+            'model_name': model_name,
+            'temperature': 0.0,
+            'max_tokens': 100,
+            'timeout': 30,
+            'is_default': False,
+        })
+
+    def _mock_ok(self, mock_post):
+        resp = Mock()
+        resp.status_code = 200
+        resp.json.return_value = {
+            'choices': [{'message': {'content': 'ok'}}]
+        }
+        mock_post.return_value = resp
+
+    @patch('requests.post')
+    def test_call_llm_response_schema_openai(self, mock_post):
+        """OpenAI provider gets response_format with json_schema payload."""
+        self._mock_ok(mock_post)
+        openai_provider = self._make_provider('openai')
+        schema = {'type': 'object', 'properties': {'x': {'type': 'string'}}}
+
+        result = self.LLMService.call_llm(
+            [{'role': 'user', 'content': 'q'}],
+            provider=openai_provider,
+            response_schema=schema,
+        )
+
+        self.assertTrue(result['success'])
+        # The POST must have been called with json= including response_format
+        self.assertEqual(mock_post.call_count, 1)
+        sent_json = mock_post.call_args.kwargs.get('json') or mock_post.call_args[1].get('json')
+        self.assertIsNotNone(sent_json)
+        self.assertIn('response_format', sent_json)
+        self.assertEqual(sent_json['response_format']['type'], 'json_schema')
+        self.assertEqual(sent_json['response_format']['json_schema'], schema)
+
+    @patch('requests.post')
+    def test_call_llm_response_schema_groq(self, mock_post):
+        """Groq provider gets response_format with json_schema payload."""
+        self._mock_ok(mock_post)
+        groq_provider = self._make_provider('groq')
+        schema = {'type': 'object', 'properties': {'x': {'type': 'string'}}}
+
+        result = self.LLMService.call_llm(
+            [{'role': 'user', 'content': 'q'}],
+            provider=groq_provider,
+            response_schema=schema,
+        )
+
+        self.assertTrue(result['success'])
+        sent_json = mock_post.call_args.kwargs.get('json') or mock_post.call_args[1].get('json')
+        self.assertIn('response_format', sent_json)
+        self.assertEqual(sent_json['response_format']['json_schema'], schema)
+
+    @patch('requests.post')
+    def test_call_llm_response_schema_anthropic(self, mock_post):
+        """Anthropic provider gets tool-use payload with JSON-only argument."""
+        # Anthropic returns a different response shape (no 'choices')
+        resp = Mock()
+        resp.status_code = 200
+        resp.json.return_value = {
+            'content': [{'type': 'text', 'text': 'ok'}]
+        }
+        mock_post.return_value = resp
+        anthropic_provider = self._make_provider('anthropic')
+        schema = {'type': 'object', 'properties': {'x': {'type': 'string'}}}
+
+        result = self.LLMService.call_llm(
+            [{'role': 'user', 'content': 'q'}],
+            provider=anthropic_provider,
+            response_schema=schema,
+        )
+
+        self.assertTrue(result['success'])
+        sent_json = mock_post.call_args.kwargs.get('json') or mock_post.call_args[1].get('json')
+        # Anthropic path uses tool_use with a JSON-only argument
+        self.assertIn('tools', sent_json)
+        tools = sent_json['tools']
+        self.assertEqual(len(tools), 1)
+        self.assertEqual(tools[0]['name'], 'json_output')
+        # Input schema should match what we passed
+        self.assertEqual(tools[0]['input_schema'], schema)
+
+    @patch('requests.post')
+    def test_call_llm_response_schema_huggingface_no_op(self, mock_post):
+        """HuggingFace provider ignores response_schema — caller uses prompt fallback."""
+        resp = Mock()
+        resp.status_code = 200
+        resp.json.return_value = [{'generated_text': 'ok'}]
+        mock_post.return_value = resp
+        hf_provider = self._make_provider('huggingface')
+        schema = {'type': 'object', 'properties': {'x': {'type': 'string'}}}
+
+        result = self.LLMService.call_llm(
+            [{'role': 'user', 'content': 'q'}],
+            provider=hf_provider,
+            response_schema=schema,
+        )
+
+        self.assertTrue(result['success'])
+        sent_json = mock_post.call_args.kwargs.get('json') or mock_post.call_args[1].get('json')
+        # No response_format / tools in the huggingface payload
+        self.assertNotIn('response_format', sent_json)
+        self.assertNotIn('tools', sent_json)

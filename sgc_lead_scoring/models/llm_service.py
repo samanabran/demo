@@ -51,22 +51,42 @@ class LlmService(models.Model):
         }
 
     @api.model
-    def _get_payload(self, provider, messages):
+    def _supports_structured_output(self, provider):
+        """Returns True if provider supports structured output (JSON schema mode)."""
+        return provider.provider_type in {'openai', 'groq', 'anthropic', 'mistral', 'google'}
+
+    @api.model
+    def _get_payload(self, provider, messages, response_schema=None):
         if provider.provider_type == 'anthropic':
-            return {
+            payload = {
                 'model': provider.model_name,
                 'messages': messages,
                 'max_tokens': provider.max_tokens or 2000,
                 'temperature': provider.temperature or 0.7,
             }
+            if response_schema:
+                payload['tools'] = [
+                    {
+                        'name': 'json_output',
+                        'description': 'Output structured JSON response',
+                        'input_schema': response_schema,
+                    }
+                ]
+            return payload
         if provider.provider_type == 'google':
-            return {
+            payload = {
                 'contents': [{'parts': [{'text': m['content']}]} for m in messages],
                 'generationConfig': {
                     'maxOutputTokens': provider.max_tokens or 2000,
                     'temperature': provider.temperature or 0.7,
                 },
             }
+            if response_schema:
+                payload['response_format'] = {
+                    'type': 'json_schema',
+                    'json_schema': response_schema,
+                }
+            return payload
         if provider.provider_type == 'huggingface':
             return {
                 'inputs': messages[-1]['content'] if messages else '',
@@ -75,12 +95,19 @@ class LlmService(models.Model):
                     'temperature': provider.temperature or 0.7,
                 },
             }
-        return {
+        # OpenAI, Groq, Mistral, Custom
+        payload = {
             'model': provider.model_name,
             'messages': messages,
             'max_tokens': provider.max_tokens or 2000,
             'temperature': provider.temperature or 0.7,
         }
+        if response_schema and provider.provider_type in {'openai', 'groq', 'mistral'}:
+            payload['response_format'] = {
+                'type': 'json_schema',
+                'json_schema': response_schema,
+            }
+        return payload
 
     @api.model
     def _parse_response(self, provider, response_data):
@@ -106,7 +133,7 @@ class LlmService(models.Model):
         return ''
 
     @api.model
-    def call_llm(self, messages, provider=None, max_retries=3):
+    def call_llm(self, messages, provider=None, max_retries=3, response_schema=None):
         if not provider:
             provider = self.env['llm.provider'].get_default_provider()
         if not provider:
@@ -119,7 +146,7 @@ class LlmService(models.Model):
 
         url = self._get_api_url(provider)
         headers = self._get_headers(provider)
-        payload = self._get_payload(provider, messages)
+        payload = self._get_payload(provider, messages, response_schema=response_schema)
 
         timeout = provider.timeout or 30
 
