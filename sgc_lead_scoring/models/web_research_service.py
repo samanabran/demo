@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import hashlib
+import json
 import logging
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -7,7 +8,6 @@ from concurrent.futures import ThreadPoolExecutor
 import requests
 
 from odoo import models, api
-from odoo.modules.registry import Registry
 
 _logger = logging.getLogger(__name__)
 
@@ -28,12 +28,60 @@ class WebResearchService(models.Model):
 
     @api.model
     def search(self, query, num_results=_DEFAULT_NUM_RESULTS, providers=None):
-        """Single-query search. Provider fan-out is added by multi_search();
-        this path uses the first available provider in the chain."""
+        """Single-query search. multi_search() fans this out across queries."""
+        prepared = self._prepare_query(query, num_results, providers)
+        outcome = self._run_provider_call(prepared, num_results)
+        return self._finalize_result(outcome)
+
+    def _prepare_query(self, query, num_results, providers):
+        """Main-thread-only phase: cache lookup + provider selection (DB reads).
+
+        Never call this from a worker thread — it uses self.env.
+        """
         query_hash = self.hash_query(query)
         cached = self.env['web.research.result'].get_cached(query_hash)
         if cached:
-            import json
+            return {'query': query, 'query_hash': query_hash, 'phase': 'cache_hit', 'cached': cached}
+
+        chain = self.env['web.research.provider'].get_available_chain(provider_types=providers)
+        if not chain:
+            return {'query': query, 'query_hash': query_hash, 'phase': 'no_provider'}
+
+        provider = chain[0]
+        provider_config = {
+            'provider_type': provider.provider_type,
+            'api_key': provider.api_key,
+            'base_url': provider.base_url,
+            'search_engine_id': provider.search_engine_id,
+        }
+        return {
+            'query': query,
+            'query_hash': query_hash,
+            'phase': 'call_provider',
+            'provider': provider,
+            'provider_config': provider_config,
+        }
+
+    def _run_provider_call(self, prepared, num_results):
+        """Safe to run in a worker thread: touches only plain data (provider_config,
+        query, num_results) and the `requests` library — never self.env or any
+        Odoo recordset. This is the only phase multi_search() parallelizes.
+        """
+        if prepared['phase'] != 'call_provider':
+            return prepared
+        start = time.monotonic()
+        results, success = self._call_provider(prepared['provider_config'], prepared['query'], num_results)
+        latency_ms = int((time.monotonic() - start) * 1000)
+        return {**prepared, 'results': results, 'success': success, 'latency_ms': latency_ms}
+
+    def _finalize_result(self, outcome):
+        """Main-thread-only phase: circuit breaker, audit log, cache write (DB writes).
+
+        Never call this from a worker thread — it uses self.env and mutates
+        ORM recordsets.
+        """
+        if outcome['phase'] == 'cache_hit':
+            cached = outcome['cached']
             return {
                 'success': True,
                 'results': json.loads(cached.results_json),
@@ -42,9 +90,8 @@ class WebResearchService(models.Model):
                 'latency_ms': 0,
             }
 
-        chain = self.env['web.research.provider'].get_available_chain(provider_types=providers)
-        if not chain:
-            _logger.info('web.research.service: no available provider for query_hash=%s', query_hash)
+        if outcome['phase'] == 'no_provider':
+            _logger.info('web.research.service: no available provider for query_hash=%s', outcome['query_hash'])
             return {
                 'success': False,
                 'results': [],
@@ -54,10 +101,12 @@ class WebResearchService(models.Model):
                 'reason': 'all_providers_unavailable',
             }
 
-        provider = chain[0]
-        start = time.monotonic()
-        results, success = self._call_provider(provider, query, num_results)
-        latency_ms = int((time.monotonic() - start) * 1000)
+        provider = outcome['provider']
+        success = outcome['success']
+        results = outcome['results']
+        latency_ms = outcome['latency_ms']
+        query_hash = outcome['query_hash']
+        query = outcome['query']
 
         provider.record_call(success)
         self.env['web.research.audit'].log_call(provider, query_hash, None, success, latency_ms, len(results))
@@ -82,18 +131,19 @@ class WebResearchService(models.Model):
         providers_used = set()
         all_raw_results = []
 
+        # Cache lookup + provider selection always run on the main thread/cursor.
+        prepared_list = [self._prepare_query(q, num_results, providers) for q in queries]
+
         if parallel:
-            dbname = self.env.cr.dbname
-            uid = self.env.uid
-            context = self.env.context
             with ThreadPoolExecutor(max_workers=min(len(queries), 5) or 1) as executor:
-                futures = [
-                    executor.submit(self._search_with_own_cursor, dbname, uid, context, q, num_results, providers)
-                    for q in queries
-                ]
-                per_query_results = [f.result() for f in futures]
+                futures = [executor.submit(self._run_provider_call, p, num_results) for p in prepared_list]
+                outcomes = [f.result() for f in futures]
         else:
-            per_query_results = [self.search(q, num_results, providers) for q in queries]
+            outcomes = [self._run_provider_call(p, num_results) for p in prepared_list]
+
+        # Circuit breaker, audit log, and cache writes always run back on the
+        # main thread/cursor after every HTTP call has returned.
+        per_query_results = [self._finalize_result(o) for o in outcomes]
 
         for res in per_query_results:
             if res.get('cache_hit'):
@@ -117,17 +167,6 @@ class WebResearchService(models.Model):
             'latency_ms': sum(r.get('latency_ms', 0) for r in per_query_results),
         }
 
-    def _search_with_own_cursor(self, dbname, uid, context, query, num_results, providers):
-        """Each ThreadPoolExecutor worker needs its own DB cursor/environment.
-
-        Odoo's ORM cursor (self.env.cr) is not safe for concurrent use across
-        threads, so worker threads must never share self.env with the
-        submitting thread or with each other.
-        """
-        with Registry(dbname).cursor() as cr:
-            env = api.Environment(cr, uid, context)
-            return env['web.research.service'].search(query, num_results, providers)
-
     def _dedupe_by_domain(self, results):
         by_domain = {}
         for r in results:
@@ -150,31 +189,35 @@ class WebResearchService(models.Model):
         to the google provider type."""
         return self.search(query, num_results=num_results, providers=['google'])
 
-    def _call_provider(self, provider, query, num_results):
+    def _call_provider(self, provider_config, query, num_results):
+        """provider_config is a plain dict (see _prepare_query) — this method
+        and everything it calls must never touch self.env, so it is safe to
+        run from a ThreadPoolExecutor worker thread.
+        """
         dispatch = {
             'tavily': self._call_tavily,
             'exa': self._call_exa,
             'searxng': self._call_searxng,
             'google': self._call_google,
         }
-        handler = dispatch.get(provider.provider_type)
+        handler = dispatch.get(provider_config['provider_type'])
         if not handler:
-            _logger.warning('web.research.service: unknown provider_type %s', provider.provider_type)
+            _logger.warning('web.research.service: unknown provider_type %s', provider_config['provider_type'])
             return [], False
         try:
-            return handler(provider, query, num_results)
+            return handler(provider_config, query, num_results)
         except requests.RequestException as exc:
             query_hash = self.hash_query(query)
             _logger.warning(
                 'web.research.service: %s request failed (%s) for query_hash=%s',
-                provider.provider_type, type(exc).__name__, query_hash,
+                provider_config['provider_type'], type(exc).__name__, query_hash,
             )
             return [], False
 
-    def _call_tavily(self, provider, query, num_results):
+    def _call_tavily(self, provider_config, query, num_results):
         resp = requests.post(
             'https://api.tavily.com/search',
-            json={'api_key': provider.api_key, 'query': query, 'max_results': num_results},
+            json={'api_key': provider_config['api_key'], 'query': query, 'max_results': num_results},
             timeout=15,
         )
         if resp.status_code != 200:
@@ -186,11 +229,11 @@ class WebResearchService(models.Model):
         ]
         return results, True
 
-    def _call_exa(self, provider, query, num_results):
+    def _call_exa(self, provider_config, query, num_results):
         resp = requests.post(
             'https://api.exa.ai/search',
             json={'query': query, 'numResults': num_results},
-            headers={'x-api-key': provider.api_key},
+            headers={'x-api-key': provider_config['api_key']},
             timeout=15,
         )
         if resp.status_code != 200:
@@ -202,9 +245,9 @@ class WebResearchService(models.Model):
         ]
         return results, True
 
-    def _call_searxng(self, provider, query, num_results):
+    def _call_searxng(self, provider_config, query, num_results):
         resp = requests.get(
-            provider.base_url,
+            provider_config['base_url'],
             params={'q': query, 'format': 'json'},
             timeout=15,
         )
@@ -217,12 +260,12 @@ class WebResearchService(models.Model):
         ]
         return results, True
 
-    def _call_google(self, provider, query, num_results):
+    def _call_google(self, provider_config, query, num_results):
         resp = requests.get(
             'https://www.googleapis.com/customsearch/v1',
             params={
-                'key': provider.api_key,
-                'cx': provider.search_engine_id,
+                'key': provider_config['api_key'],
+                'cx': provider_config['search_engine_id'],
                 'q': query,
                 'num': min(num_results, 10),
             },
