@@ -11,6 +11,8 @@ promotion, anonymization toggle matrix) already lives in
 import json
 from unittest.mock import patch
 
+from markupsafe import Markup
+
 from odoo.tests.common import TransactionCase
 
 from odoo.addons.sgc_lead_scoring.models import lead_intelligence as li
@@ -166,6 +168,102 @@ class TestCrmLeadEnrichment(TransactionCase):
             prompt_text = json.dumps(prompt_messages)
             self.assertNotIn('+1-555-0100', prompt_text)
             self.assertNotIn('buyer@acme.com', prompt_text)
+
+    # ------------------------------------------------------------------
+    # 6. Regression test for the chatter-rendering bug: `_lead_intelligence_note`
+    #    must return a `markupsafe.Markup` instance so `message_post()`'s
+    #    `escape(body)` (mail_thread.py: "escape if text, keep if markup")
+    #    leaves it untouched, and the structural tags this method builds
+    #    itself (`<b>`, `<ul>`, `<li>`) must survive un-escaped in the
+    #    stored message body -- i.e. the note actually renders as HTML
+    #    instead of showing literal `&lt;b&gt;` text in the chatter.
+    # ------------------------------------------------------------------
+    @patch('odoo.addons.sgc_lead_scoring.models.llm_service.LlmService.call_llm')
+    @patch('odoo.addons.sgc_lead_scoring.models.web_research_service.WebResearchService.multi_search')
+    def test_lead_intelligence_note_renders_as_real_html(self, mock_multi_search, mock_call_llm):
+        mock_multi_search.side_effect = self._multi_search_success
+        mock_call_llm.side_effect = self._llm_good_contract
+        self.lead._enrich_lead()
+
+        messages = self.lead.message_ids.filtered(
+            lambda m: 'AI Research Summary' in (m.body or ''))
+        self.assertTrue(messages)
+        body = messages[0].body
+        self.assertIsInstance(body, Markup)
+        # structural tags built by _lead_intelligence_note itself must be
+        # live markup, not escaped text.
+        self.assertIn('<b>AI Research Summary</b>', body)
+        self.assertIn('<ul>', body)
+        self.assertIn('<li>Growing fast</li>', body)
+        self.assertNotIn('&lt;b&gt;', body)
+        self.assertNotIn('&lt;ul&gt;', body)
+
+    # ------------------------------------------------------------------
+    # 7. Regression test for the latent injection gap: HTML-special
+    #    characters inside LLM-controlled `summary.*` fields must be
+    #    escaped in the final chatter body, not interpreted as live markup
+    #    -- this is what stops an attacker-controlled web page from
+    #    smuggling a `<script>` (or any other tag/attribute) into the CRM
+    #    chatter via the LLM's JSON response.
+    # ------------------------------------------------------------------
+    @patch('odoo.addons.sgc_lead_scoring.models.llm_service.LlmService.call_llm')
+    @patch('odoo.addons.sgc_lead_scoring.models.web_research_service.WebResearchService.multi_search')
+    def test_lead_intelligence_note_escapes_llm_controlled_html(self, mock_multi_search, mock_call_llm):
+        mock_multi_search.side_effect = self._multi_search_success
+        malicious_contract = json.loads(self._good_contract_json())
+        malicious_contract['summary']['executive_summary'] = (
+            'A <script>alert(1)</script> company')
+        malicious_contract['summary']['key_findings'] = [
+            '<img src=x onerror=alert(2)>', 'Growing fast']
+        malicious_contract['summary']['conversation_strategy'] = (
+            '"><svg onload=alert(3)>')
+        malicious_contract['summary']['risks'] = ['Tom & Jerry <b>risk</b>']
+        mock_call_llm.return_value = {
+            'success': True, 'content': json.dumps(malicious_contract), 'error': None, 'retries': 0,
+        }
+        self.lead._enrich_lead()
+
+        messages = self.lead.message_ids.filtered(
+            lambda m: 'AI Research Summary' in (m.body or ''))
+        self.assertTrue(messages)
+        body = messages[0].body
+        self.assertIsInstance(body, Markup)
+        # the whole body is still valid Markup (rendering fix holds)...
+        self.assertIn('<b>AI Research Summary</b>', body)
+        # ...but every LLM-controlled value is escaped, not live markup.
+        self.assertNotIn('<script>', body)
+        self.assertIn('&lt;script&gt;alert(1)&lt;/script&gt;', body)
+        self.assertNotIn('<img src=x onerror=alert(2)>', body)
+        self.assertIn('&lt;img src=x onerror=alert(2)&gt;', body)
+        self.assertNotIn('<svg onload=alert(3)>', body)
+        self.assertIn('&lt;svg onload=alert(3)&gt;', body)
+        self.assertIn('Tom &amp; Jerry &lt;b&gt;risk&lt;/b&gt;', body)
+
+    # ------------------------------------------------------------------
+    # 8. Same rendering + escaping treatment on the OTHER message_post()
+    #    call site: the terminal parse-failure path. `parse_error` is
+    #    `str(exc)` from the module's own `ParseFailure`, not LLM-controlled,
+    #    but the fix is applied uniformly for consistency, and this path's
+    #    plain-str body had the exact same rendering bug.
+    # ------------------------------------------------------------------
+    @patch('odoo.addons.sgc_lead_scoring.models.llm_service.LlmService.call_llm')
+    @patch('odoo.addons.sgc_lead_scoring.models.web_research_service.WebResearchService.multi_search')
+    def test_parse_failure_note_renders_as_real_html_and_escapes_error(
+            self, mock_multi_search, mock_call_llm):
+        mock_multi_search.side_effect = self._multi_search_success
+        mock_call_llm.return_value = {
+            'success': False, 'content': None, 'error': 'timeout', 'retries': 3,
+        }
+        self.lead._enrich_lead()
+
+        self.assertEqual(self.lead.ai_enrichment_status, 'parse_failure')
+        messages = self.lead.message_ids.filtered(
+            lambda m: 'AI Research Summary' in (m.body or ''))
+        self.assertTrue(messages)
+        body = messages[0].body
+        self.assertIsInstance(body, Markup)
+        self.assertIn('<b>AI Research Summary</b>', body)
+        self.assertIn('could not parse the AI response after 2 attempts', body)
 
     # NOTE: the two old tests
     #   - test_enrich_lead_anonymize_company_names_restricts_to_searxng

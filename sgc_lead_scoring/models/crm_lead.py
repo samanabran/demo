@@ -375,26 +375,38 @@ class CrmLead(models.Model):
         return queries
 
     def _lead_intelligence_note(self, parsed, research, evidence):
-        """Build the structured HTML chatter note from ``summary.*`` (step 17)."""
+        """Build the structured HTML chatter note from ``summary.*`` (step 17).
+
+        ``summary.*`` is LLM-controlled content (itself influenced by
+        scraped web-search results), so every interpolated value is passed
+        through ``escape()`` before being placed inside an HTML tag -- the
+        same pattern as ``_render_contract_section``/``_format_contract_value``
+        above. Only the literal structural tags (``<b>``, ``<p>``, ``<ul>``,
+        ``<li>``, ``<i>``) are trusted template text. The fully-assembled
+        string is wrapped in ``Markup(...)`` right before it is returned, so
+        ``message_post()`` renders it as real HTML instead of re-escaping the
+        whole thing as untrusted plain text.
+        """
         summary = parsed.get('summary') or {}
-        note = ['<b>AI Research Summary</b>']
+        note = ['<b>%s</b>' % escape(_('AI Research Summary'))]
         exec_summary = summary.get('executive_summary')
         if exec_summary:
-            note.append('<p>%s</p>' % exec_summary)
+            note.append('<p>%s</p>' % escape(exec_summary))
 
         def _section(title, items):
             if not items:
                 return
             if isinstance(items, str):
                 items = [items]
-            lis = ''.join('<li>%s</li>' % item for item in items if item)
+            lis = ''.join('<li>%s</li>' % escape(item) for item in items if item)
             if lis:
-                note.append('<p><b>%s</b></p><ul>%s</ul>' % (title, lis))
+                note.append('<p><b>%s</b></p><ul>%s</ul>' % (escape(title), lis))
 
         _section(_('Key Findings'), summary.get('key_findings'))
         conversation_strategy = summary.get('conversation_strategy')
         if conversation_strategy:
-            note.append('<p><b>%s</b>: %s</p>' % (_('Conversation Strategy'), conversation_strategy))
+            note.append('<p><b>%s</b>: %s</p>' % (
+                escape(_('Conversation Strategy')), escape(conversation_strategy)))
         _section(_('Risks'), summary.get('risks'))
         _section(_('Opportunities'), summary.get('opportunities'))
         _section(_('Recommended Next Actions'), summary.get('recommended_next_actions'))
@@ -404,8 +416,8 @@ class CrmLead(models.Model):
         ]
         if providers:
             note.append('<p><i>%s: %s</i></p>' % (
-                _('Sources'), ', '.join(dict.fromkeys(providers))))
-        return ''.join(note)
+                escape(_('Sources')), ', '.join(escape(p) for p in dict.fromkeys(providers))))
+        return Markup(''.join(note))
 
     def _enrich_lead(self):
         """Universal Lead Intelligence enrichment: pre-classify, search,
@@ -463,10 +475,10 @@ class CrmLead(models.Model):
             self.ai_enrichment_status = 'parse_failure'
             self.ai_last_enrichment_date = fields.Datetime.now()
             self.message_post(
-                body='<b>%s</b><p>%s</p>' % (
-                    _('AI Research Summary'),
-                    _('Enrichment could not parse the AI response after 2 attempts: %s') % parse_error,
-                ),
+                body=Markup('<b>%s</b><p>%s</p>' % (
+                    escape(_('AI Research Summary')),
+                    escape(_('Enrichment could not parse the AI response after 2 attempts: %s') % parse_error),
+                )),
                 subtype_xmlid='mail.mt_note',
             )
             return

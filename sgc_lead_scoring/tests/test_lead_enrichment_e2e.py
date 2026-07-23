@@ -15,6 +15,8 @@ actions, a `<p><b>Conversation Strategy</b>: ...</p>` line, and a trailing
 import json
 from unittest.mock import patch
 
+from markupsafe import Markup
+
 from odoo.tests.common import HttpCase, tagged
 
 from odoo.addons.sgc_lead_scoring.models import lead_intelligence as li
@@ -78,13 +80,16 @@ class TestLeadEnrichmentE2E(HttpCase):
         self.assertEqual(lead.ai_enrichment_status, 'completed')
         messages = lead.message_ids.filtered(lambda m: 'AI Research Summary' in (m.body or ''))
         self.assertTrue(messages)
-        # `_lead_intelligence_note()` builds a raw HTML string, but
-        # `message_post()` treats a plain `str` body as untrusted text and
-        # HTML-escapes it (wrapping the whole thing in one outer `<p>`) --
-        # verified directly against a live run, not assumed from reading the
-        # note-builder alone. So assert on the visible text content (which
-        # survives escaping) rather than literal `<b>`/`<ul>` tags.
+        # `_lead_intelligence_note()` now returns a `markupsafe.Markup`
+        # instance (fixed: previously a plain `str`, which `message_post()`
+        # HTML-escaped wholesale -- "escape if text, keep if markup", per
+        # mail_thread.py -- so the intended bold/bullet-list formatting never
+        # rendered). Assert both the visible text content AND that the
+        # structural tags survive un-escaped, proving the rendering fix.
         body = messages[0].body
+        self.assertIsInstance(body, Markup)
+        self.assertIn('<b>AI Research Summary</b>', body)
+        self.assertIn('<ul>', body)
         self.assertIn('AI Research Summary', body)
         self.assertIn('E2E Acme is a promising test company.', body)
         self.assertIn('Growing fast', body)
