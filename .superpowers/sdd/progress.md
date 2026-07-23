@@ -39,6 +39,7 @@
 
 - Task 1: complete (commits bbfd742..a2d8dd0, review clean)
 - Task 2: complete (commits 23ed3c3..aafc023, 1 fix round for 3 Important findings [missing mistral/google test coverage, unused _supports_structured_output(), missing Anthropic tool_choice], re-review clean)
+- Task 3+4: complete (commits 40afb47..a1dabeb, review Approved with 1 Important finding [lead.name/partner_name sent to LLM in cleartext under anonymize_customer_names] escalated to user; user chose to extend anonymization to lead.name+partner_name; recorded as spec Decision F.2 at commit 079aa44; fix folded into Task 5 dispatch). test_cron_concurrency.py mock-fixture update (2 lines) verified as legitimate stale-fixture fix, not weakened coverage. 8 pre-existing TestLeadScoring/TestLLMProvider failures confirmed unrelated via baseline diff.
 
 ## Latest commits
 
