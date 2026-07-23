@@ -42,6 +42,7 @@
 - Task 3+4: complete (commits 40afb47..a1dabeb, review Approved with 1 Important finding [lead.name/partner_name sent to LLM in cleartext under anonymize_customer_names] escalated to user; user chose to extend anonymization to lead.name+partner_name; recorded as spec Decision F.2 at commit 079aa44; fix folded into Task 5 dispatch). test_cron_concurrency.py mock-fixture update (2 lines) verified as legitimate stale-fixture fix, not weakened coverage. 8 pre-existing TestLeadScoring/TestLLMProvider failures confirmed unrelated via baseline diff.
 - Task 5: complete (commits 3b5a3d3..3775add, review clean — F.2 fix [shared _anonymize_name_if_enabled helper + lead_name/company_name coverage in prompt+query] + original Settings UI toggle both verified; implementer's self-flagged 4th fix [fallback-subject leak in _build_research_queries] independently judged legitimate, not scope creep)
 - Task 6: complete (commits d22878f..0b70c29, 1 fix round for 1 Critical finding [unrequested post-migrate.py stub removed as scope creep], re-review clean). pre-migrate.py uses hyphenated filename per 19.0.1.6 precedent (plan doc's pre_migrate.py with underscore was a typo, corrected during dispatch).
+- Task 7: complete (commits 8d59f5e..2ac54c2, review clean — 8 computed Html fields with verified markupsafe escaping discipline, 8 new notebook tabs, tree/kanban additions, 8 new tests all real content assertions; implementer's first pass ran out of turns mid-verification without committing, resumed via SendMessage to finish/commit/report).
 
 ## Latest commits
 
