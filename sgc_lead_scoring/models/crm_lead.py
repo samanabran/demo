@@ -158,11 +158,12 @@ class CrmLead(models.Model):
         self.ensure_one()
         return True
 
-    def _build_research_queries(self, company_name, display_name):
-        """Search queries for multi_search(). Uses ``display_name`` (already
-        anonymized upstream when the toggle is on) as the subject for
-        individual leads, and never leaks the real contact name."""
-        subject = company_name or display_name or self.name or ''
+    def _build_research_queries(self, company_name, display_name, lead_name=''):
+        """Search queries for multi_search(). ``company_name``, ``display_name``
+        and ``lead_name`` are all already anonymized upstream when the toggle
+        is on (Decision F / F.2), so the fallback chain never leaks a real
+        name into the query even when partner_name/contact_name are blank."""
+        subject = company_name or display_name or lead_name or ''
         queries = []
         if subject:
             queries.append('%s profile about' % subject)
@@ -223,9 +224,13 @@ class CrmLead(models.Model):
         # 4 — anonymized (or plain) contact display name.
         display_name = li.anonymize_contact_name(self, self.env)
 
-        # 5 + 6 — search (existing infrastructure, unchanged).
-        company_name = self.partner_name or ''
-        queries = self._build_research_queries(company_name, display_name)
+        # 5 + 6 — search (existing infrastructure, unchanged). Company name
+        # (and the lead-name fallback subject) are anonymized the same way as
+        # contact name (Decision F.2) so the hashed value reaches both the
+        # search query and the LLM prompt, never the raw name.
+        company_name = li.anonymize_company_name(self, self.env)
+        lead_name = li.anonymize_lead_name(self, self.env)
+        queries = self._build_research_queries(company_name, display_name, lead_name)
         research = self.env['web.research.service'].multi_search(queries, parallel=True)
 
         # 7 + 8 — normalize evidence and persist artifact 3 immediately.

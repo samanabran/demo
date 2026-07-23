@@ -206,19 +206,39 @@ def _config_bool(env, key, default='False'):
     return str(val).strip().lower() == 'true'
 
 
-def anonymize_contact_name(lead, env):
-    """Return the contact name to expose to search/LLM.
+def _anonymize_name_if_enabled(raw_name, env):
+    """Return ``raw_name`` unchanged, or its SHA-256[:12] hex prefix when
+    ``llm_lead_scoring.anonymize_customer_names`` is on (Decision F / F.2).
 
-    When ``llm_lead_scoring.anonymize_customer_names`` is on, the real name is
-    replaced by the first 12 hex chars of its SHA-256 (Decision F / mirrors the
-    existing company-name pattern). Empty name stays empty either way.
+    Single shared implementation of the hash-if-enabled branch so it is never
+    duplicated per field. Empty/blank input stays empty either way.
     """
-    name = (getattr(lead, 'contact_name', '') or '').strip()
+    name = (raw_name or '').strip()
+    if not name:
+        return ''
     if _config_bool(env, 'llm_lead_scoring.anonymize_customer_names'):
-        if not name:
-            return ''
         return hashlib.sha256(name.encode('utf-8')).hexdigest()[:12]
     return name
+
+
+def anonymize_contact_name(lead, env):
+    """Return the contact name (``crm.lead.contact_name``) to expose to
+    search/LLM, hashed when the toggle is on (Decision F)."""
+    return _anonymize_name_if_enabled(getattr(lead, 'contact_name', ''), env)
+
+
+def anonymize_lead_name(lead, env):
+    """Return the lead/opportunity title (``crm.lead.name``) to expose to
+    search/LLM, hashed when the toggle is on (Decision F.2). Odoo's B2C
+    convention often sets this to the contact's own name, so it must be
+    covered by the same toggle as ``contact_name``."""
+    return _anonymize_name_if_enabled(getattr(lead, 'name', ''), env)
+
+
+def anonymize_company_name(lead, env):
+    """Return the company name (``crm.lead.partner_name``) to expose to
+    search/LLM, hashed when the toggle is on (Decision F.2)."""
+    return _anonymize_name_if_enabled(getattr(lead, 'partner_name', ''), env)
 
 
 _SYSTEM_INSTRUCTION = (
@@ -249,12 +269,13 @@ def build_prompt(lead, entity_hint, normalized_evidence, env):
 
     Wraps the evidence in the ``<<BEGIN_EVIDENCE>>``/``<<END_EVIDENCE>>``
     delimiter (Decision D) and exposes only non-PII lead facts plus the
-    (possibly anonymized) contact display name.
+    (possibly anonymized) contact display name, lead name and company name
+    (Decision F / F.2 — all three name fields share the same toggle).
     """
     display_name = anonymize_contact_name(lead, env)
     facts = {
-        'lead_name': getattr(lead, 'name', '') or '',
-        'company_name': getattr(lead, 'partner_name', '') or '',
+        'lead_name': anonymize_lead_name(lead, env),
+        'company_name': anonymize_company_name(lead, env),
         'contact_display_name': display_name,
         'website': getattr(lead, 'website', '') or '',
         'entity_hint': entity_hint,

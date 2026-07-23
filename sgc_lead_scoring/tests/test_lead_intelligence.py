@@ -424,3 +424,78 @@ class TestLeadIntelligencePipeline(TransactionCase):
         b2c._enrich_lead()
         sent = mock_llm.call_args.kwargs.get('messages') or mock_llm.call_args[0][0]
         self.assertNotIn('Jane VerySecret', json.dumps(sent))
+
+    # ---- F.2: lead.name / partner_name anonymization, both legs ---------
+
+    @patch('odoo.addons.sgc_lead_scoring.models.llm_service.LlmService.call_llm')
+    @patch('odoo.addons.sgc_lead_scoring.models.web_research_service.WebResearchService.multi_search')
+    def test_lead_name_and_company_name_anonymized_toggle_on(self, mock_search, mock_llm):
+        """When the toggle is on, ALL THREE name fields (contact_name, lead
+        name, partner_name) must be hashed before reaching both the LLM
+        prompt AND the search query (Decision F.2)."""
+        self.env['ir.config_parameter'].sudo().set_param(
+            'llm_lead_scoring.anonymize_customer_names', 'True')
+        lead = self.env['crm.lead'].create({
+            'name': 'JaneSecretLeadTitle',
+            'contact_name': 'JaneSecretContact',
+            'partner_name': 'JaneSecretCompany',
+            'website': 'https://acme-secret.example.com',
+        })
+        mock_search.side_effect = self._multi_search
+        mock_llm.return_value = {'success': True, 'content': self._good_contract(), 'error': '', 'retries': 0}
+        lead._enrich_lead()
+
+        sent = mock_llm.call_args.kwargs.get('messages') or mock_llm.call_args[0][0]
+        prompt_text = json.dumps(sent)
+        self.assertNotIn('JaneSecretLeadTitle', prompt_text)
+        self.assertNotIn('JaneSecretContact', prompt_text)
+        self.assertNotIn('JaneSecretCompany', prompt_text)
+
+        queries = mock_search.call_args[0][0]
+        query_text = json.dumps(queries)
+        self.assertNotIn('JaneSecretLeadTitle', query_text)
+        self.assertNotIn('JaneSecretContact', query_text)
+        self.assertNotIn('JaneSecretCompany', query_text)
+
+    @patch('odoo.addons.sgc_lead_scoring.models.llm_service.LlmService.call_llm')
+    @patch('odoo.addons.sgc_lead_scoring.models.web_research_service.WebResearchService.multi_search')
+    def test_names_cleartext_when_toggle_off(self, mock_search, mock_llm):
+        """Regression: with the toggle OFF (the default), all three name
+        fields still reach the prompt in cleartext, and the search query
+        subject (company_name, which wins the fallback chain) is also
+        cleartext."""
+        lead = self.env['crm.lead'].create({
+            'name': 'JanePlainLeadTitle',
+            'contact_name': 'JanePlainContact',
+            'partner_name': 'JanePlainCompany',
+            'website': 'https://acme-plain.example.com',
+        })
+        mock_search.side_effect = self._multi_search
+        mock_llm.return_value = {'success': True, 'content': self._good_contract(), 'error': '', 'retries': 0}
+        lead._enrich_lead()
+
+        sent = mock_llm.call_args.kwargs.get('messages') or mock_llm.call_args[0][0]
+        prompt_text = json.dumps(sent)
+        self.assertIn('JanePlainLeadTitle', prompt_text)
+        self.assertIn('JanePlainContact', prompt_text)
+        self.assertIn('JanePlainCompany', prompt_text)
+
+        queries = mock_search.call_args[0][0]
+        query_text = json.dumps(queries)
+        self.assertIn('JanePlainCompany', query_text)
+
+    @patch('odoo.addons.sgc_lead_scoring.models.llm_service.LlmService.call_llm')
+    @patch('odoo.addons.sgc_lead_scoring.models.web_research_service.WebResearchService.multi_search')
+    def test_lead_name_fallback_subject_anonymized_in_query(self, mock_search, mock_llm):
+        """The search-query fallback subject (used when partner_name and
+        contact_name are both blank) is the anonymized lead name, not the
+        raw ``crm.lead.name`` — closing the exact B2C leak Decision F.2
+        exists to prevent."""
+        self.env['ir.config_parameter'].sudo().set_param(
+            'llm_lead_scoring.anonymize_customer_names', 'True')
+        lead = self.env['crm.lead'].create({'name': 'JaneOnlyLeadTitleSecret'})
+        mock_search.side_effect = self._multi_search
+        mock_llm.return_value = {'success': True, 'content': self._good_contract(), 'error': '', 'retries': 0}
+        lead._enrich_lead()
+        queries = mock_search.call_args[0][0]
+        self.assertNotIn('JaneOnlyLeadTitleSecret', json.dumps(queries))
