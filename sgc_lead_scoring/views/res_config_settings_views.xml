@@ -61,6 +61,10 @@
                                  help="Hash company name before sending to any third-party search provider.">
                             <field name="anonymize_company_names"/>
                         </setting>
+                        <setting id="anonymize_customer_names_setting" string="Anonymize Customer Names"
+                                 help="Hash contact name, lead name, and company name before sending to any third-party search provider or LLM for the Lead Intelligence Engine.">
+                            <field name="anonymize_customer_names"/>
+                        </setting>
                         <setting id="web_research_providers_setting" string="Web Research Providers"
                                  help="Configure Tavily, Exa, SearXNG, and legacy Google Custom Search.">
                             <button name="%(sgc_lead_scoring.action_web_research_provider)d" type="action"

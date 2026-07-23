@@ -62,6 +62,16 @@ class ResConfigSettings(models.TransientModel):
         help='Hash company name before sending to any third-party provider; results are re-associated locally.',
     )
 
+    anonymize_customer_names = fields.Boolean(
+        string='Anonymize Customer Names in Lead Intelligence',
+        config_parameter='llm_lead_scoring.anonymize_customer_names',
+        default=False,
+        help='Hash contact name, lead name, and company name before sending to any third-party search '
+             'provider or LLM for the Lead Intelligence Engine; results are re-associated locally. '
+             'Relationship and conversation intelligence sections will be weaker as a result, since the '
+             'LLM never sees the real names.',
+    )
+
     google_search_api_key = fields.Char(
         string='Google Custom Search API Key',
         config_parameter='llm_lead_scoring.google_search_api_key',
