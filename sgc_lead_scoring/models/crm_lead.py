@@ -4,11 +4,107 @@ import logging
 from concurrent.futures import ThreadPoolExecutor
 from datetime import date
 
+from markupsafe import Markup, escape
+
 from odoo import models, fields, api, _
 
 from . import lead_intelligence as li
 
 _logger = logging.getLogger(__name__)
+
+# ---------------------------------------------------------------------------
+# HTML rendering helpers for the read-only "intelligence tab" computed fields
+# (Task 7). These are intentionally simple bullet-list renderers over the
+# Universal JSON Contract's per-section shape — not a generic JSON->HTML
+# framework. Every helper tolerates missing/malformed input by falling back
+# to a plain "not applicable" / "no data" message (never raises).
+# ---------------------------------------------------------------------------
+
+_NOT_APPLICABLE_HTML = '<p><i>Not applicable for this lead.</i></p>'
+_NO_DATA_HTML = '<p><i>No data available.</i></p>'
+
+
+def _humanize_key(key):
+    """``some_field_name`` -> ``Some Field Name``."""
+    return ' '.join(word.capitalize() for word in str(key).split('_'))
+
+
+def _format_contract_value(value):
+    """Render one Universal Contract field value as an HTML-safe fragment.
+
+    Handles the three shapes a field can take in the contract: a
+    ``{value, confidence, reason}`` wrapper dict, a flat list of strings
+    (post-parser flattening, Decision E), or a plain scalar. Returns ''
+    when there is nothing worth displaying.
+    """
+    if isinstance(value, dict):
+        if value.get('not_applicable'):
+            return ''
+        inner = _format_contract_value(value.get('value'))
+        confidence = value.get('confidence')
+        if inner and confidence:
+            return '%s <i>(confidence: %s)</i>' % (inner, escape(str(confidence)))
+        return inner
+    if isinstance(value, list):
+        items = [_format_contract_value(v) for v in value]
+        items = [i for i in items if i]
+        return ', '.join(items)
+    if isinstance(value, bool):
+        return 'Yes' if value else 'No'
+    if value in (None, ''):
+        return ''
+    return str(escape(str(value)))
+
+
+def _render_contract_section(section, title=None):
+    """Bullet-list HTML for one Universal Contract section dict.
+
+    Renders '<p><i>Not applicable...</i></p>' when the section is absent,
+    not a dict, empty, or explicitly marked ``not_applicable``.
+    """
+    if not isinstance(section, dict) or not section or section.get('not_applicable'):
+        body = _NOT_APPLICABLE_HTML
+    else:
+        rows = []
+        for key, value in section.items():
+            if key == 'not_applicable':
+                continue
+            text = _format_contract_value(value)
+            if text:
+                rows.append('<li><b>%s</b>: %s</li>' % (escape(_humanize_key(key)), text))
+        body = ('<ul>%s</ul>' % ''.join(rows)) if rows else _NO_DATA_HTML
+    if title:
+        return '<h6>%s</h6>%s' % (escape(title), body)
+    return body
+
+
+def _render_evidence_html(evidence_list):
+    """Bullet-list HTML for the normalized evidence list (Evidence tab)."""
+    if not isinstance(evidence_list, list) or not evidence_list:
+        return '<p><i>No research evidence recorded for this lead.</i></p>'
+    rows = []
+    for item in evidence_list:
+        if not isinstance(item, dict):
+            continue
+        title = item.get('title') or item.get('url') or 'Untitled source'
+        url = item.get('url') or ''
+        snippet = item.get('snippet') or ''
+        provider = item.get('provider') or ''
+        retrieved_at = item.get('retrieved_at') or ''
+        if url:
+            title_html = '<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>' % (
+                escape(url), escape(title))
+        else:
+            title_html = escape(title)
+        meta_bits = [b for b in (
+            ('<i>%s</i>' % escape(provider)) if provider else '',
+            escape(retrieved_at) if retrieved_at else '',
+        ) if b]
+        meta = ' &mdash; '.join(meta_bits)
+        snippet_html = ('<br/>%s' % escape(snippet)) if snippet else ''
+        rows.append('<li>%s%s%s</li>' % (
+            title_html, snippet_html, ('<br/><small>%s</small>' % meta) if meta else ''))
+    return ('<ul>%s</ul>' % ''.join(rows)) if rows else '<p><i>No research evidence recorded for this lead.</i></p>'
 
 
 class CrmLead(models.Model):
@@ -104,6 +200,28 @@ class CrmLead(models.Model):
         string='Classification Mismatch', compute='_compute_mismatch', store=True, readonly=True,
     )
 
+    # ------------------------------------------------------------------
+    # Notebook-tab computed Html fields (Task 7). Non-stored, purely
+    # derived display data parsed from ai_enrichment_data / _evidence —
+    # never searched/filtered/aggregated on, so store=True is unneeded.
+    # ------------------------------------------------------------------
+    ai_company_intelligence_html = fields.Html(
+        string='Company Intelligence', compute='_compute_ai_company_intelligence_html', readonly=True)
+    ai_customer_intelligence_html = fields.Html(
+        string='Customer Intelligence', compute='_compute_ai_customer_intelligence_html', readonly=True)
+    ai_relationship_intelligence_html = fields.Html(
+        string='Relationship Intelligence', compute='_compute_ai_relationship_intelligence_html', readonly=True)
+    ai_buying_intelligence_html = fields.Html(
+        string='Buying Intelligence', compute='_compute_ai_buying_intelligence_html', readonly=True)
+    ai_opportunity_intelligence_html = fields.Html(
+        string='Opportunity Intelligence', compute='_compute_ai_opportunity_intelligence_html', readonly=True)
+    ai_proposal_intelligence_html = fields.Html(
+        string='Proposal Intelligence', compute='_compute_ai_proposal_intelligence_html', readonly=True)
+    ai_executive_summary_html = fields.Html(
+        string='Executive Summary', compute='_compute_ai_executive_summary_html', readonly=True)
+    ai_evidence_html = fields.Html(
+        string='Evidence', compute='_compute_ai_evidence_html', readonly=True)
+
     @api.depends('ai_probability_score')
     def _compute_ai_score_color(self):
         for lead in self:
@@ -140,6 +258,90 @@ class CrmLead(models.Model):
                 and hint_family != llm_family
                 and lead.ai_entity_type_confidence == 'high'
             )
+
+    def _parsed_enrichment_data(self):
+        """Best-effort ``json.loads(ai_enrichment_data)`` -> dict, or ``{}``
+        on empty/malformed content. Never raises (parser tolerance is a core
+        design principle of this feature — a bad/absent JSON blob must never
+        break the form view)."""
+        self.ensure_one()
+        try:
+            data = json.loads(self.ai_enrichment_data or '{}')
+        except (ValueError, TypeError):
+            return {}
+        return data if isinstance(data, dict) else {}
+
+    @api.depends('ai_enrichment_data')
+    def _compute_ai_company_intelligence_html(self):
+        for lead in self:
+            parsed = lead._parsed_enrichment_data()
+            lead.ai_company_intelligence_html = Markup(
+                _render_contract_section(parsed.get('company_intelligence')))
+
+    @api.depends('ai_enrichment_data')
+    def _compute_ai_customer_intelligence_html(self):
+        for lead in self:
+            parsed = lead._parsed_enrichment_data()
+            lead.ai_customer_intelligence_html = Markup(
+                _render_contract_section(parsed.get('customer_intelligence')))
+
+    @api.depends('ai_enrichment_data')
+    def _compute_ai_relationship_intelligence_html(self):
+        for lead in self:
+            parsed = lead._parsed_enrichment_data()
+            html = (
+                _render_contract_section(parsed.get('relationship_intelligence'), title=_('Relationship'))
+                + _render_contract_section(parsed.get('conversation_intelligence'), title=_('Conversation'))
+            )
+            lead.ai_relationship_intelligence_html = Markup(html)
+
+    @api.depends('ai_enrichment_data')
+    def _compute_ai_buying_intelligence_html(self):
+        for lead in self:
+            parsed = lead._parsed_enrichment_data()
+            html = (
+                _render_contract_section(parsed.get('buying_intelligence'), title=_('Buying Signals'))
+                + _render_contract_section(parsed.get('needs_assessment'), title=_('Needs Assessment'))
+                + _render_contract_section(parsed.get('business_requirements'), title=_('Business Requirements'))
+                + _render_contract_section(parsed.get('decision_makers'), title=_('Decision Makers'))
+            )
+            lead.ai_buying_intelligence_html = Markup(html)
+
+    @api.depends('ai_enrichment_data')
+    def _compute_ai_opportunity_intelligence_html(self):
+        for lead in self:
+            parsed = lead._parsed_enrichment_data()
+            html = (
+                _render_contract_section(parsed.get('opportunity_intelligence'), title=_('Opportunity'))
+                + _render_contract_section(parsed.get('implementation_readiness'), title=_('Implementation Readiness'))
+            )
+            lead.ai_opportunity_intelligence_html = Markup(html)
+
+    @api.depends('ai_enrichment_data')
+    def _compute_ai_proposal_intelligence_html(self):
+        for lead in self:
+            parsed = lead._parsed_enrichment_data()
+            html = (
+                _render_contract_section(parsed.get('proposal_intelligence'), title=_('Proposal'))
+                + _render_contract_section(parsed.get('recommended_solution'), title=_('Recommended Solution'))
+            )
+            lead.ai_proposal_intelligence_html = Markup(html)
+
+    @api.depends('ai_enrichment_data')
+    def _compute_ai_executive_summary_html(self):
+        for lead in self:
+            parsed = lead._parsed_enrichment_data()
+            lead.ai_executive_summary_html = Markup(
+                _render_contract_section(parsed.get('summary')))
+
+    @api.depends('ai_enrichment_evidence')
+    def _compute_ai_evidence_html(self):
+        for lead in self:
+            try:
+                evidence = json.loads(lead.ai_enrichment_evidence or '[]')
+            except (ValueError, TypeError):
+                evidence = []
+            lead.ai_evidence_html = Markup(_render_evidence_html(evidence))
 
     def action_enrich_with_ai(self):
         """Enrich this lead with AI-powered analysis."""

@@ -14,3 +14,4 @@ from . import test_lead_intelligence
 from . import test_cron_concurrency
 from . import test_lead_enrichment_wizard
 from . import test_lead_enrichment_e2e
+from . import test_lead_intelligence_html_fields

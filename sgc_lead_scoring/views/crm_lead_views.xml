@@ -34,6 +34,45 @@
                         </group>
                     </group>
 
+                    <group>
+                        <group string="Entity Classification">
+                            <field name="entity_hint" readonly="1"/>
+                            <field name="ai_entity_type" readonly="1"/>
+                            <field name="ai_entity_type_confidence" readonly="1"/>
+                            <field name="ai_readiness" widget="badge" decoration-success="ai_readiness == 'hot'" decoration-warning="ai_readiness == 'warm'" decoration-info="ai_readiness == 'nurture'" decoration-danger="ai_readiness == 'cold'" readonly="1"/>
+                            <label for="ai_classification_mismatch" string="Classification Mismatch"/>
+                            <div>
+                                <field name="ai_classification_mismatch" invisible="1"/>
+                                <span class="badge text-bg-success" invisible="ai_classification_mismatch">Matched</span>
+                                <span class="badge text-bg-warning" invisible="not ai_classification_mismatch">Mismatch</span>
+                            </div>
+                        </group>
+                        <group string="Lead Intelligence BANT Scores">
+                            <field name="ai_need_score" widget="progressbar" readonly="1"/>
+                            <field name="ai_budget_score" widget="progressbar" readonly="1"/>
+                            <field name="ai_authority_score" widget="progressbar" readonly="1"/>
+                            <field name="ai_timeline_score" widget="progressbar" readonly="1"/>
+                            <field name="ai_urgency_score" widget="progressbar" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Relationship &amp; Readiness Scores">
+                            <field name="ai_relationship_score" widget="progressbar" readonly="1"/>
+                            <field name="ai_digital_maturity_score" widget="progressbar" readonly="1"/>
+                            <field name="ai_implementation_complexity_score" widget="progressbar" readonly="1"/>
+                        </group>
+                        <group string="Opportunity Scores">
+                            <field name="ai_proposal_confidence_score" widget="progressbar" readonly="1"/>
+                            <field name="ai_win_probability_score" widget="progressbar" readonly="1"/>
+                            <field name="ai_opportunity_score" widget="progressbar" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <group string="Scoring Rationale" invisible="not ai_scoring_rationale" colspan="2">
+                        <field name="ai_scoring_rationale" readonly="1" nolabel="1" colspan="2"/>
+                    </group>
+
                     <group string="AI Enrichment Report" invisible="not ai_enrichment_report" colspan="2">
                         <field name="ai_enrichment_report" readonly="1" nolabel="1" colspan="2"/>
                     </group>
@@ -45,6 +84,38 @@
                     <group string="Raw Enrichment Data (JSON)" invisible="not ai_enrichment_data" colspan="2">
                         <field name="ai_enrichment_data" readonly="1" nolabel="1" colspan="2"/>
                     </group>
+                </page>
+
+                <page string="Company Intelligence" name="ai_company_intelligence" invisible="not ai_enrichment_data">
+                    <field name="ai_company_intelligence_html" readonly="1" nolabel="1"/>
+                </page>
+
+                <page string="Customer Intelligence" name="ai_customer_intelligence" invisible="not ai_enrichment_data">
+                    <field name="ai_customer_intelligence_html" readonly="1" nolabel="1"/>
+                </page>
+
+                <page string="Relationship Intelligence" name="ai_relationship_intelligence" invisible="not ai_enrichment_data">
+                    <field name="ai_relationship_intelligence_html" readonly="1" nolabel="1"/>
+                </page>
+
+                <page string="Buying Intelligence" name="ai_buying_intelligence" invisible="not ai_enrichment_data">
+                    <field name="ai_buying_intelligence_html" readonly="1" nolabel="1"/>
+                </page>
+
+                <page string="Opportunity Intelligence" name="ai_opportunity_intelligence" invisible="not ai_enrichment_data">
+                    <field name="ai_opportunity_intelligence_html" readonly="1" nolabel="1"/>
+                </page>
+
+                <page string="Proposal Intelligence" name="ai_proposal_intelligence" invisible="not ai_enrichment_data">
+                    <field name="ai_proposal_intelligence_html" readonly="1" nolabel="1"/>
+                </page>
+
+                <page string="Executive Summary" name="ai_executive_summary" invisible="not ai_enrichment_data">
+                    <field name="ai_executive_summary_html" readonly="1" nolabel="1"/>
+                </page>
+
+                <page string="Evidence" name="ai_evidence" invisible="not ai_enrichment_data">
+                    <field name="ai_evidence_html" readonly="1" nolabel="1"/>
                 </page>
             </xpath>
         </field>
@@ -59,6 +130,8 @@
             <xpath expr="//field[@name='probability']" position="after">
                 <field name="ai_probability_score" optional="show" widget="progressbar"/>
                 <field name="ai_enrichment_status" optional="hide"/>
+                <field name="ai_classification_mismatch" optional="hide" widget="boolean_toggle" readonly="1"/>
+                <field name="ai_readiness" optional="hide" widget="badge" decoration-success="ai_readiness == 'hot'" decoration-warning="ai_readiness == 'warm'" decoration-info="ai_readiness == 'nurture'" decoration-danger="ai_readiness == 'cold'"/>
             </xpath>
         </field>
     </record>
@@ -76,6 +149,10 @@
                     <span class="badge" t-attf-class="badge-{{record.ai_score_color.raw_value &gt;= 10 and 'success' or (record.ai_score_color.raw_value &gt;= 3 and 'warning' or 'danger')}}" title="AI Probability Score">
                         AI: <field name="ai_probability_score"/>
 %
+                    </span>
+                    <field name="ai_readiness" invisible="1"/>
+                    <span class="badge ms-1" t-attf-class="badge-{{record.ai_readiness.raw_value == 'hot' and 'success' or (record.ai_readiness.raw_value == 'warm' and 'warning' or (record.ai_readiness.raw_value == 'nurture' and 'info' or 'secondary'))}}" title="Readiness" invisible="not ai_readiness">
+                        <field name="ai_readiness"/>
                     </span>
                 </div>
             </xpath>
