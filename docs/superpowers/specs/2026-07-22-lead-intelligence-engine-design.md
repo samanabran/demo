@@ -356,6 +356,20 @@ signals), but Sales loses the personalized "I saw you recently moved
 to Dubai" hooks. This degradation is **accepted, not a bug** — a
 partial anonymized enrichment beats a leak.
 
+**Scope correction (F.2):** During Task 3+4's review, a gap was found —
+only `contact_name` was hashed before reaching the LLM prompt; `lead.name`
+and `partner_name` were sent in cleartext. This matters because Odoo's
+convention for a B2C lead is to set `lead.name` (the "Opportunity" title)
+to the contact's own name when no explicit title is given, so the
+cleartext `name` field could re-leak exactly the identity
+`anonymize_customer_names` is meant to protect. Resolved: when the
+toggle is on, `lead.name` and `partner_name` are ALSO hashed/pseudonymized
+before they reach either the search query or the LLM prompt, using the
+same mechanism as `contact_name` (Decision F). This closes the gap while
+keeping the toggle's semantics unchanged — "protect customer identity
+signals," now applied consistently across all three name-bearing fields
+instead of only one.
+
 ### G. Native-Field Promotion Mapping
 
 The LLM's JSON must drive these `crm.lead` fields (populated by the
