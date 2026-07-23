@@ -1,13 +1,36 @@
 # -*- coding: utf-8 -*-
+"""End-to-end coverage for the AI-enrich button -> wizard -> `_enrich_lead()`
+-> structured chatter note flow, rewritten against the Universal JSON
+Contract pipeline (Task 8).
+
+The old version mocked legacy `multi_search`/`call_llm` shapes and asserted
+on the old free-text 'AI Research Summary' + provider-name-in-body format.
+The current chatter format is built by `crm_lead.py::_lead_intelligence_note`
+(read directly, not guessed): a `<b>AI Research Summary</b>` header, an
+`<p>{executive_summary}</p>` paragraph, `<p><b>{Title}</b></p><ul>...</ul>`
+sections for key findings / risks / opportunities / recommended next
+actions, a `<p><b>Conversation Strategy</b>: ...</p>` line, and a trailing
+`<p><i>Sources: {providers}</i></p>` line.
+"""
+import json
 from unittest.mock import patch
 
 from odoo.tests.common import HttpCase, tagged
+
+from odoo.addons.sgc_lead_scoring.models import lead_intelligence as li
+
+
+def _scores_block(score=80, confidence='high', reason='strong'):
+    scores = {}
+    for key, _field in li.SCORE_KEYS:
+        scores['%s_score' % key] = {'score': score, 'confidence': confidence, 'reason': reason}
+    return scores
 
 
 @tagged('-at_install', 'post_install')
 class TestLeadEnrichmentE2E(HttpCase):
 
-    def test_ai_enrich_button_produces_research_note(self):
+    def test_ai_enrich_button_produces_structured_chatter(self):
         lead = self.env['crm.lead'].create({
             'name': 'E2E Test Lead', 'partner_name': 'E2E Acme', 'website': 'https://e2eacme.com',
         })
@@ -17,6 +40,21 @@ class TestLeadEnrichmentE2E(HttpCase):
         provider = self.env['llm.provider'].create({
             'name': 'E2E Test Provider', 'provider_type': 'openai',
             'model_name': 'gpt-4', 'api_key': 'test-key',
+        })
+        contract = json.dumps({
+            'metadata': {'schema_version': '1.0', 'providers_used': ['tavily']},
+            'classification': {'entity_type': 'b2b_company', 'confidence': 'high'},
+            'scores': _scores_block(),
+            'customer_intelligence': {'industry': {'value': 'Manufacturing'}},
+            'buying_intelligence': {'budget_readiness': {'value': 'AED 5M+'}},
+            'summary': {
+                'executive_summary': 'E2E Acme is a promising test company.',
+                'key_findings': ['Growing fast', 'New facility'],
+                'conversation_strategy': 'Lead with ROI.',
+                'risks': ['Long procurement cycle'],
+                'opportunities': ['Digital transformation budget'],
+                'recommended_next_actions': ['Book discovery call'],
+            },
         })
         with patch(
             'odoo.addons.sgc_lead_scoring.models.web_research_service.WebResearchService.multi_search',
@@ -29,7 +67,7 @@ class TestLeadEnrichmentE2E(HttpCase):
             },
         ), patch(
             'odoo.addons.sgc_lead_scoring.models.llm_service.LlmService.call_llm',
-            return_value={'success': True, 'content': 'E2E Acme is a test company.', 'error': None, 'retries': 0},
+            return_value={'success': True, 'content': contract, 'error': None, 'retries': 0},
         ):
             wizard = self.env['lead.enrichment.wizard'].create({
                 'lead_ids': [(6, 0, lead.ids)], 'provider_id': provider.id, 'parallel': False,
@@ -40,4 +78,19 @@ class TestLeadEnrichmentE2E(HttpCase):
         self.assertEqual(lead.ai_enrichment_status, 'completed')
         messages = lead.message_ids.filtered(lambda m: 'AI Research Summary' in (m.body or ''))
         self.assertTrue(messages)
-        self.assertIn('tavily', messages[0].body)
+        # `_lead_intelligence_note()` builds a raw HTML string, but
+        # `message_post()` treats a plain `str` body as untrusted text and
+        # HTML-escapes it (wrapping the whole thing in one outer `<p>`) --
+        # verified directly against a live run, not assumed from reading the
+        # note-builder alone. So assert on the visible text content (which
+        # survives escaping) rather than literal `<b>`/`<ul>` tags.
+        body = messages[0].body
+        self.assertIn('AI Research Summary', body)
+        self.assertIn('E2E Acme is a promising test company.', body)
+        self.assertIn('Growing fast', body)
+        self.assertIn('Lead with ROI.', body)
+        self.assertIn('Long procurement cycle', body)
+        self.assertIn('Digital transformation budget', body)
+        self.assertIn('Book discovery call', body)
+        self.assertIn('Sources', body)
+        self.assertIn('tavily', body)
