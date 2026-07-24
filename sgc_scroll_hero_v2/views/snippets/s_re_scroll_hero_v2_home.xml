@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Homepage variant: same V2 engine (canvas/frames/captions/audio) as
+       s_re_scroll_hero_v2, but with sgc_scroll_hero_homepage's styled pill
+       search bar transplanted in place of V2's plain Bootstrap-grid form.
+       The wrapper only carries s_re_hero_search_wrap (V1's un-namespaced
+       class) so scroll_hero.css's pill-search rules apply without colliding
+       with scroll_hero_v2.css's own .s_re_hero_search_wrap_v2 sizing rules;
+       scroll_hero_v2.js's searchWrap lookup matches either class. -->
+  <template id="s_re_scroll_hero_v2_home" name="Scroll Story Hero V2 (Homepage)">
+    <section data-snippet="s_re_scroll_hero_v2" data-name="Scroll Story Hero V2"
+             data-frame-count="240" data-pin-height="600"
+             class="s_re_scroll_hero_v2 position-relative p-0">
+
+      <script>
+        (function () {
+          function loadScript(src, cb) {
+            var s = document.createElement('script');
+            s.src = src;
+            s.onload = cb;
+            s.onerror = cb;
+            document.head.appendChild(s);
+          }
+          function announceReady() {
+            document.dispatchEvent(new Event('sgc:gsap-ready'));
+          }
+          var fallbackTimer = setTimeout(announceReady, 5000);
+          function onReady() {
+            clearTimeout(fallbackTimer);
+            announceReady();
+          }
+          if (window.gsap &amp;&amp; window.ScrollTrigger) {
+            onReady();
+          } else if (window.gsap &amp;&amp; !window.ScrollTrigger) {
+            loadScript('/sgc_scroll_hero_v2/static/src/lib/ScrollTrigger.min.js', function () {
+              if (window.ScrollTrigger) { onReady(); return; }
+              loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js', onReady);
+            });
+          } else {
+            loadScript('/sgc_scroll_hero_v2/static/src/lib/gsap.min.js', function () {
+              if (window.gsap) {
+                loadScript('/sgc_scroll_hero_v2/static/src/lib/ScrollTrigger.min.js', function () {
+                  if (window.ScrollTrigger) { onReady(); return; }
+                  loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js', onReady);
+                });
+                return;
+              }
+              loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js', function () {
+                loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js', onReady);
+              });
+            });
+          }
+          if (!document.querySelector('link[data-sgc-font="fraunces"]')) {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.setAttribute('data-sgc-font', 'fraunces');
+            link.href = 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&amp;display=swap';
+            document.head.appendChild(link);
+          }
+        })();
+      </script>
+
+      <div class="s_re_hero_stage_v2">
+        <canvas class="s_re_hero_canvas_v2" aria-hidden="true"/>
+
+        <div class="s_re_hero_overlay_final_v2" aria-hidden="true"/>
+
+        <div class="s_re_hero_caption_v2" role="status" aria-live="polite"/>
+
+        <div class="s_re_hero_search_wrap">
+          <form method="get" action="/offplan/properties" class="s_re_hero_search_form" aria-label="Property search">
+            <div class="s_re_hero_search_segment s_re_hero_search_segment--location">
+              <span class="s_re_hero_search_icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+              </span>
+              <input type="text" name="search" class="form-control s_re_hero_search_input"
+                     placeholder="City or property name" aria-label="City or property name" tabindex="-1"/>
+            </div>
+
+            <span class="s_re_hero_search_divider" aria-hidden="true"></span>
+
+            <div class="s_re_hero_search_segment s_re_hero_search_segment--type">
+              <span class="s_re_hero_search_icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 2l9 7.5"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+              </span>
+              <select name="property_type" class="form-select s_re_hero_search_input" aria-label="Property type" tabindex="-1">
+                <option value="">Any type</option>
+                <option value="residential">Residential</option>
+                <option value="commercial">Commercial</option>
+                <option value="industrial">Industrial</option>
+                <option value="land">Land</option>
+              </select>
+            </div>
+
+            <span class="s_re_hero_search_divider" aria-hidden="true"></span>
+
+            <div class="s_re_hero_search_segment s_re_hero_search_segment--status">
+              <span class="s_re_hero_search_icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+              </span>
+              <select name="state" class="form-select s_re_hero_search_input" aria-label="Status" tabindex="-1">
+                <option value="available" selected="selected">Available</option>
+                <option value="booked">Booked</option>
+                <option value="sold">Sold</option>
+                <option value="rented">Rented</option>
+                <option value="under_maintenance">Under Maintenance</option>
+              </select>
+            </div>
+
+            <button type="submit" class="s_re_hero_search_btn" tabindex="-1">
+              <span class="s_re_hero_search_icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+              </span>
+              <span class="s_re_hero_search_btn_label">Search Properties</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="s_re_hero_scroll_hint_v2">
+          <span>Scroll to begin</span>
+          <i class="fa fa-chevron-down s_re_hero_chevron_v2"/>
+        </div>
+
+        <div class="s_re_hero_loading_v2" aria-hidden="true">
+          <span>Loading…</span>
+        </div>
+      </div>
+    </section>
+  </template>
+</odoo>

@@ -15,6 +15,7 @@ site homepage.
     'depends': ['website', 'sgc_offplan_rental_property_management'],
     'data': [
         'views/snippets/s_re_scroll_hero_v2.xml',
+        'views/snippets/s_re_scroll_hero_v2_home.xml',
         'views/snippets/snippets.xml',
         'views/page_v2.xml',
     ],

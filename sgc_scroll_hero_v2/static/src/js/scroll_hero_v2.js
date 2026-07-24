@@ -24,7 +24,7 @@ function sgcInitScrollHeroV2() {
     }
 
     function initHero(section) {
-        var frameCount = parseInt(section.dataset.frameCount, 10) || 224;
+        var frameCount = parseInt(section.dataset.frameCount, 10) || 240;
         var pinHeightVh = parseInt(section.dataset.pinHeight, 10) || 600;
         section.style.setProperty('--sgc-pin-height-v2', pinHeightVh + 'vh');
 
@@ -32,7 +32,12 @@ function sgcInitScrollHeroV2() {
         var ctx = canvas.getContext('2d');
         var caption = section.querySelector('.s_re_hero_caption_v2');
         var overlay = section.querySelector('.s_re_hero_overlay_final_v2');
-        var searchWrap = section.querySelector('.s_re_hero_search_wrap_v2');
+        // Homepage variant transplants sgc_scroll_hero_homepage's search-bar
+        // markup, which carries the un-namespaced .s_re_hero_search_wrap
+        // class (so scroll_hero.css's pill-search rules apply cleanly,
+        // without colliding with this module's own .s_re_hero_search_wrap_v2
+        // sizing rules at equal CSS specificity).
+        var searchWrap = section.querySelector('.s_re_hero_search_wrap_v2, .s_re_hero_search_wrap');
         var hint = section.querySelector('.s_re_hero_scroll_hint_v2');
         var loading = section.querySelector('.s_re_hero_loading_v2');
 
@@ -52,71 +57,135 @@ function sgcInitScrollHeroV2() {
         var STILLNESS_FRAMES_REQUIRED = 2;
         var hqSettleToken = 0;
 
-        // --- Audio: scrub the real soundtrack while actively scrolling,
-        // crossfade into a looping ambient bed once scrolling settles. Both
-        // elements play continuously (muted) from load so the crossfade is
-        // just a volume tween, never a play()/pause() race. Nothing is
-        // audible until the user's first scroll/touch/wheel, per browser
-        // autoplay policy -- there is no way to play audible sound before
-        // that gesture, muted playback is the only thing allowed pre-gesture.
+        // --- Audio: Web Audio API buffer engine (not <audio> elements).
+        // Both tracks decode once and loop via AudioBufferSourceNode's
+        // native looping, which is sample-accurate - unlike <audio>.loop on
+        // an MP3, which re-parses the container at each loop boundary and
+        // audibly clicks on the encoder's priming/padding samples. That was
+        // the real source of the reported "big gaps": ambient_loop.mp3 is
+        // only 4s long, so at <audio>.loop it clicked roughly every 4s.
+        // Scrub-track speed (never position) is modulated continuously by
+        // scroll progress per the original design (0.5x-2.0x) - seeking is
+        // what caused the earlier hiccups, so playback never seeks.
+        // Crossfades use GainNode automation (linearRampToValueAtTime),
+        // which is sample-accurate and self-cancelling (no stacked-tween
+        // risk from rapid scroll start/stop). A slow stereo-pan drift on the
+        // ambient bed adds a subtle sense of spatial depth.
         var AUDIO_BASE = '/sgc_scroll_hero_v2/static/src/audio/';
-        var scrubAudio = new Audio(AUDIO_BASE + 'scrub_track.mp3');
-        var ambientAudio = new Audio(AUDIO_BASE + 'ambient_loop.mp3');
-        scrubAudio.preload = 'auto';
-        scrubAudio.muted = true;
-        scrubAudio.volume = 0.85;
-        ambientAudio.preload = 'auto';
-        ambientAudio.muted = true;
-        ambientAudio.loop = true;
-        ambientAudio.volume = 0;
+        var audioCtx = null;
+        var scrubGain = null;
+        var ambientGain = null;
+        var ambientPanner = null;
+        var scrubSource = null;
+        var audioReady = false;
         var audioUnlocked = false;
-        var scrubAudioReady = false;
-        scrubAudio.addEventListener('loadedmetadata', function () {
-            scrubAudioReady = true;
-        });
-        scrubAudio.play().catch(function () {});
-        ambientAudio.play().catch(function () {});
+        var panRafId = null;
+
+        function startPanDrift() {
+            if (!ambientPanner || panRafId) {
+                return;
+            }
+            var PAN_PERIOD_MS = 11000;
+            var PAN_AMOUNT = 0.28;
+            (function tick(ts) {
+                ambientPanner.pan.value = Math.sin((ts / PAN_PERIOD_MS) * Math.PI * 2) * PAN_AMOUNT;
+                panRafId = requestAnimationFrame(tick);
+            })(0);
+        }
+
+        function initAudio() {
+            var Ctx = window.AudioContext || window.webkitAudioContext;
+            if (!Ctx) {
+                return;
+            }
+            audioCtx = new Ctx();
+            var masterGain = audioCtx.createGain();
+            masterGain.connect(audioCtx.destination);
+
+            scrubGain = audioCtx.createGain();
+            scrubGain.gain.value = 0;
+            scrubGain.connect(masterGain);
+
+            ambientGain = audioCtx.createGain();
+            ambientGain.gain.value = 0;
+            if (audioCtx.createStereoPanner) {
+                ambientPanner = audioCtx.createStereoPanner();
+                ambientGain.connect(ambientPanner);
+                ambientPanner.connect(masterGain);
+            } else {
+                ambientGain.connect(masterGain);
+            }
+
+            Promise.all([
+                fetch(AUDIO_BASE + 'scrub_track.mp3').then(function (r) { return r.arrayBuffer(); }),
+                fetch(AUDIO_BASE + 'ambient_loop.mp3').then(function (r) { return r.arrayBuffer(); })
+            ]).then(function (raw) {
+                return Promise.all([
+                    audioCtx.decodeAudioData(raw[0]),
+                    audioCtx.decodeAudioData(raw[1])
+                ]);
+            }).then(function (decoded) {
+                scrubSource = audioCtx.createBufferSource();
+                scrubSource.buffer = decoded[0];
+                scrubSource.loop = true;
+                scrubSource.connect(scrubGain);
+                scrubSource.start(0);
+
+                var ambientSource = audioCtx.createBufferSource();
+                ambientSource.buffer = decoded[1];
+                ambientSource.loop = true;
+                ambientSource.connect(ambientGain);
+                ambientSource.start(0);
+
+                audioReady = true;
+                startPanDrift();
+            }).catch(function () {
+                // Fetch/decode failure just leaves audio silent; the visual
+                // engine is entirely independent of this.
+            });
+        }
 
         function unlockAudio() {
-            if (audioUnlocked) {
+            if (audioUnlocked || !audioCtx) {
                 return;
             }
             audioUnlocked = true;
-            scrubAudio.muted = false;
-            ambientAudio.muted = false;
-            scrubAudio.play().catch(function () {});
-            ambientAudio.play().catch(function () {});
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume().catch(function () {});
+            }
         }
 
-        function scrubToProgress(progress) {
-            if (!scrubAudioReady || !scrubAudio.duration) {
+        function rampGain(node, target, duration) {
+            if (!audioReady) {
                 return;
             }
-            var targetTime = progress * scrubAudio.duration;
-            if (Math.abs(scrubAudio.currentTime - targetTime) > 0.08) {
-                scrubAudio.currentTime = targetTime;
+            var now = audioCtx.currentTime;
+            node.gain.cancelScheduledValues(now);
+            node.gain.setValueAtTime(node.gain.value, now);
+            node.gain.linearRampToValueAtTime(target, now + duration);
+        }
+
+        var SCRUB_RATE_MIN = 0.5;
+        var SCRUB_RATE_MAX = 2.0;
+        function updateScrubRate(progress) {
+            if (!audioReady) {
+                return;
             }
+            var rate = SCRUB_RATE_MIN + progress * (SCRUB_RATE_MAX - SCRUB_RATE_MIN);
+            scrubSource.playbackRate.value = rate;
         }
 
         function crossfadeToAmbient() {
-            if (!window.gsap) {
-                scrubAudio.volume = 0;
-                ambientAudio.volume = 0.6;
-                return;
-            }
-            gsap.to(scrubAudio, { volume: 0, duration: 0.6, ease: 'power1.out' });
-            gsap.to(ambientAudio, { volume: 0.6, duration: 0.8, ease: 'power1.in' });
+            rampGain(scrubGain, 0, 0.6);
+            rampGain(ambientGain, 0.6, 0.8);
         }
 
         function crossfadeToScrub() {
-            if (!window.gsap) {
-                scrubAudio.volume = 0.85;
-                ambientAudio.volume = 0;
-                return;
-            }
-            gsap.to(ambientAudio, { volume: 0, duration: 0.4, ease: 'power1.out' });
-            gsap.to(scrubAudio, { volume: 0.85, duration: 0.4, ease: 'power1.in' });
+            rampGain(ambientGain, 0, 0.4);
+            rampGain(scrubGain, 0.85, 0.4);
         }
+
+        initAudio();
 
         function frameSrc(i) {
             return '/sgc_scroll_hero_v2/static/src/img/frames/frame_' + pad4(i) + '.webp';
@@ -311,12 +380,30 @@ function sgcInitScrollHeroV2() {
             if (t > 0 && hint) {
                 gsap.set(hint, { opacity: 0 });
             }
+            // Some search-bar markup (e.g. the transplanted V1 pill form used
+            // on the homepage variant) ships with tabindex="-1" so a keyboard
+            // user can't tab into a form that's still invisible; restore
+            // natural tab order once the reveal starts. No-op if the search
+            // form has no such attributes (the plain V2 test-page form).
+            if (t >= 0.2) {
+                markSearchReady();
+            }
+        }
+
+        function markSearchReady() {
+            if (!searchWrap || searchWrap.classList.contains('ready')) {
+                return;
+            }
+            searchWrap.classList.add('ready');
+            searchWrap.querySelectorAll('[tabindex="-1"]').forEach(function (el) {
+                el.removeAttribute('tabindex');
+            });
         }
 
         function applyProgress(progress) {
             updateCaption(progress);
             updateFinalReveal(progress);
-            scrubToProgress(progress);
+            updateScrubRate(progress);
             var idx = Math.min(frameCount, Math.max(1, Math.round(progress * (frameCount - 1)) + 1));
             currentFrame = idx;
             if (idx !== lastDrawnFrame) {
@@ -400,6 +487,7 @@ function sgcInitScrollHeroV2() {
                     searchWrap.style.opacity = 1;
                     searchWrap.style.pointerEvents = 'auto';
                 }
+                markSearchReady();
                 if (hint) {
                     hint.style.display = 'none';
                 }

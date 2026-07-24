@@ -11,7 +11,7 @@ Purely additive: does not modify sgc_offplan_rental_property_management or
 sgc_realestate_website.
 """,
     'author': 'SGC',
-    'depends': ['website', 'sgc_offplan_rental_property_management'],
+    'depends': ['website', 'sgc_offplan_rental_property_management', 'sgc_scroll_hero_v2'],
     'data': [
         'views/snippets/s_re_scroll_hero.xml',
         'views/snippets/snippets.xml',

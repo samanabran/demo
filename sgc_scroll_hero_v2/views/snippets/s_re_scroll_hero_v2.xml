@@ -2,7 +2,7 @@
 <odoo>
   <template id="s_re_scroll_hero_v2" name="Scroll Story Hero V2">
     <section data-snippet="s_re_scroll_hero_v2" data-name="Scroll Story Hero V2"
-             data-frame-count="223" data-pin-height="600"
+             data-frame-count="240" data-pin-height="600"
              class="s_re_scroll_hero_v2 position-relative p-0">
 
       <!-- GSAP bundled in assets_frontend for reliability; inline script

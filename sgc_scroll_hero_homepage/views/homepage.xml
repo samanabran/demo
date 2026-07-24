@@ -5,7 +5,7 @@
       <t t-call="website.layout">
         <t t-set="pageName" t-value="'home'"/>
         <div id="wrap" class="oe_structure oe_empty">
-          <t t-call="sgc_scroll_hero_homepage.s_re_scroll_hero"/>
+          <t t-call="sgc_scroll_hero_v2.s_re_scroll_hero_v2_home"/>
 
           <section class="container py-5">
             <h2 class="text-center mb-4">Featured Properties</h2>
