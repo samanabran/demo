@@ -349,7 +349,7 @@
                         <tr t-if="o.property_id.area">
                             <td class="label">Area</td>
                             <td class="value">
-                                <span t-esc="'%s sqft' % o.property_id.area"/>
+                                <span t-esc="'{:,.0f} sqft'.format(o.property_id.area)"/>
                             </td>
                         </tr>
                         <tr t-if="o.property_id.title_deed_number">

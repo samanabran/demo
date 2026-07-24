@@ -59,7 +59,7 @@
                             </tr>
                             <tr t-if="o.property_id.area">
                                 <td><strong>Size</strong></td>
-                                <td t-esc="'%s sqft' % o.property_id.area"/>
+                                <td t-esc="'{:,.0f} sqft'.format(o.property_id.area)"/>
                             </tr>
                             <tr t-if="o.furnished_status">
                                 <td><strong>Furnishing Status</strong></td>

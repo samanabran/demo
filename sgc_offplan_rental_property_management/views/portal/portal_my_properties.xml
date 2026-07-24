@@ -151,7 +151,7 @@
                                         <tr><td>Status</td><td t-esc="dict(property._fields['state'].selection).get(property.state, property.state).title()"/></tr>
                                         <tr t-if="property.bedrooms"><td>Bedrooms</td><td t-esc="property.bedrooms"/></tr>
                                         <tr t-if="property.bathrooms"><td>Bathrooms</td><td t-esc="property.bathrooms"/></tr>
-                                        <tr t-if="property.area"><td>Area</td><td t-esc="'%s sqft' % property.area"/></tr>
+                                        <tr t-if="property.area"><td>Area</td><td t-esc="'{:,.0f} sqft'.format(property.area)"/></tr>
                                         <tr t-if="property.city"><td>City</td><td t-esc="property.city"/></tr>
                                         <tr t-if="property.project_id"><td>Project</td><td t-esc="property.project_id.name"/></tr>
                                         <tr t-if="property.sale_price"><td>Sale Price</td><td><t t-esc="'AED %s' % '{:,.0f}'.format(property.sale_price)"/></td></tr>

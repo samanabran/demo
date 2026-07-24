@@ -80,7 +80,7 @@
                                         </tr>
                                         <tr t-if="property.area">
                                             <td><strong>Area</strong></td>
-                                            <td t-esc="'%s sqft' % property.area"/>
+                                            <td t-esc="'{:,.0f} sqft'.format(property.area)"/>
                                         </tr>
                                         <tr t-if="property.project_id">
                                             <td><strong>Project</strong></td>
@@ -145,10 +145,10 @@
                                 </p>
 
                                 <h2 class="text-primary mb-3" t-if="property.sale_price">
-                                    AED <t t-esc="property.sale_price"/>
+                                    AED <t t-esc="'{:,.0f}'.format(property.sale_price)"/>
                                 </h2>
                                 <h2 class="text-primary mb-3" t-if="not property.sale_price and property.rent_price">
-                                    AED <t t-esc="property.rent_price"/>
+                                    AED <t t-esc="'{:,.0f}'.format(property.rent_price)"/>
                                 </h2>
 
                                 <div class="property-highlights mb-4 d-flex flex-wrap gap-2">
@@ -162,7 +162,7 @@
                                     </span>
                                     <span class="o-spec-pill" t-if="property.area">
                                         <i class="fa fa-ruler" aria-hidden="true"></i>
-                                        <strong t-esc="'%s' % property.area"/> sqft
+                                        <strong t-esc="'{:,.0f}'.format(property.area)"/> sqft
                                     </span>
                                     <span class="o-spec-pill">
                                         <i class="fa fa-building" aria-hidden="true"></i>
@@ -221,7 +221,7 @@
                                         <h5 class="card-title" t-esc="sim.name"/>
                                         <div class="mt-auto d-flex justify-content-between align-items-center">
                                             <span class="text-primary font-weight-bold" t-if="sim.sale_price">
-                                                AED <t t-esc="sim.sale_price"/>
+                                                AED <t t-esc="'{:,.0f}'.format(sim.sale_price)"/>
                                             </span>
                                             <a t-att-href="'/offplan/property/%s' % sim.id"
                                                class="btn btn-sm btn-outline-primary">View</a>

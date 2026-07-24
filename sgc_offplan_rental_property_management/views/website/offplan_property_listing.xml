@@ -109,7 +109,7 @@
                                         <div class="mb-3">
                                             <span class="badge badge-info mr-1" t-esc="'%s bed' % prop.bedrooms if prop.bedrooms else 'Studio'"/>
                                             <span class="badge badge-info mr-1" t-esc="'%s bath' % prop.bathrooms if prop.bathrooms else '1 bath'"/>
-                                            <span class="badge badge-info" t-esc="'%s sqft' % prop.area if prop.area else ''"/>
+                                            <span class="badge badge-info" t-esc="'{:,.0f} sqft'.format(prop.area) if prop.area else ''"/>
                                         </div>
                                         <div class="d-flex justify-content-between align-items-center mt-auto">
                                             <h4 class="text-primary mb-0" t-if="prop.sale_price">
