@@ -3,7 +3,7 @@
     <template id="offplan_property_detail" name="Offplan Property Detail Page">
         <t t-call="website.layout">
             <t t-set="title" t-value="property.name or 'Property Detail'"/>
-            <div class="container mt-4 mb-5">
+            <div class="container mt-4 mb-5 o_property_detail">
                 <div class="row">
                     <div class="col-md-8">
                         <div class="property-gallery mb-4 carousel slide" id="propertyCarousel">
@@ -108,7 +108,7 @@
                                     <h3 class="mb-3">Amenities</h3>
                                     <div class="row mb-3">
                                         <t t-foreach="property.amenity_ids" t-as="amenity">
-                                            <div class="col-6 col-md-4 col-lg-3 mb-3 text-center">
+                                            <div class="col-6 col-md-4 col-lg-3 mb-3 text-center o-amenity-tile">
                                                 <img t-att-src="amenity.get_icon_url()"
                                                      t-att-alt="amenity.title"
                                                      style="width:48px;height:48px;object-fit:contain;"/>
@@ -121,7 +121,7 @@
                                     <h3 class="mb-3">Nearby Connectivity</h3>
                                     <div class="row">
                                         <t t-foreach="property.connectivity_ids" t-as="connectivity">
-                                            <div class="col-6 col-md-4 col-lg-3 mb-3 text-center">
+                                            <div class="col-6 col-md-4 col-lg-3 mb-3 text-center o-amenity-tile">
                                                 <img t-att-src="connectivity.get_icon_url()"
                                                      t-att-alt="connectivity.name"
                                                      style="width:48px;height:48px;object-fit:contain;"/>
@@ -151,25 +151,23 @@
                                     AED <t t-esc="property.rent_price"/>
                                 </h2>
 
-                                <div class="property-highlights mb-4">
-                                    <div class="row text-center">
-                                        <div class="col-6 mb-3">
-                                            <span class="fa fa-bed fa-2x text-info mb-2" title="Bedrooms"></span>
-                                            <p class="small"><strong t-esc="property.bedrooms or 'Studio'"/> Bedrooms</p>
-                                        </div>
-                                        <div class="col-6 mb-3">
-                                            <span class="fa fa-bath fa-2x text-info mb-2" title="Bathrooms"></span>
-                                            <p class="small"><strong t-esc="property.bathrooms or 1"/> Bathrooms</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <span class="fa fa-ruler fa-2x text-info mb-2" title="Area"></span>
-                                            <p class="small"><strong t-esc="'%s' % property.area if property.area else 'N/A'"/> sqft</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <span class="fa fa-building fa-2x text-info mb-2" title="Type"></span>
-                                            <p class="small"><strong t-esc="dict(property._fields['property_type'].selection).get(property.property_type, 'N/A')"/></p>
-                                        </div>
-                                    </div>
+                                <div class="property-highlights mb-4 d-flex flex-wrap gap-2">
+                                    <span class="o-spec-pill">
+                                        <i class="fa fa-bed" aria-hidden="true"></i>
+                                        <strong t-esc="property.bedrooms or 'Studio'"/> Beds
+                                    </span>
+                                    <span class="o-spec-pill">
+                                        <i class="fa fa-bath" aria-hidden="true"></i>
+                                        <strong t-esc="property.bathrooms or 1"/> Baths
+                                    </span>
+                                    <span class="o-spec-pill" t-if="property.area">
+                                        <i class="fa fa-ruler" aria-hidden="true"></i>
+                                        <strong t-esc="'%s' % property.area"/> sqft
+                                    </span>
+                                    <span class="o-spec-pill">
+                                        <i class="fa fa-building" aria-hidden="true"></i>
+                                        <t t-esc="dict(property._fields['property_type'].selection).get(property.property_type, 'N/A')"/>
+                                    </span>
                                 </div>
 
                                 <button type="button"
@@ -178,7 +176,7 @@
                                     <span class="fa fa-envelope"></span> Inquire Now
                                 </button>
 
-                                <div id="inquiry-form-box" class="d-none border rounded p-3 mb-2 bg-light">
+                                <div id="inquiry-form-box" class="d-none rounded p-3 mb-2 o-inquiry-panel">
                                     <h6 class="fw-bold mb-3">Get Full Details</h6>
                                     <form id="inquiry-form">
                                         <input type="hidden" name="property_id"

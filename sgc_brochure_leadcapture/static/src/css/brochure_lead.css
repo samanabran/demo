@@ -51,7 +51,7 @@
 }
 
 .sgc_brochure_modal_content {
-    background: #fff;
+    background: var(--re-card-ivory, #F7F4EE);
     border-radius: 16px;
     border: none;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
