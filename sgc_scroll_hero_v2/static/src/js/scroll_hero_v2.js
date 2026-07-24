@@ -211,9 +211,28 @@ function sgcInitScrollHeroV2() {
             return { sx: sx, sy: sy, sw: sw, sh: sh };
         }
 
+        function ensureFrame(i) {
+            if (frameImgs[i]) {
+                return;
+            }
+            var img = new Image();
+            img.onload = function () {
+                if (currentFrame === i) {
+                    drawFrame(i);
+                }
+            };
+            img.src = frameSrc(i);
+            frameImgs[i] = img;
+        }
+
         function drawFrame(i) {
             var img = frameImgs[i];
             if (!img || !img.complete || !img.naturalWidth) {
+                // Sequential preload hasn't reached this frame yet (slow
+                // connection, or the user scrolled faster than the lazy
+                // loader) - fetch it directly so the sequence catches up
+                // instead of freezing on the last successfully drawn frame.
+                ensureFrame(i);
                 return;
             }
             var cw = canvas.width;
@@ -303,20 +322,32 @@ function sgcInitScrollHeroV2() {
                 });
             });
 
+            // Batched via setTimeout, not requestIdleCallback: idle callbacks
+            // are network fetches in disguise here (~100-200KB/frame, not
+            // cheap decode work), and Chrome starves requestIdleCallback
+            // hard the moment a tab is backgrounded/hidden - confirmed via
+            // live testing, lazy loading stalled completely and permanently
+            // partway through as soon as document.hidden became true, well
+            // before any "long background" throttling threshold. A visitor
+            // who opens the page in a background tab (or switches away
+            // while it loads) would otherwise get a permanently incomplete
+            // frame sequence with no error, since drawFrame() silently skips
+            // whenever frameImgs[i] isn't loaded yet. setTimeout isn't gated
+            // by main-thread idle time and only gets throttled after
+            // extended backgrounding, so it reliably finishes instead.
+            var LAZY_BATCH_SIZE = 8;
             var next = eagerHead + 1;
             function lazyStep() {
                 if (next > frameCount) {
                     return;
                 }
-                var i = next++;
-                if (!frameImgs[i]) {
-                    loadOne(i);
+                for (var n = 0; n < LAZY_BATCH_SIZE && next <= frameCount; n++) {
+                    var i = next++;
+                    if (!frameImgs[i]) {
+                        loadOne(i);
+                    }
                 }
-                if (window.requestIdleCallback) {
-                    window.requestIdleCallback(lazyStep, { timeout: 500 });
-                } else {
-                    setTimeout(lazyStep, 16);
-                }
+                setTimeout(lazyStep, 16);
             }
             lazyStep();
         }
