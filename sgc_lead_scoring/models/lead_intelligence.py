@@ -339,6 +339,52 @@ def _flatten_arrays(obj, key=None):
     return obj
 
 
+def _normalize_object_sections(data):
+    """Coerce top-level sections the Universal Contract schema declares as
+    ``object`` but which the LLM returned as some other JSON type.
+
+    This is the general form of the bug discovered in live testing
+    (Task 10.5): a real ``custom``-type LLM correctly emitted the whole
+    contract but returned ``summary`` as a plain string instead of the
+    documented ``{executive_summary, key_findings, ...}`` object. Every
+    downstream consumer of a schema-``object`` section (``_wrapper_value``,
+    ``_render_contract_section``, ``_lead_intelligence_note``) assumes it can
+    call ``.get()``/iterate over that section as a ``dict`` — a non-dict
+    value there raises ``AttributeError`` deep in the pipeline, well after
+    the useful parts of the response (scores, classification, ...) would
+    otherwise have been persisted.
+
+    Rather than special-case every call site, normalize once, right after
+    parsing:
+
+    * an already-``dict`` section is left untouched;
+    * a non-empty ``str`` is wrapped as ``{'value': <the string>}`` so the
+      LLM's content is preserved (visible in the notebook-tab HTML render as
+      a generic "Value" row) instead of silently discarded;
+    * anything else unexpected (a list, ``None``/``null``, a bool, a number,
+      or an empty string) carries no single salvageable string, so the
+      section is replaced with ``{}`` — i.e. treated as absent, exactly like
+      a section the LLM never populated at all. This never raises.
+
+    ``_lead_intelligence_note()`` still carries its own local non-dict guard
+    for ``summary`` (belt-and-suspenders / call-site clarity), but with this
+    normalization in place every OTHER section (and every other current or
+    future consumer) is protected too, not just the two call sites this bug
+    was discovered through.
+    """
+    for key, spec in LEAD_INTELLIGENCE_SCHEMA['properties'].items():
+        if spec.get('type') != 'object' or key not in data:
+            continue
+        value = data[key]
+        if isinstance(value, dict):
+            continue
+        if isinstance(value, str) and value.strip():
+            data[key] = {'value': value.strip()}
+        else:
+            data[key] = {}
+    return data
+
+
 def _extract_json(raw):
     """Best-effort isolation of the JSON object from an LLM reply that may be
     wrapped in markdown fences or preceded/followed by stray prose."""
@@ -375,7 +421,8 @@ def parse_llm_response(raw_content):
         raise ParseFailure("missing required 'metadata' section")
     if not isinstance(data.get('classification'), dict):
         raise ParseFailure("missing required 'classification' section")
-    return _flatten_arrays(data)
+    data = _flatten_arrays(data)
+    return _normalize_object_sections(data)
 
 
 # ---------------------------------------------------------------------------

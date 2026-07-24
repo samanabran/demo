@@ -20,6 +20,18 @@ class LlmService(models.Model):
 
     _scoring_weights_cache = None
 
+    # Process-local circuit breaker: provider_id -> monotonic timestamp
+    # until which calls to that provider should fail fast instead of
+    # retrying. Without this, a provider that's out of quota gets
+    # independently re-discovered (and re-slept-through) by every lead in
+    # a cron batch, each one blocking its own DB cursor's open transaction
+    # for the full 1+2+4s backoff - with 50 leads across 5 worker threads
+    # that compounds into multi-minute "idle in transaction" backends that
+    # starve the connection pool for everyone else (see crm.lead's
+    # _cron_enrich_leads). A single 429 still gets its normal retry; only
+    # *subsequent* calls while the provider is known-exhausted skip it.
+    _rate_limited_until = {}
+
     @api.model
     def _get_api_url(self, provider):
         if provider.provider_type == 'custom' and provider.api_endpoint:
@@ -150,6 +162,15 @@ class LlmService(models.Model):
                 'retries': 0,
             }
 
+        cooldown_until = LlmService._rate_limited_until.get(provider.id)
+        if cooldown_until and time.monotonic() < cooldown_until:
+            return {
+                'success': False,
+                'content': '',
+                'error': 'Provider is rate-limited (cooling down), skipped retry.',
+                'retries': 0,
+            }
+
         url = self._get_api_url(provider)
         headers = self._get_headers(provider)
         payload = self._get_payload(provider, messages, response_schema=response_schema)
@@ -192,6 +213,7 @@ class LlmService(models.Model):
                     continue
 
                 if response.status_code == 429:
+                    LlmService._rate_limited_until[provider.id] = time.monotonic() + 60
                     provider.write({
                         'failed_requests': provider.failed_requests + 1,
                     })

@@ -167,6 +167,74 @@ class TestLeadIntelligenceHelpers(TransactionCase):
         d = li.parse_llm_response('```json\n' + self._minimal() + '\n```')
         self.assertEqual(d['classification']['confidence'], 'high')
 
+    # ---- _normalize_object_sections (Task 10.5 — schema-object sections
+    #      returned as some other JSON type must not crash downstream) -----
+    def test_parse_string_shaped_summary_wrapped_as_value(self):
+        """The exact live-discovered shape: `summary` as a plain string
+        instead of the documented object. Must not raise, and the string
+        content must be preserved (not silently dropped) under a generic
+        'value' key so downstream consumers can still surface it."""
+        payload = json.dumps({
+            'metadata': {'schema_version': '1.0'},
+            'classification': {'entity_type': 'b2c_individual', 'confidence': 'high'},
+            'summary': 'Lead is an individual; insufficient evidence to assess intent.',
+        })
+        d = li.parse_llm_response(payload)
+        self.assertIsInstance(d['summary'], dict)
+        self.assertEqual(
+            d['summary']['value'],
+            'Lead is an individual; insufficient evidence to assess intent.')
+
+    def test_parse_list_shaped_summary_treated_as_absent(self):
+        """A list has no single salvageable string -> normalized to {}
+        (absent), not left as a list that would crash a `.get()` caller."""
+        payload = json.dumps({
+            'metadata': {'schema_version': '1.0'},
+            'classification': {'entity_type': 'b2c_individual', 'confidence': 'high'},
+            'summary': ['Growing fast', 'New facility'],
+        })
+        d = li.parse_llm_response(payload)
+        self.assertEqual(d['summary'], {})
+
+    def test_parse_null_shaped_summary_treated_as_absent(self):
+        payload = json.dumps({
+            'metadata': {'schema_version': '1.0'},
+            'classification': {'entity_type': 'b2c_individual', 'confidence': 'high'},
+            'summary': None,
+        })
+        d = li.parse_llm_response(payload)
+        self.assertEqual(d['summary'], {})
+
+    def test_parse_boolean_shaped_summary_treated_as_absent(self):
+        payload = json.dumps({
+            'metadata': {'schema_version': '1.0'},
+            'classification': {'entity_type': 'b2c_individual', 'confidence': 'high'},
+            'summary': True,
+        })
+        d = li.parse_llm_response(payload)
+        self.assertEqual(d['summary'], {})
+
+    def test_parse_string_shaped_other_object_section_also_normalized(self):
+        """The general fix protects EVERY schema-'object' section, not just
+        'summary' -- e.g. `customer_intelligence` returned as a bare string."""
+        payload = json.dumps({
+            'metadata': {'schema_version': '1.0'},
+            'classification': {'entity_type': 'b2c_individual', 'confidence': 'high'},
+            'customer_intelligence': 'Individual buyer, no company.',
+        })
+        d = li.parse_llm_response(payload)
+        self.assertEqual(d['customer_intelligence'], {'value': 'Individual buyer, no company.'})
+
+    def test_parse_well_formed_summary_object_unaffected(self):
+        """A correctly-shaped `summary` object passes through untouched."""
+        payload = json.dumps({
+            'metadata': {'schema_version': '1.0'},
+            'classification': {'entity_type': 'b2c_individual', 'confidence': 'high'},
+            'summary': {'executive_summary': 'Fine as-is.'},
+        })
+        d = li.parse_llm_response(payload)
+        self.assertEqual(d['summary'], {'executive_summary': 'Fine as-is.'})
+
     def test_parse_keeps_scalar_wrapper(self):
         payload = json.dumps({
             'metadata': {'schema_version': '1.0'},

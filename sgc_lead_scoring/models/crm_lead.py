@@ -386,10 +386,26 @@ class CrmLead(models.Model):
         string is wrapped in ``Markup(...)`` right before it is returned, so
         ``message_post()`` renders it as real HTML instead of re-escaping the
         whole thing as untrusted plain text.
+
+        Defensive note (Task 10.5, live-discovered crash): ``parsed`` is
+        normally pre-normalized by ``lead_intelligence.parse_llm_response()``
+        (every schema-``object`` section is coerced to a ``dict`` there), but
+        this method still guards locally in case ``summary`` arrives as a
+        non-dict anyway (e.g. a caller that bypasses the parser). A bare
+        string/other-typed ``summary`` is treated as if it were
+        ``{'executive_summary': str(summary)}`` -- the LLM's one-line summary
+        still renders as a real chatter note instead of crashing with
+        ``AttributeError: 'str' object has no attribute 'get'``.
         """
         summary = parsed.get('summary') or {}
+        if not isinstance(summary, dict):
+            summary = {'executive_summary': str(summary)}
         note = ['<b>%s</b>' % escape(_('AI Research Summary'))]
-        exec_summary = summary.get('executive_summary')
+        # '.get(\'value\')' fallback covers the parser-level normalization
+        # path above, which wraps a stray string section as {'value': ...}
+        # rather than {'executive_summary': ...} (that key is specific to
+        # this call site's own local guard, immediately above).
+        exec_summary = summary.get('executive_summary') or summary.get('value')
         if exec_summary:
             note.append('<p>%s</p>' % escape(exec_summary))
 

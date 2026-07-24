@@ -265,6 +265,130 @@ class TestCrmLeadEnrichment(TransactionCase):
         self.assertIn('<b>AI Research Summary</b>', body)
         self.assertIn('could not parse the AI response after 2 attempts', body)
 
+    # ------------------------------------------------------------------
+    # 9. Regression test for the live-discovered crash (Task 10.5): a real
+    #    "custom"-type LLM (FreeLLMAPI - Nemotron 3 Super 120B) returned an
+    #    otherwise-valid Universal JSON Contract but with `summary` as a
+    #    plain STRING instead of the documented object shape. Old code:
+    #    `parsed.get('summary') or {}` -> the string (truthy, so `or {}`
+    #    never fires) -> `.get('executive_summary')` ->
+    #    `AttributeError: 'str' object has no attribute 'get'`, raised AFTER
+    #    scores/classification/status were already persisted but BEFORE the
+    #    chatter note was posted. Must now complete without raising, reach
+    #    'completed', and still post a real, escaped chatter note built from
+    #    the bare string.
+    # ------------------------------------------------------------------
+    @patch('odoo.addons.sgc_lead_scoring.models.llm_service.LlmService.call_llm')
+    @patch('odoo.addons.sgc_lead_scoring.models.web_research_service.WebResearchService.multi_search')
+    def test_enrich_lead_survives_string_shaped_summary(self, mock_multi_search, mock_call_llm):
+        mock_multi_search.side_effect = self._multi_search_success
+        contract = json.loads(self._good_contract_json(entity_type='b2c_individual'))
+        contract['company_intelligence'] = {'not_applicable': True}
+        contract['decision_makers'] = {'not_applicable': True}
+        contract['business_requirements'] = {'not_applicable': True}
+        contract['implementation_readiness'] = {'not_applicable': True}
+        contract['proposal_intelligence'] = {'not_applicable': True}
+        # The exact live-discovered shape: a plain string, not an object,
+        # possibly containing HTML-special characters (still must be
+        # escaped, per the Task 8.5 discipline -- no unescaped interpolation
+        # reintroduced while fixing this).
+        contract['summary'] = (
+            'Lead is an individual named <Maria & Rodriguez> with multiple '
+            'public profiles; insufficient evidence to assess business '
+            'needs or buying intent.'
+        )
+        mock_call_llm.return_value = {
+            'success': True, 'content': json.dumps(contract), 'error': None, 'retries': 0,
+        }
+
+        # RED (pre-fix): this call raised AttributeError: 'str' object has
+        # no attribute 'get'. GREEN (post-fix): completes cleanly.
+        self.lead._enrich_lead()
+
+        # The data that was already correct on the live instance stays correct.
+        self.assertEqual(self.lead.ai_enrichment_status, 'completed')
+        self.assertTrue(self.lead.ai_last_enrichment_date)
+        for _key, field in li.SCORE_KEYS:
+            self.assertEqual(getattr(self.lead, field), 80.0, field)
+        data = json.loads(self.lead.ai_enrichment_data)
+        self.assertEqual(data['classification']['entity_type'], 'b2c_individual')
+
+        # The chatter note that used to never get posted now exists and
+        # carries the LLM's string content (escaped), as real HTML.
+        messages = self.lead.message_ids.filtered(
+            lambda m: 'AI Research Summary' in (m.body or ''))
+        self.assertTrue(messages, 'expected a Lead Intelligence chatter note to be posted')
+        body = messages[0].body
+        self.assertIsInstance(body, Markup)
+        self.assertIn('<b>AI Research Summary</b>', body)
+        self.assertIn(
+            'Lead is an individual named &lt;Maria &amp; Rodriguez&gt; with '
+            'multiple public profiles', body)
+        self.assertNotIn('<Maria & Rodriguez>', body)
+
+        # The Executive Summary tab's computed Html field must also render
+        # this shape without crashing (Task 10.5 item 2/4).
+        html = self.lead.ai_executive_summary_html
+        self.assertIn('Lead is an individual named', html)
+
+    # ------------------------------------------------------------------
+    # 10. Robustness for OTHER unexpected `summary` types (Task 10.5 item
+    #     5): a list and a JSON `null` must also survive the pipeline
+    #     without raising -- not just the one string shape that happened
+    #     to occur live. Per the parser-level fix, both normalize down to
+    #     an empty/absent summary section rather than crashing or emitting
+    #     a garbled `str(list)`/`str(None)` note.
+    # ------------------------------------------------------------------
+    @patch('odoo.addons.sgc_lead_scoring.models.llm_service.LlmService.call_llm')
+    @patch('odoo.addons.sgc_lead_scoring.models.web_research_service.WebResearchService.multi_search')
+    def test_enrich_lead_survives_list_shaped_summary(self, mock_multi_search, mock_call_llm):
+        mock_multi_search.side_effect = self._multi_search_success
+        contract = json.loads(self._good_contract_json())
+        contract['summary'] = ['Growing fast', 'New facility']
+        mock_call_llm.return_value = {
+            'success': True, 'content': json.dumps(contract), 'error': None, 'retries': 0,
+        }
+        self.lead._enrich_lead()
+        self.assertEqual(self.lead.ai_enrichment_status, 'completed')
+        messages = self.lead.message_ids.filtered(
+            lambda m: 'AI Research Summary' in (m.body or ''))
+        self.assertTrue(messages)
+        self.assertIsInstance(messages[0].body, Markup)
+
+    @patch('odoo.addons.sgc_lead_scoring.models.llm_service.LlmService.call_llm')
+    @patch('odoo.addons.sgc_lead_scoring.models.web_research_service.WebResearchService.multi_search')
+    def test_enrich_lead_survives_null_shaped_summary(self, mock_multi_search, mock_call_llm):
+        mock_multi_search.side_effect = self._multi_search_success
+        contract = json.loads(self._good_contract_json())
+        contract['summary'] = None
+        mock_call_llm.return_value = {
+            'success': True, 'content': json.dumps(contract), 'error': None, 'retries': 0,
+        }
+        self.lead._enrich_lead()
+        self.assertEqual(self.lead.ai_enrichment_status, 'completed')
+        messages = self.lead.message_ids.filtered(
+            lambda m: 'AI Research Summary' in (m.body or ''))
+        self.assertTrue(messages)
+        self.assertIsInstance(messages[0].body, Markup)
+
+    # ------------------------------------------------------------------
+    # 11. Direct unit test of `_lead_intelligence_note()`'s own local guard,
+    #     bypassing `parse_llm_response()` entirely -- proves the call-site
+    #     fix is real and independent of the parser-level normalization
+    #     (belt-and-suspenders), not merely "unreachable dead code" made
+    #     safe only because the parser happens to run first in production.
+    # ------------------------------------------------------------------
+    def test_lead_intelligence_note_handles_raw_non_dict_summary_directly(self):
+        parsed = {
+            'metadata': {'schema_version': '1.0'},
+            'classification': {'entity_type': 'b2c_individual', 'confidence': 'high'},
+            'summary': 'A bare string summary, unnormalized.',
+        }
+        note = self.lead._lead_intelligence_note(parsed, research={}, evidence=[])
+        self.assertIsInstance(note, Markup)
+        self.assertIn('<b>AI Research Summary</b>', note)
+        self.assertIn('<p>A bare string summary, unnormalized.</p>', note)
+
     # NOTE: the two old tests
     #   - test_enrich_lead_anonymize_company_names_restricts_to_searxng
     #   - test_enrich_lead_anonymize_off_does_not_restrict_providers
