@@ -9,6 +9,15 @@ import { registry } from "@web/core/registry";
 export class ScrollHeroOption extends BaseOptionComponent {
     static template = "sgc_scroll_hero_builder.ScrollHeroOption";
     static selector = ".s_re_scroll_hero, .s_re_scroll_hero_v2";
+
+    setup() {
+        super.setup();
+        // data-pin-height is stored as a bare integer (read via parseInt in
+        // scroll_hero.js), so BuilderRange's `unit` prop can't be used here:
+        // it assumes the stored attribute already ends in the unit string
+        // and strips it via formatRawValue, corrupting a plain "600" into "6".
+        this.toVh = (value) => `${value}vh`;
+    }
 }
 
 class ScrollHeroOptionPlugin extends Plugin {

@@ -8,7 +8,7 @@
                       max="800"
                       step="50"
                       displayRangeValue="true"
-                      unit="'vh'"/>
+                      computedOutput="this.toVh"/>
     </BuilderRow>
     <BuilderRow label.translate="Frame Count">
         <BuilderRange dataAttributeAction="'frameCount'"
