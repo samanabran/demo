@@ -1,0 +1,163 @@
+/* ==========================================================================
+   SGC Design Tokens — shared components
+   Targets generic Bootstrap classes already used across contactus, jobs,
+   login, portal, and the property/project listing pages, so those pages
+   get reskinned without template edits. Card/surface rules restore
+   dark-on-ivory contrast against the new navy page background (02_base.css
+   made body/heading text ivory by default).
+   ========================================================================== */
+
+/* -- Cards (property cards, project cards, portal dashboard cards, any
+      generic Bootstrap .card) — ivory surface on the navy page. ---------- */
+.card,
+.property-card,
+.filter-section {
+  background-color: var(--re-card-ivory);
+  color: var(--re-text);
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(6, 16, 29, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card h1, .card h2, .card h3, .card h4, .card h5, .card h6,
+.card .h1, .card .h2, .card .h3, .card .h4, .card .h5, .card .h6 {
+  color: var(--re-text);
+}
+
+.card:hover,
+.property-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px rgba(200, 162, 74, 0.18), 0 10px 30px rgba(6, 16, 29, 0.4);
+}
+
+/* Location pin + generic muted icon accents inside cards. */
+.card .fa-map-marker,
+.property-card .fa-map-marker {
+  color: var(--re-accent);
+}
+
+/* -- Price displays — ported forward unchanged from the pre-existing
+      sgc_scroll_hero_homepage/views/layout.xml rule (WCAG contrast already
+      verified there: navy-on-ivory is 6.51:1). Bootstrap's .text-primary
+      utility class carries !important, so this must too. --------------- */
+.property-card .text-primary,
+h2.text-primary,
+span.text-primary.font-weight-bold {
+  color: var(--re-primary) !important;
+  font-family: var(--re-font-body);
+  font-weight: 700;
+  font-size: 1.05em;
+}
+
+/* -- Badges — property type / status / bed-bath-sqft metadata chips. ---- */
+.badge.badge-primary,
+.badge.bg-primary {
+  background-color: var(--re-primary) !important;
+  color: var(--re-bg) !important;
+}
+.badge.badge-success,
+.badge.bg-success {
+  background-color: #2A5B3A !important;
+  color: var(--re-bg) !important;
+}
+.badge.badge-secondary,
+.badge.bg-secondary {
+  background-color: #6B3A2A !important;
+  color: var(--re-bg) !important;
+}
+.badge.badge-info,
+.badge.bg-info {
+  background-color: var(--re-surface) !important;
+  color: var(--re-text-page) !important;
+}
+
+/* Older/alternate property-status class names from the original design
+   system — kept in case any template still uses them. */
+.badge.badge-available, .o_property_state_available, .property_state_available {
+  background-color: var(--re-primary);
+  color: var(--re-bg);
+}
+.badge.badge-booked, .o_property_state_booked, .property_state_booked {
+  background-color: #8A6A2A;
+  color: var(--re-bg);
+}
+.badge.badge-sold, .o_property_state_sold, .property_state_sold {
+  background-color: #6B3A2A;
+  color: var(--re-bg);
+}
+.badge.badge-rented, .o_property_state_rented, .property_state_rented {
+  background-color: #2A5B3A;
+  color: var(--re-bg);
+}
+.badge.badge-under_maintenance, .o_property_state_under_maintenance, .property_state_under_maintenance {
+  background-color: var(--re-text-muted);
+  color: var(--re-bg);
+}
+
+/* -- Buttons -------------------------------------------------------------- */
+.btn-primary {
+  background-image: none !important;
+  background-color: var(--re-accent);
+  border-color: var(--re-accent);
+  /* Navy, not white: white-on-gold is 2.41:1 (fails WCAG AA 4.5:1 for
+     normal text); navy-on-gold is 6.51:1. */
+  color: var(--re-primary);
+  font-family: var(--re-font-body);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--re-accent-hover);
+  border-color: var(--re-accent-hover);
+  color: var(--re-primary);
+}
+
+.btn-outline-primary {
+  color: var(--re-accent);
+  border-color: var(--re-accent);
+  border-radius: 999px;
+  font-weight: 600;
+  background-color: transparent;
+}
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+  background-color: var(--re-accent);
+  border-color: var(--re-accent);
+  color: var(--re-primary);
+}
+
+/* -- Listing-page filter / search forms — ported forward unchanged from
+      the pre-existing layout.xml rule. --------------------------------- */
+.o_property_listing_filter .form-control,
+.o_property_listing_filter .form-select,
+.o_wsale_products_searchbar input,
+.o_searchbar input,
+.property_filter_form .form-control,
+.property_filter_form .form-select,
+.filter-section .form-control,
+.filter-section .form-select {
+  border-radius: 12px;
+  border: 1px solid rgba(107, 100, 89, 0.25);
+  background-color: #fff;
+}
+
+.o_property_listing_filter .form-control:focus,
+.o_property_listing_filter .form-select:focus,
+.o_wsale_products_searchbar input:focus,
+.o_searchbar input:focus,
+.property_filter_form .form-control:focus,
+.property_filter_form .form-select:focus,
+.filter-section .form-control:focus,
+.filter-section .form-select:focus {
+  border-color: var(--re-accent);
+  box-shadow: 0 0 0 4px rgba(200, 162, 74, 0.25);
+  outline: none;
+}
+
+/* -- Spec pills (property detail page: bed/bath/area chips). ------------ */
+.o-spec-pill {
+  background: rgba(200, 162, 74, 0.14);
+  color: var(--re-primary);
+}

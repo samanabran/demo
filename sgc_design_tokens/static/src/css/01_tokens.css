@@ -1,0 +1,42 @@
+/* ==========================================================================
+   SGC Design Tokens — Deep Navy + Gold + Ivory
+   Single source of truth for the brand palette. Consumed by
+   sgc_scroll_hero_homepage, sgc_scroll_hero_v2, sgc_scroll_hero_builder,
+   sgc_offplan_rental_property_management, plus the generic-class cascade
+   rules in 03_components.css that reach contactus/jobs/login/portal.
+   ========================================================================== */
+:root {
+  /* Page chrome — the new dark navy backdrop */
+  --re-bg-page: #0E1B2D;
+  --re-bg-page-2: #06101D;
+  --re-surface: #14243A;
+
+  /* Original brand tokens — values UNCHANGED from the prior light-theme
+     system. They already mean exactly what they need to mean under the new
+     ivory-card-on-navy-page paradigm: --re-primary is the navy accent/
+     text-on-light color, --re-bg is the ivory surface/text-on-dark color,
+     --re-text/--re-text-muted are text colors FOR IVORY SURFACES (cards,
+     the hero search pill) specifically, not the page body. Renaming them
+     would force touching every existing call site (badges, buttons, price
+     displays, WCAG-documented contrast pairs) for no benefit. */
+  --re-primary: #10243B;
+  --re-accent: #C8A24A;
+  --re-accent-hover: #B6902F;
+  --re-bg: #F7F4EE;
+  --re-text: #262421;
+  --re-text-muted: #6B6459;
+
+  /* New: page-level text sitting directly on --re-bg-page (not inside an
+     ivory card/surface). */
+  --re-text-page: #F6F2EA;
+  --re-text-page-muted: #AEB9C7;
+
+  /* Alias for readability in new component rules — same value as --re-bg,
+     which already carries this meaning. */
+  --re-card-ivory: var(--re-bg);
+
+  --re-hairline: rgba(200, 162, 74, 0.28);
+
+  --re-font-display: 'Fraunces', Georgia, serif;
+  --re-font-body: 'Cabinet Grotesk', 'Inter', sans-serif;
+}

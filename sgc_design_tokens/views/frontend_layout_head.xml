@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!--
+    Site-wide font injection, on web.frontend_layout rather than
+    website.layout: web.frontend_layout is the common ancestor of website
+    pages, the customer portal (portal.frontend_layout extends it), and the
+    /web/login page (web.login_layout extends it directly) — see
+    portal/views/portal_templates.xml and web/views/webclient_templates.xml
+    in Odoo core. Extending here is what makes the fonts load on /my/* and
+    /web/login too, not just website pages.
+
+    Both <link> tags are guarded with data-sgc-font=… so the snippet-scoped
+    loaders in s_re_scroll_hero.xml / s_re_scroll_hero_v2.xml skip
+    themselves when the global load is already present.
+  -->
+  <template id="frontend_fonts" inherit_id="web.frontend_layout" name="SGC Frontend Fonts">
+    <xpath expr="//head" position="inside">
+      <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&amp;display=swap"
+            data-sgc-font="fraunces-global"/>
+      <link rel="stylesheet"
+            href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700&amp;display=swap"
+            data-sgc-font="cabinet-grotesk-global"/>
+    </xpath>
+  </template>
+
+</odoo>

@@ -50,21 +50,10 @@
     z-index: 2;
 }
 
-/* =====================================================================
-   Design tokens — single source of truth for the brand palette + fonts.
-   These mirror the values in views/layout.xml so the search bar is
-   always styled even if the layout-extension template is unavailable.
-   To rebrand: change here AND in layout.xml.
-   ===================================================================== */
-:root {
-    --re-primary: #10243B;
-    --re-accent: #C8A24A;
-    --re-bg: #F7F4EE;
-    --re-text: #262421;
-    --re-text-muted: #6B6459;
-    --re-font-display: 'Fraunces', Georgia, serif;
-    --re-font-body: 'Cabinet Grotesk', 'Inter', sans-serif;
-}
+/* Design tokens (--re-primary, --re-accent, --re-bg, --re-text,
+   --re-text-muted, --re-font-display, --re-font-body) now come from
+   sgc_design_tokens/static/src/css/01_tokens.css — this module depends on
+   sgc_design_tokens, which loads earlier in the web.assets_frontend bundle. */
 
 /* =====================================================================
    Search bar — rebuilt for the v4 design system.

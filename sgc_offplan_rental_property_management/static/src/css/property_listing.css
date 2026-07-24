@@ -1,12 +1,15 @@
 
-/* Design System Variables */
+/* Design System Variables — aliased to the shared sgc_design_tokens palette
+   (this module depends on sgc_design_tokens) rather than a locally
+   hardcoded blue/green/amber scheme, so property pages match the rest of
+   the site. */
 :root {
-  --color-primary: #1E3A8A; /* Deep Blue */
-  --color-cta: #10B981;     /* Vibrant Green */
-  --color-accent: #F59E0B;  /* Gold */
-  --color-text: #1f2937;    /* Gray-800 */
-  --color-muted: #6b7280;   /* Gray-500 */
-  --color-bg: #f8f9fa;      /* Light background */
+  --color-primary: var(--re-primary);
+  --color-cta: var(--re-accent);
+  --color-accent: var(--re-accent);
+  --color-text: var(--re-text);
+  --color-muted: var(--re-text-muted);
+  --color-bg: var(--re-card-ivory);
   --radius-md: 12px;
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
   --shadow-md: 0 10px 30px rgba(0,0,0,0.12);
@@ -63,12 +66,13 @@
 /* Detail Page */
 .o_property_detail .card { border: none; box-shadow: var(--shadow-sm); }
 .o_property_detail .sticky-top { z-index: 100; }
-.o-spec-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #eef2ff; color: #1E3A8A; font-weight: 600; }
+.o-spec-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: rgba(200, 162, 74, 0.14); color: var(--color-primary); font-weight: 600; }
 .o-spec-grid .col { display: flex; justify-content: center; }
 
-/* Buttons */
-.btn-outline-primary { color: var(--color-primary); border-color: var(--color-primary); }
-.btn-outline-primary:hover { background: var(--color-primary); color: #fff; }
+/* Buttons — gold outline/CTA styling now lives in sgc_design_tokens's
+   03_components.css, which this module depends on (both target the plain
+   .btn-outline-primary/.btn-primary classes used by offplan_property_listing.xml
+   / offplan_property_detail.xml, so no local override is needed here). */
 
 /* Skeleton Loader */
 .skeleton { background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 37%, #e5e7eb 63%);

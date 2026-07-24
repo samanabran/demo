@@ -44,6 +44,7 @@
         "website_mail",
         "portal",
         "sgc_commission",
+        "sgc_design_tokens",
     ],
     "data": [
         # Security

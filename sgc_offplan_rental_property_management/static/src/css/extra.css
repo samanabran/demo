@@ -6,6 +6,6 @@
 
 .thumb-img.active-thumb,
 .thumb-img:hover {
-    outline: 3px solid #007bff;
+    outline: 3px solid var(--re-accent, #C8A24A);
     outline-offset: 2px;
 }

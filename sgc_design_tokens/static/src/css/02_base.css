@@ -1,0 +1,51 @@
+/* ==========================================================================
+   SGC Design Tokens — base page-level rules
+   Applies the navy page background + ivory default text/heading color.
+   Card/surface contexts (.card, .property-card, .filter-section, etc.)
+   restore dark-on-ivory contrast in 03_components.css — deliberately no
+   surface-specific rules here, and no blanket .text-muted override (it's
+   used inside ivory cards far more than on bare navy, and Bootstrap's
+   default muted gray reads acceptably on both backgrounds).
+   ========================================================================== */
+
+body {
+  background-color: var(--re-bg-page);
+  color: var(--re-text-page);
+  font-family: var(--re-font-body);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: var(--re-font-display);
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  color: var(--re-text-page);
+}
+
+a, button, .btn, input, select, textarea {
+  transition: color 0.2s ease, background-color 0.2s ease,
+              border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+/* Gold focus ring everywhere — contactus/jobs/login/portal forms have no
+   SGC-specific focus styling today. */
+a:focus-visible, button:focus-visible, .btn:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(200, 162, 74, 0.35);
+}
+
+/* prefers-reduced-motion: kill hover-lift/transition motion, keep color
+   changes (accessibility requirement from the brief). */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+}
+
+/* Thin gold hairline utility for section dividers / card outlines. */
+.re-hairline {
+  border-color: var(--re-hairline) !important;
+}
