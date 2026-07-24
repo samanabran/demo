@@ -24,7 +24,7 @@ function sgcInitScrollHeroV2() {
     }
 
     function initHero(section) {
-        var frameCount = parseInt(section.dataset.frameCount, 10) || 240;
+        var frameCount = parseInt(section.dataset.frameCount, 10) || 220;
         var pinHeightVh = parseInt(section.dataset.pinHeight, 10) || 600;
         section.style.setProperty('--sgc-pin-height-v2', pinHeightVh + 'vh');
 
