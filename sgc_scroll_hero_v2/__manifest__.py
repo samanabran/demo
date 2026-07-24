@@ -20,6 +20,8 @@ site homepage.
     ],
     'assets': {
         'web.assets_frontend': [
+            'sgc_scroll_hero_v2/static/src/lib/gsap.min.js',
+            'sgc_scroll_hero_v2/static/src/lib/ScrollTrigger.min.js',
             'sgc_scroll_hero_v2/static/src/css/scroll_hero_v2.css',
             'sgc_scroll_hero_v2/static/src/js/scroll_hero_v2.js',
         ],

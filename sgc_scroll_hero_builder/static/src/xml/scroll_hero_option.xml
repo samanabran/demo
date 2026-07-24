@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="sgc_scroll_hero_builder.ScrollHeroOption">
+    <BuilderRow label.translate="Scroll Distance">
+        <BuilderRange dataAttributeAction="'pinHeight'"
+                      min="200"
+                      max="800"
+                      step="50"
+                      displayRangeValue="true"
+                      unit="'vh'"/>
+    </BuilderRow>
+    <BuilderRow label.translate="Frame Count">
+        <BuilderRange dataAttributeAction="'frameCount'"
+                      min="1"
+                      max="240"
+                      step="1"
+                      displayRangeValue="true"/>
+    </BuilderRow>
+    <BuilderRow label.translate="Reduced Motion">
+        <BuilderSelect dataAttributeAction="'reducedMotion'">
+            <BuilderSelectItem dataAttributeActionValue="''">Auto (OS Preference)</BuilderSelectItem>
+            <BuilderSelectItem dataAttributeActionValue="'always'">Always On</BuilderSelectItem>
+            <BuilderSelectItem dataAttributeActionValue="'never'">Always Off</BuilderSelectItem>
+        </BuilderSelect>
+    </BuilderRow>
+</t>
+
+</templates>

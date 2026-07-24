@@ -5,27 +5,45 @@
              data-frame-count="223" data-pin-height="600"
              class="s_re_scroll_hero_v2 position-relative p-0">
 
-      <!-- Guarded CDN + font injection, scoped to this snippet instance only.
-           Mirrors sgc_scroll_hero_homepage's pattern so GSAP loads once
-           regardless of which hero snippet is on the page. -->
+      <!-- GSAP bundled in assets_frontend for reliability; inline script
+           mirrors sgc_scroll_hero_homepage's pattern: local bundle first,
+           CDN fallback, 5s timeout safety net. -->
       <script>
         (function () {
           function loadScript(src, cb) {
             var s = document.createElement('script');
             s.src = src;
             s.onload = cb;
+            s.onerror = cb;
             document.head.appendChild(s);
           }
           function announceReady() {
             document.dispatchEvent(new Event('sgc:gsap-ready'));
           }
-          if (window.gsap &amp;&amp; window.ScrollTrigger) {
+          var fallbackTimer = setTimeout(announceReady, 5000);
+          function onReady() {
+            clearTimeout(fallbackTimer);
             announceReady();
+          }
+          if (window.gsap &amp;&amp; window.ScrollTrigger) {
+            onReady();
           } else if (window.gsap &amp;&amp; !window.ScrollTrigger) {
-            loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js', announceReady);
+            loadScript('/sgc_scroll_hero_v2/static/src/lib/ScrollTrigger.min.js', function () {
+              if (window.ScrollTrigger) { onReady(); return; }
+              loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js', onReady);
+            });
           } else {
-            loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js', function () {
-              loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js', announceReady);
+            loadScript('/sgc_scroll_hero_v2/static/src/lib/gsap.min.js', function () {
+              if (window.gsap) {
+                loadScript('/sgc_scroll_hero_v2/static/src/lib/ScrollTrigger.min.js', function () {
+                  if (window.ScrollTrigger) { onReady(); return; }
+                  loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js', onReady);
+                });
+                return;
+              }
+              loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js', function () {
+                loadScript('https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js', onReady);
+              });
             });
           }
           if (!document.querySelector('link[data-sgc-font="fraunces"]')) {

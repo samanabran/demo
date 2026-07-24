@@ -21,6 +21,8 @@ sgc_realestate_website.
     ],
     'assets': {
         'web.assets_frontend': [
+            'sgc_scroll_hero_homepage/static/src/lib/gsap.min.js',
+            'sgc_scroll_hero_homepage/static/src/lib/ScrollTrigger.min.js',
             'sgc_scroll_hero_homepage/static/src/css/scroll_hero.css',
             'sgc_scroll_hero_homepage/static/src/js/scroll_hero.js',
         ],
