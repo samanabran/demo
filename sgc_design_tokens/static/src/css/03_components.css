@@ -137,7 +137,9 @@ span.text-primary.font-weight-bold {
 .property_filter_form .form-control,
 .property_filter_form .form-select,
 .filter-section .form-control,
-.filter-section .form-select {
+.filter-section .form-select,
+.o_jobs_topbar_search_bar input,
+.o_jobs_topbar_search_bar select {
   border-radius: 12px;
   border: 1px solid rgba(107, 100, 89, 0.25);
   background-color: #fff;
@@ -150,10 +152,100 @@ span.text-primary.font-weight-bold {
 .property_filter_form .form-control:focus,
 .property_filter_form .form-select:focus,
 .filter-section .form-control:focus,
-.filter-section .form-select:focus {
+.filter-section .form-select:focus,
+.o_jobs_topbar_search_bar input:focus,
+.o_jobs_topbar_search_bar select:focus {
   border-color: var(--re-accent);
   box-shadow: 0 0 0 4px rgba(200, 162, 74, 0.25);
   outline: none;
+}
+
+/* -- Utility/meta icons (jobs cards, contact/share snippets) — gold accent
+      tint, matching the .card .fa-map-marker precedent above. ----------- */
+.o_job_infos i.fa,
+i.fa-comment,
+i.fa-envelope,
+i.fa-phone {
+  color: var(--re-accent);
+}
+
+/* -- Generic page-header title band (s_title snippet: Contact Us, Jobs,
+      and other default Odoo pages that use it without a background image)
+      — replace the flat black overlay with the brand navy so it reads as
+      an intentional header strip, not an unstyled placeholder. ---------- */
+.s_title.bg-black-50 {
+  background-color: var(--re-bg-page-2) !important;
+}
+
+/* -- .text-muted contrast fix — Bootstrap's default (rgba(33,37,41,.75), a
+      dark gray meant for light backgrounds) is nearly invisible on the bare
+      navy page (e.g. portal page subtitles sitting directly on body, not
+      inside a card). Give it a legible page-level tone by default, and
+      restore the original dark-muted tone inside ivory surfaces where it
+      already reads fine. --------------------------------------------- */
+.text-muted {
+  color: var(--re-text-page-muted) !important;
+}
+.card .text-muted,
+.property-card .text-muted,
+.filter-section .text-muted,
+.oe_website_login_container .text-muted {
+  color: var(--re-text-muted) !important;
+}
+
+/* -- Portal alert banners (e.g. "Invoices to pay") and secondary buttons —
+      retint Bootstrap's default blue alert / gray button to match the
+      ivory/gold system. ---------------------------------------------- */
+.alert-primary {
+  background-color: rgba(200, 162, 74, 0.14);
+  border-color: var(--re-hairline);
+  color: var(--re-text-page);
+}
+.alert-primary .btn-secondary,
+.btn-secondary {
+  background-color: var(--re-surface);
+  border-color: var(--re-surface);
+  color: var(--re-text-page);
+}
+.btn-secondary:hover {
+  background-color: var(--re-primary);
+  border-color: var(--re-primary);
+  color: var(--re-text-page);
+}
+
+/* -- Login / auth pages (web.login_layout via .oe_website_login_container)
+      — elevate the bare form into an ivory card with gold hairline border
+      so clients never see the default unstyled Odoo login during demos.
+      Pure CSS against Odoo's own wrapper class; no template edits. ------ */
+.oe_website_login_container {
+  max-width: 440px;
+  margin: 96px auto;
+  background: var(--re-card-ivory);
+  border-radius: 20px;
+  padding: 48px 40px;
+  box-shadow: 0 20px 60px rgba(6, 16, 29, 0.45);
+  border: 1px solid var(--re-hairline);
+}
+.oe_website_login_container h1,
+.oe_website_login_container h2,
+.oe_website_login_container label,
+.oe_website_login_container p {
+  color: var(--re-text);
+}
+.oe_website_login_container .form-control {
+  border-radius: 10px;
+  border: 1px solid rgba(107, 100, 89, 0.25);
+}
+
+/* -- Footer — bg is already --re-bg-page (confirmed via computed style),
+      but its links inherit Odoo's Website Builder color-combination (o_cc)
+      link color with !important, which beats an unqualified override;
+      match that specificity here. */
+footer.o_footer a:not(.btn) {
+  color: var(--re-text-page) !important;
+}
+footer.o_footer a:not(.btn):hover {
+  color: var(--re-accent) !important;
 }
 
 /* -- Spec pills (property detail page: bed/bath/area chips). ------------ */
