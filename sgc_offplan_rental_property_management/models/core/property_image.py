@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
+import logging
+
 from odoo import api, fields, models
+from odoo.tools.image import image_process
+
+_logger = logging.getLogger(__name__)
 
 
 class PropertyImage(models.Model):
@@ -25,9 +30,16 @@ class PropertyImage(models.Model):
     @api.depends('image_1920')
     def _compute_images(self):
         for rec in self:
-            rec.image_1024 = rec.image_1920
-            rec.image_512 = rec.image_1920
-            rec.image_256 = rec.image_1920
+            if not rec.image_1920:
+                rec.image_1024 = rec.image_512 = rec.image_256 = False
+                continue
+            try:
+                rec.image_1024 = image_process(rec.image_1920, size=(1024, 1024))
+                rec.image_512 = image_process(rec.image_1920, size=(512, 512))
+                rec.image_256 = image_process(rec.image_1920, size=(256, 256))
+            except Exception:
+                _logger.warning('Could not process image_1920 for property.image id=%s; leaving resized images empty.', rec.id)
+                rec.image_1024 = rec.image_512 = rec.image_256 = False
 
 
 class PropertyDetails(models.Model):

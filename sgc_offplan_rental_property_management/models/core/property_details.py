@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
+import logging
+
 from odoo import api, fields, models
+from odoo.tools.image import image_process
 from datetime import date, timedelta
+
+_logger = logging.getLogger(__name__)
 
 
 class PropertyImages(models.Model):
@@ -90,6 +95,12 @@ class PropertyDetails(models.Model):
         ('lease', 'Lease'),
         ('both', 'Both'),
     ], string='Sale/Lease')
+    listing_category = fields.Selection([
+        ('offplan_sale', 'Off-Plan Sale'),
+        ('ready_sale', 'Ready Property Sale'),
+        ('resale', 'Resale'),
+        ('warehouse', 'Warehouse'),
+    ], string='Listing Category')
     active = fields.Boolean(string='Active', default=True)
     is_published_website = fields.Boolean(string='Published on Website', default=False)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
@@ -120,9 +131,16 @@ class PropertyDetails(models.Model):
     @api.depends('image_1920')
     def _compute_property_images(self):
         for rec in self:
-            rec.image_1024 = rec.image_1920
-            rec.image_512 = rec.image_1920
-            rec.image_256 = rec.image_1920
+            if not rec.image_1920:
+                rec.image_1024 = rec.image_512 = rec.image_256 = False
+                continue
+            try:
+                rec.image_1024 = image_process(rec.image_1920, size=(1024, 1024))
+                rec.image_512 = image_process(rec.image_1920, size=(512, 512))
+                rec.image_256 = image_process(rec.image_1920, size=(256, 256))
+            except Exception:
+                _logger.warning('Could not process image_1920 for property.details id=%s; leaving resized images empty.', rec.id)
+                rec.image_1024 = rec.image_512 = rec.image_256 = False
 
     # ------------------------------------------------------------------
     # RERA / DLD COMPLIANCE FIELDS
