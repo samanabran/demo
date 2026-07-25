@@ -15,31 +15,50 @@
                           order='create_date desc', limit=6)"/>
             <div class="row">
               <t t-foreach="featured_properties" t-as="prop">
-                <div class="col-md-4 mb-4">
-                  <div class="card h-100">
-                    <img t-if="prop.image_1920"
-                         t-attf-src="/web/image/property.details/#{prop.id}/image_1920"
-                         class="card-img-top" style="height:220px;object-fit:cover;"
-                         alt="Property"/>
-                    <div class="card-body">
-                      <h5 class="card-title" t-esc="prop.name"/>
-                      <p class="card-text text-muted" t-esc="prop.city"/>
-                      <p class="card-text fw-bold">
-                        <span t-if="prop.sale_lease == 'sale'" t-esc="prop.sale_price"
-                              t-options="{'widget': 'monetary', 'display_currency': prop.currency_id}"/>
-                        <span t-elif="prop.sale_lease == 'lease'" t-esc="prop.rent_price"
-                              t-options="{'widget': 'monetary', 'display_currency': prop.currency_id}"/>
-                        <span t-else="1" t-esc="prop.price"
-                              t-options="{'widget': 'monetary', 'display_currency': prop.currency_id}"/>
-                      </p>
-                      <div class="d-flex gap-3 text-muted small mb-3">
-                        <span><i class="fa fa-bed"/> <t t-esc="prop.bedrooms"/></span>
-                        <span><i class="fa fa-bath"/> <t t-esc="prop.bathrooms"/></span>
-                        <span><i class="fa fa-arrows-alt"/> <t t-esc="prop.area"/> sq ft</span>
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="property-card card h-100 shadow-sm"
+                       style="border: 1px solid var(--re-hairline, rgba(200, 162, 74, 0.28));">
+                    <div class="position-relative overflow-hidden" style="height: 220px;">
+                      <img t-if="prop.image_512"
+                           t-attf-src="/web/image/property.details/#{prop.id}/image_512"
+                           class="card-img-top" style="height:100%;width:100%;object-fit:cover;"
+                           t-att-alt="prop.name"/>
+                      <img t-else=""
+                           src="/web/static/src/img/placeholder.png"
+                           class="card-img-top" style="height:100%;width:100%;object-fit:cover;"/>
+                      <div class="position-absolute" style="top:10px;right:10px;">
+                        <span class="badge badge-primary" t-esc="dict(prop._fields['property_type'].selection).get(prop.property_type, prop.property_type)"/>
                       </div>
-                      <a t-attf-href="/offplan/property/#{prop.id}" class="btn btn-primary w-100">
-                        View Details
-                      </a>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                      <h5 class="card-title" t-esc="prop.name"/>
+                      <p class="text-muted small mb-2" t-if="prop.city or prop.project_id">
+                        <span class="fa fa-map-marker" title="Location"></span>
+                        <span t-esc="prop.city or ''"/>
+                        <t t-if="prop.project_id">
+                          <span t-esc="', %s' % prop.project_id.name" t-if="prop.city"/>
+                          <span t-esc="prop.project_id.name" t-if="not prop.city"/>
+                        </t>
+                      </p>
+                      <div class="mb-3">
+                        <span class="badge badge-info me-1" t-esc="'%s bed' % prop.bedrooms if prop.bedrooms else 'Studio'"/>
+                        <span class="badge badge-info me-1" t-esc="'%s bath' % prop.bathrooms if prop.bathrooms else '1 bath'"/>
+                        <span class="badge badge-info" t-esc="'{:,.0f} sqft'.format(prop.area) if prop.area else ''"/>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <h4 class="text-primary mb-0" t-if="prop.sale_lease == 'sale' and prop.sale_price">
+                          AED <t t-esc="'{:,.0f}'.format(prop.sale_price)"/>
+                        </h4>
+                        <h4 class="text-primary mb-0" t-elif="prop.sale_lease == 'lease' and prop.rent_price">
+                          AED <t t-esc="'{:,.0f}'.format(prop.rent_price)"/>
+                        </h4>
+                        <h4 class="text-primary mb-0" t-elif="prop.price">
+                          AED <t t-esc="'{:,.0f}'.format(prop.price)"/>
+                        </h4>
+                        <a t-attf-href="/offplan/property/#{prop.id}" class="btn btn-sm btn-outline-primary">
+                          View Details
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>

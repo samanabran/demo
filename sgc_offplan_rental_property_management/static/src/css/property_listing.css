@@ -55,6 +55,17 @@
 .o_property_card .card-img-top img { width: 100%; height: 100%; object-fit: cover; transition: transform .3s ease; }
 .o_property_card:hover .card-img-top img { transform: scale(1.04); }
 
+/* Property/project listing + homepage featured cards actually use the
+   "property-card" class (not "o_property_card" above) — image itself IS
+   the .card-img-top element here, not a wrapped child. Zoom-on-hover per
+   the luxury showcase brief. */
+.property-card .card-img-top {
+  transition: transform .4s ease;
+}
+.property-card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
 /* Badges */
 .badge.bg-warning { background-color: var(--color-accent) !important; color: #111827; }
 .badge.bg-success { background-color: #059669 !important; }
