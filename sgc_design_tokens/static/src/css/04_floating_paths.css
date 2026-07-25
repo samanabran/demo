@@ -1,0 +1,56 @@
+/* ==========================================================================
+   SGC Floating Paths Background — Animated SVG paths
+   Gold (#C8A24A) on Dark Navy (#0E1B2D) — Premium finish
+   Adapted from React/Framer Motion → Pure CSS @keyframes
+   ========================================================================== */
+
+/* Container: fixed, full viewport, behind all content */
+#sgc-floating-paths {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  /* Negative z-index puts this in the "behind non-positioned content"
+     stacking category. z-index:0 would instead paint it ABOVE ordinary
+     static in-flow content (cards, text, images), since positioned
+     z-index:0/auto elements paint after non-positioned in-flow content -
+     that was the cause of the background overlapping page content. */
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#sgc-floating-paths svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ─── Path animations ─── */
+
+/* Animate stroke drawing (pathLength effect) */
+@keyframes sgc-path-draw {
+  0%   { stroke-dashoffset: 1000; }
+  50%  { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -1000; }
+}
+
+/* Opacity pulsing: 0.3 → 0.6 → 0.3 */
+@keyframes sgc-path-opacity {
+  0%   { opacity: 0.15; }
+  50%  { opacity: 0.45; }
+  100% { opacity: 0.15; }
+}
+
+/* Base path style */
+#sgc-floating-paths path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* Each path gets its own animation duration/delay via inline style from JS */
+  animation:
+    sgc-path-draw var(--sgc-path-duration, 25s) var(--sgc-path-delay, 0s) linear infinite,
+    sgc-path-opacity var(--sgc-path-duration, 25s) var(--sgc-path-delay, 0s) ease-in-out infinite;
+  stroke-dasharray: 500 1500;
+}

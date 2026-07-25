@@ -19,12 +19,14 @@ sgc_offplan_rental_property_management build on top of.
     "depends": ["web"],
     "data": [
         "views/frontend_layout_head.xml",
+        "views/frontend_floating_paths.xml",
     ],
     "assets": {
         "web.assets_frontend": [
             "sgc_design_tokens/static/src/css/01_tokens.css",
             "sgc_design_tokens/static/src/css/02_base.css",
             "sgc_design_tokens/static/src/css/03_components.css",
+            "sgc_design_tokens/static/src/css/04_floating_paths.css",
         ],
     },
     "installable": True,
