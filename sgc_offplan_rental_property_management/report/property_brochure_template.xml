@@ -18,24 +18,30 @@
                 <t t-set="sale_lease_display" t-value="dict(property._fields['sale_lease'].selection).get(property.sale_lease, property.sale_lease)"/>
                 <t t-set="state_display" t-value="dict(property._fields['state'].selection).get(property.state, property.state)"/>
 
-                <link rel="stylesheet"
-                      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&amp;display=swap"/>
-                <link rel="stylesheet"
-                      href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700&amp;display=swap"/>
-
                 <style>
                     /* SGC brand tokens (mirrors --re-* custom properties used
                        site-wide in sgc_scroll_hero_homepage/views/layout.xml)
                        -- PDF/wkhtmltopdf rendering doesn't reliably support
                        CSS custom properties, so the literal hex values are
                        repeated directly rather than referenced via var(). */
+
+                    /* Deliberately NOT loading Fraunces/Cabinet Grotesk from
+                       Google Fonts/Fontshare here like the HTML pages do:
+                       wkhtmltopdf re-embeds each remote webfont file as a
+                       full TrueType/Type0 font object per page context
+                       instead of subsetting/deduping it once, which turned a
+                       3-page brochure into a 36MB PDF (measured). Georgia and
+                       Arial are installed in the rendering container, so
+                       these render instantly, reliably (no network fetch
+                       during PDF generation), and at a fraction of the size,
+                       while keeping the same serif/sans-serif character. */
                     @page {
                         size: A4;
                         margin: 0;
                     }
                     * { box-sizing: border-box; margin: 0; padding: 0; }
                     body {
-                        font-family: 'Cabinet Grotesk', 'Inter', Arial, sans-serif;
+                        font-family: Arial, sans-serif;
                         color: #262421;
                         background: #fff;
                     }
@@ -88,7 +94,7 @@
                         letter-spacing: 2px;
                         text-transform: uppercase;
                         border-radius: 2px;
-                        font-family: 'Cabinet Grotesk', 'Inter', Arial, sans-serif;
+                        font-family: Arial, sans-serif;
                     }
                     .cover-content {
                         padding: 40px 50px;
@@ -103,10 +109,10 @@
                         text-transform: uppercase;
                         color: #C8A24A;
                         margin-bottom: 12px;
-                        font-family: 'Cabinet Grotesk', 'Inter', Arial, sans-serif;
+                        font-family: Arial, sans-serif;
                     }
                     .cover-title {
-                        font-family: 'Fraunces', Georgia, serif;
+                        font-family: Georgia, serif;
                         font-size: 40px;
                         font-weight: 400;
                         line-height: 1.15;
@@ -156,14 +162,14 @@
                         padding-bottom: 12px;
                     }
                     .section-number {
-                        font-family: 'Fraunces', Georgia, serif;
+                        font-family: Georgia, serif;
                         font-size: 42px;
                         font-weight: 300;
                         color: #C8A24A;
                         line-height: 1;
                     }
                     .section-title {
-                        font-family: 'Fraunces', Georgia, serif;
+                        font-family: Georgia, serif;
                         font-size: 22px;
                         font-weight: 600;
                         letter-spacing: 0.02em;
@@ -190,7 +196,7 @@
                         margin-bottom: 6px;
                     }
                     .detail-card-value {
-                        font-family: 'Fraunces', Georgia, serif;
+                        font-family: Georgia, serif;
                         font-size: 18px;
                         font-weight: 600;
                         color: #10243B;
@@ -207,7 +213,7 @@
                         margin-bottom: 36px;
                     }
                     .description-box h3 {
-                        font-family: 'Fraunces', Georgia, serif;
+                        font-family: Georgia, serif;
                         font-size: 14px;
                         letter-spacing: 2px;
                         text-transform: uppercase;
@@ -303,7 +309,7 @@
                         align-items: center;
                     }
                     .footer-brand {
-                        font-family: 'Fraunces', Georgia, serif;
+                        font-family: Georgia, serif;
                         font-size: 18px;
                         font-weight: 400;
                         letter-spacing: 0.02em;
@@ -511,8 +517,8 @@
                             <div class="gallery-grid">
                                 <t t-foreach="images" t-as="img">
                                     <div class="gallery-item">
-                                        <t t-if="img.image_1920">
-                                            <img t-att-src="image_data_uri(img.image_1920)" t-att-alt="img.name or 'Property Image'"/>
+                                        <t t-if="img.image_512">
+                                            <img t-att-src="image_data_uri(img.image_512)" t-att-alt="img.name or 'Property Image'"/>
                                         </t>
                                     </div>
                                 </t>
