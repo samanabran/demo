@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <template id="about_page" name="About">
+      <t t-call="website.layout">
+        <t t-set="pageName" t-value="'about'"/>
+        <div id="wrap" class="oe_structure oe_empty">
+
+          <!-- Hero -->
+          <section class="py-5" style="background: var(--re-bg-page-2, #06101D);">
+            <div class="container py-5 text-center">
+              <p class="text-uppercase small mb-3"
+                 style="letter-spacing: 0.15em; color: var(--re-accent);">About Us</p>
+              <h1 class="mb-4" style="max-width: 820px; margin-left:auto; margin-right:auto;">
+                A calmer way to buy, lease, and manage property in Dubai
+              </h1>
+              <p class="lead mx-auto" style="max-width: 640px; color: var(--re-text-page-muted);">
+                From first search to signed contract to move-in day, every step of the
+                journey lives in one place — for buyers, tenants, landlords, and our
+                own team alike.
+              </p>
+            </div>
+          </section>
+
+          <!-- Live stats, pulled from the actual property catalogue -->
+          <section class="container py-5">
+            <t t-set="property_count"
+               t-value="request.env['property.details'].sudo().search_count([('is_published_website', '=', True)])"/>
+            <t t-set="city_count"
+               t-value="len(set(request.env['property.details'].sudo().search([('is_published_website', '=', True), ('city', '!=', False)]).mapped('city')))"/>
+            <t t-set="project_count"
+               t-value="request.env['property.project'].sudo().search_count([])"/>
+            <div class="row text-center g-4">
+              <div class="col-6 col-md-3">
+                <h2 class="mb-1" t-esc="property_count"/>
+                <p class="text-muted small mb-0">Listed Properties</p>
+              </div>
+              <div class="col-6 col-md-3">
+                <h2 class="mb-1" t-esc="project_count"/>
+                <p class="text-muted small mb-0">Master Projects</p>
+              </div>
+              <div class="col-6 col-md-3">
+                <h2 class="mb-1" t-esc="city_count"/>
+                <p class="text-muted small mb-0" t-esc="'City Covered' if city_count == 1 else 'Cities Covered'"/>
+              </div>
+              <div class="col-6 col-md-3">
+                <h2 class="mb-1">24/7</h2>
+                <p class="text-muted small mb-0">Owner &amp; Tenant Portal</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- What we do -->
+          <section class="container py-5">
+            <div class="row align-items-center g-5">
+              <div class="col-lg-6">
+                <h2 class="mb-3">Built around the whole property lifecycle</h2>
+                <p style="color: var(--re-text-page-muted);">
+                  Most real estate sites stop at the listing. Ours keeps going: once a
+                  unit is booked or leased, the same account gives owners, tenants, and
+                  landlords a portal for contracts, invoices, maintenance requests, and
+                  lease documents — no separate spreadsheets or phone tag required.
+                </p>
+                <p style="color: var(--re-text-page-muted);">
+                  Behind the scenes, our team uses the exact same platform to track
+                  commissions, construction milestones, and financial reporting, so
+                  what you see in your portal always matches what our operations team
+                  is looking at.
+                </p>
+              </div>
+              <div class="col-lg-6">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h3 class="mb-3">Why owners and tenants stay with us</h3>
+                    <ul class="list-unstyled mb-0">
+                      <li class="d-flex align-items-start gap-3 mb-3">
+                        <i class="fa fa-search re-icon-badge" aria-hidden="true"></i>
+                        <span>Transparent, filterable search across off-plan, resale, and rental stock</span>
+                      </li>
+                      <li class="d-flex align-items-start gap-3 mb-3">
+                        <i class="fa fa-file-text-o re-icon-badge" aria-hidden="true"></i>
+                        <span>Digital contracts, invoices, and brochures — no chasing paperwork</span>
+                      </li>
+                      <li class="d-flex align-items-start gap-3 mb-3">
+                        <i class="fa fa-wrench re-icon-badge" aria-hidden="true"></i>
+                        <span>Maintenance requests tracked from submission to close-out</span>
+                      </li>
+                      <li class="d-flex align-items-start gap-3">
+                        <i class="fa fa-line-chart re-icon-badge" aria-hidden="true"></i>
+                        <span>Real financial reporting for owners with more than one unit</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- CTA -->
+          <section class="py-5" style="background: var(--re-bg-page-2, #06101D);">
+            <div class="container text-center py-3">
+              <h2 class="mb-3">Ready to see what's available?</h2>
+              <p class="mb-4" style="color: var(--re-text-page-muted);">
+                Browse live listings or get in touch and we'll help you find the right unit.
+              </p>
+              <a href="/offplan/properties" class="btn btn-primary me-2">Browse Properties</a>
+              <a href="/contactus" class="btn btn-outline-primary">Contact Us</a>
+            </div>
+          </section>
+
+        </div>
+      </t>
+    </template>
+
+    <record id="website_page_about" model="website.page">
+      <field name="view_id" ref="about_page"/>
+      <field name="url">/about</field>
+      <field name="is_published">True</field>
+      <field name="website_indexed">True</field>
+    </record>
+  </data>
+</odoo>

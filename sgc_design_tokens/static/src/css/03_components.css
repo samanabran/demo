@@ -177,6 +177,27 @@ i.fa-phone {
   background-color: var(--re-bg-page-2) !important;
 }
 
+/* -- Generic icon badge — circular gold-tinted icon chip, for feature/value
+      lists on any page (About, Services, etc.). Not scoped to a specific
+      module; reusable design-system component. --------------------------- */
+.re-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(200, 162, 74, 0.14);
+  color: var(--re-accent);
+  font-size: 1.1rem;
+}
+.re-icon-badge-lg {
+  width: 56px;
+  height: 56px;
+  font-size: 1.4rem;
+}
+
 /* -- .text-muted contrast fix — Bootstrap's default (rgba(33,37,41,.75), a
       dark gray meant for light backgrounds) is nearly invisible on the bare
       navy page (e.g. portal page subtitles sitting directly on body, not
