@@ -212,10 +212,27 @@ function sgcInitScrollHeroV2() {
         }
 
         function ensureFrame(i) {
-            if (frameImgs[i]) {
+            var img = frameImgs[i];
+            if (img) {
+                // Already requested (eager preload or the lazy-loader queue),
+                // but drawFrame() found it not ready yet. The lazy-loader's
+                // own onload only increments its counter - it never repaints
+                // - so without this listener a frame whose scroll target was
+                // hit before its image finished downloading would never get
+                // drawn, even after it loads moments later. addEventListener
+                // (not overwriting onload) so the lazy-loader's counter still
+                // fires too.
+                if (!img.complete || !img.naturalWidth) {
+                    img.addEventListener('load', function onFrameLoad() {
+                        img.removeEventListener('load', onFrameLoad);
+                        if (currentFrame === i) {
+                            drawFrame(i);
+                        }
+                    });
+                }
                 return;
             }
-            var img = new Image();
+            img = new Image();
             img.onload = function () {
                 if (currentFrame === i) {
                     drawFrame(i);
@@ -311,7 +328,7 @@ function sgcInitScrollHeroV2() {
                     setLoadingProgress(Math.round((loaded / eagerCount) * 100));
                     if (loaded >= eagerCount) {
                         if (loading) {
-                            loading.style.display = 'none';
+                            loading.classList.add('s_re_hero_loading_v2_done');
                         }
                         if (!engineStarted) {
                             engineStarted = true;
@@ -431,11 +448,25 @@ function sgcInitScrollHeroV2() {
             });
         }
 
+        // The tail of the frame sequence (~frame 210-220) fades the aerial
+        // shot down to near-black night, which read as the hero "going
+        // dark" right as the search bar finishes revealing. Frame scrubbing
+        // freezes at FRAME_FREEZE_PROGRESS (frame ~205, still bright golden-
+        // hour daylight) so the backdrop holds on the aerial view; the
+        // caption/overlay/search-bar reveal keeps using the real, unclamped
+        // progress so the final beat still animates and completes normally.
+        var FRAME_FREEZE_PROGRESS = 0.93;
+
+        function freezeFrameIndex() {
+            return Math.min(frameCount, Math.max(1, Math.round(FRAME_FREEZE_PROGRESS * (frameCount - 1)) + 1));
+        }
+
         function applyProgress(progress) {
             updateCaption(progress);
             updateFinalReveal(progress);
             updateScrubRate(progress);
-            var idx = Math.min(frameCount, Math.max(1, Math.round(progress * (frameCount - 1)) + 1));
+            var frameProgress = Math.min(progress, FRAME_FREEZE_PROGRESS);
+            var idx = Math.min(frameCount, Math.max(1, Math.round(frameProgress * (frameCount - 1)) + 1));
             currentFrame = idx;
             if (idx !== lastDrawnFrame) {
                 drawFrame(idx);
@@ -511,8 +542,8 @@ function sgcInitScrollHeroV2() {
 
         function startEngine() {
             if (reducedMotion) {
-                drawFrame(frameCount);
-                drawFrameSettled(frameCount);
+                drawFrame(freezeFrameIndex());
+                drawFrameSettled(freezeFrameIndex());
                 gsap && gsap.set ? gsap.set(overlay, { opacity: 1 }) : (overlay.style.opacity = 1);
                 if (searchWrap) {
                     searchWrap.style.opacity = 1;

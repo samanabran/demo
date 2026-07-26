@@ -180,7 +180,7 @@ function sgcInitScrollHero() {
                     setLoadingProgress(Math.round((loaded / eagerCount) * 100));
                     if (loaded >= eagerCount) {
                         if (loading) {
-                            loading.style.display = 'none';
+                            loading.classList.add('s_re_hero_loading_done');
                         }
                         if (!engineStarted) {
                             engineStarted = true;

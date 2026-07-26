@@ -139,10 +139,19 @@
     align-items: center;
     justify-content: center;
     color: #fff;
-    background: #000;
+    background: #0E1B2D;
     z-index: 5;
     font-family: Georgia, serif;
     letter-spacing: 0.05em;
+    transition: opacity 0.25s ease;
+}
+
+/* Faded out via JS once eager frames finish loading, instead of an
+   instant display:none cut - the abrupt full-black-to-scene swap read
+   as a background/content "flicker" on every homepage load. */
+.s_re_hero_loading_v2.s_re_hero_loading_v2_done {
+    opacity: 0;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
