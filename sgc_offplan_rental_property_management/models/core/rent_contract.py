@@ -103,6 +103,12 @@ class RentContract(models.Model):
     # Rent Bills
     rent_bill_count = fields.Integer(
         string="Rent Bills", compute="_compute_rent_bill_count")
+    rent_bill_ids = fields.One2many(
+        'rent.bill', 'contract_id',
+        string='Rent Bill Lines',
+        help='Rent bills generated for this contract, mirroring the sale '
+             'contract installment plan tab.',
+    )
 
     # -------------------------------------------------------------------------
     # Commission Distribution (dynamic lines)

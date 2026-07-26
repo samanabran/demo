@@ -112,11 +112,6 @@
                     <!-- Payment plan -->
                     <group string="Payment Plan">
                         <field name="payment_schedule_id" colspan="2"/>
-                        <button name="action_generate_rent_bills"
-                                string="Generate Rent Bills"
-                                type="object"
-                                class="btn-secondary"
-                                invisible="not start_date"/>
                     </group>
 
                     <!-- Company (multi-company environments only) -->
@@ -127,9 +122,34 @@
                     <!-- Notebook -->
                     <notebook>
                         <page string="Rent Bills" name="rent_bills">
-                            <p class="text-muted">
-                                Use the <strong>Rent Bills</strong> smart button above to view or generate bills for this contract.
-                            </p>
+                            <div class="mb-3">
+                                <button name="action_generate_rent_bills"
+                                        string="Generate Rent Bills"
+                                        type="object"
+                                        class="btn btn-primary"
+                                        invisible="not start_date"/>
+                            </div>
+                            <field name="rent_bill_ids">
+                                <list decoration-success="payment_state == 'paid'"
+                                      decoration-warning="payment_state == 'partial'"
+                                      decoration-danger="payment_state == 'not_paid'">
+                                    <field name="rent_no"/>
+                                    <field name="bill_type"/>
+                                    <field name="invoice_date"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="payment_state" widget="badge"
+                                           decoration-success="payment_state == 'paid'"
+                                           decoration-warning="payment_state == 'partial'"
+                                           decoration-danger="payment_state == 'not_paid'"/>
+                                    <button name="action_view_bill"
+                                            string="View Invoice"
+                                            type="object"
+                                            icon="fa-search"
+                                            invisible="not rent_bill_id"
+                                            class="btn-sm btn-secondary"/>
+                                </list>
+                            </field>
                         </page>
                         <page string="Commission" name="commission">
                             <field name="is_commission_eligible" invisible="1"/>
