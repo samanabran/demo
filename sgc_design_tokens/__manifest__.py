@@ -1,6 +1,6 @@
 {
     "name": "SGC Design Tokens",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "category": "Website",
     "summary": "Deep Navy + Gold + Ivory design-token system shared across all SGC public-facing pages",
     "description": """
@@ -27,6 +27,8 @@ sgc_offplan_rental_property_management build on top of.
             "sgc_design_tokens/static/src/css/02_base.css",
             "sgc_design_tokens/static/src/css/03_components.css",
             "sgc_design_tokens/static/src/css/04_floating_paths.css",
+            "sgc_design_tokens/static/src/css/05_shader_bg.css",
+            "sgc_design_tokens/static/src/js/05_shader_bg.js",
         ],
     },
     "installable": True,
