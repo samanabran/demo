@@ -126,6 +126,8 @@
         "wizard/views/booking_wizard_views.xml",
         # Report templates
         "report/property_brochure_template.xml",
+        "report/paperformat_data.xml",
+        "report/property_brochure_luxury_template.xml",
         "report/sales_offer_template.xml",
         "report/sales_purchase_agreement_template.xml",
         "report/sales_offer_property_template.xml",

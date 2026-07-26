@@ -83,6 +83,8 @@ class PropertyDetails(models.Model):
     )
     owner_id = fields.Many2one('res.partner', string='Owner')
     landlord_id = fields.Many2one('res.partner', string='Landlord')
+    listing_agent_id = fields.Many2one('res.partner', string='Listing Agent')
+    listing_agent_license_number = fields.Char(string='Agent RERA License No.')
     state = fields.Selection([
         ('available', 'Available'),
         ('booked', 'Booked'),

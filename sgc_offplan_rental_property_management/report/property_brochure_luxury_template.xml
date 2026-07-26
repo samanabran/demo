@@ -1,0 +1,909 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_property_brochure_luxury">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="property">
+                <t t-set="currency" t-value="property.company_id.currency_id"/>
+                <t t-set="currency_symbol" t-value="currency.symbol or 'AED'"/>
+                <t t-set="address" t-value="property.address or ''"/>
+                <t t-set="city" t-value="property.city or ''"/>
+                <t t-set="full_address" t-value="'%s, %s' % (address, city) if address and city else address or city or ''"/>
+                <t t-set="region" t-value="property.region_id.name or ''"/>
+                <t t-set="project" t-value="property.project_id.name or ''"/>
+                <t t-set="sub_project" t-value="property.sub_project_id.name or ''"/>
+                <t t-set="amenities" t-value="property.amenity_ids"/>
+                <t t-set="nearby" t-value="property.connectivity_ids"/>
+                <t t-set="images" t-value="property.image_ids"/>
+                <t t-set="property_type_display" t-value="dict(property._fields['property_type'].selection).get(property.property_type, property.property_type)"/>
+                <t t-set="sale_lease_display" t-value="dict(property._fields['sale_lease'].selection).get(property.sale_lease, property.sale_lease)"/>
+                <t t-set="state_display" t-value="dict(property._fields['state'].selection).get(property.state, property.state)"/>
+
+                <!-- ============================================================
+                     LUXURY BROCHURE — FULL-BLEED A4 PORTRAIT
+                     Designed for wkhtmltopdf / QtWebKit rendering engine.
+                     NO CSS Grid, NO Flexbox, NO SVG backgrounds.
+                     All layout uses floats and display:table.
+                     Gradient-like effects are stacked rgba divs.
+                     ============================================================ -->
+                <style>
+                    @page {
+                        size: A4 portrait;
+                        margin: 0;
+                    }
+                    * { box-sizing: border-box; margin: 0; padding: 0; }
+                    body {
+                        font-family: 'Georgia', 'Times New Roman', serif;
+                        color: #e8dcc8;
+                        background: #0a1628;
+                    }
+
+                    /* ── DECORATIVE BORDER STRIP ── */
+                    .diamond-border-left {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 20px;
+                        height: 100%;
+                        background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAADICAYAAAA7YhS0AAAAAXNSR0IArs4c6QAAAARzQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAF/SURBVGhD7dk7CsJQFIXhKNg5ABs7HZ2AgxGxsXAhgqK4A3ciIqKgnS/6i0xkJCY3Nw/CByeFP9KcfLk3MdM0RQghhBBCCCGE+C82O0VRNE2STJI0TdMsz/Ns33f2PM/sPM/sPM/sPM/sPM9sXdfZqqrYqqrYqqrYqqrYqqpYuq7jPM/ZLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyvF6v7Gq1Yu/3m90sFqyqKna73djPNGXf75fd7/dsWRbseZ7s4/HgNE3Zvu/Z4/Hgh8OBN02T3+/3b7fbse/3mx8OB14UBf98Pux1XXlZlvz3+2Wfz4eXZcn3fc+ftfX7/XhZlvx+v/PH48Hf75c/z/Nrv7/fL9/vd36/3/nzPP/6/OPx4NfrlV8uF37+ff7xePCiKPjv9/tjWZb8fD7z4/H48Q/9f6uq4k3T8L7vP9Z1/TGGYfiY53ns8/ny+/3+mOd5bJqm7/1iY5qmsc/z/Dc2TdPHOI5j/+8fIYQQQgghhBBCiD/2A4dMFUS0K6QaAAAAAElFTkSuQmCC') repeat-y top left;
+                        background-size: 20px auto;
+                        z-index: 10;
+                    }
+                    .diamond-border-right {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        width: 20px;
+                        height: 100%;
+                        background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAADICAYAAAA7YhS0AAAAAXNSR0IArs4c6QAAAARzQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAF/SURBVGhD7dk7CsJQFIXhKNg5ABs7HZ2AgxGxsXAhgqK4A3ciIqKgnS/6i0xkJCY3Nw/CByeFP9KcfLk3MdM0RQghhBBCCCGE+C82O0VRNE2STJI0TdMsz/Ns33f2PM/sPM/sPM/sPM/sPM9sXdfZqqrYqqrYqqrYqqrYqqpYuq7jPM/ZLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyLMuyvF6v7Gq1Yu/3m90sFqyqKna73djPNGXf75fd7/dsWRbseZ7s4/HgNE3Zvu/Z4/Hgh8OBN02T3+/3b7fbse/3mx8OB14UBf98Pux1XXlZlvz3+2Wfz4eXZcn3fc+ftfX7/XhZlvx+v/PH48Hf75c/z/Nrv7/fL9/vd36/3/nzPP/6/OPx4NfrlV8uF37+ff7xePCiKPjv9/tjWZb8fD7z4/H48Q/9f6uq4k3T8L7vP9Z1/TGGYfiY53ns8/ny+/3+mOd5bJqm7/1iY5qmsc/z/Dc2TdPHOI5j/+8fIYQQQgghhBBCiD/2A4dMFUS0K6QaAAAAAElFTkSuQmCC') repeat-y top right;
+                        background-size: 20px auto;
+                        z-index: 10;
+                    }
+
+                    /* ── GOLD DIVIDER ── */
+                    .gold-divider {
+                        height: 1px;
+                        background: #c9a961;
+                        margin: 24px 0;
+                        position: relative;
+                    }
+                    .gold-divider::after {
+                        content: '\25C6';
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        transform: translate(-50%, -50%);
+                        background: #0a1628;
+                        padding: 0 12px;
+                        color: #c9a961;
+                        font-size: 14px;
+                    }
+                    .gold-rule {
+                        height: 1px;
+                        background: #c9a961;
+                        margin: 16px 0;
+                    }
+
+                    /* ── COVER PAGE ── */
+                    .cover {
+                        width: 210mm;
+                        min-height: 297mm;
+                        position: relative;
+                        background: #0a1628;
+                        page-break-after: always;
+                        overflow: hidden;
+                    }
+                    .cover-hero {
+                        position: relative;
+                        width: 100%;
+                        height: 310mm;
+                        overflow: hidden;
+                    }
+                    .cover-hero img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                    /* Vignette overlay — stacked rgba bands for wkhtmltopdf */
+                    .cover-vignette-1 {
+                        position: absolute;
+                        bottom: 0; left: 0; right: 0;
+                        height: 180px;
+                        background: rgba(10,22,40,0.3);
+                        z-index: 2;
+                    }
+                    .cover-vignette-2 {
+                        position: absolute;
+                        bottom: 0; left: 0; right: 0;
+                        height: 120px;
+                        background: rgba(10,22,40,0.5);
+                        z-index: 3;
+                    }
+                    .cover-vignette-3 {
+                        position: absolute;
+                        bottom: 0; left: 0; right: 0;
+                        height: 60px;
+                        background: rgba(10,22,40,0.85);
+                        z-index: 4;
+                    }
+                    .cover-vignette-4 {
+                        position: absolute;
+                        bottom: 0; left: 0; right: 0;
+                        height: 30px;
+                        background: #0a1628;
+                        z-index: 5;
+                    }
+
+                    /* Cover content overlay */
+                    .cover-content {
+                        position: absolute;
+                        bottom: 0;
+                        left: 40px;
+                        right: 40px;
+                        z-index: 20;
+                        text-align: center;
+                        padding-bottom: 28px;
+                    }
+                    .cover-monogram {
+                        text-align: center;
+                        margin-bottom: 6px;
+                    }
+                    .cover-monogram img {
+                        width: 80px;
+                        height: 80px;
+                    }
+                    .cover-brand {
+                        font-family: Georgia, serif;
+                        font-size: 13px;
+                        letter-spacing: 6px;
+                        text-transform: uppercase;
+                        color: #c9a961;
+                        margin-bottom: 2px;
+                    }
+                    .cover-brochure-label {
+                        font-family: Georgia, serif;
+                        font-size: 9px;
+                        letter-spacing: 4px;
+                        text-transform: uppercase;
+                        color: rgba(201,169,97,0.6);
+                        margin-bottom: 18px;
+                    }
+                    .cover-brochure-label .rule {
+                        display: inline-block;
+                        width: 40px;
+                        height: 1px;
+                        background: #c9a961;
+                        vertical-align: middle;
+                        margin: 0 10px;
+                    }
+
+                    /* Ornament flourish */
+                    .cover-flourish {
+                        text-align: center;
+                        margin: 14px 0;
+                        color: #c9a961;
+                        font-size: 22px;
+                        line-height: 1;
+                    }
+
+                    .cover-title {
+                        font-family: Georgia, serif;
+                        font-size: 46px;
+                        font-weight: 400;
+                        color: #c9a961;
+                        letter-spacing: 2px;
+                        line-height: 1.2;
+                        margin-bottom: 6px;
+                    }
+                    .cover-subtitle {
+                        font-family: Georgia, serif;
+                        font-size: 15px;
+                        color: rgba(232,220,200,0.8);
+                        font-style: italic;
+                        margin-bottom: 4px;
+                    }
+                    .cover-tagline {
+                        font-family: Georgia, serif;
+                        font-size: 13px;
+                        color: #c9a961;
+                        font-style: italic;
+                        margin-bottom: 20px;
+                    }
+                    .cover-stats {
+                        display: table;
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 0 auto;
+                        max-width: 520px;
+                    }
+                    .cover-stat {
+                        display: table-cell;
+                        text-align: center;
+                        padding: 0 6px;
+                        border-right: 1px solid rgba(201,169,97,0.3);
+                    }
+                    .cover-stat:last-child {
+                        border-right: none;
+                    }
+                    .cover-stat-label {
+                        font-size: 7px;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: rgba(201,169,97,0.6);
+                        margin-bottom: 2px;
+                    }
+                    .cover-stat-value {
+                        font-family: Georgia, serif;
+                        font-size: 15px;
+                        font-weight: 600;
+                        color: #e8dcc8;
+                    }
+                    .cover-footer {
+                        margin-top: 20px;
+                        font-size: 8px;
+                        color: rgba(232,220,200,0.4);
+                        font-style: italic;
+                        text-align: center;
+                    }
+                    .cover-credit {
+                        margin-top: 4px;
+                        font-size: 9px;
+                        letter-spacing: 1px;
+                        color: rgba(201,169,97,0.7);
+                        text-transform: uppercase;
+                    }
+                    .cover-qr {
+                        text-align: center;
+                        margin-top: 8px;
+                    }
+                    .cover-qr img {
+                        width: 60px;
+                        height: 60px;
+                    }
+
+                    /* ── INTERIOR PAGES ── */
+                    .interior {
+                        width: 210mm;
+                        min-height: 297mm;
+                        position: relative;
+                        background: #0a1628;
+                        page-break-after: always;
+                        overflow: hidden;
+                        padding: 30px 40px 20px;
+                    }
+
+                    /* Running header */
+                    .running-header {
+                        display: table;
+                        width: 100%;
+                        margin-bottom: 30px;
+                    }
+                    .running-header-left {
+                        display: table-cell;
+                        text-align: left;
+                        font-size: 9px;
+                        letter-spacing: 3px;
+                        text-transform: uppercase;
+                        color: rgba(201,169,97,0.6);
+                    }
+                    .running-header-right {
+                        display: table-cell;
+                        text-align: right;
+                        font-size: 9px;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: rgba(201,169,97,0.4);
+                    }
+
+                    /* Section headline */
+                    .section-headline {
+                        font-family: Georgia, serif;
+                        font-size: 28px;
+                        font-weight: 400;
+                        font-style: italic;
+                        color: #c9a961;
+                        text-align: center;
+                        margin-bottom: 28px;
+                        line-height: 1.3;
+                    }
+
+                    /* Feature callout cards */
+                    .features-row {
+                        display: table;
+                        width: 100%;
+                        border-collapse: separate;
+                        border-spacing: 12px;
+                        margin-bottom: 30px;
+                    }
+                    .feature-card {
+                        display: table-cell;
+                        width: 31.33%;
+                        border: 1px solid rgba(201,169,97,0.5);
+                        border-radius: 6px;
+                        padding: 20px 14px 16px;
+                        text-align: center;
+                        vertical-align: top;
+                    }
+                    .feature-card-icon {
+                        font-size: 28px;
+                        color: #c9a961;
+                        margin-bottom: 10px;
+                        line-height: 1;
+                    }
+                    .feature-card-label {
+                        font-size: 11px;
+                        letter-spacing: 2px;
+                        text-transform: uppercase;
+                        color: #c9a961;
+                        margin-bottom: 4px;
+                        font-weight: 600;
+                    }
+                    .feature-card-desc {
+                        font-size: 11px;
+                        color: rgba(232,220,200,0.65);
+                        line-height: 1.5;
+                    }
+
+                    /* Image gallery */
+                    .gallery-block {
+                        margin-bottom: 30px;
+                    }
+                    .gallery-main {
+                        width: 100%;
+                        height: 200px;
+                        overflow: hidden;
+                        margin-bottom: 8px;
+                        border: 1px solid rgba(201,169,97,0.4);
+                        border-radius: 2px;
+                    }
+                    .gallery-main img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                    .gallery-sub-row {
+                        display: table;
+                        width: 100%;
+                        border-collapse: separate;
+                        border-spacing: 8px 0;
+                    }
+                    .gallery-sub {
+                        display: table-cell;
+                        width: 48%;
+                        height: 120px;
+                        overflow: hidden;
+                        border: 1px solid rgba(201,169,97,0.4);
+                        border-radius: 2px;
+                    }
+                    .gallery-sub img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+
+                    /* Section divider */
+                    .section-divider {
+                        text-align: center;
+                        font-size: 10px;
+                        letter-spacing: 4px;
+                        text-transform: uppercase;
+                        color: rgba(201,169,97,0.6);
+                        margin: 24px 0 16px;
+                        position: relative;
+                    }
+                    .section-divider::before,
+                    .section-divider::after {
+                        content: '';
+                        display: inline-block;
+                        width: 60px;
+                        height: 1px;
+                        background: rgba(201,169,97,0.4);
+                        vertical-align: middle;
+                        margin: 0 12px;
+                    }
+
+                    .section-title {
+                        font-family: Georgia, serif;
+                        font-size: 20px;
+                        font-weight: 600;
+                        color: #c9a961;
+                        text-align: center;
+                        margin-bottom: 18px;
+                        letter-spacing: 1px;
+                    }
+                    .section-title-underline {
+                        width: 60px;
+                        height: 2px;
+                        background: #c9a961;
+                        margin: 0 auto 18px;
+                    }
+
+                    /* Two-column feature list */
+                    .features-list {
+                        display: table;
+                        width: 100%;
+                        border-collapse: separate;
+                        border-spacing: 0;
+                        margin-bottom: 30px;
+                    }
+                    .features-list-col {
+                        display: table-cell;
+                        width: 48%;
+                        vertical-align: top;
+                        padding: 0 12px 0 0;
+                    }
+                    .features-list-col:last-child {
+                        padding: 0 0 0 12px;
+                    }
+                    .feature-bullet {
+                        font-size: 11px;
+                        color: rgba(232,220,200,0.8);
+                        line-height: 1.8;
+                        padding-left: 6px;
+                    }
+                    .feature-bullet::before {
+                        content: '\2726';
+                        color: #c9a961;
+                        font-size: 8px;
+                        margin-right: 8px;
+                        vertical-align: middle;
+                    }
+
+                    /* Lifestyle and Location */
+                    .lifestyle-block {
+                        display: table;
+                        width: 100%;
+                        border-collapse: separate;
+                        border-spacing: 16px;
+                        margin-bottom: 30px;
+                    }
+                    .lifestyle-left {
+                        display: table-cell;
+                        width: 30%;
+                        vertical-align: middle;
+                        text-align: center;
+                    }
+                    .lifestyle-left img {
+                        max-width: 90%;
+                        max-height: 180px;
+                    }
+                    .lifestyle-right {
+                        display: table-cell;
+                        width: 70%;
+                        vertical-align: top;
+                    }
+                    .location-item {
+                        display: table;
+                        width: 100%;
+                        padding: 6px 0;
+                        border-bottom: 1px solid rgba(201,169,97,0.15);
+                    }
+                    .location-item:last-child {
+                        border-bottom: none;
+                    }
+                    .location-icon {
+                        display: table-cell;
+                        width: 24px;
+                        font-size: 14px;
+                        color: #c9a961;
+                        vertical-align: middle;
+                    }
+                    .location-info {
+                        display: table-cell;
+                        vertical-align: middle;
+                    }
+                    .location-name {
+                        font-size: 12px;
+                        color: #e8dcc8;
+                        font-weight: 500;
+                    }
+                    .location-time {
+                        font-size: 10px;
+                        color: rgba(201,169,97,0.6);
+                        font-style: italic;
+                    }
+
+                    /* CTA and Footer */
+                    .cta-line {
+                        font-family: Georgia, serif;
+                        font-size: 16px;
+                        font-style: italic;
+                        color: #c9a961;
+                        text-align: center;
+                        margin: 6px 0 14px;
+                    }
+                    .brochure-footer {
+                        text-align: center;
+                        font-size: 10px;
+                        color: rgba(232,220,200,0.5);
+                        margin-bottom: 8px;
+                    }
+                    .brochure-footer .sep {
+                        color: #c9a961;
+                        margin: 0 8px;
+                    }
+                    .brochure-footer-qr {
+                        text-align: right;
+                        position: absolute;
+                        bottom: 20px;
+                        right: 40px;
+                    }
+                    .brochure-footer-qr img {
+                        width: 50px;
+                        height: 50px;
+                    }
+                    .brochure-footer-qr-label {
+                        font-size: 7px;
+                        letter-spacing: 2px;
+                        color: rgba(201,169,97,0.5);
+                        text-transform: uppercase;
+                    }
+
+                    /* ── GALLERY PAGE ── */
+                    .gallery-page {
+                        width: 210mm;
+                        min-height: 297mm;
+                        position: relative;
+                        background: #0a1628;
+                        page-break-after: always;
+                        overflow: hidden;
+                        padding: 30px 40px 20px;
+                    }
+                    .gallery-grid-luxury {
+                        display: table;
+                        width: 100%;
+                        border-collapse: separate;
+                        border-spacing: 8px;
+                    }
+                    .gallery-grid-row {
+                        display: table-row;
+                    }
+                    .gallery-grid-cell {
+                        display: table-cell;
+                        width: 50%;
+                        height: 160px;
+                        overflow: hidden;
+                        border: 1px solid rgba(201,169,97,0.3);
+                        border-radius: 2px;
+                    }
+                    .gallery-grid-cell img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+
+                    /* Utility */
+                    .text-gold { color: #c9a961; }
+                    .text-light { color: rgba(232,220,200,0.75); }
+                    .text-small { font-size: 10px; }
+                    .fw-600 { font-weight: 600; }
+                    .mb-12 { margin-bottom: 12px; }
+                    .clearfix::after {
+                        content: '';
+                        display: table;
+                        clear: both;
+                    }
+                
+                    /* ── GALLERY GRID (inline-block for wkhtmltopdf) ── */
+                    .gallery-grid-cell {
+                        display: inline-block;
+                        width: 47%;
+                        margin: 0 1.5% 8px;
+                        vertical-align: top;
+                        height: 160px;
+                        overflow: hidden;
+                        border: 1px solid rgba(201,169,97,0.3);
+                        border-radius: 2px;
+                    }
+                    .gallery-grid-cell img {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+</style>
+
+                <!-- ══════════════════════════════════════════════════════
+                     PAGE 1: COVER
+                     ══════════════════════════════════════════════════════ -->
+                <div class="cover">
+                    <div class="diamond-border-left"></div>
+                    <div class="diamond-border-right"></div>
+
+                    <div class="cover-hero">
+                        <t t-if="property.image_1920">
+                            <img t-att-src="image_data_uri(convert_image(property.image_1920))" alt="Property Hero"/>
+                        </t>
+                        <t t-else="">
+                            <div style="width:100%;height:100%;background:#0d1b2e;"></div>
+                        </t>
+                        <div class="cover-vignette-1"></div>
+                        <div class="cover-vignette-2"></div>
+                        <div class="cover-vignette-3"></div>
+                        <div class="cover-vignette-4"></div>
+                    </div>
+
+                    <div class="cover-content">
+                        <div class="cover-monogram">
+                            <img t-att-src="monogram_uri" alt="AE"/>
+                        </div>
+                        <div class="cover-brand">Aurelia Estates</div>
+                        <div class="cover-brochure-label">
+                            <span class="rule"></span>
+                            Private Residence Brochure
+                            <span class="rule"></span>
+                        </div>
+
+                        <div class="cover-flourish">&#9830;</div>
+
+                        <h1 class="cover-title">
+                            <t t-esc="property.name or 'Iconic Residence'"/>
+                        </h1>
+                        <p class="cover-subtitle">
+                            <t t-if="property_type_display" t-esc="property_type_display"/>
+                            <t t-if="project"> &#8212; <t t-esc="project"/></t>
+                            <t t-if="region"> &#8212; <t t-esc="region"/></t>
+                        </p>
+                        <p class="cover-tagline">An Address Reserved for the Few</p>
+
+                        <div class="gold-divider"></div>
+
+                        <!-- Stats bar -->
+                        <div class="cover-stats">
+                            <div class="cover-stat" t-if="property.bedrooms">
+                                <div class="cover-stat-label">Bedrooms</div>
+                                <div class="cover-stat-value" t-esc="property.bedrooms"/>
+                            </div>
+                            <div class="cover-stat" t-if="property.bathrooms">
+                                <div class="cover-stat-label">Bathrooms</div>
+                                <div class="cover-stat-value" t-esc="property.bathrooms"/>
+                            </div>
+                            <div class="cover-stat" t-if="property.area">
+                                <div class="cover-stat-label">Area</div>
+                                <div class="cover-stat-value"><t t-esc="'{:,.0f}'.format(property.area)"/> sq ft</div>
+                            </div>
+                            <div class="cover-stat" t-if="property.sale_price or property.rent_price">
+                                <div class="cover-stat-label">Price</div>
+                                <div class="cover-stat-value text-gold">
+                                    <t t-if="property.sale_price">
+                                        <t t-esc="currency_symbol"/><t t-esc="'{:,.0f}'.format(property.sale_price)"/>
+                                    </t>
+                                    <t t-elif="property.rent_price">
+                                        <t t-esc="currency_symbol"/><t t-esc="'{:,.0f}'.format(property.rent_price)"/>/yr
+                                    </t>
+                                </div>
+                            </div>
+                            <div class="cover-stat">
+                                <div class="cover-stat-label">Ref</div>
+                                <div class="cover-stat-value" t-esc="property.property_code or property.id"/>
+                            </div>
+                        </div>
+
+                        <div class="cover-footer">
+                            This brochure is intended for informational purposes only. All details are believed correct but not guaranteed.
+                        </div>
+                        <div class="cover-credit">Presented by SGC Property Management</div>
+
+                        <div class="cover-qr">
+                            <img t-att-src="'/report/barcode/?type=QR&amp;value=%s&amp;width=180&amp;height=180' % quote_plus(property.name or 'Luxury Property')" alt="QR"/>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ══════════════════════════════════════════════════════
+                     PAGE 2: INTERIOR — THE RESIDENCE
+                     ══════════════════════════════════════════════════════ -->
+                <div class="interior">
+                    <div class="diamond-border-left"></div>
+                    <div class="diamond-border-right"></div>
+
+                    <div class="running-header">
+                        <div class="running-header-left">The Residence &#183; Page 02</div>
+                        <div class="running-header-right">Aurelia Estates</div>
+                    </div>
+
+                    <div class="section-headline">
+                        A Symphony of Light, Space &amp; Craftsmanship
+                    </div>
+
+                    <!-- Feature callout cards (3 across) -->
+                    <div class="features-row">
+                        <div class="feature-card">
+                            <div class="feature-card-icon">&#x2302;</div>
+                            <div class="feature-card-label">Architecture</div>
+                            <div class="feature-card-desc">Contemporary design with floor-to-ceiling glass facades</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-card-icon">&#x2616;</div>
+                            <div class="feature-card-label">Interiors</div>
+                            <div class="feature-card-desc">Curated finishes by award-winning designers</div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-card-icon">&#x2699;</div>
+                            <div class="feature-card-label">Smart Living</div>
+                            <div class="feature-card-desc">Integrated home automation &amp; climate control</div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery block -->
+                    <t t-if="images">
+                        <div class="gallery-block">
+                            <div class="gallery-main">
+                                <t t-set="first_img" t-value="images[0]"/>
+                                <t t-if="first_img.image_512">
+                                    <img t-att-src="image_data_uri(convert_image(first_img.image_512))" t-att-alt="first_img.name or 'Property View'"/>
+                                </t>
+                            </div>
+                            <div class="gallery-sub-row">
+                                <t t-if="len(images) > 1">
+                                    <t t-set="second_img" t-value="images[1]"/>
+                                    <div class="gallery-sub">
+                                        <t t-if="second_img.image_512">
+                                            <img t-att-src="image_data_uri(convert_image(second_img.image_512))" t-att-alt="second_img.name or 'Property View'"/>
+                                        </t>
+                                    </div>
+                                </t>
+                                <t t-if="len(images) > 2">
+                                    <t t-set="third_img" t-value="images[2]"/>
+                                    <div class="gallery-sub">
+                                        <t t-if="third_img.image_512">
+                                            <img t-att-src="image_data_uri(convert_image(third_img.image_512))" t-att-alt="third_img.name or 'Property View'"/>
+                                        </t>
+                                    </div>
+                                </t>
+                                <t t-if="len(images) == 2">
+                                    <div class="gallery-sub" style="visibility:hidden;"></div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+
+                    <div class="section-divider">Interiors &#183; The Living Spaces</div>
+
+                    <div class="section-title">Residence Features</div>
+                    <div class="section-title-underline"></div>
+
+                    <!-- Features bullet list (2 columns) -->
+                    <div class="features-list">
+                        <div class="features-list-col">
+                            <t t-foreach="amenities" t-as="amenity">
+                                <div class="feature-bullet"><t t-esc="amenity.title or amenity.name"/></div>
+                            </t>
+                            <t t-if="not amenities">
+                                <div class="feature-bullet">Private infinity-edge pool</div>
+                                <div class="feature-bullet">Italian marble flooring throughout</div>
+                                <div class="feature-bullet">Miele-equipped chef's kitchen</div>
+                                <div class="feature-bullet">Expansive private terrace</div>
+                            </t>
+                        </div>
+                        <div class="features-list-col">
+                            <t t-if="amenities">
+                                <div class="feature-bullet">Floor-to-ceiling glazing</div>
+                                <div class="feature-bullet">Smart home automation system</div>
+                                <div class="feature-bullet">Private elevator access</div>
+                                <div class="feature-bullet">24-hour concierge</div>
+                            </t>
+                            <t t-else="">
+                                <div class="feature-bullet">Floor-to-ceiling glazing</div>
+                                <div class="feature-bullet">Smart home automation system</div>
+                                <div class="feature-bullet">Private elevator access</div>
+                                <div class="feature-bullet">24-hour concierge</div>
+                            </t>
+                        </div>
+                    </div>
+
+                    <!-- Lifestyle and Location -->
+                    <div class="section-divider">The Environs</div>
+                    <div class="section-title">Lifestyle &amp; Location</div>
+                    <div class="section-title-underline"></div>
+
+                    <div class="lifestyle-block">
+                        <div class="lifestyle-left">
+                            <img t-att-src="monogram_uri" alt="AE"/>
+                        </div>
+                        <div class="lifestyle-right">
+                            <t t-if="nearby">
+                                <t t-foreach="nearby" t-as="n">
+                                    <div class="location-item">
+                                        <div class="location-icon">&#x2605;</div>
+                                        <div class="location-info">
+                                            <div class="location-name" t-esc="n.name"/>
+                                            <div class="location-time">Premier Location</div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <div class="location-item">
+                                    <div class="location-icon">&#x2708;</div>
+                                    <div class="location-info">
+                                        <div class="location-name">Dubai International Airport</div>
+                                        <div class="location-time">25 minutes</div>
+                                    </div>
+                                </div>
+                                <div class="location-item">
+                                    <div class="location-icon">&#x2605;</div>
+                                    <div class="location-info">
+                                        <div class="location-name">Palm Jumeirah Beach</div>
+                                        <div class="location-time">10 minutes</div>
+                                    </div>
+                                </div>
+                                <div class="location-item">
+                                    <div class="location-icon">&#x266B;</div>
+                                    <div class="location-info">
+                                        <div class="location-name">Dubai Marina Walk</div>
+                                        <div class="location-time">8 minutes</div>
+                                    </div>
+                                </div>
+                                <div class="location-item">
+                                    <div class="location-icon">&#x2606;</div>
+                                    <div class="location-info">
+                                        <div class="location-name">The Dubai Mall</div>
+                                        <div class="location-time">18 minutes</div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+
+                    <!-- CTA and Footer -->
+                    <div class="cta-line">Private Viewing by Appointment</div>
+                    <div class="gold-rule"></div>
+                    <div class="brochure-footer">
+                        <t t-if="property.company_id.phone" t-esc="property.company_id.phone"/>
+                        <span class="sep">&#183;</span>
+                        <t t-if="property.company_id.email" t-esc="property.company_id.email"/>
+                        <span class="sep">&#183;</span>
+                        <t t-if="property.company_id.website" t-esc="property.company_id.website"/>
+                    </div>
+                    <div class="brochure-footer-qr">
+                        <img t-att-src="'/report/barcode/?type=QR&amp;value=%s&amp;width=160&amp;height=160' % quote_plus(property.name or 'Luxury Property')" alt="QR"/>
+                        <div class="brochure-footer-qr-label">SCAN TO ENQUIRE</div>
+                    </div>
+                </div>
+
+                <!-- ══════════════════════════════════════════════════════
+                     PAGE 3: GALLERY
+                     ══════════════════════════════════════════════════════ -->
+                <t t-if="images and len(images) > 3">
+                    <div class="gallery-page">
+                        <div class="diamond-border-left"></div>
+                        <div class="diamond-border-right"></div>
+
+                        <div class="running-header">
+                            <div class="running-header-left">The Gallery &#183; Page 03</div>
+                            <div class="running-header-right">Aurelia Estates</div>
+                        </div>
+
+                        <div class="section-headline" style="font-size:24px;margin-bottom:20px;">
+                            A Visual Journey
+                        </div>
+
+                                                                        <!-- Gallery: flat inline-block grid for wkhtmltopdf -->
+                        <div style="width:100%;text-align:center;">
+                            <t t-foreach="images" t-as="img">
+                                <div style="display:inline-block;width:46%;margin:0 2% 10px;vertical-align:top;height:160px;overflow:hidden;border:1px solid rgba(201,169,97,0.3);border-radius:2px;">
+                                    <t t-if="img.image_512">
+                                        <img t-att-src="image_data_uri(convert_image(img.image_512))" t-att-alt="img.name or &apos;Gallery Image&apos;" style="width:100%;height:100%;object-fit:cover;"/>
+                                    </t>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- Report action -->
+    <record id="action_report_property_brochure_luxury" model="ir.actions.report">
+        <field name="name">Luxury Property Brochure</field>
+        <field name="model">property.details</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sgc_offplan_rental_property_management.report_property_brochure_luxury</field>
+        <field name="report_file">sgc_offplan_rental_property_management.report_property_brochure_luxury</field>
+        <field name="binding_model_id" ref="model_property_details"/>
+        <field name="binding_type">report</field>
+        <field name="binding_view_types">form</field>
+        <field name="paperformat_id" ref="sgc_offplan_rental_property_management.paperformat_luxury_brochure"/>
+    </record>
+
+</odoo>
