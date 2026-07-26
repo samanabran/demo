@@ -2,7 +2,7 @@
 <odoo>
 
   <template id="frontend_floating_paths" inherit_id="web.frontend_layout"
-           name="SGC Floating Paths Background">
+           name="SGC Floating Paths Background" active="False">
     <xpath expr="//body" position="inside">
       <div id="sgc-floating-paths" aria-hidden="true">
         <svg viewBox="0 0 696 316" fill="none" preserveAspectRatio="xMidYMid slice">

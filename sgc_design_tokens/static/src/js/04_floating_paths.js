@@ -9,6 +9,12 @@
 (function () {
   'use strict';
 
+  // Background disabled site-wide (was causing render/flicker issues) -
+  // the server-side template (frontend_floating_paths.xml) is also
+  // deactivated, but this JS fallback would otherwise still self-inject
+  // the overlay client-side even with that template off.
+  return;
+
   var POSITION = 1; // mirror factor (1 = default, -1 = flipped)
   var PATH_COUNT = 36;
   var SVG_NS = 'http://www.w3.org/2000/svg';
