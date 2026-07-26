@@ -345,7 +345,7 @@
                 <div class="brochure-page cover">
                     <div class="cover-hero">
                         <t t-if="property.image_1920">
-                            <img t-att-src="image_data_uri(property.image_1920)" alt="Property"/>
+                            <img t-att-src="image_data_uri(convert_image(property.image_1920))" alt="Property"/>
                         </t>
                         <t t-else="">
                             <div style="width:100%;height:100%;background:linear-gradient(135deg,#1B3A5C,#2F5C8F);"></div>
@@ -518,7 +518,7 @@
                                 <t t-foreach="images" t-as="img">
                                     <div class="gallery-item">
                                         <t t-if="img.image_512">
-                                            <img t-att-src="image_data_uri(img.image_512)" t-att-alt="img.name or 'Property Image'"/>
+                                            <img t-att-src="image_data_uri(convert_image(img.image_512))" t-att-alt="img.name or 'Property Image'"/>
                                         </t>
                                     </div>
                                 </t>
