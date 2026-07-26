@@ -226,6 +226,8 @@
                         <group string="Ownership">
                             <field name="owner_id"/>
                             <field name="landlord_id"/>
+                            <field name="listing_agent_id"/>
+                            <field name="listing_agent_license_number"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                     </group>
