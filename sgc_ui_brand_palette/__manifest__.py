@@ -4,7 +4,7 @@
 # License OPL-1
 {
     "name": "SGC TECH AI - UI Brand Palette",
-    "version": "19.0.1.0.1",
+    "version": "19.0.1.0.2",
     "category": "Theme/Brand",
     "summary": "Uniform SGC brand icons for native + SGC main-menu apps",
     "description": "Patches the web_icon field of every native Odoo 19 root menu displayed in the Apps grid so the entire launcher shares the same SGC TECH AI visual identity (transparent background, gold glyph). Replaces the default colorful Odoo icons with the uniform set shipped in static/icons/.",
