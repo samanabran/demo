@@ -29,16 +29,20 @@ export class LauncherCard extends Component {
     };
 
     /**
-     * Prefers a matching SGC icon (US-006 family) over Odoo's own
-     * per-module webIconData; falls back to webIconData, then the
-     * generic base icon, when no rule matches. See launcher_icon_map.js.
+     * Prefers each app's own webIconData (the real per-app icon, set
+     * via ir.ui.menu.web_icon) over the generic SGC category SVG map;
+     * the generic map (launcher_icon_map.js) is only a fallback for
+     * apps with no icon of their own at all.
      */
     get iconSrc() {
+        if (this.props.app.webIconData) {
+            return this.props.app.webIconData;
+        }
         const key = resolveLauncherIconKey(this.props.app);
         if (key) {
             return `${ICON_BASE_URL}/${key}.svg`;
         }
-        return this.props.app.webIconData || '/base/static/description/icon.png';
+        return '/base/static/description/icon.png';
     }
 
     _onClick() {
