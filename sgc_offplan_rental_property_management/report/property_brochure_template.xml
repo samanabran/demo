@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Ensure UTF-8 encoding is properly set -->
-    <t t-set="base_url" t-value="request.env['ir.config_parameter'].sudo().get_param('web.base.url')"/>
     <template id="report_property_brochure">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="property">
+                <!-- Ensure UTF-8 encoding is properly set -->
+                <t t-set="base_url" t-value="request.env['ir.config_parameter'].sudo().get_param('web.base.url')"/>
                 <t t-set="currency" t-value="property.company_id.currency_id"/>
                 <t t-set="currency_symbol" t-value="currency.symbol or 'AED'"/>
                 <t t-set="address" t-value="property.address or ''"/>
@@ -398,7 +398,7 @@
                                 <div class="cover-meta-label">QR Code</div>
                                 <div class="cover-meta-value">
                                     <t t-set="qr_value" t-value="property.property_code or property.name or 'AURELIA'"/>
-                                    <t t-set="qr_url" t-value="'%s/report/barcode/?type=QR&amp;width=200&amp;height=200&amp;value=%s' % (base_url, qr_value)"/>
+                                    <t t-set="qr_url" t-value="'%s/report/barcode/?barcode_type=QR&amp;width=200&amp;height=200&amp;value=%s' % (base_url, quote_plus(qr_value))"/>
                                     <img t-att-src="qr_url" alt="QR Code" style="width: 60px; height: 60px;"/>
                                 </div>
                             </div>

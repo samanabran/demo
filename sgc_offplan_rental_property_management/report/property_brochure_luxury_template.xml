@@ -18,6 +18,7 @@
                 <t t-set="sale_lease_display" t-value="dict(property._fields['sale_lease'].selection).get(property.sale_lease, property.sale_lease)"/>
                 <t t-set="state_display" t-value="dict(property._fields['state'].selection).get(property.state, property.state)"/>
 
+                <meta charset="utf-8"/>
                 <!-- ============================================================
                      LUXURY BROCHURE — FULL-BLEED A4 PORTRAIT
                      Designed for wkhtmltopdf / QtWebKit rendering engine.
@@ -66,16 +67,25 @@
                         margin: 24px 0;
                         position: relative;
                     }
-                    .gold-divider::after {
-                        content: '\25C6';
+                    .gold-divider::before {
+                        content: '';
                         position: absolute;
                         left: 50%;
                         top: 50%;
+                        width: 24px;
+                        height: 12px;
                         transform: translate(-50%, -50%);
                         background: #0a1628;
-                        padding: 0 12px;
-                        color: #c9a961;
-                        font-size: 14px;
+                    }
+                    .gold-divider::after {
+                        content: '';
+                        position: absolute;
+                        left: 50%;
+                        top: 50%;
+                        width: 7px;
+                        height: 7px;
+                        background-color: #c9a961;
+                        transform: translate(-50%, -50%) rotate(45deg);
                     }
                     .gold-rule {
                         height: 1px;
@@ -178,11 +188,11 @@
 
                     /* Ornament flourish */
                     .cover-flourish {
-                        text-align: center;
-                        margin: 14px 0;
-                        color: #c9a961;
-                        font-size: 22px;
-                        line-height: 1;
+                        width: 10px;
+                        height: 10px;
+                        background-color: #c9a961;
+                        transform: rotate(45deg);
+                        margin: 18px auto;
                     }
 
                     .cover-title {
@@ -324,10 +334,12 @@
                         vertical-align: top;
                     }
                     .feature-card-icon {
-                        font-size: 28px;
-                        color: #c9a961;
                         margin-bottom: 10px;
                         line-height: 1;
+                    }
+                    .feature-card-icon img {
+                        width: 30px;
+                        height: 30px;
                     }
                     .feature-card-label {
                         font-size: 11px;
@@ -441,9 +453,12 @@
                         padding-left: 6px;
                     }
                     .feature-bullet::before {
-                        content: '\2726';
-                        color: #c9a961;
-                        font-size: 8px;
+                        content: '';
+                        display: inline-block;
+                        width: 6px;
+                        height: 6px;
+                        background-color: #c9a961;
+                        transform: rotate(45deg);
                         margin-right: 8px;
                         vertical-align: middle;
                     }
@@ -483,8 +498,12 @@
                     .location-icon {
                         display: table-cell;
                         width: 24px;
-                        font-size: 14px;
-                        color: #c9a961;
+                        text-align: center;
+                        vertical-align: middle;
+                    }
+                    .location-icon img {
+                        width: 16px;
+                        height: 16px;
                         vertical-align: middle;
                     }
                     .location-info {
@@ -517,9 +536,14 @@
                         color: rgba(232,220,200,0.5);
                         margin-bottom: 8px;
                     }
-                    .brochure-footer .sep {
-                        color: #c9a961;
-                        margin: 0 8px;
+                    .dot-sep {
+                        display: inline-block;
+                        width: 3px;
+                        height: 3px;
+                        background-color: #c9a961;
+                        border-radius: 50%;
+                        vertical-align: middle;
+                        margin: 0 6px;
                     }
                     .brochure-footer-qr {
                         text-align: right;
@@ -632,7 +656,7 @@
                             <span class="rule"></span>
                         </div>
 
-                        <div class="cover-flourish">&#9830;</div>
+                        <div class="cover-flourish"></div>
 
                         <h1 class="cover-title">
                             <t t-esc="property.name or 'Iconic Residence'"/>
@@ -683,7 +707,7 @@
                         <div class="cover-credit">Presented by SGC Property Management</div>
 
                         <div class="cover-qr">
-                            <img t-att-src="'/report/barcode/?type=QR&amp;value=%s&amp;width=180&amp;height=180' % quote_plus(property.name or 'Luxury Property')" alt="QR"/>
+                            <img t-att-src="'%s/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=180&amp;height=180' % (base_url, quote_plus(property.property_code or property.name or 'AURELIA'))" alt="QR"/>
                         </div>
                     </div>
                 </div>
@@ -696,7 +720,7 @@
                     <div class="diamond-border-right"></div>
 
                     <div class="running-header">
-                        <div class="running-header-left">The Residence &#183; Page 02</div>
+                        <div class="running-header-left">The Residence <span class="dot-sep"></span> Page 02</div>
                         <div class="running-header-right">Aurelia Estates</div>
                     </div>
 
@@ -707,17 +731,17 @@
                     <!-- Feature callout cards (3 across) -->
                     <div class="features-row">
                         <div class="feature-card">
-                            <div class="feature-card-icon">&#x2302;</div>
+                            <div class="feature-card-icon"><img t-att-src="'%s/sgc_offplan_rental_property_management/static/src/img/brochure-icon-architecture.png' % base_url" alt="Architecture"/></div>
                             <div class="feature-card-label">Architecture</div>
                             <div class="feature-card-desc">Contemporary design with floor-to-ceiling glass facades</div>
                         </div>
                         <div class="feature-card">
-                            <div class="feature-card-icon">&#x2616;</div>
+                            <div class="feature-card-icon"><img t-att-src="'%s/sgc_offplan_rental_property_management/static/src/img/brochure-icon-interiors.png' % base_url" alt="Interiors"/></div>
                             <div class="feature-card-label">Interiors</div>
                             <div class="feature-card-desc">Curated finishes by award-winning designers</div>
                         </div>
                         <div class="feature-card">
-                            <div class="feature-card-icon">&#x2699;</div>
+                            <div class="feature-card-icon"><img t-att-src="'%s/sgc_offplan_rental_property_management/static/src/img/brochure-icon-smart-living.png' % base_url" alt="Smart Living"/></div>
                             <div class="feature-card-label">Smart Living</div>
                             <div class="feature-card-desc">Integrated home automation &amp; climate control</div>
                         </div>
@@ -756,7 +780,7 @@
                         </div>
                     </t>
 
-                    <div class="section-divider">Interiors &#183; The Living Spaces</div>
+                    <div class="section-divider">Interiors <span class="dot-sep"></span> The Living Spaces</div>
 
                     <div class="section-title">Residence Features</div>
                     <div class="section-title-underline"></div>
@@ -803,7 +827,7 @@
                             <t t-if="nearby">
                                 <t t-foreach="nearby" t-as="n">
                                     <div class="location-item">
-                                        <div class="location-icon">&#x2605;</div>
+                                        <div class="location-icon"><img t-att-src="'%s/sgc_offplan_rental_property_management/static/src/img/brochure-icon-landmark.png' % base_url" alt="Landmark"/></div>
                                         <div class="location-info">
                                             <div class="location-name" t-esc="n.name"/>
                                             <div class="location-time">Premier Location</div>
@@ -813,28 +837,28 @@
                             </t>
                             <t t-else="">
                                 <div class="location-item">
-                                    <div class="location-icon">&#x2708;</div>
+                                    <div class="location-icon"><img t-att-src="'%s/sgc_offplan_rental_property_management/static/src/img/brochure-icon-airport.png' % base_url" alt="Airport"/></div>
                                     <div class="location-info">
                                         <div class="location-name">Dubai International Airport</div>
                                         <div class="location-time">25 minutes</div>
                                     </div>
                                 </div>
                                 <div class="location-item">
-                                    <div class="location-icon">&#x2605;</div>
+                                    <div class="location-icon"><img t-att-src="'%s/sgc_offplan_rental_property_management/static/src/img/brochure-icon-landmark.png' % base_url" alt="Landmark"/></div>
                                     <div class="location-info">
                                         <div class="location-name">Palm Jumeirah Beach</div>
                                         <div class="location-time">10 minutes</div>
                                     </div>
                                 </div>
                                 <div class="location-item">
-                                    <div class="location-icon">&#x266B;</div>
+                                    <div class="location-icon"><img t-att-src="'%s/sgc_offplan_rental_property_management/static/src/img/brochure-icon-music.png' % base_url" alt="Nightlife"/></div>
                                     <div class="location-info">
                                         <div class="location-name">Dubai Marina Walk</div>
                                         <div class="location-time">8 minutes</div>
                                     </div>
                                 </div>
                                 <div class="location-item">
-                                    <div class="location-icon">&#x2606;</div>
+                                    <div class="location-icon"><img t-att-src="'%s/sgc_offplan_rental_property_management/static/src/img/brochure-icon-shopping.png' % base_url" alt="Shopping"/></div>
                                     <div class="location-info">
                                         <div class="location-name">The Dubai Mall</div>
                                         <div class="location-time">18 minutes</div>
@@ -849,13 +873,13 @@
                     <div class="gold-rule"></div>
                     <div class="brochure-footer">
                         <t t-if="property.company_id.phone" t-esc="property.company_id.phone"/>
-                        <span class="sep">&#183;</span>
+                        <span class="dot-sep"></span>
                         <t t-if="property.company_id.email" t-esc="property.company_id.email"/>
-                        <span class="sep">&#183;</span>
+                        <span class="dot-sep"></span>
                         <t t-if="property.company_id.website" t-esc="property.company_id.website"/>
                     </div>
                     <div class="brochure-footer-qr">
-                        <img t-att-src="'/report/barcode/?type=QR&amp;value=%s&amp;width=160&amp;height=160' % quote_plus(property.name or 'Luxury Property')" alt="QR"/>
+                        <img t-att-src="'%s/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=160&amp;height=160' % (base_url, quote_plus(property.property_code or property.name or 'AURELIA'))" alt="QR"/>
                         <div class="brochure-footer-qr-label">SCAN TO ENQUIRE</div>
                     </div>
                 </div>
@@ -869,7 +893,7 @@
                         <div class="diamond-border-right"></div>
 
                         <div class="running-header">
-                            <div class="running-header-left">The Gallery &#183; Page 03</div>
+                            <div class="running-header-left">The Gallery <span class="dot-sep"></span> Page 03</div>
                             <div class="running-header-right">Aurelia Estates</div>
                         </div>
 

@@ -5,6 +5,8 @@ import logging
 import os
 import tempfile
 
+from werkzeug.urls import url_quote_plus as quote_plus
+
 from odoo import api, models
 
 _logger = logging.getLogger(__name__)
@@ -81,4 +83,5 @@ class PropertyBrochureReport(models.AbstractModel):
             'doc_model': 'property.details',
             'docs': docs,
             'convert_image': self._convert_to_jpeg_b64,
+            'quote_plus': quote_plus,
         }

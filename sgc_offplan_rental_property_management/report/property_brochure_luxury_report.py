@@ -5,6 +5,8 @@ import logging
 import os
 import tempfile
 
+from werkzeug.urls import url_quote_plus as quote_plus
+
 from odoo import api, models
 
 _logger = logging.getLogger(__name__)
@@ -166,6 +168,12 @@ class PropertyBrochureLuxuryReport(models.AbstractModel):
         border_uri = self._get_diamond_border_data_uri()
         monogram_uri = self._get_monogram_svg_uri()
 
+        # wkhtmltopdf renders from a local file with no browser context, so
+        # relative URLs (e.g. "/report/barcode/...") never resolve: the QR
+        # <img> silently fails to load and the PDF shows its alt text
+        # instead. Build an absolute URL so the barcode image actually loads.
+        base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
+
         return {
             "doc_ids": docids,
             "doc_model": "property.details",
@@ -173,4 +181,6 @@ class PropertyBrochureLuxuryReport(models.AbstractModel):
             "convert_image": self._convert_to_jpeg_b64,
             "diamond_border_uri": border_uri,
             "monogram_uri": monogram_uri,
+            "quote_plus": quote_plus,
+            "base_url": base_url,
         }
