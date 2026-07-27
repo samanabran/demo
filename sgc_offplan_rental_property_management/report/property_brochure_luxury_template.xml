@@ -107,10 +107,15 @@
                     .cover {
                         width: 210mm;
                         height: 297mm;
-                        /* not position:relative so absolutely-positioned
-                           children of .cover-content reference this fixed-
-                           height box and the cover-content bottom positioning
-                           lands where the design expects it on the A4 page */
+                        /* MUST be position:relative even though fixed-size:
+                           .cover-content and its children anchor their
+                           position:absolute coords against this element,
+                           so without position:relative they sit at the
+                           bottom of the body and the cover text/QR/stats
+                           overflow the page entirely. Caught by the
+                           19.0.2.23 deploy -- earlier comment claiming
+                           "not position:relative" was wrong. */
+                        position: relative;
                         background: #0a1628;
                         page-break-after: always;
                         overflow: hidden;
@@ -669,20 +674,18 @@
 
                     <div class="cover-hero">
                         <t t-if="cover_image_uri_for(property)">
-                            <!-- Full-bleed cover image: pre-rendered server-side at
-                                 exact A4 pixel dimensions by PIL via
-                                 _render_cover_full_bleed, so the img tag
-                                 can fill 210mm x 297mm via plain width
-                                 and height 100 percent (the prior
-                                 background-image / data-URI path would
-                                 not stretch in wkhtmltopdf, and the prior
-                                 img with object-fit cover left a dark strip
-                                 because object-fit isn't supported). -->
+                            <!-- PIL-pre-rendered at 794x1123 (A4 at 96 dpi)
+                                 covers the entire container via fixed-width
+                                 and fixed-height in mm. wkhtmltopdf honors
+                                 explicit mm dimensions on <img>; the prior
+                                 width:100% / height:100% got clipped/ignored
+                                 depending on the image source and the cover
+                                 ended up not filling the page. -->
                             <img t-att-src="cover_image_uri_for(property)"
-                                 style="width:100%; height:100%; display:block;"/>
+                                 style="width:210mm;height:297mm;display:block;"/>
                         </t>
                         <t t-else="">
-                            <div style="width:100%;height:100%;background:#0d1b2e;"></div>
+                            <div style="width:210mm;height:297mm;background:#0d1b2e;"></div>
                         </t>
                         <div class="cover-vignette-1"></div>
                         <div class="cover-vignette-2"></div>
