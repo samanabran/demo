@@ -106,16 +106,26 @@
                     /* ── COVER PAGE ── */
                     .cover {
                         width: 210mm;
-                        min-height: 297mm;
-                        position: relative;
+                        height: 297mm;
+                        /* not position:relative so absolutely-positioned
+                           children of .cover-content reference this fixed-
+                           height box and the cover-content bottom positioning
+                           lands where the design expects it on the A4 page */
                         background: #0a1628;
                         page-break-after: always;
                         overflow: hidden;
                     }
                     .cover-hero {
-                        position: relative;
-                        width: 100%;
-                        height: 310mm;
+                        /* exactly 297mm so the cover image fills the whole
+                           A4 sheet -- the previous 310mm made .cover-hero
+                           overflow the page, which broke the cover-content
+                           vertical positioning and produced the dark strip
+                           on the right (image could no longer be sized
+                           correctly relative to the page) */
+                        position: absolute;
+                        top: 0; left: 0;
+                        width: 210mm;
+                        height: 297mm;
                         overflow: hidden;
                     }
                     .cover-hero img {
@@ -162,19 +172,23 @@
                     .cover-content {
                         position: absolute;
                         bottom: 0;
-                        left: 40px;
-                        right: 40px;
+                        left: 0;
+                        right: 0;
                         z-index: 20;
                         text-align: center;
-                        padding-bottom: 28px;
+                        /* Truly minimal side margins: 6mm instead of 20mm.
+                           Top 0 since cover-content is bottom-anchored;
+                           bottom 6mm = ~17px to keep the same safe area
+                           from the page edge. */
+                        padding: 0 6mm 6mm 6mm;
                     }
                     .cover-monogram {
                         text-align: center;
-                        margin-bottom: 6px;
+                        margin-bottom: 4px;
                     }
                     .cover-monogram img {
-                        width: 80px;
-                        height: 80px;
+                        width: 72px;
+                        height: 72px;
                     }
                     .cover-brand {
                         font-family: Georgia, serif;
@@ -578,12 +592,18 @@
                     /* ── GALLERY PAGE ── */
                     .gallery-page {
                         width: 210mm;
-                        min-height: 297mm;
+                        height: 297mm;
                         position: relative;
                         background: #0a1628;
                         page-break-after: always;
                         overflow: hidden;
-                        padding: 30px 40px 20px;
+                        /* Truly minimal margins per user direction: 6mm top
+                           for the running header (no other top chrome needed
+                           since the section-headline is right below it),
+                           6mm bottom, 4mm left/right -- the gallery grid
+                           cells themselves handle spacing between photos
+                           via their own internal margins. */
+                        padding: 6mm 4mm 6mm 4mm;
                     }
                     /* Utility */
                     .text-gold { color: #c9a961; }
@@ -604,20 +624,39 @@
                        cell rendered as a single centered column (one image
                        per row) instead of the intended 2-column grid.
                        float:left is the pattern already proven working
-                       elsewhere in this file (.feature-card). */
+                       elsewhere in this file (.feature-card).
+
+                       Page layout math: 297mm page - 6mm top - 6mm bottom
+                       = 285mm usable. Running-header (one-line header bar
+                       + section-headline underneath) takes ~30mm. Gallery
+                       row gap ~3mm between rows. 3 rows fit: 3 * h + 2 * 3
+                       = 285 - 30, so h ~= 83mm. Each cell is 49% wide
+                       with 1% gap between (so 50%/50% -- 98% of inner
+                       page -- used as image area, 2% as column gap,
+                       with no extra horizontal chrome). */
                     .gallery-grid-cell {
                         float: left;
-                        width: 47%;
-                        margin: 0 1.5% 8px;
-                        height: 160px;
+                        width: 49%;
+                        margin: 0 1% 4px 0;
+                        height: 83mm;
                         overflow: hidden;
                         border: 1px solid rgba(201,169,97,0.3);
                         border-radius: 2px;
                     }
                     .gallery-grid-cell img {
+                        /* wkhtmltopdf doesn't honor object-fit, so width and
+                           height 100 with object-fit cover would letterbox
+                           gallery photos that aren't already exact-aspect.
+                           We give width 100 with a tall min-height so the
+                           real image at least shows fully; the cell's own
+                           overflow:hidden / fixed height clips over-tall
+                           ones bottom-side. Both attributes matter because
+                           wkhtmltopdf ignores one of them on a given image
+                           format. */
                         width: 100%;
-                        height: 100%;
-                        object-fit: cover;
+                        height: auto;
+                        min-height: 100%;
+                        display: block;
                     }
 </style>
 
@@ -914,7 +953,7 @@
                                 <div class="running-header-right">Aurelia Estates</div>
                             </div>
 
-                            <div class="section-headline" style="font-size:24px;margin-bottom:20px;">
+                            <div class="section-headline" style="font-size:18px;margin-bottom:6px;">
                                 A Visual Journey
                             </div>
 
