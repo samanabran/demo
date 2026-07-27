@@ -108,10 +108,20 @@
                         height: 310mm;
                         overflow: hidden;
                     }
-                    .cover-hero img {
+                    /* Cover photo is a CSS background-image (cover/center),
+                       not an img tag with object-fit: wkhtmltopdf's QtWebKit
+                       engine doesn't support object-fit, and width/height
+                       100% on the img tag left it sized by its native
+                       aspect ratio instead of filling the box -- a dark gap
+                       of bare page background down the right edge on any
+                       photo narrower than the page. background-size:cover
+                       is honored reliably where object-fit isn't. */
+                    .cover-hero-bg {
                         width: 100%;
                         height: 100%;
-                        object-fit: cover;
+                        background-position: center center;
+                        background-repeat: no-repeat;
+                        background-size: cover;
                     }
                     /* Vignette overlay — stacked rgba bands for wkhtmltopdf.
                        Sized generously (not to a measured content height,
@@ -587,12 +597,18 @@
                         clear: both;
                     }
                 
-                    /* ── GALLERY GRID (inline-block for wkhtmltopdf) ── */
+                    /* ── GALLERY GRID ──
+                       float:left, not display:inline-block: wkhtmltopdf's
+                       QtWebKit engine doesn't lay inline-block cells out
+                       side-by-side reliably, so a 47%-wide inline-block
+                       cell rendered as a single centered column (one image
+                       per row) instead of the intended 2-column grid.
+                       float:left is the pattern already proven working
+                       elsewhere in this file (.feature-card). */
                     .gallery-grid-cell {
-                        display: inline-block;
+                        float: left;
                         width: 47%;
                         margin: 0 1.5% 8px;
-                        vertical-align: top;
                         height: 160px;
                         overflow: hidden;
                         border: 1px solid rgba(201,169,97,0.3);
@@ -614,7 +630,7 @@
 
                     <div class="cover-hero">
                         <t t-if="property.image_1920">
-                            <img t-att-src="image_data_uri(convert_image(property.image_1920))" alt="Property Hero"/>
+                            <div class="cover-hero-bg" t-attf-style="background-image: url('#{image_data_uri(convert_image(property.image_1920))}');"></div>
                         </t>
                         <t t-else="">
                             <div style="width:100%;height:100%;background:#0d1b2e;"></div>
@@ -876,7 +892,8 @@
                      un-styled pages of stacked photos with no header/chrome.
                      ══════════════════════════════════════════════════════ -->
                 <t t-if="images and len(images) > 3">
-                    <t t-set="pages" t-value="gallery_pages(images)"/>
+                    <t t-set="remaining_images" t-value="images[3:]"/>
+                    <t t-set="pages" t-value="gallery_pages(remaining_images)"/>
                     <t t-foreach="pages" t-as="page_images">
                         <div class="gallery-page">
                             <div class="diamond-border-left"></div>
@@ -891,8 +908,8 @@
                                 A Visual Journey
                             </div>
 
-                            <!-- Gallery: flat inline-block grid for wkhtmltopdf -->
-                            <div style="width:100%;text-align:center;">
+                            <!-- Gallery: float:left 2-column grid -->
+                            <div class="clearfix" style="width:100%;">
                                 <t t-foreach="page_images" t-as="img">
                                     <div class="gallery-grid-cell">
                                         <t t-if="img.image_512">
