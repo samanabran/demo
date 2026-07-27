@@ -113,32 +113,37 @@
                         height: 100%;
                         object-fit: cover;
                     }
-                    /* Vignette overlay — stacked rgba bands for wkhtmltopdf */
+                    /* Vignette overlay — stacked rgba bands for wkhtmltopdf.
+                       Sized generously (not to a measured content height,
+                       which wkhtmltopdf can't report back to CSS) so the
+                       full text block in .cover-content — monogram through
+                       tagline — always sits over a shaded band instead of
+                       the bare photo. */
                     .cover-vignette-1 {
                         position: absolute;
                         bottom: 0; left: 0; right: 0;
-                        height: 180px;
-                        background: rgba(10,22,40,0.3);
+                        height: 65%;
+                        background: rgba(10,22,40,0.35);
                         z-index: 2;
                     }
                     .cover-vignette-2 {
                         position: absolute;
                         bottom: 0; left: 0; right: 0;
-                        height: 120px;
-                        background: rgba(10,22,40,0.5);
+                        height: 45%;
+                        background: rgba(10,22,40,0.55);
                         z-index: 3;
                     }
                     .cover-vignette-3 {
                         position: absolute;
                         bottom: 0; left: 0; right: 0;
-                        height: 60px;
+                        height: 25%;
                         background: rgba(10,22,40,0.85);
                         z-index: 4;
                     }
                     .cover-vignette-4 {
                         position: absolute;
                         bottom: 0; left: 0; right: 0;
-                        height: 30px;
+                        height: 10%;
                         background: #0a1628;
                         z-index: 5;
                     }
@@ -260,6 +265,30 @@
                         letter-spacing: 1px;
                         color: rgba(201,169,97,0.7);
                         text-transform: uppercase;
+                    }
+                    /* Ref/QR row sits in normal flow after the footer text
+                       (display:table, not position:absolute) so it can
+                       never overlap the stats row above it — the box only
+                       grows as tall as its own row needs. */
+                    .cover-bottom-row {
+                        display: table;
+                        width: 100%;
+                        margin-top: 14px;
+                    }
+                    .cover-bottom-left {
+                        display: table-cell;
+                        text-align: left;
+                        vertical-align: middle;
+                    }
+                    .cover-bottom-right {
+                        display: table-cell;
+                        text-align: right;
+                        vertical-align: middle;
+                        width: 90px;
+                    }
+                    .cover-qr-img {
+                        width: 80px;
+                        height: 80px;
                     }
                     /* ── INTERIOR PAGES ── */
                     .interior {
@@ -546,29 +575,6 @@
                         overflow: hidden;
                         padding: 30px 40px 20px;
                     }
-                    .gallery-grid-luxury {
-                        display: table;
-                        width: 100%;
-                        border-collapse: separate;
-                        border-spacing: 8px;
-                    }
-                    .gallery-grid-row {
-                        display: table-row;
-                    }
-                    .gallery-grid-cell {
-                        display: table-cell;
-                        width: 50%;
-                        height: 160px;
-                        overflow: hidden;
-                        border: 1px solid rgba(201,169,97,0.3);
-                        border-radius: 2px;
-                    }
-                    .gallery-grid-cell img {
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                    }
-
                     /* Utility */
                     .text-gold { color: #c9a961; }
                     .text-light { color: rgba(232,220,200,0.75); }
@@ -678,10 +684,14 @@
                         <div class="cover-footer">
                             This brochure is intended for informational purposes only. All details are believed correct but not guaranteed.
                         </div>
-                        <div class="cover-credit">Presented by SGC Property Management</div>
 
-                        <div style="position: absolute; bottom: 40px; right: 50px; width: 100px; text-align: center;">
-                            <img t-att-src="'%s/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=180&amp;height=180' % (base_url, quote_plus(property.property_code or property.name or 'AURELIA'))" alt="QR" style="width: 100px; height: 100px; display: block;"/>
+                        <div class="cover-bottom-row">
+                            <div class="cover-bottom-left">
+                                <div class="cover-credit">Presented by SGC Property Management</div>
+                            </div>
+                            <div class="cover-bottom-right">
+                                <img class="cover-qr-img" t-att-src="'%s/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=180&amp;height=180' % (base_url, quote_plus(property.property_code or property.name or 'AURELIA'))" alt="QR"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -794,10 +804,7 @@
                     <div class="section-title-underline"></div>
 
                     <div class="lifestyle-block">
-                        <div class="lifestyle-left">
-                            <img t-att-src="monogram_uri" alt="AE"/>
-                        </div>
-                        <div class="lifestyle-right">
+                        <div class="lifestyle-right" style="width:100%;">
                             <t t-if="nearby">
                                 <t t-foreach="nearby" t-as="n">
                                     <div class="location-item">
@@ -859,33 +866,43 @@
                 </div>
 
                 <!-- ══════════════════════════════════════════════════════
-                     PAGE 3: GALLERY
+                     PAGE 3+: GALLERY
+                     One bounded .gallery-page per chunk of images (see
+                     _get_gallery_pages in the report model) instead of one
+                     unbounded container — that unbounded version had no
+                     fixed height, so wkhtmltopdf's continuous-flow renderer
+                     let it overflow past a single A4 page for any property
+                     with more than a handful of images, producing extra
+                     un-styled pages of stacked photos with no header/chrome.
                      ══════════════════════════════════════════════════════ -->
                 <t t-if="images and len(images) > 3">
-                    <div class="gallery-page">
-                        <div class="diamond-border-left"></div>
-                        <div class="diamond-border-right"></div>
+                    <t t-set="pages" t-value="gallery_pages(images)"/>
+                    <t t-foreach="pages" t-as="page_images">
+                        <div class="gallery-page">
+                            <div class="diamond-border-left"></div>
+                            <div class="diamond-border-right"></div>
 
-                        <div class="running-header">
-                            <div class="running-header-left">The Gallery <span class="dot-sep"></span> Page 03</div>
-                            <div class="running-header-right">Aurelia Estates</div>
-                        </div>
+                            <div class="running-header">
+                                <div class="running-header-left">The Gallery <span class="dot-sep"></span> Page <t t-esc="'%02d' % (page_images_index + 3)"/></div>
+                                <div class="running-header-right">Aurelia Estates</div>
+                            </div>
 
-                        <div class="section-headline" style="font-size:24px;margin-bottom:20px;">
-                            A Visual Journey
-                        </div>
+                            <div class="section-headline" style="font-size:24px;margin-bottom:20px;">
+                                A Visual Journey
+                            </div>
 
-                                                                        <!-- Gallery: flat inline-block grid for wkhtmltopdf -->
-                        <div style="width:100%;text-align:center;">
-                            <t t-foreach="images" t-as="img">
-                                <div style="display:inline-block;width:46%;margin:0 2% 10px;vertical-align:top;height:160px;overflow:hidden;border:1px solid rgba(201,169,97,0.3);border-radius:2px;">
-                                    <t t-if="img.image_512">
-                                        <img t-att-src="image_data_uri(convert_image(img.image_512))" t-att-alt="img.name or &apos;Gallery Image&apos;" style="width:100%;height:100%;object-fit:cover;"/>
-                                    </t>
-                                </div>
-                            </t>
+                            <!-- Gallery: flat inline-block grid for wkhtmltopdf -->
+                            <div style="width:100%;text-align:center;">
+                                <t t-foreach="page_images" t-as="img">
+                                    <div class="gallery-grid-cell">
+                                        <t t-if="img.image_512">
+                                            <img t-att-src="image_data_uri(convert_image(img.image_512))" t-att-alt="img.name or &apos;Gallery Image&apos;"/>
+                                        </t>
+                                    </div>
+                                </t>
+                            </div>
                         </div>
-                    </div>
+                    </t>
                 </t>
             </t>
         </t>

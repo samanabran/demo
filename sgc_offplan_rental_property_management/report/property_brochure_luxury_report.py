@@ -158,6 +158,22 @@ class PropertyBrochureLuxuryReport(models.AbstractModel):
             pairs.append((left, right))
         return pairs
 
+    @api.model
+    def _get_gallery_pages(self, images, per_page=6):
+        """Chunk images into fixed-size groups, one group per gallery page.
+
+        The gallery page previously rendered every image into one
+        unbounded container (no fixed height, just min-height: 297mm), so
+        wkhtmltopdf's continuous-flow rendering let it overflow past a
+        single A4 page's worth of content for any property with more than
+        a handful of images — producing extra physical PDF pages that
+        never got the page's border/header chrome. Splitting into
+        explicit per-page chunks up front means each chunk gets its own
+        bounded `.gallery-page` div with a real `page-break-after`.
+        """
+        raw = list(images)
+        return [raw[i:i + per_page] for i in range(0, len(raw), per_page)]
+
 
 
     @api.model
@@ -183,4 +199,5 @@ class PropertyBrochureLuxuryReport(models.AbstractModel):
             "monogram_uri": monogram_uri,
             "quote_plus": quote_plus,
             "base_url": base_url,
+            "gallery_pages": self._get_gallery_pages,
         }

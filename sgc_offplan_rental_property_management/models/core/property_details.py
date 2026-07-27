@@ -363,7 +363,7 @@ class PropertyDetails(models.Model):
     def action_print_brochure(self):
         self.ensure_one()
         return self.env.ref(
-            'sgc_offplan_rental_property_management.action_report_property_brochure'
+            'sgc_offplan_rental_property_management.action_report_property_brochure_luxury'
         ).report_action(self)
 
     def action_create_sale_contract(self):
