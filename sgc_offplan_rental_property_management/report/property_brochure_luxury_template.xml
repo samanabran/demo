@@ -118,20 +118,10 @@
                         height: 310mm;
                         overflow: hidden;
                     }
-                    /* Cover photo is a CSS background-image (cover/center),
-                       not an img tag with object-fit: wkhtmltopdf's QtWebKit
-                       engine doesn't support object-fit, and width/height
-                       100% on the img tag left it sized by its native
-                       aspect ratio instead of filling the box -- a dark gap
-                       of bare page background down the right edge on any
-                       photo narrower than the page. background-size:cover
-                       is honored reliably where object-fit isn't. */
-                    .cover-hero-bg {
+                    .cover-hero img {
                         width: 100%;
                         height: 100%;
-                        background-position: center center;
-                        background-repeat: no-repeat;
-                        background-size: cover;
+                        display: block;
                     }
                     /* Vignette overlay — stacked rgba bands for wkhtmltopdf.
                        Sized generously (not to a measured content height,
@@ -639,8 +629,18 @@
                     <div class="diamond-border-right"></div>
 
                     <div class="cover-hero">
-                        <t t-if="property.image_1920">
-                            <div class="cover-hero-bg" t-attf-style="background-image: url('#{image_data_uri(convert_image(property.image_1920))}');"></div>
+                        <t t-if="cover_image_uri_for(property)">
+                            <!-- Full-bleed cover image: pre-rendered server-side at
+                                 exact A4 pixel dimensions by PIL via
+                                 _render_cover_full_bleed, so the img tag
+                                 can fill 210mm x 297mm via plain width
+                                 and height 100 percent (the prior
+                                 background-image / data-URI path would
+                                 not stretch in wkhtmltopdf, and the prior
+                                 img with object-fit cover left a dark strip
+                                 because object-fit isn't supported). -->
+                            <img t-att-src="cover_image_uri_for(property)"
+                                 style="width:100%; height:100%; display:block;"/>
                         </t>
                         <t t-else="">
                             <div style="width:100%;height:100%;background:#0d1b2e;"></div>

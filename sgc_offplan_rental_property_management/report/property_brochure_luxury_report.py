@@ -37,8 +37,16 @@ class PropertyBrochureLuxuryReport(models.AbstractModel):
 
     @api.model
     def _convert_to_jpeg_b64(self, b64_source):
+        # Always returns a dict {"b64": bytes, "width": int, "height": int}
+        # (or {} for empty/missing input) rather than just b64 bytes, so the
+        # template can size its <img> by the actual image dimensions. The
+        # QWeb template can't query an inline <img>'s natural width/height
+        # itself, and wkhtmltopdf doesn't honor object-fit / width:100% on a
+        # fixed-height container, so we have to hand it a real PNG that is
+        # already full-bleed at the target render size -- which the cover's
+        # _render_cover_full_bleed step does separately below.
         if not b64_source:
-            return b""
+            return {}
         from PIL import Image
 
         raw = base64.b64decode(b64_source)
@@ -47,17 +55,83 @@ class PropertyBrochureLuxuryReport(models.AbstractModel):
             with os.fdopen(fd, "wb") as tmp:
                 tmp.write(raw)
             image = Image.open(tmp_path)
+            orig_w, orig_h = image.size
             if image.format == "JPEG":
-                return b64_source
-            image = image.convert("RGB")
-            buf = io.BytesIO()
-            image.save(buf, format="JPEG", quality=92)
-            return base64.b64encode(buf.getvalue())
+                jpeg_b64 = b64_source
+            else:
+                image = image.convert("RGB")
+                buf = io.BytesIO()
+                image.save(buf, format="JPEG", quality=92)
+                jpeg_b64 = base64.b64encode(buf.getvalue())
+            return {"b64": jpeg_b64, "width": orig_w, "height": orig_h}
         except Exception:
-            _logger.warning("Could not convert image to JPEG for luxury brochure; skipping.", exc_info=True)
-            return b""
+            _logger.warning(
+                "Could not convert image to JPEG for luxury brochure; skipping.",
+                exc_info=True,
+            )
+            return {}
         finally:
             os.unlink(tmp_path)
+
+    @api.model
+    def _render_cover_full_bleed(self, b64_source, target_w=794, target_h=1123):
+        """Return a JPEG data URI of the cover photo pre-rendered at A4 size.
+
+        Why this exists: wkhtmltopdf doesn't support CSS object-fit / background-size
+        reliably on QWeb images, so a container-stretch attempt to fill 210mm
+        x 297mm either leaves a dark right-edge gap (photo's natural aspect
+        ratio narrower than A4) or stretches (looking very wrong on tall
+        crops). The reliable fix is what the other PIL helpers in this file
+        already do -- build the target bytes server-side. We center-crop the
+        source into the exact A4 aspect ratio, then resize to the print dpi
+        target so the template can render it as a plain <img style="width
+        100%; height: 100%"> that the engine can actually lay out.
+        """
+        from PIL import Image
+        if not b64_source:
+            return None
+        try:
+            raw = base64.b64decode(b64_source)
+            fd, tmp_path = tempfile.mkstemp(
+                suffix=self._guess_suffix(raw)
+            )
+            try:
+                with os.fdopen(fd, "wb") as tmp:
+                    tmp.write(raw)
+                src = Image.open(tmp_path).convert("RGB")
+            finally:
+                os.unlink(tmp_path)
+        except Exception:
+            _logger.warning(
+                "Cover image open failed for full-bleed render; skipping.",
+                exc_info=True,
+            )
+            return None
+
+        src_w, src_h = src.size
+        # Center-crop into the target A4 aspect ratio without stretching.
+        target_ratio = target_w / target_h  # 0.7071 = 210/297
+        src_ratio = src_w / src_h if src_h else target_ratio
+        if src_ratio > target_ratio:
+            # Source is wider than target -- crop horizontally.
+            new_w = int(src_h * target_ratio)
+            offset = (src_w - new_w) // 2
+            src = src.crop((offset, 0, offset + new_w, src_h))
+        else:
+            # Source is taller than target -- crop vertically.
+            new_h = max(1, int(src_w / target_ratio))
+            offset = (src_h - new_h) // 2
+            src = src.crop((0, offset, src_w, offset + new_h))
+        # Resize to the actual print pixel size at 96 dpi (~ 72-100 dpi range
+        # for typical wkhtmltopdf screen dpi). quality=88 keeps file size sane
+        # without visible JPEG artifacts at A4.
+        src = src.resize((target_w, target_h), Image.LANCZOS)
+        buf = io.BytesIO()
+        src.save(buf, format="JPEG", quality=88)
+        return (
+            "data:image/jpeg;base64,"
+            + base64.b64encode(buf.getvalue()).decode("ascii")
+        )
 
     @api.model
     def _get_diamond_border_data_uri(self):
@@ -190,6 +264,13 @@ class PropertyBrochureLuxuryReport(models.AbstractModel):
         # instead. Build an absolute URL so the barcode image actually loads.
         base_url = self.env["ir.config_parameter"].sudo().get_param("web.base.url")
 
+        # Pre-build a full-bleed cover image per property. Doing it here (not
+        # inside the t-foreach) would cache once for the multi-property case
+        # too, but for now (most reports are single-property) the inner loop
+        # is fine and easier to read.
+        def _cover_for(prop):
+            return self._render_cover_full_bleed(prop.image_1920)
+
         return {
             "doc_ids": docids,
             "doc_model": "property.details",
@@ -200,4 +281,14 @@ class PropertyBrochureLuxuryReport(models.AbstractModel):
             "quote_plus": quote_plus,
             "base_url": base_url,
             "gallery_pages": self._get_gallery_pages,
+            # Set both here AND via <t t-set> inside the template: web.html_container
+            # resolves class="container" vs "container-fluid" from the binding
+            # context, and depending on Odoo version the t-set inside a t-foreach
+            # is either local to the iteration or hoisted -- making it explicit
+            # in the report_values dict guarantees body.class becomes
+            # container-fluid so the 210mm page divs are never clipped to the
+            # Bootstrap .container max-width of 540px (or 720/960/1140 at
+            # wider breakpoints).
+            "full_width": True,
+            "cover_image_uri_for": _cover_for,
         }
