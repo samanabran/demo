@@ -2,6 +2,16 @@
 <odoo>
     <template id="report_property_brochure_luxury">
         <t t-call="web.html_container">
+            <!-- web.html_container wraps the content in Bootstrap's fixed-
+                 max-width .container class unless full_width is set, in
+                 which case it uses .container-fluid instead. Every page
+                 here is explicitly sized to 210mm/297mm for full-bleed A4,
+                 so without this the .container max-width silently clipped
+                 the right edge of every page (cover, interior, gallery
+                 alike), not a scale-down but an overflow-hidden cut, which
+                 is why fixing image object-fit, the gallery grid, or the
+                 html/body width never touched it. -->
+            <t t-set="full_width" t-value="True"/>
             <t t-foreach="docs" t-as="property">
                 <t t-set="currency" t-value="property.company_id.currency_id"/>
                 <t t-set="currency_symbol" t-value="currency.symbol or 'AED'"/>
@@ -32,24 +42,11 @@
                         margin: 0;
                     }
                     * { box-sizing: border-box; margin: 0; padding: 0; }
-                    html, body {
-                        width: 210mm;
-                    }
                     body {
                         font-family: 'Georgia', 'Times New Roman', serif;
                         color: #e8dcc8;
                         background: #0a1628;
                     }
-                    /* Every page div below is width:210mm, matched to the
-                       @page size, but nothing previously pinned html/body
-                       to that same width. wkhtmltopdf lays out the page
-                       in its own default (wider) viewport first and then
-                       fits that layout into the actual A4 page, so without
-                       this the 210mm page divs only ever occupied part of
-                       a wider canvas -- left-anchored, with a navy gap
-                       (page background) down the right edge of every page,
-                       and the whole page reading "not centered" and darker
-                       than intended once shrunk to the final PDF size. */
 
                     /* ── DECORATIVE BORDER STRIP ── */
                     .diamond-border-left {
