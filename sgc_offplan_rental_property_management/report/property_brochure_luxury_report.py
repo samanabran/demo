@@ -37,39 +37,31 @@ class PropertyBrochureLuxuryReport(models.AbstractModel):
 
     @api.model
     def _convert_to_jpeg_b64(self, b64_source):
-        # Always returns a dict {"b64": bytes, "width": int, "height": int}
-        # (or {} for empty/missing input) rather than just b64 bytes, so the
-        # template can size its <img> by the actual image dimensions. The
-        # QWeb template can't query an inline <img>'s natural width/height
-        # itself, and wkhtmltopdf doesn't honor object-fit / width:100% on a
-        # fixed-height container, so we have to hand it a real PNG that is
-        # already full-bleed at the target render size -- which the cover's
-        # _render_cover_full_bleed step does separately below.
+        # Always returns bytes (possibly empty), never a str/False/None:
+        # the value flows straight into image_data_uri(), which calls
+        # .decode() on it unconditionally and crashes on a plain str.
         if not b64_source:
-            return {}
+            return b''
         from PIL import Image
 
         raw = base64.b64decode(b64_source)
         fd, tmp_path = tempfile.mkstemp(suffix=self._guess_suffix(raw))
         try:
-            with os.fdopen(fd, "wb") as tmp:
+            with os.fdopen(fd, 'wb') as tmp:
                 tmp.write(raw)
             image = Image.open(tmp_path)
-            orig_w, orig_h = image.size
-            if image.format == "JPEG":
-                jpeg_b64 = b64_source
-            else:
-                image = image.convert("RGB")
-                buf = io.BytesIO()
-                image.save(buf, format="JPEG", quality=92)
-                jpeg_b64 = base64.b64encode(buf.getvalue())
-            return {"b64": jpeg_b64, "width": orig_w, "height": orig_h}
+            if image.format == 'JPEG':
+                return b64_source
+            image = image.convert('RGB')
+            buf = io.BytesIO()
+            image.save(buf, format='JPEG', quality=92)
+            return base64.b64encode(buf.getvalue())
         except Exception:
             _logger.warning(
                 "Could not convert image to JPEG for luxury brochure; skipping.",
                 exc_info=True,
             )
-            return {}
+            return b''
         finally:
             os.unlink(tmp_path)
 
