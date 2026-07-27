@@ -261,15 +261,6 @@
                         color: rgba(201,169,97,0.7);
                         text-transform: uppercase;
                     }
-                    .cover-qr {
-                        text-align: center;
-                        margin-top: 8px;
-                    }
-                    .cover-qr img {
-                        width: 60px;
-                        height: 60px;
-                    }
-
                     /* ── INTERIOR PAGES ── */
                     .interior {
                         width: 210mm;
@@ -545,23 +536,6 @@
                         vertical-align: middle;
                         margin: 0 6px;
                     }
-                    .brochure-footer-qr {
-                        text-align: right;
-                        position: absolute;
-                        bottom: 20px;
-                        right: 40px;
-                    }
-                    .brochure-footer-qr img {
-                        width: 50px;
-                        height: 50px;
-                    }
-                    .brochure-footer-qr-label {
-                        font-size: 7px;
-                        letter-spacing: 2px;
-                        color: rgba(201,169,97,0.5);
-                        text-transform: uppercase;
-                    }
-
                     /* ── GALLERY PAGE ── */
                     .gallery-page {
                         width: 210mm;
@@ -706,8 +680,8 @@
                         </div>
                         <div class="cover-credit">Presented by SGC Property Management</div>
 
-                        <div class="cover-qr">
-                            <img t-att-src="'%s/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=180&amp;height=180' % (base_url, quote_plus(property.property_code or property.name or 'AURELIA'))" alt="QR"/>
+                        <div style="position: absolute; bottom: 40px; right: 50px; width: 100px; text-align: center;">
+                            <img t-att-src="'%s/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=180&amp;height=180' % (base_url, quote_plus(property.property_code or property.name or 'AURELIA'))" alt="QR" style="width: 100px; height: 100px; display: block;"/>
                         </div>
                     </div>
                 </div>
@@ -878,9 +852,9 @@
                         <span class="dot-sep"></span>
                         <t t-if="property.company_id.website" t-esc="property.company_id.website"/>
                     </div>
-                    <div class="brochure-footer-qr">
-                        <img t-att-src="'%s/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=160&amp;height=160' % (base_url, quote_plus(property.property_code or property.name or 'AURELIA'))" alt="QR"/>
-                        <div class="brochure-footer-qr-label">SCAN TO ENQUIRE</div>
+                    <div style="width: 150px; margin: 20px auto 0 auto; text-align: center;">
+                        <img t-att-src="'%s/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=160&amp;height=160' % (base_url, quote_plus(property.property_code or property.name or 'AURELIA'))" alt="QR" style="width: 150px; height: 150px; display: block; margin: 0 auto;"/>
+                        <div style="font-size: 10px; letter-spacing: 2px; color: #c9a961; text-transform: uppercase; margin-top: 8px;">Scan to Enquire</div>
                     </div>
                 </div>
 
