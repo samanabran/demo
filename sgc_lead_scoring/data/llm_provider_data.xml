@@ -87,6 +87,20 @@
             <field name="is_default" eval="False"/>
         </record>
 
+        <!-- MiniMax -->
+        <record id="llm_provider_minimax" model="llm.provider">
+            <field name="name">MiniMax M2.7</field>
+            <field name="sequence">65</field>
+            <field name="provider_type">minimax</field>
+            <field name="model_name">MiniMax-M2.7</field>
+            <field name="api_key">your-minimax-api-key-here</field>
+            <field name="temperature">0.7</field>
+            <field name="max_tokens">4096</field>
+            <field name="timeout">45</field>
+            <field name="active" eval="False"/>
+            <field name="is_default" eval="False"/>
+        </record>
+
         <!-- FreeLLMAPI (self-hosted on this VPS) — large-context model for
              long lead-research prompts. Model verified live against
              freellmapi-prod on 2026-07-21: gemini-2.5-flash returned HTTP 429

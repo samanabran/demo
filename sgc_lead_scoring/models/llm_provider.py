@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
+import json
+from datetime import timedelta
 
 from odoo import models, fields, api
+
+_FAILURE_WINDOW_SECONDS = 60
+_FAILURE_THRESHOLD = 5
+_DEFAULT_BACKOFF_SECONDS = 60
+_MAX_BACKOFF_SECONDS = 600
 
 
 class LlmProvider(models.Model):
@@ -17,6 +24,7 @@ class LlmProvider(models.Model):
         ('google', 'Google Gemini'),
         ('huggingface', 'HuggingFace'),
         ('mistral', 'Mistral AI'),
+        ('minimax', 'MiniMax'),
         ('custom', 'Custom Endpoint'),
     ], string='Provider Type', required=True, default='openai')
     model_name = fields.Char(string='Model Name', required=True,
@@ -38,7 +46,73 @@ class LlmProvider(models.Model):
     company_id = fields.Many2one('res.company', string='Company',
                                  default=lambda self: self.env.company)
 
+    # ---- Circuit breaker (mirrors web.research.provider) -- a paid,
+    # currently-misbehaving LLM provider must not get hammered by every
+    # retry/cron worker; this is DB-backed (unlike llm.service's
+    # process-local rate-limit cache) so it survives worker restarts.
+    circuit_state = fields.Selection([
+        ('closed', 'Closed'),
+        ('open', 'Open'),
+        ('half_open', 'Half-Open'),
+    ], default='closed', readonly=True)
+    circuit_open_until = fields.Datetime(readonly=True)
+    circuit_backoff_seconds = fields.Integer(default=_DEFAULT_BACKOFF_SECONDS, readonly=True)
+    failure_timestamps = fields.Text(default='[]', readonly=True)
+
     @api.model
     def get_default_provider(self):
         """Get the default active provider"""
         return self.search([('is_default', '=', True), ('active', '=', True)], limit=1)
+
+    def is_available(self):
+        """True if this provider isn't tripped by the circuit breaker."""
+        self.ensure_one()
+        if not self.active:
+            return False
+        self._cb_maybe_transition()
+        return self.circuit_state != 'open'
+
+    def _cb_maybe_transition(self):
+        self.ensure_one()
+        if (
+            self.circuit_state == 'open'
+            and self.circuit_open_until
+            and fields.Datetime.now() >= self.circuit_open_until
+        ):
+            self.sudo().write({'circuit_state': 'half_open'})
+
+    def _cb_record_success(self):
+        self.ensure_one()
+        self.sudo().write({
+            'circuit_state': 'closed',
+            'circuit_open_until': False,
+            'circuit_backoff_seconds': _DEFAULT_BACKOFF_SECONDS,
+            'failure_timestamps': '[]',
+        })
+
+    def _cb_record_failure(self):
+        self.ensure_one()
+        now = fields.Datetime.now()
+        if self.circuit_state == 'half_open':
+            backoff = min(self.circuit_backoff_seconds * 2, _MAX_BACKOFF_SECONDS)
+            self.sudo().write({
+                'circuit_state': 'open',
+                'circuit_open_until': now + timedelta(seconds=backoff),
+                'circuit_backoff_seconds': backoff,
+            })
+            return
+        window_start = now - timedelta(seconds=_FAILURE_WINDOW_SECONDS)
+        try:
+            raw = json.loads(self.failure_timestamps or '[]')
+            timestamps = [fields.Datetime.from_string(t) for t in raw]
+        except (ValueError, TypeError):
+            timestamps = []
+        timestamps = [t for t in timestamps if t >= window_start]
+        timestamps.append(now)
+        vals = {'failure_timestamps': json.dumps([fields.Datetime.to_string(t) for t in timestamps])}
+        if len(timestamps) >= _FAILURE_THRESHOLD:
+            vals.update({
+                'circuit_state': 'open',
+                'circuit_open_until': now + timedelta(seconds=self.circuit_backoff_seconds),
+            })
+        self.sudo().write(vals)

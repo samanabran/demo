@@ -41,6 +41,7 @@ class LlmService(models.Model):
             'groq': 'https://api.groq.com/openai/v1/chat/completions',
             'anthropic': 'https://api.anthropic.com/v1/messages',
             'mistral': 'https://api.mistral.ai/v1/chat/completions',
+            'minimax': 'https://api.minimax.io/v1/chat/completions',
             'huggingface': f'https://api-inference.huggingface.co/models/{provider.model_name}',
             'google': f'https://generativelanguage.googleapis.com/v1/models/{provider.model_name}:generateContent',
         }
@@ -171,6 +172,14 @@ class LlmService(models.Model):
                 'retries': 0,
             }
 
+        if not provider.is_available():
+            return {
+                'success': False,
+                'content': '',
+                'error': 'Provider circuit breaker is open (too many recent failures), skipped call.',
+                'retries': 0,
+            }
+
         url = self._get_api_url(provider)
         headers = self._get_headers(provider)
         payload = self._get_payload(provider, messages, response_schema=response_schema)
@@ -192,11 +201,30 @@ class LlmService(models.Model):
 
                 if response.status_code == 200:
                     data = response.json()
+
+                    # MiniMax can return HTTP 200 with an error embedded in
+                    # base_resp (e.g. insufficient balance, invalid params)
+                    # instead of a non-2xx status -- treat that as a failure
+                    # rather than silently returning empty/wrong content.
+                    base_resp = data.get('base_resp') or {}
+                    if provider.provider_type == 'minimax' and base_resp.get('status_code') not in (0, None):
+                        provider.write({'failed_requests': provider.failed_requests + 1})
+                        provider._cb_record_failure()
+                        return {
+                            'success': False,
+                            'content': '',
+                            'error': 'MiniMax API error: %s' % (
+                                base_resp.get('status_msg') or base_resp
+                            ),
+                            'retries': attempt,
+                        }
+
                     content = self._parse_response(provider, data)
                     provider.write({
                         'total_requests': provider.total_requests + 1,
                         'last_used': fields.Datetime.now(),
                     })
+                    provider._cb_record_success()
                     return {
                         'success': True,
                         'content': content,
@@ -217,6 +245,7 @@ class LlmService(models.Model):
                     provider.write({
                         'failed_requests': provider.failed_requests + 1,
                     })
+                    provider._cb_record_failure()
                     return {
                         'success': False,
                         'content': '',
@@ -227,6 +256,7 @@ class LlmService(models.Model):
                 provider.write({
                     'failed_requests': provider.failed_requests + 1,
                 })
+                provider._cb_record_failure()
                 return {
                     'success': False,
                     'content': '',
@@ -244,6 +274,7 @@ class LlmService(models.Model):
                 provider.write({
                     'failed_requests': provider.failed_requests + 1,
                 })
+                provider._cb_record_failure()
                 return {
                     'success': False,
                     'content': '',
@@ -255,6 +286,7 @@ class LlmService(models.Model):
                 provider.write({
                     'failed_requests': provider.failed_requests + 1,
                 })
+                provider._cb_record_failure()
                 return {
                     'success': False,
                     'content': '',
@@ -265,6 +297,7 @@ class LlmService(models.Model):
         provider.write({
             'failed_requests': provider.failed_requests + 1,
         })
+        provider._cb_record_failure()
         return {
             'success': False,
             'content': '',
