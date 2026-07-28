@@ -14,6 +14,11 @@ _CODE_FENCE_RE = re.compile(r'^```(?:html)?\s*\n?(.*?)\n?```$', re.DOTALL)
 _DEFAULT_API_ENDPOINT = "http://freellmapi-prod:3001/v1/chat/completions"
 _DEFAULT_MODEL = "nemotron-3-super-120b"
 
+# MiniMax's OpenAI-compatible chat-completions endpoint (global region).
+# https://platform.minimax.io/docs/api-reference/text-chat-openai
+_MINIMAX_API_ENDPOINT = "https://api.minimax.io/v1/chat/completions"
+_MINIMAX_MODEL = "MiniMax-M2.7"
+
 
 class SgcAIController(http.Controller):
 
@@ -34,24 +39,35 @@ class SgcAIController(http.Controller):
         """
         prompt = (kwargs.get('prompt') or '').strip()
         context = kwargs.get('context') or {}
+        provider = (kwargs.get('provider') or 'default').strip().lower()
         if not prompt:
             return {'error': 'No prompt provided.'}
 
         ICPSudo = request.env['ir.config_parameter'].sudo()
-        api_endpoint = ICPSudo.get_param(
-            'sgc_ai.api_endpoint', _DEFAULT_API_ENDPOINT
-        )
-        api_key = ICPSudo.get_param('sgc_ai.api_key', '')
-        model = ICPSudo.get_param('sgc_ai.model', _DEFAULT_MODEL)
+        if provider == 'minimax':
+            api_endpoint = ICPSudo.get_param(
+                'sgc_ai.minimax_endpoint', _MINIMAX_API_ENDPOINT
+            )
+            api_key = ICPSudo.get_param('sgc_ai.minimax_api_key', '')
+            model = ICPSudo.get_param('sgc_ai.minimax_model', _MINIMAX_MODEL)
+            missing_msg = (
+                'MiniMax not configured. Go to Settings → Technical → '
+                'System Parameters and set sgc_ai.minimax_api_key.'
+            )
+        else:
+            api_endpoint = ICPSudo.get_param(
+                'sgc_ai.api_endpoint', _DEFAULT_API_ENDPOINT
+            )
+            api_key = ICPSudo.get_param('sgc_ai.api_key', '')
+            model = ICPSudo.get_param('sgc_ai.model', _DEFAULT_MODEL)
+            missing_msg = (
+                'SGC AI not configured. Go to Settings → Technical → '
+                'System Parameters and set sgc_ai.api_endpoint and '
+                'sgc_ai.api_key.'
+            )
 
         if not api_endpoint or not api_key:
-            return {
-                'error': (
-                    'SGC AI not configured. Go to Settings → Technical → '
-                    'System Parameters and set sgc_ai.api_endpoint and '
-                    'sgc_ai.api_key.'
-                )
-            }
+            return {'error': missing_msg}
 
         messages = self._build_messages(prompt, context)
 
@@ -81,6 +97,20 @@ class SgcAIController(http.Controller):
             )
             resp.raise_for_status()
             data = resp.json()
+
+            # MiniMax can return HTTP 200 with an error embedded in base_resp
+            # (e.g. insufficient balance, invalid params) instead of a non-2xx
+            # status code -- without this check that error looks like success.
+            base_resp = data.get('base_resp') or {}
+            if base_resp.get('status_code') not in (0, None):
+                _logger.error(
+                    'SGC AI (%s) base_resp error: %s', provider, base_resp,
+                )
+                return {
+                    'error': 'AI service error: %s' % (
+                        base_resp.get('status_msg') or base_resp
+                    )
+                }
 
             ai_text = ''
             choices = data.get('choices', [])

@@ -38,12 +38,19 @@ export class SgcAIPromptDialog extends Component {
             <div class="o_sgc_ai_powerbox_dialog p-3">
                 <p t-if="props.helpText" class="text-muted small mb-2" t-esc="props.helpText"/>
                 <textarea
-                    class="form-control"
+                    class="form-control mb-2"
                     rows="6"
                     t-att-placeholder="props.placeholder"
                     t-model="state.prompt"
                     t-on-keydown="onPromptKeydown"
                 />
+                <div class="d-flex align-items-center gap-2">
+                    <label class="text-muted small mb-0" for="sgc_ai_provider_select">AI backend:</label>
+                    <select id="sgc_ai_provider_select" class="form-select form-select-sm w-auto" t-model="state.provider">
+                        <option value="default">Default</option>
+                        <option value="minimax">MiniMax</option>
+                    </select>
+                </div>
                 <div t-if="state.error" class="alert alert-danger mt-3 mb-0" role="alert">
                     <t t-esc="state.error"/>
                 </div>
@@ -76,6 +83,7 @@ export class SgcAIPromptDialog extends Component {
     setup() {
         this.state = useState({
             prompt: this.props.initialPrompt || "",
+            provider: "default",
             busy: false,
             error: "",
         });
@@ -100,7 +108,7 @@ export class SgcAIPromptDialog extends Component {
         this.state.busy = true;
         this.state.error = "";
         try {
-            const result = await this.props.onConfirm(value);
+            const result = await this.props.onConfirm(value, this.state.provider);
             if (result && result.error) {
                 this.state.error = result.error;
                 this.state.busy = false;
@@ -190,11 +198,11 @@ export class SgcAIPowerboxPlugin extends Plugin {
                 : _t(
                     "Type a prompt. The AI response will be inserted at the cursor."
                 ),
-            onConfirm: async (prompt) => {
+            onConfirm: async (prompt, provider) => {
                 return await this._askAiAndInsert(prompt, {
                     ...recordContext,
                     field_text: fieldSnapshot,
-                });
+                }, provider);
             },
         });
     }
@@ -215,10 +223,10 @@ export class SgcAIPowerboxPlugin extends Plugin {
         return fragment;
     }
 
-    async _askAiAndInsert(prompt, context) {
+    async _askAiAndInsert(prompt, context, provider) {
         let response;
         try {
-            response = await rpc(RPC_URL, { prompt, context });
+            response = await rpc(RPC_URL, { prompt, context, provider });
         } catch (error) {
             return {
                 error:
