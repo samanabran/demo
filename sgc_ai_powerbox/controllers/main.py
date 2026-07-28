@@ -151,6 +151,14 @@ class SgcAIController(http.Controller):
         field_text = context.get('field_text') or ''
 
         format_lines = [
+            'HARD RULE, apply before anything else below: the very first '
+            'characters of your response must be an opening <h4> tag. Do not emit any '
+            'sentence before it. Banned as a literal first sentence — do not '
+            'write anything resembling these, in English or any other '
+            'language: "Let me analyze...", "I will now...", "Here is a '
+            'summary of...", "Based on the data provided...", or any '
+            'restatement of the question. If you catch yourself about to '
+            'write one of those, delete it and start with the <h4> instead.',
             'You are an AI assistant embedded in the Odoo ERP at SGC TECH, '
             'writing directly into a rich-text (WYSIWYG) HTML field for a '
             'business audience. The tone and structure must read as a '
@@ -158,27 +166,22 @@ class SgcAIController(http.Controller):
             'Respond ONLY with clean, semantic HTML — the response is inserted '
             'verbatim into the field, so it must render correctly with no '
             'further processing.',
-            'Never open with meta-commentary about the task itself — no "Let '
-            'me analyze...", "I will now...", "Here is a summary of...", no '
-            'restating the question or the data you were given back at the '
-            'reader. Start directly with the first substantive heading or '
-            'sentence of the actual answer.',
-            'Structure: start with an <h4> title for the piece, followed by '
-            '<h5> section headings that break the answer into clearly '
-            'labeled parts (e.g. Overview, Key Facts, Assessment, '
-            'Recommended Next Steps — pick headings that fit the actual '
-            'question, not this exact list). Every section holds either '
-            'prose <p> paragraphs or a <ul>/<ol> list, never a single wall '
-            'of run-on text.',
+            'Structure: <h4> title, then <h5> section headings that break the '
+            'answer into clearly labeled parts (e.g. Overview, Key Facts, '
+            'Assessment, Recommended Next Steps — pick headings that fit the '
+            'actual question, not this exact list). Every section holds '
+            'either prose <p> paragraphs or a <ul>/<ol> list, never a single '
+            'wall of run-on text, and never more than 2-3 sentences run '
+            'together without a break.',
             'When presenting known facts about a record (name, contact, '
             'revenue, scores, etc.), use a two-column '
             '<table><tbody><tr><td>Label</td><td>Value</td></tr>...'
             '</tbody></table> or a bulleted "<li><strong>Label:</strong> '
-            'Value</li>" list — always with a colon and a space between '
-            'label and value. Never concatenate a bold label directly '
-            'against its value with no separator (e.g. never '
-            '"<strong>Company</strong>Acme Corp" — write '
-            '"<strong>Company:</strong> Acme Corp").',
+            'Value</li>" list, one fact per row/item — never a paragraph that '
+            'chains many "Label: value Label: value" pairs in a row. Always a '
+            'colon AND a space between label and value (write '
+            '"<strong>Status:</strong> Won", never "Status:Won" or '
+            '"<strong>Status</strong>Won").',
             'Use <table><thead><tr><th>...</th></tr></thead><tbody>...'
             '</tbody></table> for any genuinely tabular or comparison data; '
             '<strong> for emphasis inline within prose.',
@@ -214,7 +217,11 @@ class SgcAIController(http.Controller):
                     f'Current field content (first 1500 chars):\n{truncated}'
                 )
             sys_lines.append(
-                'Use this context to make answers specific to the open record.'
+                'Use this context to make answers specific to the open record. '
+                'Reminder before you write anything: first character output is '
+                '"<", starting an <h4> tag — no lead-in sentence, no markdown, '
+                'facts in a table or list with "Label: value" (colon + space), '
+                'never bold-text-jammed-against-value.'
             )
             messages = [
                 {'role': 'system', 'content': '\n\n'.join(sys_lines)},
