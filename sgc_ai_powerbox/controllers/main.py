@@ -152,6 +152,67 @@ class SgcAIController(http.Controller):
             _logger.error('SGC AI unexpected error: %s', str(e))
             return {'error': f'Unexpected error: {str(e)}'}
 
+    @staticmethod
+    def _get_ai_enrichment_snapshot(res_model, res_id):
+        """Best-effort read of any prior AI-enrichment data already stored on
+        this record, straight from the DB.
+
+        sgc_lead_scoring's crm.lead extension consistently prefixes every
+        field it writes with 'ai_' (ai_enrichment_data, ai_scoring_rationale,
+        ai_entity_type, the ai_*_score fields, etc.) -- reading by that naming
+        convention avoids sgc_ai_powerbox having a hard manifest dependency on
+        sgc_lead_scoring while still picking up its data when present.
+
+        This is deliberately a DB read, not a read of the open form's DOM:
+        the richest fields (ai_enrichment_data, the individual score fields)
+        typically live on notebook tabs (AI Scoring, Executive Summary, ...)
+        that aren't the active tab, so a DOM/form snapshot never sees them
+        even though they're the most relevant grounding data for a request
+        like "deep intelligence research" -- without this, the model has
+        nothing but the current tab to go on and falls back to generic,
+        assumption-based output instead of citing what was already found.
+        """
+        if not res_model or not res_id:
+            return ''
+        try:
+            Model = request.env[res_model].sudo()
+        except KeyError:
+            return ''
+
+        ai_field_names = [
+            name for name, field in Model._fields.items()
+            if name.startswith('ai_')
+            and field.type in ('char', 'text', 'html', 'integer', 'float', 'boolean', 'selection')
+        ]
+        if not ai_field_names:
+            return ''
+
+        try:
+            record = Model.browse(int(res_id))
+            if not record.exists():
+                return ''
+            values = record.read(ai_field_names)[0]
+        except Exception:
+            _logger.exception(
+                'SGC AI: failed reading ai_ fields for %s(%s)', res_model, res_id
+            )
+            return ''
+
+        lines = []
+        for name in ai_field_names:
+            val = values.get(name)
+            if val in (False, None, ''):
+                continue
+            text = str(val)
+            # ai_enrichment_data is the full Universal JSON Contract from a
+            # prior enrichment -- the single richest field, worth a much
+            # bigger budget than the derived/summary fields around it.
+            cap = 6000 if name == 'ai_enrichment_data' else 2000
+            if len(text) > cap:
+                text = text[:cap] + '…'
+            lines.append(f'- {name}: {text}')
+        return '\n'.join(lines)
+
     def _build_messages(self, prompt, context):
         """Compose the OpenAI-style messages array, optionally prepending a
         context system message describing the open record.
@@ -217,6 +278,17 @@ class SgcAIController(http.Controller):
                 + (f' "{record_name}"' if record_name else '')
                 + (f' (id={res_id})' if res_id else '')
             )
+            ai_snapshot = self._get_ai_enrichment_snapshot(res_model, res_id)
+            if ai_snapshot:
+                sys_lines.append(
+                    'Prior AI enrichment already stored on this record (from '
+                    'an earlier AI Enrich run) — this is authoritative, '
+                    'previously-researched structured intelligence about the '
+                    'lead/record, not something to re-derive from scratch. '
+                    'Ground your answer in it and cite it directly rather '
+                    'than giving a generic, assumption-based response:\n'
+                    f'{ai_snapshot}'
+                )
             form_snapshot = (context.get('form_snapshot') or '')[:4000]
             if form_snapshot:
                 sys_lines.append(
