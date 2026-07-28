@@ -153,41 +153,39 @@ export class SgcAIPowerboxPlugin extends Plugin {
         ],
     };
 
-    // Field types simple enough to serialize as plain text for the prompt.
-    // Relational (many2one/one2many/many2many), binary, and other complex
-    // types are skipped -- they don't stringify into anything the model can
-    // use, and some (binary) could be huge.
-    static SIMPLE_FIELD_TYPES = new Set([
-        "char", "text", "html", "integer", "float", "monetary",
-        "boolean", "date", "datetime", "selection",
-    ]);
-
     /**
-     * Bounded, plain-text snapshot of the open record's scalar fields, so the
-     * AI has real data to answer with instead of just a model/id pointer --
-     * without this the model has nothing to work from and either invents
-     * details or (correctly, but unhelpfully) asks the user to paste them
-     * back in. Capped at 25 fields / 300 chars each to control context size.
+     * Plain-text snapshot of everything currently rendered on the open form
+     * (every visible label + value -- company, email, salesperson, tags,
+     * scores, whatever tab is active, etc.), read straight from the DOM.
+     *
+     * A field-type-based snapshot (walking getRecordInfo().fields/.data) was
+     * tried first, but it either has to skip every relational field
+     * (Company, Salesperson, Sales Team, Tags -- all many2one/many2many, so
+     * the "known data" block was missing exactly the fields users look at
+     * first) or reimplement Odoo's relational-value unwrapping, which is
+     * fragile across versions. Reading the rendered sheet text sidesteps
+     * both problems: it's exactly "the information written on the open
+     * form" the user is looking at, whatever type each field is.
+     *
+     * Capped to MAX_FORM_SNAPSHOT_CHARS as a context-bloat guardrail --
+     * this is a paid LLM call, not a free one.
      */
-    _getRecordSnapshot(info) {
-        const fieldDefs = info.fields || {};
-        const data = info.data || {};
-        const out = {};
-        let count = 0;
-        for (const [name, def] of Object.entries(fieldDefs)) {
-            if (count >= 25) break;
-            if (!SgcAIPowerboxPlugin.SIMPLE_FIELD_TYPES.has(def.type)) continue;
-            let val = data[name];
-            if (val === undefined || val === null || val === "" || val === false) continue;
-            if (def.type === "html") {
-                val = String(val).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-            }
-            val = String(val).trim();
-            if (!val) continue;
-            out[name] = val.length > 300 ? val.slice(0, 300) + "…" : val;
-            count++;
+    static MAX_FORM_SNAPSHOT_CHARS = 4000;
+
+    _getFormSnapshot() {
+        try {
+            const sheet = this.document.querySelector(
+                ".o_form_sheet, .o_form_view .o_form_sheet_bg"
+            );
+            if (!sheet) return "";
+            const text = (sheet.innerText || "").replace(/\n{2,}/g, "\n").trim();
+            if (!text) return "";
+            return text.length > SgcAIPowerboxPlugin.MAX_FORM_SNAPSHOT_CHARS
+                ? text.slice(0, SgcAIPowerboxPlugin.MAX_FORM_SNAPSHOT_CHARS) + "…"
+                : text;
+        } catch (_) {
+            return "";
         }
-        return out;
     }
 
     _getRecordContext() {
@@ -200,7 +198,7 @@ export class SgcAIPowerboxPlugin extends Plugin {
                 res_model: info.resModel,
                 res_id: info.resId,
                 record_name: info.data?.display_name || info.data?.name || "",
-                record_fields: this._getRecordSnapshot(info),
+                form_snapshot: this._getFormSnapshot(),
             };
         } catch (_) {
             return {};

@@ -152,17 +152,36 @@ class SgcAIController(http.Controller):
 
         format_lines = [
             'You are an AI assistant embedded in the Odoo ERP at SGC TECH, '
-            'writing directly into a rich-text (WYSIWYG) HTML field.',
+            'writing directly into a rich-text (WYSIWYG) HTML field for a '
+            'business audience. The tone and structure must read as a '
+            'professional report, not a chat reply.',
             'Respond ONLY with clean, semantic HTML — the response is inserted '
             'verbatim into the field, so it must render correctly with no '
             'further processing.',
-            'Formatting rules: use <p> for paragraphs; <ul>/<ol> with <li> for '
-            'lists; <table><thead><tr><th>...</th></tr></thead><tbody><tr>'
-            '<td>...</td></tr></tbody></table> for any tabular or comparison '
-            'data; <strong> for emphasis; <h4>/<h5> for section headings when '
-            'the answer has multiple sections. Prefer bullet lists or tables '
-            'over dense paragraphs whenever the content is a list of items, '
-            'specs, or a comparison.',
+            'Never open with meta-commentary about the task itself — no "Let '
+            'me analyze...", "I will now...", "Here is a summary of...", no '
+            'restating the question or the data you were given back at the '
+            'reader. Start directly with the first substantive heading or '
+            'sentence of the actual answer.',
+            'Structure: start with an <h4> title for the piece, followed by '
+            '<h5> section headings that break the answer into clearly '
+            'labeled parts (e.g. Overview, Key Facts, Assessment, '
+            'Recommended Next Steps — pick headings that fit the actual '
+            'question, not this exact list). Every section holds either '
+            'prose <p> paragraphs or a <ul>/<ol> list, never a single wall '
+            'of run-on text.',
+            'When presenting known facts about a record (name, contact, '
+            'revenue, scores, etc.), use a two-column '
+            '<table><tbody><tr><td>Label</td><td>Value</td></tr>...'
+            '</tbody></table> or a bulleted "<li><strong>Label:</strong> '
+            'Value</li>" list — always with a colon and a space between '
+            'label and value. Never concatenate a bold label directly '
+            'against its value with no separator (e.g. never '
+            '"<strong>Company</strong>Acme Corp" — write '
+            '"<strong>Company:</strong> Acme Corp").',
+            'Use <table><thead><tr><th>...</th></tr></thead><tbody>...'
+            '</tbody></table> for any genuinely tabular or comparison data; '
+            '<strong> for emphasis inline within prose.',
             'Never use Markdown syntax (no **, no leading -, no #, no | tables). '
             'Never wrap the output in code fences or backticks. Never include '
             '<html>, <head>, <body>, or <!DOCTYPE> tags — return only the inner '
@@ -183,12 +202,12 @@ class SgcAIController(http.Controller):
                 + (f' "{record_name}"' if record_name else '')
                 + (f' (id={res_id})' if res_id else '')
             )
-            record_fields = context.get('record_fields') or {}
-            if record_fields:
-                field_lines = '\n'.join(
-                    f'- {k}: {v}' for k, v in list(record_fields.items())[:25]
+            form_snapshot = (context.get('form_snapshot') or '')[:4000]
+            if form_snapshot:
+                sys_lines.append(
+                    'Everything currently visible on the open form '
+                    f'(all fields as displayed):\n{form_snapshot}'
                 )
-                sys_lines.append(f'Known record data:\n{field_lines}')
             if field_text:
                 truncated = field_text[:1500]
                 sys_lines.append(
