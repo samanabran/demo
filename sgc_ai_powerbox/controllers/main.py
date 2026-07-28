@@ -167,6 +167,13 @@ class SgcAIController(http.Controller):
             'Never wrap the output in code fences or backticks. Never include '
             '<html>, <head>, <body>, or <!DOCTYPE> tags — return only the inner '
             'HTML fragment, ready to paste directly into the field.',
+            'Never respond by asking the user to supply information — anything '
+            'known about the record is already given to you below. Work with '
+            'whatever is there: state findings and a best-effort assessment '
+            'directly. If the available data is genuinely thin, say so in one '
+            'short line and still deliver the most useful analysis you can '
+            'from what is given; do not make an information request the whole '
+            'answer.',
         ]
 
         if res_model:
@@ -176,6 +183,12 @@ class SgcAIController(http.Controller):
                 + (f' "{record_name}"' if record_name else '')
                 + (f' (id={res_id})' if res_id else '')
             )
+            record_fields = context.get('record_fields') or {}
+            if record_fields:
+                field_lines = '\n'.join(
+                    f'- {k}: {v}' for k, v in list(record_fields.items())[:25]
+                )
+                sys_lines.append(f'Known record data:\n{field_lines}')
             if field_text:
                 truncated = field_text[:1500]
                 sys_lines.append(

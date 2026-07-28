@@ -153,6 +153,43 @@ export class SgcAIPowerboxPlugin extends Plugin {
         ],
     };
 
+    // Field types simple enough to serialize as plain text for the prompt.
+    // Relational (many2one/one2many/many2many), binary, and other complex
+    // types are skipped -- they don't stringify into anything the model can
+    // use, and some (binary) could be huge.
+    static SIMPLE_FIELD_TYPES = new Set([
+        "char", "text", "html", "integer", "float", "monetary",
+        "boolean", "date", "datetime", "selection",
+    ]);
+
+    /**
+     * Bounded, plain-text snapshot of the open record's scalar fields, so the
+     * AI has real data to answer with instead of just a model/id pointer --
+     * without this the model has nothing to work from and either invents
+     * details or (correctly, but unhelpfully) asks the user to paste them
+     * back in. Capped at 25 fields / 300 chars each to control context size.
+     */
+    _getRecordSnapshot(info) {
+        const fieldDefs = info.fields || {};
+        const data = info.data || {};
+        const out = {};
+        let count = 0;
+        for (const [name, def] of Object.entries(fieldDefs)) {
+            if (count >= 25) break;
+            if (!SgcAIPowerboxPlugin.SIMPLE_FIELD_TYPES.has(def.type)) continue;
+            let val = data[name];
+            if (val === undefined || val === null || val === "" || val === false) continue;
+            if (def.type === "html") {
+                val = String(val).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+            }
+            val = String(val).trim();
+            if (!val) continue;
+            out[name] = val.length > 300 ? val.slice(0, 300) + "…" : val;
+            count++;
+        }
+        return out;
+    }
+
     _getRecordContext() {
         // HtmlField exposes `getRecordInfo` via its config; the plugin context
         // (set up by editor.js getEditorContext) passes `this.config` through.
@@ -163,6 +200,7 @@ export class SgcAIPowerboxPlugin extends Plugin {
                 res_model: info.resModel,
                 res_id: info.resId,
                 record_name: info.data?.display_name || info.data?.name || "",
+                record_fields: this._getRecordSnapshot(info),
             };
         } catch (_) {
             return {};
