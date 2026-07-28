@@ -97,6 +97,13 @@ PUBLIC_EMAIL_DOMAINS = {
 SCHEMA_VERSION = '1.0'
 PROMPT_VERSION = '1.0'
 
+# Context-bloat guardrails (Decision: paid LLM, cap what goes into the
+# prompt regardless of how many hits web research returns). A single
+# runaway multi_search() result set would otherwise grow the prompt --
+# and the bill -- unbounded.
+MAX_EVIDENCE_ITEMS = 12
+MAX_SNIPPET_CHARS = 500
+
 # Entity types that belong to the B2B family (Decision I). Everything not in
 # here and not 'b2c_individual' has no family (the abstention case).
 _B2B_FAMILY = {
@@ -175,12 +182,17 @@ def normalize_evidence(multi_search_result):
     Input shape: ``{'results': [{title, url, snippet, _provider, sources, ...}]}``
     Output: ``[{title, url, snippet, provider, retrieved_at}, ...]`` — one flat,
     LLM-friendly structure regardless of which provider(s) contributed.
+
+    Capped to :data:`MAX_EVIDENCE_ITEMS` results with each snippet truncated
+    to :data:`MAX_SNIPPET_CHARS` — a context-bloat guardrail so a large
+    research fan-out can't balloon the prompt (and the paid LLM bill)
+    unbounded.
     """
     if not multi_search_result:
         return []
     retrieved_at = datetime.now(timezone.utc).isoformat()
     evidence = []
-    for r in multi_search_result.get('results', []) or []:
+    for r in (multi_search_result.get('results', []) or [])[:MAX_EVIDENCE_ITEMS]:
         provider = r.get('_provider')
         if not provider:
             sources = r.get('sources') or []
@@ -188,7 +200,7 @@ def normalize_evidence(multi_search_result):
         evidence.append({
             'title': r.get('title', ''),
             'url': r.get('url', ''),
-            'snippet': r.get('snippet', ''),
+            'snippet': (r.get('snippet', '') or '')[:MAX_SNIPPET_CHARS],
             'provider': provider,
             'retrieved_at': retrieved_at,
         })
@@ -423,6 +435,43 @@ def parse_llm_response(raw_content):
         raise ParseFailure("missing required 'classification' section")
     data = _flatten_arrays(data)
     return _normalize_object_sections(data)
+
+
+# ---------------------------------------------------------------------------
+# Hallucination guardrail — an LLM cannot be more confident than the
+# evidence it was actually given.
+# ---------------------------------------------------------------------------
+
+def apply_evidence_guardrails(parsed, normalized_evidence):
+    """Post-parse hallucination guard, applied after :func:`parse_llm_response`
+    succeeds and before the result is persisted / promoted to native fields.
+
+    * No evidence at all -> the model had nothing to research from, so its
+      classification confidence is forced down to 'low' regardless of what
+      it claimed, and every 'sources' entry is dropped (there is nothing to
+      cite).
+    * With evidence -> any 'sources' entry whose 'url' is not one of the
+      URLs actually shown to the model in ``<<BEGIN_EVIDENCE>>`` is a
+      fabricated citation (a URL the model invented, not one it was given),
+      so it is dropped rather than persisted as if it were researched.
+    """
+    parsed = parsed or {}
+    evidence_urls = {e.get('url') for e in (normalized_evidence or []) if e.get('url')}
+
+    classification = parsed.get('classification')
+    if isinstance(classification, dict) and not evidence_urls:
+        classification['confidence'] = 'low'
+
+    sources = parsed.get('sources')
+    if isinstance(sources, list):
+        if not evidence_urls:
+            parsed['sources'] = []
+        else:
+            parsed['sources'] = [
+                s for s in sources
+                if not (isinstance(s, dict) and s.get('url') and s.get('url') not in evidence_urls)
+            ]
+    return parsed
 
 
 # ---------------------------------------------------------------------------

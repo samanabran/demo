@@ -129,8 +129,12 @@ class CrmLead(models.Model):
     )
     auto_enrich = fields.Boolean(
         string='Auto-Enrich',
-        default=True,
-        help='Automatically enrich this lead with AI analysis',
+        default=False,
+        help='Pick up this lead in the (opt-in) auto-enrichment cron. Off by '
+             'default: enrichment calls a paid LLM, so a lead only gets '
+             'swept up automatically once someone opts it in -- otherwise '
+             'use the "AI Enrich" button for an on-demand, explicitly '
+             'triggered run.',
     )
     ai_completeness_score = fields.Float(
         string='Completeness Score',
@@ -498,6 +502,10 @@ class CrmLead(models.Model):
                 subtype_xmlid='mail.mt_note',
             )
             return
+
+        # 11.5 — hallucination guardrail: confidence/citations can't exceed
+        # what the evidence actually supports (see apply_evidence_guardrails).
+        parsed = li.apply_evidence_guardrails(parsed, evidence)
 
         # 12 — persist artifact 2 (full validated JSON).
         self.ai_enrichment_data = json.dumps(parsed)

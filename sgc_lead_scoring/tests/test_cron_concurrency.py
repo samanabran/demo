@@ -72,7 +72,9 @@ class TestCronConcurrency(TransactionCase):
             # a throwaway CI database. _cron_enrich_leads()'s search domain
             # (auto_enrich=True, status != processing) is unscoped -- it would
             # also sweep up any other pre-existing lead that happens to match
-            # (auto_enrich defaults to True for every crm.lead). Temporarily
+            # (auto_enrich is opt-in, but older/pre-existing rows may still
+            # carry auto_enrich=True from before it defaulted to False).
+            # Temporarily
             # mark those excluded (by flipping them to 'processing', which the
             # same domain excludes) so this test's _cron_enrich_leads() call
             # only ever touches its own 3 fixture leads; restore their real

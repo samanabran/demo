@@ -117,6 +117,50 @@ class TestLeadIntelligenceHelpers(TransactionCase):
         self.assertEqual(li.normalize_evidence({}), [])
         self.assertEqual(li.normalize_evidence(None), [])
 
+    def test_normalize_evidence_caps_item_count(self):
+        """Context-bloat guardrail: more hits than MAX_EVIDENCE_ITEMS are dropped."""
+        results = [{'title': 'T%d' % i, 'url': 'U%d' % i, 'snippet': 'S'}
+                   for i in range(li.MAX_EVIDENCE_ITEMS + 5)]
+        ev = li.normalize_evidence({'results': results})
+        self.assertEqual(len(ev), li.MAX_EVIDENCE_ITEMS)
+        self.assertEqual(ev[0]['title'], 'T0')
+
+    def test_normalize_evidence_truncates_snippet(self):
+        """Context-bloat guardrail: an oversized snippet is truncated."""
+        long_snippet = 'x' * (li.MAX_SNIPPET_CHARS + 200)
+        ev = li.normalize_evidence({'results': [
+            {'title': 'T', 'url': 'U', 'snippet': long_snippet}]})
+        self.assertEqual(len(ev[0]['snippet']), li.MAX_SNIPPET_CHARS)
+
+    # ---- apply_evidence_guardrails (hallucination guard) -----------------
+    def test_guardrail_no_evidence_forces_low_confidence(self):
+        parsed = {'classification': {'entity_type': 'b2b_company', 'confidence': 'high'}}
+        out = li.apply_evidence_guardrails(parsed, [])
+        self.assertEqual(out['classification']['confidence'], 'low')
+
+    def test_guardrail_no_evidence_drops_all_sources(self):
+        parsed = {'classification': {'confidence': 'high'},
+                  'sources': [{'url': 'https://invented.example', 'title': 'made up'}]}
+        out = li.apply_evidence_guardrails(parsed, [])
+        self.assertEqual(out['sources'], [])
+
+    def test_guardrail_with_evidence_keeps_confidence(self):
+        parsed = {'classification': {'entity_type': 'b2b_company', 'confidence': 'high'}}
+        evidence = [{'url': 'https://real.example', 'title': 'T', 'snippet': 'S'}]
+        out = li.apply_evidence_guardrails(parsed, evidence)
+        self.assertEqual(out['classification']['confidence'], 'high')
+
+    def test_guardrail_drops_ungrounded_citation(self):
+        """A source URL the model was never shown is a fabricated citation."""
+        parsed = {'classification': {'confidence': 'high'},
+                  'sources': [
+                      {'url': 'https://real.example', 'title': 'real hit'},
+                      {'url': 'https://invented.example', 'title': 'never shown to the model'},
+                  ]}
+        evidence = [{'url': 'https://real.example', 'title': 'real hit', 'snippet': 'S'}]
+        out = li.apply_evidence_guardrails(parsed, evidence)
+        self.assertEqual([s['url'] for s in out['sources']], ['https://real.example'])
+
     # ---- parse_llm_response (Decision E) --------------------------------
     def _minimal(self):
         return json.dumps({'metadata': {'schema_version': '1.0'},
