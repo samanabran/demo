@@ -11,6 +11,18 @@ _logger = logging.getLogger(__name__)
 # even when told not to. Strip it so the raw fragment reaches the editor.
 _CODE_FENCE_RE = re.compile(r'^```(?:html)?\s*\n?(.*?)\n?```$', re.DOTALL)
 
+# Some models (observed: MiniMax) occasionally narrate their own formatting
+# plan in plain text before the real answer ("Let me analyze... I need to
+# output only HTML, starting with <h4>, ..."), and since that narration
+# mentions HTML tags unescaped, it visually corrupts the rendered field.
+# Find the first well-formed, non-trivial heading -- >=4 chars of real
+# content between an <h1>-<h6> open/close pair -- and treat everything
+# before it as leaked narration to discard; the fake tag mentions inside a
+# sentence don't have real closing content so they don't match this pattern.
+_LEADING_PREAMBLE_RE = re.compile(
+    r'^.*?(?=<h[1-6][^>]*>[^<]{4,}</h[1-6]>)', re.DOTALL | re.IGNORECASE
+)
+
 _DEFAULT_API_ENDPOINT = "http://freellmapi-prod:3001/v1/chat/completions"
 _DEFAULT_MODEL = "nemotron-3-super-120b"
 
@@ -244,4 +256,9 @@ class SgcAIController(http.Controller):
         fence_match = _CODE_FENCE_RE.match(text)
         if fence_match:
             text = fence_match.group(1).strip()
+
+        preamble_match = _LEADING_PREAMBLE_RE.match(text)
+        if preamble_match and preamble_match.group(0).strip():
+            text = text[preamble_match.end():].strip()
+
         return text
