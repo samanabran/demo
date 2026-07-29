@@ -7,16 +7,16 @@ function sgcInitScrollHero() {
     var instances = new WeakMap();
 
     var storyBeats = [
-        { text: "Before it's an address, it's a feeling.", start: 0.00, end: 0.08 },
-        { text: "A place you haven't found yet — but already miss.", start: 0.10, end: 0.18 },
-        { text: "Somewhere, a street is waiting to learn your name.", start: 0.20, end: 0.28 },
-        { text: "The porch light you'll leave on for the people you love.", start: 0.30, end: 0.38 },
-        { text: "A door that will learn the sound of your keys.", start: 0.40, end: 0.48 },
-        { text: "Walls that don't know your laughter yet.", start: 0.50, end: 0.58 },
-        { text: "A window where morning will find you first.", start: 0.60, end: 0.68 },
-        { text: "This is what 'home' means, before it means anything else.", start: 0.70, end: 0.78 },
+        { text: "Before it's an address, it's a feeling.", start: 0.00, end: 0.09 },
+        { text: "A place you haven't found yet — but already miss.", start: 0.10, end: 0.19 },
+        { text: "Somewhere, a street is waiting to learn your name.", start: 0.20, end: 0.29 },
+        { text: "The porch light you'll leave on for the people you love.", start: 0.30, end: 0.39 },
+        { text: "A door that will learn the sound of your keys.", start: 0.40, end: 0.49 },
+        { text: "Walls that don't know your laughter yet.", start: 0.50, end: 0.59 },
+        { text: "A window where morning will find you first.", start: 0.60, end: 0.69 },
+        { text: "This is what 'home' means, before it means anything else.", start: 0.70, end: 0.79 },
         { text: "Every homeowner remembers the day it stopped being a house.", start: 0.80, end: 0.88 },
-        { text: "Let's find yours.", start: 0.90, end: 1.00, isFinal: true }
+        { text: "Let's find yours.", start: 0.89, end: 1.00, isFinal: true }
     ];
 
     function pad4(n) {
@@ -50,7 +50,7 @@ function sgcInitScrollHero() {
         // producing the "catch-up" glide instead of instant frame-snapping.
         var targetProgress = 0;
         var smoothedProgress = 0;
-        var SGC_SMOOTHING = 0.15;
+        var SGC_SMOOTHING = 0.10;
         var loopRunning = false;
         var stillFrames = 0;
         var STILLNESS_THRESHOLD = 0.0005;
@@ -218,7 +218,7 @@ function sgcInitScrollHero() {
                     y: -34,
                     scale: 0.97,
                     filter: 'blur(6px)',
-                    duration: 0.55,
+                    duration: 0.70,
                     ease: 'power2.in'
                 });
             }
@@ -229,7 +229,7 @@ function sgcInitScrollHero() {
             gsap.fromTo(
                 caption,
                 { opacity: 0, y: 44, scale: 0.94, filter: 'blur(10px)' },
-                { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' }
+                { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.1, ease: 'power4.out' }
             );
         }
 

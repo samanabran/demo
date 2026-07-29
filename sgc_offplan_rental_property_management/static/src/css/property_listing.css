@@ -135,7 +135,7 @@
 /* Section titles inside cards get a gold hairline rule, matching the
    brief's "architectural gold separators" direction. */
 .o_property_detail .card h3 {
-  font-family: var(--re-font-display, 'Fraunces', Georgia, serif);
+  font-family: var(--re-font-display, 'Gambetta', Georgia, serif);
   font-size: 1.4rem;
   border-bottom: 1px solid var(--re-hairline, rgba(200, 162, 74, 0.28));
   padding-bottom: 14px;
@@ -181,7 +181,7 @@
   border: 1px solid var(--re-hairline, rgba(200, 162, 74, 0.28));
 }
 .o_property_detail .o-inquiry-panel h6 {
-  font-family: var(--re-font-display, 'Fraunces', Georgia, serif);
+  font-family: var(--re-font-display, 'Gambetta', Georgia, serif);
   color: var(--color-primary);
 }
 

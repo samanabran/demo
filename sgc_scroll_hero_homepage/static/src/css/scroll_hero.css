@@ -1,3 +1,6 @@
+/* === Gambetta Font via Fontshare CDN === */
+/* @font-face provided by Fontshare CDN link */
+
 .s_re_scroll_hero {
     position: relative;
     width: 100%;
@@ -30,24 +33,31 @@
     background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.15) 55%, transparent 100%);
 }
 
+/* === Caption: Cream ivory + gold hairline with Gambetta font === */
 .s_re_hero_caption {
     position: absolute;
     left: 50%;
     bottom: 16%;
     transform: translateX(-50%);
-    max-width: 780px;
+    max-width: 820px;
     width: 92%;
     text-align: center;
     opacity: 0;
     pointer-events: none;
-    font-family: 'Fraunces', Georgia, serif;
+    font-family: "Gambetta", Georgia, serif;
     font-weight: 600;
-    font-size: clamp(32px, 5.5vw, 64px);
-    letter-spacing: -0.01em;
-    line-height: 1.25;
-    color: #fff;
-    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.35);
+    font-size: clamp(36px, 6vw, 72px);
+    letter-spacing: 0.02em;
+    line-height: 1.15;
+    color: #F6F2EA;
+    -webkit-text-stroke: 0.75px #C8A24A;
+    text-stroke: 0.75px #C8A24A;
+    text-shadow:
+        0 0 8px rgba(200, 162, 74, 0.20),
+        0 0 20px rgba(200, 162, 74, 0.10),
+        0 4px 24px rgba(0, 0, 0, 0.35);
     z-index: 2;
+    transition: text-shadow 0.3s ease;
 }
 
 /* Design tokens (--re-primary, --re-accent, --re-bg, --re-text,
@@ -65,12 +75,9 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    /* Resting transform for pre-JS paint; GSAP takes over via xPercent/
-       yPercent once the final beat starts driving opacity/scale, and reads
-       this same translate to seed its internal transform cache. */
     transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 900px;
+    width: 94%;
+    max-width: 1180px;
     opacity: 0;
     pointer-events: none;
     z-index: 3;
@@ -82,7 +89,6 @@
     }
 }
 
-/* Pill form: cream background, flex row of segments + button */
 .s_re_hero_search_form {
     display: flex;
     align-items: center;
@@ -106,55 +112,63 @@
     padding: 0 20px;
 }
 
-/* 1px vertical divider between segments */
 .s_re_hero_search_divider {
     flex: 0 0 auto;
     width: 1px;
     height: 32px;
-    background-color: rgba(107, 100, 89, 0.30); /* --re-text-muted @ 30% */
+    background-color: rgba(107, 100, 89, 0.30);
     align-self: center;
 }
 
-/* Lucide icon container — animates in via .ready gate */
 .s_re_hero_search_icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 24px;
     height: 24px;
+    padding: 7px;
+    box-sizing: content-box;
+    border-radius: 50%;
+    background: rgba(200, 162, 74, 0.14);
     flex: 0 0 auto;
-    color: var(--re-text-muted);
-    transition: color 0.25s ease, transform 0.3s ease;
-    animation: re-icon-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
-    animation-play-state: paused;
+    color: var(--re-accent);
+    transition: color 0.25s ease, transform 0.3s ease, background-color 0.25s ease;
+    /* Entrance stagger (paused until .ready) plus a slow, continuous
+       "stand out" glow so the icons keep drawing a little attention
+       instead of going static the moment they've faded in. */
+    animation:
+        re-icon-enter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards,
+        sgc-search-icon-glow 2.6s ease-in-out infinite;
+    animation-play-state: paused, paused;
 }
 
-.s_re_hero_search_segment--location .s_re_hero_search_icon { animation-delay: 0.08s; }
-.s_re_hero_search_segment--type     .s_re_hero_search_icon { animation-delay: 0.16s; }
-.s_re_hero_search_segment--status   .s_re_hero_search_icon { animation-delay: 0.24s; }
-.s_re_hero_search_btn               .s_re_hero_search_icon { animation-delay: 0.32s; }
+.s_re_hero_search_segment--location .s_re_hero_search_icon { animation-delay: 0.08s, 0.08s; }
+.s_re_hero_search_segment--type     .s_re_hero_search_icon { animation-delay: 0.16s, 0.16s; }
+.s_re_hero_search_segment--status   .s_re_hero_search_icon { animation-delay: 0.24s, 0.24s; }
+.s_re_hero_search_segment--budget   .s_re_hero_search_icon { animation-delay: 0.32s, 0.32s; }
+.s_re_hero_search_btn               .s_re_hero_search_icon { animation-delay: 0.40s, 0.40s; }
 
 @keyframes re-icon-enter {
     from { opacity: 0; transform: scale(0.6); }
     to   { opacity: 1; transform: scale(1); }
 }
 
-/* Stagger is gated by a `.ready` class on the wrap; JS adds it when the
-   final-reveal timeline begins (t >= 0.2 inside the final beat). */
-.s_re_hero_search_wrap.ready .s_re_hero_search_icon {
-    animation-play-state: running;
+@keyframes sgc-search-icon-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(200, 162, 74, 0); }
+    50%      { box-shadow: 0 0 0 6px rgba(200, 162, 74, 0.16); }
 }
 
-/* Hover/focus micro-interaction on each segment — icon shifts color
-   to accent and bounces 3px up. */
+.s_re_hero_search_wrap.ready .s_re_hero_search_icon {
+    animation-play-state: running, running;
+}
+
 .s_re_hero_search_segment:hover .s_re_hero_search_icon,
 .s_re_hero_search_segment:focus-within .s_re_hero_search_icon {
-    color: var(--re-accent);
+    color: var(--re-primary);
+    background: var(--re-accent);
     transform: translateY(-3px);
 }
 
-/* Input/select inside a segment — strip Bootstrap chrome so the
-   segment looks like one continuous control. */
 .s_re_hero_search_input,
 .s_re_hero_search_input.form-control,
 .s_re_hero_search_input.form-select {
@@ -174,8 +188,7 @@
 }
 
 .s_re_hero_search_input.form-select {
-    background-image: none; /* hide the default Bootstrap select chevron;
-                               the icon we already injected serves that role. */
+    background-image: none;
 }
 
 .s_re_hero_search_input::placeholder {
@@ -187,8 +200,6 @@
     outline: none;
 }
 
-/* CTA button — gold pill, white-space: nowrap so "Search Properties"
-   never wraps and the form's perceived center stays put. */
 .s_re_hero_search_btn {
     flex: 0 0 auto;
     display: inline-flex;
@@ -200,8 +211,6 @@
     border: none;
     border-radius: 999px;
     background-color: var(--re-accent);
-    /* Navy, not white: white-on-gold at this size/weight is 2.41:1, below
-       WCAG AA's 4.5:1 for normal text. Navy-on-gold is 6.51:1. */
     color: var(--re-primary);
     font-family: var(--re-font-body);
     font-weight: 600;
@@ -214,19 +223,15 @@
 }
 
 .s_re_hero_search_btn:hover {
-    background-color: #B6902F;        /* accent @ 85%, blended toward black */
+    background-color: #B6902F;
     transform: translateY(-1px);
     box-shadow: 0 8px 20px rgba(200, 162, 74, 0.45);
 }
 
 .s_re_hero_search_btn .s_re_hero_search_icon {
     color: currentColor;
-    /* button icon begins at full size, no extra transform */
 }
 
-/* Tablet — keep one row only if it still fits; otherwise stack the two
-   selects below the location segment. Single inline-flex-with-wrap form
-   allows this without a media-query class swap on the JS side. */
 @media (max-width: 991.98px) {
     .s_re_hero_search_form {
         flex-wrap: wrap;
@@ -243,6 +248,11 @@
         flex: 1 1 calc(50% - 16px);
         padding: 12px 12px;
     }
+    .s_re_hero_search_segment--budget {
+        flex: 1 1 100%;
+        padding: 12px 12px;
+        border-top: 1px solid rgba(107, 100, 89, 0.20);
+    }
     .s_re_hero_search_divider { display: none; }
     .s_re_hero_search_btn {
         flex: 1 1 100%;
@@ -250,16 +260,12 @@
     }
 }
 
-/* Mobile — shrink icons; button label steps down. Input font-size stays at
-   16px (not smaller) — anything below that triggers iOS Safari's
-   auto-zoom-on-focus, which yanks the layout the moment a field is tapped. */
 @media (max-width: 575.98px) {
     .s_re_hero_search_icon { width: 20px; height: 20px; }
     .s_re_hero_search_icon svg { width: 20px; height: 20px; }
     .s_re_hero_search_btn { font-size: 14px; min-width: 0; padding: 0 24px; }
 }
 
-/* Reduced motion — kill icon stagger, keep everything fully visible. */
 @media (prefers-reduced-motion: reduce) {
     .s_re_hero_search_icon {
         animation: none;
@@ -307,9 +313,6 @@
     transition: opacity 0.25s ease;
 }
 
-/* Faded out via JS once eager frames finish loading, instead of an
-   instant display:none cut - the abrupt full-black-to-scene swap read
-   as a background/content "flicker" on every homepage load. */
 .s_re_hero_loading.s_re_hero_loading_done {
     opacity: 0;
     pointer-events: none;
@@ -319,15 +322,12 @@
     .s_re_scroll_hero {
         height: 100vh;
     }
-
     .s_re_hero_stage {
         position: relative;
     }
-
     .s_re_hero_scroll_hint {
         display: none;
     }
-
     .s_re_hero_caption {
         opacity: 1;
     }

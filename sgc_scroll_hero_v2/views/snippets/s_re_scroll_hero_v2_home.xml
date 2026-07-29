@@ -50,13 +50,6 @@
               });
             });
           }
-          if (!document.querySelector('link[data-sgc-font="fraunces"]')) {
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.setAttribute('data-sgc-font', 'fraunces');
-            link.href = 'https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&amp;display=swap';
-            document.head.appendChild(link);
-          }
         })();
       </script>
 
@@ -66,6 +59,13 @@
         <div class="s_re_hero_overlay_final_v2" aria-hidden="true"/>
 
         <div class="s_re_hero_caption_v2" role="status" aria-live="polite"/>
+
+        <!-- Decorative connector bridging the caption and the search bar
+             below it, so the reveal never reads as two disconnected
+             elements floating with dead space between them. -->
+        <div class="s_re_hero_reveal_divider" aria-hidden="true">
+          <span class="s_re_hero_reveal_divider_dot"></span>
+        </div>
 
         <div class="s_re_hero_search_wrap">
           <form method="get" action="/offplan/properties" class="s_re_hero_search_form" aria-label="Property search">
@@ -105,6 +105,23 @@
                 <option value="rented">Rented</option>
                 <option value="under_maintenance">Under Maintenance</option>
               </select>
+            </div>
+
+            <span class="s_re_hero_search_divider" aria-hidden="true"></span>
+
+            <div class="s_re_hero_search_segment s_re_hero_search_segment--budget">
+              <span class="s_re_hero_search_icon" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </span>
+              <select name="budget" class="form-select s_re_hero_search_input s_re_hero_search_budget" aria-label="Budget" tabindex="-1">
+                <option value="">Any budget</option>
+                <option value="0-1000000">Up to AED 1M</option>
+                <option value="1000000-3000000">AED 1M - 3M</option>
+                <option value="3000000-5000000">AED 3M - 5M</option>
+                <option value="5000000-">AED 5M+</option>
+              </select>
+              <input type="hidden" name="min_price"/>
+              <input type="hidden" name="max_price"/>
             </div>
 
             <button type="submit" class="s_re_hero_search_btn" tabindex="-1">
