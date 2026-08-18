@@ -348,6 +348,11 @@
                                 <field name="owner_noc_date"/>
                                 <field name="owner_noc_document"/>
                             </group>
+                            <group string="UAE Reference Numbers">
+                                <field name="title_deed_number"/>
+                                <field name="makani_number"/>
+                                <field name="dewa_premises_number"/>
+                            </group>
                             <group string="Portal Readiness">
                                 <field name="portal_ready" widget="badge"/>
                                 <field name="portal_compliance_errors" nolabel="1" readonly="1" colspan="2"/>

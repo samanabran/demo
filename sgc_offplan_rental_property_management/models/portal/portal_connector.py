@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+import logging
 import secrets
+
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
+
+from . import inbound_feed_service
+
+_logger = logging.getLogger(__name__)
 
 
 class PortalConnector(models.Model):
@@ -62,6 +68,23 @@ class PortalConnector(models.Model):
     api_secret = fields.Char(groups="sgc_offplan_rental_property_management.group_portal_admin")
     api_endpoint = fields.Char()
 
+    # Inbound feed configuration
+    inbound_feed_url = fields.Char(
+        string="Inbound Feed URL",
+        groups="sgc_offplan_rental_property_management.group_portal_admin",
+        help="URL to fetch XML feed from this portal (for Bayut/Dubizzle property imports)"
+    )
+    inbound_feed_username = fields.Char(
+        string="Inbound Feed Username",
+        groups="sgc_offplan_rental_property_management.group_portal_admin",
+        help="Username for inbound feed authentication (if required)"
+    )
+    inbound_feed_password = fields.Char(
+        string="Inbound Feed Password",
+        groups="sgc_offplan_rental_property_management.group_portal_admin",
+        help="Password for inbound feed authentication (if required)"
+    )
+
     last_sync_date = fields.Datetime(readonly=True, tracking=True)
     last_sync_status = fields.Selection(
         [
@@ -106,3 +129,110 @@ class PortalConnector(models.Model):
         for record in self:
             if record.xml_feed_token and len(record.xml_feed_token) < 16:
                 raise ValidationError(_("Feed token is too short."))
+
+    @api.model
+    def process_inbound_feeds(self):
+        """Process inbound feeds for all portals that have an inbound_feed_url.
+
+        Called by the scheduled cron job (ir_cron_process_all_inbound_feeds
+        in data/ir_cron_feed_ingest.xml). Delegates the actual fetch + parse
+        + record-creation work to inbound_feed_service so the controller and
+        cron share the same code path.
+        """
+        _logger.info("Starting inbound feed processing cron job")
+
+        env = self.env
+        portals_with_feeds = self.sudo().search([
+            ("inbound_feed_url", "!=", False),
+            ("active", "=", True),
+        ])
+
+        _logger.info(
+            "Found %d portals with inbound feeds configured",
+            len(portals_with_feeds),
+        )
+
+        total_created = 0
+        total_updated = 0
+        total_errors = 0
+
+        for portal in portals_with_feeds:
+            try:
+                _logger.info(
+                    "Processing inbound feed for portal: %s (%s)",
+                    portal.name, portal.code,
+                )
+
+                feed_xml = inbound_feed_service.fetch_feed_xml(
+                    env,
+                    portal.inbound_feed_url,
+                    portal.inbound_feed_username,
+                    portal.inbound_feed_password,
+                )
+                created, updated, errors = (
+                    inbound_feed_service.process_feed_properties(
+                        env, portal, feed_xml,
+                    )
+                )
+
+                total_created += created
+                total_updated += updated
+                total_errors += len(errors)
+
+                portal.sudo().write({
+                    "last_sync_date": fields.Datetime.now(),
+                    "last_sync_status": (
+                        "success" if not errors else "partial"
+                    ),
+                    "last_sync_message": (
+                        "Processed {} new, {} updated properties. "
+                        "{} errors.".format(
+                            created, updated, len(errors),
+                        )
+                    ),
+                })
+                env["portal.sync.log"].sudo().create({
+                    "portal_id": portal.id,
+                    "status": "success" if not errors else "partial",
+                    "created_count": created,
+                    "updated_count": updated,
+                    "failed_count": len(errors),
+                    "message": (
+                        "Cron feed ingest: {} new, {} updated, "
+                        "{} errors".format(
+                            created, updated, len(errors),
+                        )
+                    ),
+                })
+            except Exception as e:  # noqa: BLE001
+                _logger.exception(
+                    "Error processing feed for portal %s: %s",
+                    portal.code, e,
+                )
+                portal.sudo().write({
+                    "last_sync_date": fields.Datetime.now(),
+                    "last_sync_status": "failed",
+                    "last_sync_message": "Feed ingestion failed: {}".format(e),
+                })
+                env["portal.sync.log"].sudo().create({
+                    "portal_id": portal.id,
+                    "status": "failed",
+                    "failed_count": 1,
+                    "message": "Cron feed ingestion failed: {}".format(e),
+                })
+                total_errors += 1
+
+        _logger.info(
+            "Inbound feed processing completed. Created: %d, Updated: %d, "
+            "Errors: %d", total_created, total_updated, total_errors,
+        )
+        return {
+            "created": total_created,
+            "updated": total_updated,
+            "errors": total_errors,
+        }
+
+    @api.model
+    def process_all_inbound_feeds(self):
+        """Alias for process_inbound_feeds — kept for cron compatibility."""
+        return self.process_inbound_feeds()

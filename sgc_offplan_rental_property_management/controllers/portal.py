@@ -2,20 +2,16 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 import base64
 import io
-import logging
-
 import xlsxwriter
 
 from odoo import http, _
 from odoo.http import request
 from odoo.exceptions import ValidationError
 
-_logger = logging.getLogger(__name__)
-
 
 class CustomerPortal(http.Controller):
 
-    # ── My Properties ─────────────────────────────────────────────────────
+    # ── My Properties ─────────────────────────────────────────────────
 
     @http.route(['/my/properties'], type='http', auth='user', website=True)
     def portal_my_properties(self, **kwargs):
@@ -24,7 +20,7 @@ class CustomerPortal(http.Controller):
         partner = user.partner_id
         properties = request.env['property.details'].sudo().search([
             '|', ('owner_id', '=', partner.id),
-                 ('landlord_id', '=', partner.id),
+                  ('landlord_id', '=', partner.id),
         ])
         # Also find properties via contracts
         sale_contracts = request.env['sale.contract'].sudo().search([
@@ -45,11 +41,24 @@ class CustomerPortal(http.Controller):
                 list(contract_property_ids)
             )
             properties = (properties + extra)
+        
+        # Get tenancy details and vendor bookings for the user's properties
+        # for display in the property detail tabs (legacy models)
+        property_ids = properties.ids
+        tenancy_details = request.env['tenancy.details'].sudo().search([
+            ('property_id', 'in', property_ids)
+        ]) if property_ids else request.env['tenancy.details']
+        vendor_bookings = request.env['property.vendor'].sudo().search([
+            ('property_id', 'in', property_ids)
+        ]) if property_ids else request.env['property.vendor']
+        
         return request.render(
             'sgc_offplan_rental_property_management.portal_my_properties', {
                 'properties': properties,
                 'sale_contracts': sale_contracts,
                 'rent_contracts': rent_contracts,
+                'tenancy_details': tenancy_details,
+                'vendor_bookings': vendor_bookings,
                 'page_name': 'my_properties',
             }
         )
@@ -132,10 +141,31 @@ class CustomerPortal(http.Controller):
         rent_contracts = request.env['rent.contract'].sudo().search([
             ('tenant_id', '=', partner.id),
         ])
+        
+        # Get property IDs for the contracts to fetch related tenancy details and vendor bookings
+        property_ids = set()
+        for c in sale_contracts:
+            if c.property_id:
+                property_ids.add(c.property_id.id)
+        for c in rent_contracts:
+            if c.property_id:
+                property_ids.add(c.property_id.id)
+        
+        # Get tenancy details and vendor bookings for the user's contracted properties
+        # for display in the contract detail tabs (legacy models)
+        tenancy_details = request.env['tenancy.details'].sudo().search([
+            ('property_id', 'in', list(property_ids))
+        ]) if property_ids else request.env['tenancy.details']
+        vendor_bookings = request.env['property.vendor'].sudo().search([
+            ('property_id', 'in', list(property_ids))
+        ]) if property_ids else request.env['property.vendor']
+        
         return request.render(
             'sgc_offplan_rental_property_management.portal_my_contracts', {
                 'sale_contracts': sale_contracts,
                 'rent_contracts': rent_contracts,
+                'tenancy_details': tenancy_details,
+                'vendor_bookings': vendor_bookings,
                 'page_name': 'my_contracts',
             }
         )
@@ -191,8 +221,11 @@ class CustomerPortal(http.Controller):
         """Invoice detail with payment link."""
         partner = request.env.user.partner_id
         invoice = request.env['account.move'].sudo().browse(invoice_id)
-        if not invoice.exists() or invoice.partner_id.id != partner.id:
-            return request.render('website.page_404')
+        if not invoice.exists():
+            return request.not_found()
+        ids_equal = invoice.partner_id.id == partner.id
+        if not ids_equal:
+            return request.not_found()
         return request.render(
             'sgc_offplan_rental_property_management.portal_my_invoice_detail', {
                 'invoice': invoice,

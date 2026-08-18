@@ -14,6 +14,37 @@ class PropertyDetails(models.Model):
     )
     portal_line_count = fields.Integer(compute="_compute_portal_counts")
     portal_lead_count = fields.Integer(compute="_compute_portal_counts")
+    is_feed_sourced = fields.Boolean(
+        string="Feed Sourced",
+        compute="_compute_feed_source",
+        store=True,
+        help="True when this property was created or last updated from an "
+             "inbound XML feed (e.g. Bayut, Dubizzle).",
+    )
+    feed_source_portal_ids = fields.Many2many(
+        "portal.connector",
+        string="Feed Source Portals",
+        compute="_compute_feed_source",
+        help="Portals whose inbound XML feed created or updated this property.",
+    )
+    feed_source_label = fields.Char(
+        string="Feed Source Label",
+        compute="_compute_feed_source",
+        help="Human-readable label for the feed source, e.g. 'Bayut' or "
+             "'Bayut, Dubizzle'. Used in the frontend indicator badge.",
+    )
+
+    @api.depends("portal_line_ids.external_id", "portal_line_ids.portal_id")
+    def _compute_feed_source(self):
+        for rec in self:
+            feed_lines = rec.portal_line_ids.filtered("external_id")
+            portal_ids = feed_lines.portal_id
+            rec.is_feed_sourced = bool(portal_ids)
+            rec.feed_source_portal_ids = [(6, 0, portal_ids.ids)]
+            names = portal_ids.mapped("name")
+            rec.feed_source_label = (
+                ", ".join(sorted(names)) if names else False
+            )
 
     @api.depends("portal_line_ids")
     def _compute_portal_counts(self):
@@ -28,7 +59,7 @@ class PropertyDetails(models.Model):
             )
             for property_rec, count in lead_data:
                 lead_counts[property_rec.id] = count
-        
+
         for rec in self:
             rec.portal_line_count = len(rec.portal_line_ids)
             rec.portal_lead_count = lead_counts.get(rec.id, 0)
