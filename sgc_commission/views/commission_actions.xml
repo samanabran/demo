@@ -5,10 +5,13 @@
         <field name="name">commission.line.tree</field>
         <field name="model">commission.line</field>
         <field name="arch" type="xml">
-            <list>
+            <list editable="bottom">
                 <field name="sale_order_id"/>
                 <field name="partner_id"/>
+                <field name="commission_rate"/>
+                <field name="base_amount"/>
                 <field name="commission_amount"/>
+                <field name="currency_id" invisible="1"/>
                 <field name="source_invoice_id"/>
                 <field name="state"/>
             </list>
