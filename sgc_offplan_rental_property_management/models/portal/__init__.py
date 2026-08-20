@@ -6,3 +6,4 @@ from . import property_portal_line
 from . import res_config_settings
 from . import xml_feed_config
 from . import inbound_feed_service
+from . import rapidapi_market_data_service

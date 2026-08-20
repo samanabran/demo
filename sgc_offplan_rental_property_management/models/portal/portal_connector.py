@@ -6,6 +6,7 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 from . import inbound_feed_service
+from . import rapidapi_market_data_service
 
 _logger = logging.getLogger(__name__)
 
@@ -64,9 +65,15 @@ class PortalConnector(models.Model):
         help="Contains the feed token in the query string. Keep this confidential.",
     )
 
-    api_key = fields.Char(groups="sgc_offplan_rental_property_management.group_portal_admin")
+    api_key = fields.Char(
+        groups="sgc_offplan_rental_property_management.group_portal_admin",
+        help="RapidAPI key (x-rapidapi-key) used by the 'Test RapidAPI Connection' button.",
+    )
     api_secret = fields.Char(groups="sgc_offplan_rental_property_management.group_portal_admin")
-    api_endpoint = fields.Char()
+    api_endpoint = fields.Char(
+        help="RapidAPI host (x-rapidapi-host), e.g. uae-real-estate3.p.rapidapi.com. "
+             "Leave blank to use the default host for this portal's code.",
+    )
 
     # Inbound feed configuration
     inbound_feed_url = fields.Char(
@@ -236,3 +243,42 @@ class PortalConnector(models.Model):
     def process_all_inbound_feeds(self):
         """Alias for process_inbound_feeds — kept for cron compatibility."""
         return self.process_inbound_feeds()
+
+    def action_test_rapidapi_connection(self):
+        """Fire a minimal smoke-test request at the RapidAPI host configured
+        for this connector (api_endpoint) using api_key, and report the
+        result as a notification + portal.sync.log entry.
+
+        This checks reachability of the RapidAPI market-data API for this
+        portal code. It is independent of the XML feed sync above — Bayut/
+        Dubizzle/Property Finder syndication still goes through
+        inbound_feed_url, not this key.
+        """
+        self.ensure_one()
+        result = rapidapi_market_data_service.test_connection(
+            self.code, self.api_key, self.api_endpoint,
+        )
+
+        self.write({
+            "last_sync_date": fields.Datetime.now(),
+            "last_sync_status": "success" if result["ok"] else "failed",
+            "last_sync_message": "RapidAPI test ({}): {}".format(
+                result["status_code"], result["message"],
+            ),
+        })
+        self.env["portal.sync.log"].create({
+            "portal_id": self.id,
+            "status": "success" if result["ok"] else "failed",
+            "message": "RapidAPI connectivity test: {}".format(result["message"]),
+        })
+
+        return {
+            "type": "ir.actions.client",
+            "tag": "display_notification",
+            "params": {
+                "title": _("RapidAPI Connection OK") if result["ok"] else _("RapidAPI Connection Failed"),
+                "message": result["message"],
+                "type": "success" if result["ok"] else "danger",
+                "sticky": not result["ok"],
+            },
+        }
