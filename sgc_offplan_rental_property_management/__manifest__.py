@@ -24,7 +24,7 @@
         - Public rental website with search, filtering, and inquiry capture
     """,
     "summary": "Property Sale & Management with Portal Syndication and Public Website",
-    "version": "19.0.2.30",
+    "version": "19.0.2.31",
     "author": "SGC TECH AI",
     "company": "SGC TECH AI",
     "maintainer": "SGC TECH AI",

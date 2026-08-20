@@ -162,6 +162,7 @@
                 <field name="is_published_portal" invisible="1"/>
                 <field name="maintenance_count" invisible="1"/>
                 <field name="document_count" invisible="1"/>
+                <field name="website_inquiry_count" invisible="1"/>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_sale_contracts"
@@ -187,6 +188,11 @@
                                 class="oe_stat_button" icon="fa-folder"
                                 invisible="document_count &lt;= 0">
                             <field name="document_count" widget="statinfo" string="Documents"/>
+                        </button>
+                        <button name="action_view_website_inquiries" type="object"
+                                class="oe_stat_button" icon="fa-envelope-o"
+                                invisible="website_inquiry_count &lt;= 0">
+                            <field name="website_inquiry_count" widget="statinfo" string="Website Inquiries"/>
                         </button>
                         <button name="action_open_rera_form_a" type="object"
                                 class="oe_stat_button" icon="fa-file-text-o"
