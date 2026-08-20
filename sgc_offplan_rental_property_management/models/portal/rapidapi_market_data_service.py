@@ -90,6 +90,10 @@ def test_connection(portal_code, api_key, api_endpoint=None):
     req.add_header("x-rapidapi-key", api_key)
     if data is not None:
         req.add_header("Content-Type", "application/json")
+    # RapidAPI's edge (Cloudflare) blocks Python's default urllib UA as a
+    # bot signature — without this every request 403s before it even
+    # reaches RapidAPI's own auth/subscription check.
+    req.add_header("User-Agent", "curl/8.0")
 
     try:
         with urlopen(req, timeout=_HTTP_TIMEOUT) as response:
@@ -126,22 +130,26 @@ def _interpret_response(status_code, raw_body):
     """
     body_snippet = raw_body[:300]
 
-    if status_code == 403:
-        return False, "Not subscribed to this API on RapidAPI: {}".format(body_snippet)
-    if status_code == 404:
-        return False, "Endpoint not found (wrong host/path): {}".format(body_snippet)
-    if status_code == 401:
-        return False, "Unauthorized (invalid/missing key): {}".format(body_snippet)
-
     try:
         parsed = json.loads(raw_body)
     except (ValueError, TypeError):
         parsed = None
 
-    if isinstance(parsed, dict) and parsed.get("status_code") == 401:
-        return False, "API rejected the key (401 in response body): {}".format(body_snippet)
+    # Check RapidAPI's own known error shapes first — these are specific
+    # and reliable regardless of HTTP status code.
     if isinstance(parsed, dict) and parsed.get("message") == "You are not subscribed to this API.":
         return False, "Not subscribed to this API on RapidAPI."
+    if isinstance(parsed, dict) and parsed.get("status_code") == 401:
+        return False, "API rejected the key (401 in response body): {}".format(body_snippet)
+
+    if status_code == 404:
+        return False, "Endpoint not found (wrong host/path): {}".format(body_snippet)
+    if status_code == 401:
+        return False, "Unauthorized (invalid/missing key): {}".format(body_snippet)
+    if status_code == 403:
+        # 403 alone is ambiguous: RapidAPI subscription block and Cloudflare
+        # edge block both use it. Surface the raw body instead of guessing.
+        return False, "HTTP 403 Forbidden: {}".format(body_snippet)
 
     if status_code and 200 <= status_code < 300:
         return True, "Reachable, key accepted. Sample response: {}".format(body_snippet)
