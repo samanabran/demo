@@ -119,8 +119,11 @@ def main():
 
             def click_publish():
                 btn = page.locator('button:has-text("Publish")').first
-                btn.click()
-                page.wait_for_timeout(2500)
+                if btn.count() > 0:
+                    btn.click()
+                    page.wait_for_timeout(2500)
+                else:
+                    print("[already published, skipping] ", end="")
             step(page, "6-click-publish", click_publish)
 
             step(page, "7-published-state", lambda: page.wait_for_timeout(1000))
@@ -131,7 +134,7 @@ def main():
             ))
 
             def search_listing():
-                box = page.locator('input[name="search"]').first
+                box = page.locator('form.search-box input[name="search"]').first
                 box.click()
                 box.fill(SEARCH_TERM)
                 page.locator('form.search-box button[type="submit"]').first.click()
