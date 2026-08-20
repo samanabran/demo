@@ -1,6 +1,6 @@
 {
     "name": "SGC - Commission",
-    "version": "19.0.4.0",
+    "version": "19.0.5.0",
     "category": "Sales",
     "summary": "Professional commission management with full workflow and analytics",
     "description": """
@@ -83,10 +83,8 @@ This module installs cleanly with all core dependencies included.
         "views/res_partner_views.xml",  # ✅ Partner extensions
         "views/account_move_line_views.xml",  # ✅ Vendor bill line commission details
         # ============================================
-        # STEP 5: Advanced Views (4 wizard files)
+        # STEP 5: Advanced Views (reporting wizards)
         # ============================================
-        "views/commission_cancel_wizard_views.xml",  # ✅ Cancel Wizard
-        "views/commission_payment_wizard_views.xml",  # ✅ Payment Wizard
         "views/commission_partner_statement_wizard_views.xml",  # ✅ Statement Wizard
         "views/commission_profit_analysis_wizard_views.xml",  # ✅ Analysis Wizard
         # ============================================

@@ -84,3 +84,12 @@ class SaleOrder(models.Model):
             if line.state == 'draft':
                 line.state = 'calculated'
         return True
+
+    def _generate_commissions_from_invoice(self, invoice):
+        """Automation entry point, called when a customer invoice of this
+        order is posted. Draft commission lines become 'calculated' and
+        record the source invoice, which later gates commission bill posting
+        on the invoice being paid."""
+        lines = self.commission_line_ids.filtered(lambda l: l.state == 'draft')
+        if lines:
+            lines.write({'state': 'calculated', 'source_invoice_id': invoice.id})

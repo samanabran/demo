@@ -7,5 +7,32 @@
         <delete model="ir.ui.view" search="[('name', '=', 'commission.performance.report.form')]"/>
         <delete model="ir.ui.view" search="[('name', '=', 'commission.alert.tree')]"/>
         <delete model="ir.ui.view" search="[('name', '=', 'commission.alert.form')]"/>
+
+        <!-- Clean up obsolete wizard views/actions (payment + cancel wizards
+             were removed in favor of direct bill generation; bulk payment
+             wizard model never existed in code) -->
+        <delete model="ir.ui.view" search="[('name', 'in', [
+            'commission.payment.wizard.form',
+            'commission.bulk.payment.wizard.form',
+            'commission.cancel.wizard.form',
+        ])]"/>
+        <delete model="ir.actions.act_window" search="[('name', '=', 'Record Commission Payment')]"/>
+        <delete model="ir.actions.act_window" search="[('name', '=', 'Bulk Commission Payment')]"/>
+        <delete model="ir.actions.server" search="[('name', '=', 'Bulk Payment')]"/>
+
+        <!-- Remove duplicate "Commission Lines" menus (previously nested under
+             Sales > Commissions) and the Deals root-level "Commissions" menu;
+             a single Sales > Commissions entry remains -->
+        <delete model="ir.ui.menu" search="[('name', '=', 'Commission Lines'), ('parent_id', '!=', False)]"/>
+        <delete model="ir.ui.menu" search="[('name', '=', 'Commissions'), ('parent_id', '=', False)]"/>
+
+        <!-- Remove broken commission crons (they call methods that were never
+             implemented; the PO workflow they drove was removed) -->
+        <delete model="ir.cron" search="[('name', 'in', [
+            'Check Commission Purchase Orders',
+            'Commission: Update Payment Status',
+            'Commission: Send Overdue Notifications',
+            'Commission: Update Aging Categories',
+        ])]"/>
     </data>
 </odoo>

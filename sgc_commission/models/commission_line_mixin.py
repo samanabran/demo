@@ -164,9 +164,14 @@ class CommissionLineMixin(models.AbstractModel):
         # records in an editable list.
         for line in self:
             line.commission_amount = line._calc_amount()
-        dependents = self.search([('base_line_id', 'in', self.ids)]) - self
-        if dependents:
-            dependents._set_commission_amounts()
+        # The self-referencing base_line_id cascade field only exists on
+        # concrete models that declare it (e.g. property.commission.line).
+        # Models without it (commission.line) must skip the dependents
+        # search entirely — searching a non-existent field raises.
+        if 'base_line_id' in self._fields:
+            dependents = self.search([('base_line_id', 'in', self.ids)]) - self
+            if dependents:
+                dependents._set_commission_amounts()
 
     @api.depends('commission_amount', 'tax_ids')
     def _compute_amount_total(self):
@@ -255,6 +260,27 @@ class CommissionLineMixin(models.AbstractModel):
         self.ensure_one()
         return self.partner_id
 
+    def _get_billable_lines(self):
+        """Return the subset of lines eligible for bill generation. Concrete
+        models with extended state workflows override this to bill from their
+        own billable states."""
+        return self.filtered(lambda l: l.state == 'approved' and not l.bill_id)
+
+    def _get_bill_line_vals(self, line, contract):
+        """Return the account.move.line dict for a billable commission line.
+        Concrete models override to carry their own id onto the bill line."""
+        return {
+            'name': _('%s - %s') % (contract.display_name, line.display_name),
+            'quantity': 1,
+            'price_unit': line.commission_amount,
+            'tax_ids': [(6, 0, line.tax_ids.ids)],
+        }
+
+    def _no_billable_message(self):
+        """Error shown when no billable lines matched. Concrete models with
+        different billable states override for an accurate message."""
+        return _('No approved, unbilled commission lines to process.')
+
     def _check_commission_eligible(self):
         """Override in concrete models: raise UserError if the parent
         contract hasn't met its eligibility rule yet. No-op by default."""
@@ -272,9 +298,9 @@ class CommissionLineMixin(models.AbstractModel):
         return self._generate_bills(post=True)
 
     def _generate_bills(self, post=False):
-        billable = self.filtered(lambda l: l.state == 'approved' and not l.bill_id)
+        billable = self._get_billable_lines()
         if not billable:
-            raise UserError(_('No approved, unbilled commission lines to process.'))
+            raise UserError(self._no_billable_message())
         billable._check_commission_eligible()
 
         AccountMove = self.env['account.move']
@@ -286,12 +312,7 @@ class CommissionLineMixin(models.AbstractModel):
 
         for (partner_id, move_type), lines in groups.items():
             contract = lines[0]._get_parent_contract()
-            move_lines = [(0, 0, {
-                'name': _('%s - %s') % (contract.display_name, line.display_name),
-                'quantity': 1,
-                'price_unit': line.commission_amount,
-                'tax_ids': [(6, 0, line.tax_ids.ids)],
-            }) for line in lines]
+            move_lines = [(0, 0, self._get_bill_line_vals(line, contract)) for line in lines]
             move = AccountMove.create({
                 'move_type': move_type,
                 'partner_id': partner_id,

@@ -9,6 +9,7 @@
                 <field name="sale_order_id"/>
                 <field name="partner_id"/>
                 <field name="commission_amount"/>
+                <field name="source_invoice_id"/>
                 <field name="state"/>
             </list>
         </field>
@@ -19,6 +20,18 @@
         <field name="model">commission.line</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button name="action_mark_calculated" string="Process" type="object"
+                            invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_confirm" string="Confirm" type="object"
+                            invisible="state != 'calculated'" class="btn-primary"/>
+                    <button name="action_generate_bill" string="Generate Bill" type="object"
+                            invisible="state not in ('calculated', 'confirmed')" class="btn-primary"
+                            help="Generates and posts the commission bill. The bill can only be posted once the related customer invoice is fully paid."/>
+                    <button name="action_view_bill" string="View Bill" type="object"
+                            invisible="state not in ('processed', 'paid')"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
                 <sheet>
                     <group>
                         <field name="sale_order_id"/>
@@ -27,7 +40,8 @@
                         <field name="commission_rate"/>
                         <field name="base_amount"/>
                         <field name="commission_amount"/>
-                        <field name="state"/>
+                        <field name="source_invoice_id"/>
+                        <field name="bill_id"/>
                     </group>
                 </sheet>
             </form>
