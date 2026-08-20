@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ================= Health check ================= -->
+    <record id="view_sgc_ces_health_wizard_form" model="ir.ui.view">
+        <field name="name">sgc.ces.health.wizard.form</field>
+        <field name="model">sgc.ces.health.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Configuration Health">
+                <field name="has_errors" invisible="1"/>
+                <div class="alert alert-danger" role="alert" invisible="not has_errors">
+                    At least one blocking configuration error was found.
+                </div>
+                <field name="report" nolabel="1" readonly="1"/>
+                <footer>
+                    <button name="action_refresh" type="object" string="Refresh"
+                            class="btn-primary"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sgc_ces_health_wizard" model="ir.actions.act_window">
+        <field name="name">Configuration Health</field>
+        <field name="res_model">sgc.ces.health.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- ================= Review wizard ================= -->
+    <record id="view_sgc_ces_review_wizard_form" model="ir.ui.view">
+        <field name="name">sgc.ces.review.wizard.form</field>
+        <field name="model">sgc.ces.review.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Gate Review">
+                <field name="review_id" invisible="1"/>
+                <field name="summary" nolabel="1" readonly="1"/>
+                <group>
+                    <field name="decision"/>
+                    <field name="new_due_date" invisible="decision != 'extend'"
+                           required="decision == 'extend'"/>
+                    <field name="decision_notes"
+                           required="decision in ('fail','extend')"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Submit decision"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sgc_ces_review_wizard" model="ir.actions.act_window">
+        <field name="name">Review Gate</field>
+        <field name="res_model">sgc.ces.review.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_sgc_ces_gate_review"/>
+        <field name="binding_view_types">list,form</field>
+    </record>
+
+    <!-- ================= Target adjustment wizard ================= -->
+    <record id="view_sgc_ces_consideration_wizard_form" model="ir.ui.view">
+        <field name="name">sgc.ces.consideration.wizard.form</field>
+        <field name="model">sgc.ces.consideration.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Adjust a Target">
+                <group>
+                    <field name="instance_id" readonly="1"/>
+                    <field name="requirement_result_id"/>
+                    <field name="adjusted_target"/>
+                    <field name="reason"/>
+                    <field name="approve_now"/>
+                </group>
+                <div class="alert alert-info" role="alert">
+                    Additive: the original target is never overwritten.
+                </div>
+                <footer>
+                    <button name="action_confirm" type="object" string="Create"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sgc_ces_consideration_wizard" model="ir.actions.act_window">
+        <field name="name">Adjust a Target</field>
+        <field name="res_model">sgc.ces.consideration.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- ================= Extension wizard ================= -->
+    <record id="view_sgc_ces_extension_wizard_form" model="ir.ui.view">
+        <field name="name">sgc.ces.extension.wizard.form</field>
+        <field name="model">sgc.ces.extension.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Grant an Extension">
+                <group>
+                    <field name="instance_id" readonly="1"/>
+                    <field name="original_due_date"/>
+                    <field name="new_due_date"/>
+                    <field name="reason"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" type="object" string="Grant"
+                            class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sgc_ces_extension_wizard" model="ir.actions.act_window">
+        <field name="name">Grant an Extension</field>
+        <field name="res_model">sgc.ces.extension.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- ================= Preview wizard ================= -->
+    <record id="view_sgc_ces_preview_wizard_form" model="ir.ui.view">
+        <field name="name">sgc.ces.preview.wizard.form</field>
+        <field name="model">sgc.ces.preview.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Preview Schedule">
+                <group>
+                    <field name="plan_id"/>
+                    <field name="employee_id"/>
+                    <field name="anchor_date" readonly="1"/>
+                </group>
+                <field name="preview" nolabel="1" readonly="1"/>
+                <footer>
+                    <button name="action_refresh" type="object" string="Refresh"
+                            class="btn-primary"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sgc_ces_preview_wizard" model="ir.actions.act_window">
+        <field name="name">Preview Schedule</field>
+        <field name="res_model">sgc.ces.preview.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
