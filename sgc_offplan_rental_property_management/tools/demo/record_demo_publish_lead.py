@@ -25,7 +25,7 @@ VIDEOS_DIR.mkdir(exist_ok=True)
 
 PROPERTY_ID = 9
 PROPERTY_NAME = "Palm Jumeirah Residences - Unit 507"
-SEARCH_TERM = "Palm Jumeirah"
+SEARCH_TERM = "Unit 507"
 
 LEAD = {
     "name": "Ahmed Al Farsi",
@@ -142,7 +142,7 @@ def main():
             step(page, "9-search-listing", search_listing)
 
             def open_detail():
-                card = page.locator(f'a:has-text("View Details")').first
+                card = page.locator(f'a[href="/offplan/property/{PROPERTY_ID}"]').first
                 card.click()
                 page.wait_for_timeout(2500)
             step(page, "10-open-listing-detail", open_detail)
