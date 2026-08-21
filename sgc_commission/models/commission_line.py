@@ -86,6 +86,7 @@ class CommissionLine(models.Model):
                  'commission_type_id.calculation_method',
                  'commission_type_id.default_rate',
                  'commission_rate')
+    @api.depends('base_amount', 'commission_rate', 'commission_percentage', 'commission_fixed_amount', 'computation_type')
     def _compute_commission_amount(self):
         """Sale-order-aware computation. Populates base_amount from the Sale
         Order per the Commission Type's calculation base, syncs the mixin
