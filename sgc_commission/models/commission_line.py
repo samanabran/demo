@@ -218,3 +218,27 @@ class CommissionLine(models.Model):
             if line.state == 'calculated':
                 line.state = 'confirmed'
         return True
+
+    def action_view_bill(self):
+        """Self-heal orphaned billed lines.
+
+        If the linked vendor bill was removed outside the bill<->line sync
+        hooks (account.move.button_cancel/button_draft/unlink), a line can be
+        left in 'processed' with no bill_id: View Bill would dead-end on an
+        error with no way forward. Instead, release such lines back to
+        'confirmed' and open their form, where Generate Bill is available
+        again. (Note: raising UserError here would roll the heal back.)
+        """
+        orphans = self.filtered(
+            lambda l: l.state in ('processed', 'paid') and not l.bill_id)
+        if orphans:
+            orphans.write({'state': 'confirmed'})
+            return {
+                'type': 'ir.actions.act_window',
+                'name': _('Commission Line — bill link lost, released for re-billing'),
+                'res_model': 'commission.line',
+                'res_id': orphans[:1].id,
+                'view_mode': 'form',
+                'target': 'current',
+            }
+        return super().action_view_bill()

@@ -37,8 +37,16 @@ class AccountMove(models.Model):
     # -------------------------------------------------------------------------
 
     def _get_billed_commission_lines(self):
-        """Commission lines billed by these moves."""
-        return self.mapped('line_ids.commission_line_id')
+        """Commission lines currently billed by these moves.
+
+        Filters on the line's *current* bill_id: journal items keep
+        commission_line_id pointing at a line even after that line was
+        re-billed by a newer move, and acting on the stale reference would
+        wrongly release a live link (e.g. deleting an old cancelled bill
+        must not touch a line already billed by a new one).
+        """
+        return self.mapped('line_ids.commission_line_id').filtered(
+            lambda l: l.bill_id.id in self.ids)
 
     def action_post(self):
         """A commission bill may only be posted once the related customer
