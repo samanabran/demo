@@ -38,6 +38,7 @@ class CommissionLine(models.Model):
              'Commission Type\'s Calculation Base (Sale Value / Order Total '
              'excl. tax / Order Total incl. tax). Overridable.',
     )
+    commission_amount = fields.Monetary(string='Commission Amount', currency_field='currency_id', compute='_compute_commission_amount', store=True, readonly=False, help='Commission amount before tax.')
     source_invoice_id = fields.Many2one(
         'account.move',
         string='Source Invoice',
@@ -45,7 +46,7 @@ class CommissionLine(models.Model):
         index=True,
         readonly=True,
         help='Customer invoice whose posting generated (calculated) this '
-             'commission line. A commission bill can only be posted once '
+             'commission bill can only be posted once '
              'this invoice is fully paid.',
     )
     currency_id = fields.Many2one(
