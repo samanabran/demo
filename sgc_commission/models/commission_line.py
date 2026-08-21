@@ -195,6 +195,14 @@ class CommissionLine(models.Model):
             '(state must be "Calculated" or "Confirmed"), then retry.')
 
     def _generate_bills(self, post=False):
+        zero_lines = self._get_billable_lines().filtered(
+            lambda l: not l.commission_amount)
+        if zero_lines:
+            raise UserError(_(
+                'Invalid operation: cannot generate commission bill(s) for %s '
+                '— the commission amount is zero. Set the rate or base amount '
+                'first, then retry.'
+            ) % ', '.join(zero_lines.mapped('display_name')))
         result = super()._generate_bills(post=post)
         self.filtered(lambda l: l.bill_id).write({'state': 'processed'})
         return result
