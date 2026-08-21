@@ -27,12 +27,52 @@ class AccountMove(models.Model):
             orders |= self.env['sale.order'].search([('name', '=', self.invoice_origin)])
         return orders
 
+    # -------------------------------------------------------------------------
+    # Bill <-> commission line state sync.
+    # commission.line's workflow buttons are driven purely by its state
+    # ("Generate Bill" for calculated/confirmed, "View Bill" for
+    # processed/paid), so whenever the bill itself changes lifecycle the
+    # billed lines must follow, otherwise a cancelled/reset/deleted bill
+    # would strand its lines in 'processed' forever with no way to re-bill.
+    # -------------------------------------------------------------------------
+
+    def _get_billed_commission_lines(self):
+        """Commission lines billed by these moves."""
+        return self.mapped('line_ids.commission_line_id')
+
     def action_post(self):
         """A commission bill may only be posted once the related customer
-        invoice (same sale order) is fully paid."""
+        invoice (same sale order) is fully paid. After posting, billed
+        commission lines are marked processed."""
         for move in self:
             commission_lines = move.line_ids.commission_line_id.filtered(
                 lambda l: l._name == 'commission.line')
             if commission_lines:
                 commission_lines._check_commission_eligible()
-        return super().action_post()
+        res = super().action_post()
+        self._get_billed_commission_lines().write({'state': 'processed'})
+        return res
+
+    def button_draft(self):
+        res = super().button_draft()
+        # Back to draft: release the lines to 'confirmed' but KEEP bill_id so
+        # they cannot be double-billed while a draft bill still exists —
+        # posting that same bill flips them back to processed.
+        self._get_billed_commission_lines().write({'state': 'confirmed'})
+        return res
+
+    def button_cancel(self):
+        res = super().button_cancel()
+        # Cancelled: fully release the lines for re-billing.
+        self._get_billed_commission_lines().write(
+            {'state': 'confirmed', 'bill_id': False})
+        return res
+
+    def unlink(self):
+        commission_lines = self._get_billed_commission_lines()
+        res = super().unlink()
+        # Bill removed entirely: release its lines for re-billing (bill_id is
+        # also cleared DB-side by ondelete='set null'; the explicit write
+        # restores the state so "Generate Bill" becomes available again).
+        commission_lines.write({'state': 'confirmed', 'bill_id': False})
+        return res
