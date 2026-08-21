@@ -181,7 +181,11 @@ def main():
             segment(page, "11-public-detail", dur.get("11-public-detail", 0), open_detail)
 
             def reveal_inquiry_form():
-                page.locator('button:has-text("Inquire Now")').first.click()
+                # The logged-in-admin website-editor toolbar can overlay the
+                # page and intercept pointer events during its own load;
+                # force=True bypasses that actionability check since the
+                # button itself is genuinely visible and enabled underneath.
+                page.locator('button:has-text("Inquire Now")').first.click(force=True)
                 page.wait_for_timeout(500)
             segment(page, "12-inquiry-open", dur.get("12-inquiry-open", 0), reveal_inquiry_form)
 
@@ -193,7 +197,7 @@ def main():
             segment(page, "13-inquiry-fill", dur.get("13-inquiry-fill", 0), fill_lead_form)
 
             def submit_lead_form():
-                page.locator('#inquiry-form button[type="submit"]').first.click()
+                page.locator('#inquiry-form button[type="submit"]').first.click(force=True)
                 page.wait_for_selector('#inquiry-result:not(:empty)', timeout=15000)
             segment(page, "14-inquiry-submit", dur.get("14-inquiry-submit", 0), submit_lead_form)
 
