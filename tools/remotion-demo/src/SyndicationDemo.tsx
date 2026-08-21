@@ -9,6 +9,7 @@ import {
   useVideoConfig,
   staticFile,
 } from "remotion";
+import { captions } from "./captions";
 
 const NAVY = "#10182A";
 const NAVY_RAISED = "#161F35";
@@ -270,10 +271,66 @@ export const Outro: React.FC = () => {
   );
 };
 
+const CaptionBar: React.FC<{ text: string }> = ({ text }) => {
+  const frame = useCurrentFrame();
+  const fadeIn = interpolate(frame, [0, 8], [0, 1], {
+    extrapolateRight: "clamp",
+  });
+  return (
+    <AbsoluteFill
+      style={{
+        justifyContent: "flex-end",
+        alignItems: "center",
+        paddingBottom: 40,
+        pointerEvents: "none",
+      }}
+    >
+      <div
+        style={{
+          opacity: fadeIn,
+          maxWidth: "82%",
+          background: "rgba(13,18,32,0.86)",
+          border: `1px solid ${LINE}`,
+          borderRadius: 12,
+          padding: "14px 28px",
+          fontFamily: fontStack,
+          fontSize: 24,
+          fontWeight: 500,
+          lineHeight: 1.4,
+          color: INK,
+          textAlign: "center",
+          boxShadow: "0 8px 24px rgba(0,0,0,0.35)",
+        }}
+      >
+        {text}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+const CaptionTrack: React.FC<{ fps: number }> = ({ fps }) => {
+  let cursor = 0;
+  return (
+    <>
+      {captions.map((c) => {
+        const durationInFrames = Math.round(c.durationS * fps);
+        const from = cursor;
+        cursor += durationInFrames;
+        return (
+          <Sequence key={c.id} from={from} durationInFrames={durationInFrames}>
+            <CaptionBar text={c.text} />
+          </Sequence>
+        );
+      })}
+    </>
+  );
+};
+
 export const SyndicationDemo: React.FC<{
   videoFile: string;
   videoDurationInFrames: number;
 }> = ({ videoFile, videoDurationInFrames }) => {
+  const { fps } = useVideoConfig();
   return (
     <AbsoluteFill style={{ background: NAVY }}>
       <Sequence durationInFrames={INTRO_FRAMES}>
@@ -284,6 +341,7 @@ export const SyndicationDemo: React.FC<{
         durationInFrames={videoDurationInFrames}
       >
         <Video src={staticFile(videoFile)} />
+        <CaptionTrack fps={fps} />
       </Sequence>
       <Sequence from={INTRO_FRAMES + videoDurationInFrames}>
         <Outro />
