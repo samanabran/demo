@@ -23,11 +23,11 @@
         <record id="capability_screening" model="tenant.readiness.capability">
             <field name="code">screening</field>
             <field name="name">Screening (AML + TFS)</field>
-            <field name="description">Sanctions, PEP, adverse media, and TFS screening. Distinct from goAML filing. Required for any money-touching transition (G15) and for the freeze workflow (G30).</field>
+            <field name="description">Sanctions, PEP, adverse media, and TFS screening. Distinct from goAML filing. Required for any money-touching transition (G15) and for the freeze workflow (G30). The TFS portion of this capability is gated on EOCN Notification Alert System registration — a separate obligation from goAML registration that makes the 24-hour freeze clock achievable.</field>
             <field name="severity">critical</field>
             <field name="sequence">20</field>
-            <field name="required_tenant_config">screening_provider_name, screening_provider_contracted_fallback_name, screening_provider_credentials, screening_failover_documented</field>
-            <field name="required_tenant_decision">screening_provider_choice_acknowledgement</field>
+            <field name="required_tenant_config">screening_provider_name, screening_provider_contracted_fallback_name, screening_provider_credentials, screening_failover_documented, eocn_registration_reference, tfs_cross_border_safeguard, tfs_freeze_clock_acknowledgement</field>
+            <field name="required_tenant_decision">screening_provider_choice_acknowledgement, tfs_freeze_action_acknowledgement</field>
             <field name="module_dependency">sgc_screening_adapter</field>
         </record>
 
