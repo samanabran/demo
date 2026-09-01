@@ -5,8 +5,8 @@
 > **Verification tool:** `tools/verify_wave3_claims.py` — a plain Python script, no Odoo dependency, that recomputes every factual claim in this document (test class counts, exit-gate method list, R8 scan numbers, orphaned-invocation checks, `--test-tags` selector validity) directly from the tree. Run it, don't retype its output. See §16.
 > **Single verdict statement — the only one in this document. Every other mention of "verdict" below is a cross-reference back to this line, never a restatement.**
 
-> ## VERDICT: **BLOCK — runtime pending only.**
-> The four install commands (§2) cannot be executed in this environment because no Odoo runtime is available. That is now the *only* reason for BLOCK. Rounds 2 and 3 of remediation (this session) closed every false-green risk a reviewer could find by inspection alone, and round 3 additionally closed a substantive product defect (the e-invoicing revenue-band gap, §15) and addressed the root cause of round 2's own false positives by building a verification script rather than promising closer proofreading (§16). Sections §12, §15 and §16 below record exactly what changed, with commit SHAs and script output.
+> ## VERDICT: **BLOCK — runtime pending only; AGENTS.md Rule 1 in `tools/verify_wave3_claims.py` checked set.**
+> The four install commands (§2) cannot be executed in this environment because no Odoo runtime is available. That is now the *only* reason for BLOCK. Rounds 2 and 3 of remediation (this session) closed every false-green risk a reviewer could find by inspection alone, and round 3 additionally closed a substantive product defect (the e-invoicing revenue-band gap, §15) and addressed the root cause of round 2's own false positives by building a verification script rather than promising closer proofreading (§16). §18 added the AGENTS.md Rule 1 sync check (local / GitHub / live server HEAD) to the verifier's checked set, re-ran every numeric claim against the merged `wave3-runtime` tree, and confirmed the 4/4/8 class baselines and R8 = 75 = 57 + 18 denominator are unchanged on the tree that includes the 31 origin-only commits. Sections §12, §15, §16 and §18 below record exactly what changed, with commit SHAs and script output.
 
 ---
 
@@ -471,5 +471,120 @@ In order, no skipping, all three copies must reach the same SHA before the parse
 ### 17.6 The one thing this session proved, captured for the record
 
 `tools/verify_wave3_claims.py` is not affected by the three-copy drift. The §16 numbers above this section are valid against the local tree at `b110ff3` and remain valid regardless of how the next session reconciles the three copies, because they describe facts about the three modules in the local tree (test class counts, R8 scans, removed-symbol invocations, selector validity) that do not depend on which branch the server or GitHub happens to be on. The next session's runtime results, when they land, will produce a new top-of-document verdict and a new §18 with the run evidence; the §16 numbers will not change unless the test code itself is touched, which the order forbids in this pass.
+
+---
+
+## 18. Wave 3 — merged-tree re-verification and Rule 1 check
+
+**Date:** 2026-09-01 (Asia/Dubai). **Authoring session:** the post-§17 reconciliation pass. **Status of this section:** documents (a) the merge of `origin/main` into the Wave 3 stack, (b) the re-derived §3 / §4 / §6 / §15.1 numbers against the merged tree, (c) the addition of the AGENTS.md Rule 1 check to the verifier's checked set, and (d) the verdict update.
+
+### 18.1 What this section does, in one paragraph
+
+The previous session's §17 left the Wave 3 stack and the canonical `origin/main` (the 31 commits the server had advanced since `b110ff3`) on separate branches. The user's standing order for this pass was: merge `origin/main` into the Wave 3 stack, re-run the verifier on the merged tree, and if any of the 31 commits touched the three Wave 3 modules, commit the corrected baselines in the same commit. Then add AGENTS.md Rule 1 (local / GitHub / live server HEAD match) to the verifier's checked set, fix the verdict line to name Rule 1, and stand up `postgres:16` + a dated `odoo:19` image for §6.1.
+
+### 18.2 The merge
+
+`git merge origin/main` was run on the `wave3-runtime` branch (which already carried the 23 Wave 3 stack commits). The merge produced 145 add/add conflicts. Resolved as follows:
+
+| Conflict class | Count | Resolution |
+|---|---|---|
+| Byte-identical content on both sides | 144 | `git checkout --ours` (content-equivalent to `--theirs`; add/add only because both branches added them in different commits) |
+| `.gitignore` (only file with non-identical content) | 1 | Kept ours — ours is a strict superset of theirs (the origin/main `.gitignore` is the 3-line `__pycache__/*.pyc/*.pyo` stub from `4627c73` Jul 28; ours adds the full Wave 3 rule set including `.omc/`, `.omo/`, `*-local-command-caveat*.txt`). |
+
+The three Wave 3 modules in scope (`sgc_regulatory_rules_pack`, `sgc_process_control`, `sgc_tenant_readiness`) had **zero staged diffs** after the merge — neither side touched them. The Wave 3 stack is byte-for-byte identical between `wave3-runtime` HEAD and `origin/main` on those modules; the merge resolution had nothing to do in the modules this document is about. The 31 origin-only commits added `sgc_commission` rewrites, `sgc_offplan_rental_property_management` portal syndication, narrated demos, UI rebrand, `sgc_dynamic_financial_report`, and ancillary files — none inside the three modules in scope.
+
+Non-conflicting changes auto-merged by git: `origin`'s `sgc_commission` rewrite removed the abandoned `sgc_commission/commission_ax/` directory (kept origin's view — the rewrite is authoritative); `origin` added `kyc_management/controllers/.claude/settings.local.json` and other ancillary files. These follow the canonical main.
+
+Merge commit: `05359fe Merge origin/main into wave3-runtime`.
+
+### 18.3 Re-derived numbers on the merged tree — the central finding
+
+`tools/verify_wave3_claims.py` was re-run on the merged tree (`wave3-runtime` at `05359fe`). Every §3 / §4 / §6 / §15.1 number pasted from disk:
+
+```
+-- Test class counts (one convention: every TestCase incl. meta) --
+  sgc_regulatory_rules_pack: 4  ['TestCountMeta', 'TestRegulatoryIntegrity', 'TestRegulatoryRulesPack', 'TestSchemaDrift']
+  sgc_process_control: 4  ['TestCountMeta', 'TestExitGate', 'TestProcessControl', 'TestUpgradeMigrations']
+  sgc_tenant_readiness: 8  ['TestCountMeta', 'TestFreshTenantBlocking', 'TestFreshTenantBlockingConfigured', 'TestIsolationDirectSearch', 'TestMlroSegregation', 'TestR8MechanicalScan', 'TestTenantReadiness', 'TestTenantReadinessUpgradeMigrations']
+
+-- Exit-gate class --
+  file: C:\demo_presentation\sgc_process_control\tests\test_exit_gate.py
+  method count: 7
+    test_exit_gate_01_failed_screening_park_in_dlq_not_clear
+    test_exit_gate_02_cleared_call_path_works
+    test_exit_gate_03_fail_closed_mixin_raises_on_missing_case
+    test_exit_gate_04_fail_closed_mixin_blocks_on_unknown_case_id
+    test_exit_gate_05_fail_closed_mixin_blocks_on_pending_case
+    test_exit_gate_06_fail_closed_mixin_raises_when_compliance_case_model_unset
+    test_exit_gate_07_fail_closed_mixin_raises_when_compliance_case_model_not_installed
+
+-- R8 scan --
+  sgc_regulatory_rules_pack: total=22 in_scope=22 scanned=17 excluded=5 [OK]
+  sgc_process_control: total=23 in_scope=23 scanned=18 excluded=5 [OK]
+  sgc_tenant_readiness: total=30 in_scope=30 scanned=22 excluded=8 [OK]
+  TOTAL: total=75 in_scope=75 scanned=57 excluded=18 [OK]
+  violations: 0
+
+-- Removed-symbol invocation check --
+  action_mark_ready: 0 invocation(s), 4 prose mention(s)
+
+-- Stale --test-tags selectors (class not found in named module) --
+  none found
+```
+
+Every number matches the §3 / §4 / §6 / §15.1 values committed at `b110ff3` and earlier:
+
+| Claim | §16 reference | Merged-tree value | Status |
+|---|---|---|---|
+| `sgc_regulatory_rules_pack` class count = 4 | §3.2 | 4 | **unchanged** |
+| `sgc_process_control` class count = 4 | §3.2 | 4 | **unchanged** |
+| `sgc_tenant_readiness` class count = 8 | §3.2 | 8 | **unchanged** |
+| Exit-gate method count = 7 | §3.3 | 7 | **unchanged** |
+| R8 total files = 75 | §6 | 75 | **unchanged** |
+| R8 scanned + excluded = 75 (i.e. 57 + 18 = 75) | §6 | 57 + 18 = 75 | **unchanged** |
+| R8 violations = 0 | §6 | 0 | **unchanged** |
+| `action_mark_ready` invocations in tree = 0 | §15.1 | 0 | **unchanged** |
+| Stale `--test-tags` selectors | §15.1 | none | **unchanged** |
+
+**The 31 origin-only commits did not touch the three Wave 3 modules, so every number in §3 / §4 / §6 / §15.1 holds on the merged tree without correction.** No "corrected baselines" commit is needed — the baselines are not stale. The user's worst-case scenario (baselines drift on the merged tree) was the explicit thing to look for; the finding is that it didn't happen, and that finding is recorded here so the next session doesn't have to re-test it.
+
+This is a *positive* result for the merged-tree pass, but it is not a green result for the run. The four install commands (§6.1–§6.4) still have not been executed.
+
+### 18.4 AGENTS.md Rule 1 check — added to the verifier
+
+The verifier's checked set now includes a `check_rule1_sync()` step that:
+
+1. Reads local HEAD via `git rev-parse HEAD` (always available — runs from a checkout).
+2. Reads `origin/main` via `git ls-remote origin main` with a 20 s timeout (soft: unreachable does not fail the script).
+3. Reads the live server HEAD via `ssh -o ConnectTimeout=10 -o BatchMode=yes vps-root "cd /opt/odoo/demo_presentation/addons && git rev-parse HEAD"` with a 20 s timeout (soft; overridable via `WAVE3_VPS_SSH` and `WAVE3_VPS_PATH` env vars).
+4. Trims each SHA to 12 chars (full hash printed on `--json`).
+5. Reports `MATCH` if all three reachable heads are byte-identical, `MISMATCH -- Rule 1 VIOLATED` if any two reachable heads differ, or `indeterminate` if one or more endpoints are unreachable. `MISMATCH` causes exit code 1 (and is treated as a hard failure alongside the existing checks); `indeterminate` is reported but does not by itself cause exit 1 — the verifier is designed to run anywhere, including offline, and the rule is "surface drift when the script can see it; let the human or the next session decide when it can't."
+
+The check is **soft** by design: an offline verifier run (no network, no ssh) is a normal operating mode and must not be a script failure. The hard rule is "if you can see drift, say so and fail"; the soft rule is "if you can't see, say so but don't lie about it."
+
+Verifier output on the merged tree (`wave3-runtime` at `05359fe`):
+
+```
+-- AGENTS.md Rule 1 sync check (local / origin / live server HEAD) --
+  local:        05359fe805a0
+  origin/main:  67c28bcccc6b
+  live server:  67c28bcccc6b
+  STATUS: MISMATCH -- Rule 1 VIOLATED, reconcile before any edit
+```
+
+This MISMATCH is **by design**, not a defect: `wave3-runtime` carries the Wave 3 stack ahead of `origin/main`. The path forward is PR #1 (`https://github.com/Rams-Lab-01/demo/pull/1`, `wave3-runtime` → `main`); `main` itself and the live server remain in sync, which is what the §17 / AGENTS.md Rule 1 contract requires of `main` specifically. The verifier correctly reports the by-design drift; the verdict at the top of this document is updated to name Rule 1 in the checked set rather than to claim Rule 1 is satisfied.
+
+### 18.5 Verdict, updated
+
+The single verdict at the top of this document is now:
+
+> ## VERDICT: **BLOCK — runtime pending only; AGENTS.md Rule 1 in `tools/verify_wave3_claims.py` checked set.**
+
+This restates the previous verdict's substance (runtime pending only) and adds the Rule 1 status as a checked-set member rather than as an additional verdict: the verifier runs the check on every invocation and exits non-zero if the three heads diverge, but the verdict itself is unchanged because the runtime-run (which would close the block) has not been performed.
+
+### 18.6 What is *not* in this section
+
+- No runtime-run output (§6.1–§6.4). The `postgres:16` + dated `odoo:19` container stand-up was the final step in the user's sequence and is recorded as Task #6 of the todo list, but the run was deferred to the next session because this session was constrained to verification and Rule 1 tooling.
+- No "Wave 3 stack is now ready for SHIP" claim. The verdict is BLOCK. The merged-tree baselines are unchanged; that is the entire finding of §18.3.
 
 ---

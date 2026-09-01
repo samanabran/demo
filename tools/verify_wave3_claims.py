@@ -30,6 +30,7 @@ import ast
 import json
 import os
 import re
+import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -209,6 +210,108 @@ def check_removed_symbols():
     return results
 
 
+def _short_rev(ref):
+    """Trim a git SHA to 12 chars; tolerate None / empty."""
+    if not ref:
+        return None
+    ref = ref.strip()
+    return ref[:12] if len(ref) >= 12 else ref
+
+
+def check_rule1_sync():
+    """AGENTS.md Rule 1: local / GitHub / live-server HEAD must match.
+
+    This is a *soft* check. If a remote (origin or vps-root) cannot be
+    reached from the environment the script runs in, the script reports
+    "<unreachable>" for that endpoint and does not fail -- the verifier
+    is designed to run anywhere, including offline. Reaching a "could
+    not match" verdict requires all three endpoints reachable; otherwise
+    the check returns match=None (indeterminate) and the human
+    decides.
+
+    On match=True the three HEADs are byte-identical.
+    On match=False at least one HEAD diverges -- a Rule 1 violation; the
+    next session must reconcile before any edit (per AGENTS.md Rule 1).
+    On match=None one or more endpoints were unreachable; the rule is
+    not violated by the verifier (it doesn't know) but should be
+    verified by a human or a follow-up session.
+    """
+    findings = {
+        "local": None,
+        "origin": None,
+        "live_server": None,
+        "match": None,
+        "unreachable": [],
+    }
+
+    # Local HEAD (always available -- this script runs from a checkout)
+    try:
+        r = subprocess.run(
+            ["git", "rev-parse", "HEAD"],
+            capture_output=True, text=True, timeout=10, cwd=ROOT,
+        )
+        if r.returncode == 0 and r.stdout.strip():
+            findings["local"] = _short_rev(r.stdout)
+        else:
+            findings["unreachable"].append(f"local: {r.stderr.strip() or 'no output'}")
+    except (subprocess.TimeoutExpired, FileNotFoundError) as e:
+        findings["unreachable"].append(f"local: {e}")
+
+    # origin/main (network may be down -- that's not a script failure)
+    try:
+        r = subprocess.run(
+            ["git", "ls-remote", "origin", "main"],
+            capture_output=True, text=True, timeout=20, cwd=ROOT,
+        )
+        if r.returncode == 0:
+            line = (r.stdout or "").strip().splitlines()
+            if line and line[0]:
+                findings["origin"] = _short_rev(line[0].split()[0])
+            else:
+                findings["unreachable"].append("origin: empty ls-remote output")
+        else:
+            findings["unreachable"].append(f"origin: {r.stderr.strip() or 'non-zero exit'}")
+    except subprocess.TimeoutExpired:
+        findings["unreachable"].append("origin: timeout (20s)")
+    except FileNotFoundError:
+        findings["unreachable"].append("origin: git not on PATH")
+
+    # Live server (vps-root /opt/odoo/demo_presentation/addons per AGENTS.md).
+    # Override target/path via env if a session uses a different alias.
+    ssh_target = os.environ.get("WAVE3_VPS_SSH", "vps-root")
+    ssh_path = os.environ.get("WAVE3_VPS_PATH", "/opt/odoo/demo_presentation/addons")
+    ssh_cmd = f"cd {ssh_path} && git rev-parse HEAD"
+    try:
+        r = subprocess.run(
+            ["ssh", "-o", "ConnectTimeout=10", "-o", "BatchMode=yes",
+             ssh_target, ssh_cmd],
+            capture_output=True, text=True, timeout=20,
+        )
+        if r.returncode == 0:
+            out = (r.stdout or "").strip().splitlines()
+            if out and out[0]:
+                findings["live_server"] = _short_rev(out[0])
+            else:
+                findings["unreachable"].append(f"live server ({ssh_target}): empty ssh output")
+        else:
+            findings["unreachable"].append(
+                f"live server ({ssh_target}): {r.stderr.strip() or 'non-zero exit'}"
+            )
+    except subprocess.TimeoutExpired:
+        findings["unreachable"].append(f"live server ({ssh_target}): timeout (20s)")
+    except FileNotFoundError:
+        findings["unreachable"].append("live server: ssh not on PATH")
+
+    # Determine match. Match is determinable only when at least two
+    # endpoints returned a HEAD and we have a basis to compare.
+    heads = [h for h in (findings["local"], findings["origin"], findings["live_server"])
+             if h is not None]
+    if len(heads) >= 2:
+        findings["match"] = len(set(heads)) == 1
+    # else: leave match=None (indeterminate)
+    return findings
+
+
 def check_test_tags_selectors():
     """Extract every --test-tags string from docs/TEST_PROTOCOL_WAVE_3.md
     and docs/WAVE_3_INSTALL_REGRESSION_RESULT.md, and for any selector
@@ -255,6 +358,7 @@ def main():
         "r8": {},
         "removed_symbols": check_removed_symbols(),
         "stale_test_tags_selectors": check_test_tags_selectors(),
+        "rule1_sync": check_rule1_sync(),
     }
     path, methods = find_test_method_names("sgc_process_control", "TestExitGate")
     result["exit_gate"] = {"file": path, "method_count": len(methods), "methods": methods}
@@ -315,17 +419,38 @@ def main():
             print(f"  {f['doc']}: {f['selector']} -> {f['problem']}")
     print()
 
+    print("-- AGENTS.md Rule 1 sync check (local / origin / live server HEAD) --")
+    r1 = result["rule1_sync"]
+    print(f"  local:        {r1['local'] or '<unreachable>'}")
+    print(f"  origin/main:  {r1['origin'] or '<unreachable>'}")
+    print(f"  live server:  {r1['live_server'] or '<unreachable>'}")
+    if r1["match"] is True:
+        print("  STATUS: MATCH (Rule 1 satisfied)")
+    elif r1["match"] is False:
+        print("  STATUS: MISMATCH -- Rule 1 VIOLATED, reconcile before any edit")
+        for u in r1["unreachable"]:
+            print(f"    unreachable: {u}")
+        ok = False
+    else:
+        # Indeterminate: at least one endpoint unreachable
+        print("  STATUS: indeterminate -- one or more endpoints unreachable, verify by hand")
+        for u in r1["unreachable"]:
+            print(f"    unreachable: {u}")
+    print()
+
     reconciles = all(d["reconciles"] for d in result["r8"]["per_module"].values()) and g["reconciles"]
     no_violations = g["violations"] == 0
     no_stale = not stale
     no_bad_invocations = ok
+    rule1_ok = r1["match"] is not False
 
     print("=" * 70)
-    if reconciles and no_violations and no_stale and no_bad_invocations:
+    if reconciles and no_violations and no_stale and no_bad_invocations and rule1_ok:
         print("ALL CHECKS INTERNALLY CONSISTENT.")
         print("This does NOT mean the document's claims are correct -- it means")
         print("this script's own arithmetic reconciles and no known-dangerous")
-        print("pattern (stale selector, orphaned invocation, R8 hit) was found.")
+        print("pattern (stale selector, orphaned invocation, R8 hit, Rule 1 drift)")
+        print("was found.")
         print("Paste the numbers above into the result document. Do not")
         print("hand-type them.")
         return 0
