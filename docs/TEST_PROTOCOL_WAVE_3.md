@@ -75,7 +75,13 @@ Every test module must be imported from `tests/__init__.py`. Add one meta-test t
 
 Run on `sgc_install`, from an empty database, in this order. Record exit code, wall time and the full traceback of any failure.
 
+**§6.0 Pre-flight.** The four runtime commands below assume the verifier passes. The verifier is now wired into the path two ways: (a) the pre-commit hook at `.githooks/pre-commit` (mirrored at `hooks/pre-commit/verify_wave3_claims.py`) refuses any commit that breaks the verifier, so the tree the runtime runs against is one the verifier just signed off on; (b) the runtime runner `tools/run_wave3_protocol.py` re-runs the verifier immediately before the install commands, so the runtime run refuses to start against a tree the verifier disagrees with even if the hook was bypassed or the run is on a different machine.
+
 ```bash
+# 6.0 Pre-flight — verifier gate (exit non-zero on disagreement)
+python tools/verify_wave3_claims.py
+# Expected: exit 0, "ALL CHECKS INTERNALLY CONSISTENT." Anything else stops the run.
+
 # 6.1 Bare install, no tests — proves the module loads at all
 odoo-bin -d sgc_install -i sgc_regulatory_rules_pack,sgc_process_control,sgc_tenant_readiness \
   --stop-after-init --log-level=info
@@ -211,3 +217,94 @@ This is what a passing run must produce. Fill it from observed output only; do n
 - **Ship verdict is BLOCK** on any SHIP SET failure, on any discovered/expected test count mismatch, or on **any capability that functions without configuration**. The last of these is the only one I would treat as non-negotiable regardless of commercial pressure, because a template that quietly lets an unconfigured tenant transact is a liability transfer in the wrong direction — the tenant's regulator will look at what the system allowed, and "the tenant did not configure it" is a defence you would rather not have to make.
 
 Two items remain open going into this run and belong in the deferral register rather than the ship gate: the **PDPL Executive Regulations** status needs re-verification before any tenant go-live, and the **check_company file citation** needs settling by inspection during the isolation run.
+
+---
+
+## 14. Per-command test-count assertion (the asymmetry that the meta-tests exist to close)
+
+`odoo-bin --test-enable` returns non-zero on test failure — but a `--test-tags` selector that matches nothing returns zero with exit code **zero**. That asymmetry is the entire reason the meta-tests (`test_count_classes_in_module`, `test_exit_gate_class_exists_with_expected_name`, `test_exit_gate_class_has_expected_test_count`, `stale_test_tags_selectors` in the verifier) exist. Reading exit code alone is insufficient — a green-on-paper run can hide a selector that matched nothing.
+
+Per-command assertions on the live run:
+
+| Command | Assertion |
+|---|---|
+| 6.1 | Exit code == 0. **No test count** — this is the bare-load command; it should run zero tests. Exit 0 with zero tests here is the expected outcome, not a red flag. |
+| 6.2 | Exit code == 0. **Test count must equal the per-module baseline sum**: `sgc_regulatory_rules_pack=4 + sgc_process_control=4 + sgc_tenant_readiness=8 = 16` distinct TestCase subclasses run, each producing ≥ 1 test method that ran. A count of 0 against this command with exit 0 is the false-green the meta-tests exist to catch — the run stops and reports. |
+| 6.3 | Exit code == 0. **Test count must equal the per-module `post_install` baseline sum**: only the `-at_install` (default) tests are excluded; both modules' `post_install` tests must run. `sgc_tenant_readiness=8 + sgc_process_control=4 = 12` distinct TestCase subclasses run; a count of 0 with exit 0 is the same false-green signal and stops the run. |
+| 6.4 | Exit code == 0. **Exactly 7 test methods run on `TestExitGate`.** This is the most specific assertion — a missing method (e.g. one deleted accidentally) would lower the count below 7; an extra method would raise it above 7. Either is a real defect, not a false-green to suppress. |
+
+The mechanical check lives in `tools/run_wave3_protocol.py` (the runtime runner). It invokes each of the four commands above, scrapes the Odoo test log for the per-command test count, and treats the following as a hard failure:
+
+- Exit code non-zero.
+- `6.2` test count = 0 (selector matched nothing — exactly the false-green the meta-tests exist to close).
+- `6.3` test count = 0 (same).
+- `6.4` test count ≠ 7 (the targeted exit-gate case count is wrong — a real bug, not a false-green).
+- `6.2` or `6.3` test count < baseline (genuine test regression, e.g. a meta-test now fails on its own assertion after a code change).
+
+`6.1` with exit 0 and zero tests is **not** a false-green — it is the expected shape of a bare-load command. It is logged as such; it is not flagged.
+
+Suspiciously clean output — all four commands exit 0, all expected counts met, zero failures — is itself a finding to investigate, not a result to report. With this much new untested code (the computed-state readiness gate was rewritten in round 2, the e-invoicing revenue-band gap was closed in round 3, the residency enum was promoted from docstring to real field), all-green on attempt one is more likely to indicate the verifier passing through a stale tree than genuine correctness. The runtime runner appends the per-command evidence to the result document as it goes, so the review can see the trajectory; the verdict moves off BLOCK only when counts are positive and failures are zero across both `sgc_install` runs and the subsequent `sgc_upgrade` and `sgc_tenant` runs.
+
+---
+
+## 15. Environment
+
+Per the runtime instructions:
+
+- **Odoo base image**: `odoo:19` is the floating tag; the runtime **must pin a dated tag** (e.g. `odoo:19.0-20260815`) rather than the latest. The official Odoo images rebuild on roughly two-week intervals; a mid-run base image change would make any failure unattributable to a specific build. Pin the tag at the start of the run, record it in the result document.
+- **Postgres image**: `postgres:16`.
+- **Addons path**: mounted read-write so the runtime can also exercise an upgrade path on the same image.
+- **Network**: the Odoo image pulls Python deps at build, so the image-build step needs network access; the runtime run does not.
+
+Suggested `docker-compose.yml` shape (not committed — kept as a starter for whoever spins up the runtime; the actual values are recorded in the result document at run time):
+
+```yaml
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: sgc_install
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  odoo:
+    # PIN a dated tag. Do NOT use the floating :19 — a mid-run rebuild
+    # would make failures unattributable.
+    image: odoo:19.0-20260815
+    depends_on:
+      - postgres
+    environment:
+      PGPASSWORD: odoo
+    volumes:
+      # Mount the addons path read-write so the same image can exercise
+      # an upgrade path (sgc_upgrade) after the sgc_install run.
+      - .:/mnt/sgc:rw
+    command:
+      - odoo-bin
+      - -d sgc_install
+      - -i sgc_regulatory_rules_pack,sgc_process_control,sgc_tenant_readiness
+      - --addons-path=/mnt/sgc
+      - --db_host=postgres
+      - --db_user=odoo
+      - --db_password=odoo
+      - --stop-after-init
+      - --log-level=info
+
+volumes:
+  pgdata:
+```
+
+Run order: start `postgres`, then 6.1 alone first on `sgc_install`. If 6.1 fails, stop and report — view-validation failures at install time are a different defect from test failures and would only add noise to the remaining commands.
+
+---
+
+## 16. Sign-off conditions (resolved, captured as runtime protocol gates)
+
+The user's four conditions on the sign-off are encoded into this protocol:
+
+1. **Verifier in the loop, not in memory.** Wired at two paths: `.githooks/pre-commit` (refuses the commit) and `tools/run_wave3_protocol.py` (refuses the runtime run). The verifier is also still invokable as a standalone (`python tools/verify_wave3_claims.py`) for review-time spot checks.
+2. **Non-parseable constant raises.** Asserted by `test_12_conflicting_constant_value_text_is_not_a_parseable_date` in `test_regulatory_integrity.py` (added in round 3 alongside the government-entity `conflicting`-tier constant). The test converts a deliberate design from latent crash to contract: anyone tempted to "fix" the unparseable value_text into a plausible-looking date fails the test loudly rather than silently introducing the wrong-date defect.
+3. **Test counts from the log, not exit codes alone.** Section 14 above. The runtime runner parses the Odoo log, not just exit codes, and treats zero-tests-exit-zero as a hard failure for 6.2 and 6.3 (the two commands that are most likely to silently match nothing). Suspiciously clean output is itself a finding to investigate.
+4. **Pin the Odoo base image.** Section 15 above. `odoo:19.0-<date>` (dated), not the floating `:19`. Mid-run rebuilds would corrupt attribution of any failure.

@@ -228,15 +228,31 @@ class TestRegulatoryIntegrity(TransactionCase):
         a careless caller that does `datetime.fromisoformat(rec.value_text)`
         without checking confidence first must get an exception, not a
         wrong date silently accepted.
+
+        This test is the contract: it asserts the value_text carries the
+        contract marker (CONFLICTING) and that any of the standard
+        date-parsing idioms raise, not silently produce a date.
         """
         rec = self.Constant.get_effective(
             "einvoicing_government_entity_go_live", "uae_federal",
             as_of=date(2026, 9, 1),
         )
         self.assertEqual(rec.confidence, "conflicting")
+        # The value_text must carry the contract marker so any consumer
+        # that reads it sees the warning before attempting to parse.
+        self.assertIn("CONFLICTING", rec.value_text)
+        # Every standard date-parsing idiom must raise — not silently
+        # produce a date. A future "fix" that changes the value_text to
+        # something parseable will fail this test loudly.
         from datetime import datetime
         with self.assertRaises(ValueError):
             datetime.fromisoformat(rec.value_text)
+        with self.assertRaises(ValueError):
+            datetime.strptime(rec.value_text, "%Y-%m-%d")
+        # ISO calendar-date parsing must also raise.
+        from datetime import date
+        with self.assertRaises(ValueError):
+            date.fromisoformat(rec.value_text)
 
     def test_13_phase2_einvoicing_constants_are_verified_secondary(self):
         """Phase 2 (revenue below AED 50m) e-invoicing constants — added
