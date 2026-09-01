@@ -46,14 +46,18 @@ PERMITTED_PATTERNS = [
 # Using a forward slash regex on Windows fails to match backslash
 # separators, so the test would scan itself.
 _SEP = re.escape(os.sep)
+# Per Wave 3 remediation order item 11: the R8 scan INCLUDES README.md
+# because the README is the customer-facing surface and is precisely
+# where a compliance claim would sit. We exclude:
+#   - tests/ (the R8 test itself contains the prohibited strings as
+#     test data; the scan must skip its own file)
+#   - migrations/ (data-migration scripts may reference the
+#     prohibited strings to migrate them out)
+#   - docs/*.md (reference documents describe what the product is not;
+#     they are not customer-facing surfaces)
 ALLOWED_FILE_PATTERNS = [
-    # Markdown reference documents and README files may describe what the
-    # module is NOT; we are strict in source code only.
-    re.compile(rf".*README\.md$"),
     re.compile(rf".*{_SEP}docs{_SEP}.*\.md$"),
     re.compile(rf".*{_SEP}migrations{_SEP}.*\.py$"),
-    # Tests/ files are excluded — the R8 scan test itself is in tests/
-    # and its source contains the prohibited strings as test data.
     re.compile(rf".*{_SEP}tests{_SEP}.*\.py$"),
 ]
 
@@ -78,18 +82,29 @@ class TestR8MechanicalScan(TransactionCase):
         return any(p.match(path) for p in ALLOWED_FILE_PATTERNS)
 
     def test_no_prohibited_compliance_claims_in_source(self):
-        """Walk every .py / .xml / .csv in the three modules. Any hit on
-        the prohibited list fails the run.
+        """Walk every .py / .xml / .csv / README.md in the three modules.
+        Any hit on the prohibited list fails the run.
 
-        Reference documents under /docs/ are excluded — they describe
-        what the product is not, and the source-of-truth is the brief.
+        Per Wave 3 remediation order item 11: the README is the
+        customer-facing surface and is precisely where a compliance
+        claim would sit. We include it.
+
+        Excluded: tests/ (the R8 test itself contains the prohibited
+        strings as test data), migrations/ (data-migration scripts may
+        reference the prohibited strings to migrate them out),
+        docs/*.md (reference documents describe what the product is not
+        and are not customer-facing surfaces).
         """
         compiled = [re.compile(p, re.IGNORECASE) for p in PROHIBITED]
         permitted = [re.compile(p, re.IGNORECASE) for p in PERMITTED_PATTERNS]
         hits = []
+        scanned = 0
+        excluded = 0
         for path in self._walk_module_files():
             if self._is_allowed_path(path):
+                excluded += 1
                 continue
+            scanned += 1
             try:
                 with open(path, "r", encoding="utf-8") as f:
                     for line_no, line in enumerate(f, 1):
@@ -101,6 +116,10 @@ class TestR8MechanicalScan(TransactionCase):
                                     hits.append((path, line_no, line.strip()))
             except (UnicodeDecodeError, OSError):
                 continue
+        # Surface the denominator so the scope is auditable.
+        self._last_scan_scanned = scanned
+        self._last_scan_excluded = excluded
         self.assertEqual(hits, [],
-                         f"R8 violation — prohibited compliance claims found:\n"
+                         f"R8 violation — prohibited compliance claims found "
+                         f"(scanned {scanned} files; {excluded} excluded):\n"
                          + "\n".join(f"{p}:{n}: {l}" for p, n, l in hits))
