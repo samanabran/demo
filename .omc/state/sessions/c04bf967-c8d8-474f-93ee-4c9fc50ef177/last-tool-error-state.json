@@ -1,7 +1,0 @@
-{
-  "tool_name": "mcp__claude-in-chrome__find",
-  "tool_input_preview": "{\"query\":\"link to Dubai Creek Harbour Residences - Unit 1303 property card\",\"tabId\":1216209179}",
-  "error": "Failed to find element: Page still loading (executeScript waited 45000ms for document_idle). The previous action may have triggered navigation — try again in a moment.",
-  "timestamp": "2026-07-27T14:40:15.019Z",
-  "retry_count": 1
-}

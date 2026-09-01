@@ -22,3 +22,7 @@ Thumbs.db
 
 # Local session artefacts
 .session/
+
+# OMC operational state (ignored by convention; .omc/skills/** would be the
+# committable exception, none present here)
+.omc/

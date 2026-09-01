@@ -1,7 +1,0 @@
-{
-  "tool_name": "Bash",
-  "tool_input_preview": "{\"command\":\"cd C:/Livedata-base && python -c \\\"import xml.dom.minidom as m; m.parse('sgc_offplan_rental_property_management/report/property_brochure_luxury_template.xml'); print('XML OK')\\\" && python ...",
-  "error": "Exit code 1\nTraceback (most recent call last):\r\n  File \"<string>\", line 1, in <module>\r\n    import xml.dom.minidom as m; m.parse('sgc_offplan_rental_property_management/report/property_brochure_luxury_template.xml'); print('XML OK')\r\n                                 ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Program Files\\Python314\\Lib\\xml\\dom\\minidom.py\", line 1999, in parse\r\n    return expatbuilder.parse(file)\r\n           ~~~~~~~~...",
-  "timestamp": "2026-07-27T06:24:48.174Z",
-  "retry_count": 2
-}
