@@ -5,3 +5,4 @@ from . import tenant_readiness_state
 from . import tenant_decision_acknowledgement
 from . import tenant_high_risk_override
 from . import tenant_mlro_segregation
+from . import tenant_data_residency

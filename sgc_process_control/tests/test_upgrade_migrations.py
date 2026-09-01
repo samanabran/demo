@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 # Part of SGC Process Control.
-"""Upgrade-path migration tests — the three mandatory upgrade assertions
-per the Wave 3 test protocol §7.
+"""Upgrade-path migration test — the retention-anchor assertion.
 
 Run on sgc_upgrade after installing the last tagged-good revision and
-upgrading to HEAD. The three assertions:
+upgrading to HEAD.
 
   1. Retention anchor migration. Records created before the anchor
      correction must have their retention clock rebased to
@@ -12,16 +11,19 @@ upgrading to HEAD. The three assertions:
      Records whose anchor event has not yet occurred have a null expiry,
      not a creation-derived one.
 
-  2. Residency enum migration. Any stored value of 'uae' must be
-     migrated to an explicit uae_mainland / difc / adgm value or set null
-     and flagged for tenant re-entry. Must NOT be silently defaulted to
-     uae_mainland.
-
-  3. No data loss on TENANT_DECISION fields. Values survive upgrade;
-     any newly added TENANT_DECISION field arrives blank.
-
-These tests document the expected behaviour. They run after the upgrade
-migration script has been applied.
+The other two mandatory upgrade assertions (residency enum migration,
+TENANT_DECISION field survival) live in
+`sgc_tenant_readiness/tests/test_upgrade_migrations.py` because they
+test `res.company.data_residency_region` and
+`tenant.compliance.officer.lnoo_reference` — fields owned by that
+module. process_control has no dependency on tenant_readiness (the
+dependency runs the other way), so a test that reaches into
+tenant_readiness models does not belong here. This split was a
+structural defect: the original file put both downstream-model tests
+in the upstream module, which meant the tests would only be meaningful
+when all three modules happened to be installed together, and gave a
+false sense that process_control validated something it has no
+knowledge of.
 """
 
 from datetime import datetime, timedelta
@@ -48,9 +50,6 @@ class TestUpgradeMigrations(TransactionCase):
 
         This test asserts that no record has a creation-derived retention.
         """
-        # For each exception in the database, retention_anchor_at must
-        # either be set (terminal) or false (live). If it's set, the
-        # anchor must NOT be at occurred_at.
         for exc in self.Exception.search([]):
             if exc.retention_anchor_at:
                 # Terminal — anchor must not equal occurred_at. A
@@ -62,44 +61,3 @@ class TestUpgradeMigrations(TransactionCase):
                     f"migration did not rebase. Anchor must be set at "
                     f"the terminal-state transition.",
                 )
-
-    def test_02_residency_migration_no_silent_default_to_uae_mainland(self):
-        """A stored value of 'uae' must be migrated to uae_mainland /
-        difc / adgm or set null. It must NOT be silently defaulted.
-
-        The Wave 3 brief §7 is explicit: DIFC and ADGM entities fall
-        outside the federal PDPL entirely, and a wrong default asserts
-        the wrong legal regime on the tenant's behalf.
-        """
-        # The current data model is in the process of being extended
-        # with the residency enum. This test asserts that when the
-        # field exists, no stored 'uae' value is silently mapped.
-        IrConfigParameter = self.env["ir.config_parameter"]
-        # Search the residency keys.
-        for key in (
-            "sgc.data_residency.region",
-            "sgc.data_residency.region_multitenant",
-        ):
-            res = IrConfigParameter.search([("key", "=", key)], limit=1)
-            if res and res.value == "uae":
-                self.fail(
-                    f"Residency migration left a stored 'uae' value at "
-                    f"{key}. The migration must explicitly set "
-                    f"uae_mainland / difc / adgm or null."
-                )
-
-    def test_03_tenant_decision_field_survives_upgrade(self):
-        """Values in TENANT_DECISION fields survive upgrade; any newly
-        added TENANT_DECISION field arrives blank.
-
-        Test the LNOO reference on tenant.compliance.officer (added in
-        the G28 build) — the upgrade migration must not over-write a
-        stored value.
-        """
-        Officer = self.env["tenant.compliance.officer"]
-        primary = self.env.ref("base.main_company")
-        existing = Officer.search([("tenant_company_id", "=", primary.id)], limit=1)
-        if existing and existing.lnoo_reference:
-            # Stored LNOO survives. Re-fetch and assert.
-            reread = Officer.browse(existing.id)
-            self.assertEqual(reread.lnoo_reference, existing.lnoo_reference)

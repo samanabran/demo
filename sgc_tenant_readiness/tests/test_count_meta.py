@@ -18,8 +18,8 @@ class TestCountMeta(TransactionCase):
     # Ground truth as of this commit: TestCountMeta (this class),
     # TestTenantReadiness, TestMlroSegregation, TestFreshTenantBlocking,
     # TestFreshTenantBlockingConfigured, TestR8MechanicalScan,
-    # TestIsolationDirectSearch.
-    EXPECTED_CLASS_COUNT = 7
+    # TestIsolationDirectSearch, TestTenantReadinessUpgradeMigrations.
+    EXPECTED_CLASS_COUNT = 8
 
     def test_count_classes_in_module(self):
         from sgc_tenant_readiness import tests as test_pkg
