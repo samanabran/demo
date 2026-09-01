@@ -10,6 +10,12 @@ from odoo.tests import TransactionCase, tagged
 
 @tagged("post_install", "-at_install", "sgc_install", "sgc_process_control", "sgc_gate")
 class TestProcessControl(TransactionCase):
+    # The exit-gate class lives in test_exit_gate.py and is named
+    # TestExitGate — this name is referenced by the Wave 3 install
+    # protocol command 6.4. Renaming this class to a different name
+    # would cause 6.4 to silently match nothing and the run to exit
+    # zero with zero exit-gate coverage. The check lives in the
+    # meta-test (test_count_meta.py) — see TestCountMeta.
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

@@ -53,7 +53,7 @@ class _ClearedAdapter:
 
 
 @tagged("post_install", "-at_install", "sgc_install", "sgc_process_control", "sgc_gate")
-class TestWave1ExitGate(TransactionCase):
+class TestExitGate(TransactionCase):
     """The Wave 1 exit gate — failed screening is INDETERMINATE, never CLEARED."""
 
     @classmethod
