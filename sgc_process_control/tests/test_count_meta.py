@@ -6,6 +6,12 @@ Also asserts the exit-gate class exists by the name the Wave 3 install
 protocol command 6.4 targets, and contains exactly seven test methods.
 A class name mismatch between code and the protocol command would
 silently match nothing — exit zero, no coverage, false green.
+
+Counting convention (fixed across all three modules per Wave 3
+remediation round 2): count EVERY unittest.TestCase subclass, INCLUDING
+this meta-test class itself. `TestScreeningConsumer` in test_exit_gate.py
+is a models.AbstractModel, not a TestCase, and is correctly excluded by
+the issubclass check, not by a name filter.
 """
 
 import inspect
@@ -16,7 +22,9 @@ from odoo.tests import TransactionCase, tagged
 
 @tagged("post_install", "-at_install", "sgc_install", "sgc_process_control")
 class TestCountMeta(TransactionCase):
-    EXPECTED_CLASS_COUNT = 3
+    # Ground truth as of this commit: TestCountMeta (this class),
+    # TestExitGate, TestProcessControl, TestUpgradeMigrations.
+    EXPECTED_CLASS_COUNT = 4
     EXPECTED_EXIT_GATE_TEST_COUNT = 7
     EXPECTED_EXIT_GATE_CLASS_NAME = "TestExitGate"
 
@@ -28,11 +36,11 @@ class TestCountMeta(TransactionCase):
             if obj.__module__.startswith("sgc_process_control.tests"):
                 if issubclass(obj, unittest.TestCase):
                     discovered.append(obj.__name__)
-        real = [c for c in discovered if c != "TestCountMeta"]
         self.assertEqual(
-            len(real), self.EXPECTED_CLASS_COUNT,
-            f"Expected {self.EXPECTED_CLASS_COUNT} test class(es) in "
-            f"sgc_process_control, found {len(real)}: {real}",
+            len(discovered), self.EXPECTED_CLASS_COUNT,
+            f"Expected {self.EXPECTED_CLASS_COUNT} test class(es) "
+            f"(including TestCountMeta itself) in sgc_process_control, "
+            f"found {len(discovered)}: {sorted(discovered)}",
         )
 
     def test_exit_gate_class_exists_with_expected_name(self):
