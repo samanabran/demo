@@ -9,7 +9,7 @@
 
 ## 1. Why this document exists
 
-In a multi-tenant deployment we process personal data belonging to our tenants' clients: Emirates ID, passport, UBO records, source-of-funds evidence, screening results, signed documents, and five years of retained records. Under Federal Decree-Law No. 45 of 2021 (PDPL) we act as **processor**. Processor duties attach to our architecture, not to tenant conduct.
+In a multi-tenant deployment we process personal data belonging to our tenants' clients: Emirates ID, passport, UBO records, source-of-funds evidence, screening results, signed documents, and five years of retained records. Under **the applicable regime for the tenant's jurisdiction** — resolved by a rules-pack lookup keyed on the `sgc.data_residency.region` enum — we act as **processor**. Processor duties attach to our architecture, not to tenant conduct.
 
 The five items the amendment §5 requires this position to settle:
 
@@ -29,22 +29,38 @@ The reconciliation of 5-year AML retention (Federal Decree-Law 10/2025) and PDPL
 
 ## 2. Data residency (item 1)
 
-**Decision (revised per the user's sign-off condition): the SGC estate operates single-region today. Residency is `VENDOR` with a disclosure field, not `TENANT_CONFIG`. The multi-region path stays dormant — present in the schema as a hidden field but not asked of the tenant.**
+**Decision (revised per the user's sign-off condition and Wave 3 remediation item 7): the SGC estate operates single-region today. Residency is `VENDOR` with a disclosure field, not `TENANT_CONFIG`. The multi-region path stays dormant — present in the schema as a hidden field but not asked of the tenant. The legal-regime mapping is driven by a rules-pack lookup keyed on the enum value, not hard-coded to PDPL.**
 
 ### Why the reclassification
 
 Asking a tenant to attest to a residency they cannot change manufactures false assurance in a document a supervisor may later read. The honest position: there is one region today, the product tells the tenant what it is, and the tenant either accepts it or does not use the product. When multi-region operation exists, the field wakes up.
 
+A silent default to `uae_mainland` would assert the wrong legal regime on a DIFC or ADGM tenant's behalf. DIFC and ADGM are separate legal jurisdictions with their own data-protection regimes; entities in either sit outside the federal PDPL entirely. A transfer between any two of the three is treated as cross-border despite all sitting inside the UAE. The enum distinguishes them; the rules pack maps the enum to the applicable regime.
+
+### Residency enum (the new field shape)
+
+`sgc.data_residency.region` is replaced by the **enum** below. The string `"uae"` is no longer accepted. The test `test_02_residency_migration_no_silent_default_to_uae_mainland` will assert that no stored value of `"uae"` is silently mapped.
+
+| Enum value | Where it sits | Applicable regime |
+|---|---|---|
+| `uae_mainland` | UAE federal territory (Dubai, Abu Dhabi mainland) | The applicable regime is resolved by a rules-pack lookup keyed on this enum value. The current published regime is Federal Decree-Law 45 of 2021 (PDPL) + Cabinet 71/2024, but the product does not hard-code this — the rules pack does. |
+| `difc` | Dubai International Financial Centre | DIFC Data Protection Law 1 of 2020 + DFSA Conduct of Business |
+| `adgm` | Abu Dhabi Global Market | ADGM Data Protection Regulations 2021 + FSRA Conduct of Business |
+| `other` | Reserved — for a future jurisdiction outside the three named above. | Resolved by a rules-pack lookup. |
+
+A transfer between any two of `uae_mainland` / `difc` / `adgm` is **cross-border for the purposes of this product** and engages the §3 safeguard requirement.
+
 ### What ships now
 
 ```
-sgc.data_residency.region                = "uae"  (VENDOR — single region, today)
+sgc.data_residency.region                = "uae_mainland"  (VENDOR — single region, today)
 sgc.data_residency.region_locked         = true   (VENDOR — locked until multi-region ships)
-sgc.data_residency.disclosure_url       = <link to a public document the tenant can read>
+sgc.data_residency.disclosure_url        = <link to a public document the tenant can read>
 sgc.data_residency.disclosure_accepted   = <reference to the tenant's signed acceptance>
+sgc.data_residency.legal_regime_ref      = <rules-pack key: pdpl | difc_dpl | adgm_dpr | other>
 ```
 
-The disclosure is a public document — a one-pager in plain language stating where the data lives, who has access, what the sub-processors are, and the legal framework. The tenant signs the acceptance at onboarding. **The tenant does not attest to where the data lives; the tenant attests to having read the disclosure.**
+The disclosure is a public document — a one-pager in plain language stating where the data lives, who has access, what the sub-processors are, and the **applicable legal regime** (resolved by the rules-pack lookup, never hard-coded to PDPL). The tenant signs the acceptance at onboarding. **The tenant does not attest to where the data lives; the tenant attests to having read the disclosure.**
 
 ### What is dormant for when multi-region exists
 
@@ -58,10 +74,11 @@ When the engineering team builds the multi-region path, the dormant field wakes 
 
 | Field | Class | Default |
 |---|---|---|
-| `sgc.data_residency.region` | `VENDOR` | "uae" |
+| `sgc.data_residency.region` | `VENDOR` | "uae_mainland" |
 | `sgc.data_residency.region_locked` | `VENDOR` | true |
 | `sgc.data_residency.disclosure_url` | `VENDOR` | populated at deploy time |
 | `sgc.data_residency.disclosure_accepted` | `TENANT_CONFIG` (acknowledgement) | blank, no default |
+| `sgc.data_residency.legal_regime_ref` | `VENDOR` (engine) / `TENANT_CONFIG` (if tenant overrides) | rules-pack lookup, not hard-coded |
 | `sgc.data_residency.region_multitenant` | dormant | "" |
 
 ---
@@ -261,7 +278,9 @@ The brief verdict:
 
 | Item | Class | Where | Wave |
 |---|---|---|---|
-| 1. Data residency region | TENANT_CONFIG | `ir.config_parameter` on tenant; surfaced on readiness dashboard | Wave 2 (G28 capability-gated) |
+| 1. Data residency region (VENDOR: enum + locked) | VENDOR | `sgc.data_residency.region` (enum: `uae_mainland` / `difc` / `adgm` / `other`); `region_locked=true`; surfaced on readiness dashboard | Wave 2 (G28 capability-gated) |
+| 1a. Data residency disclosure (VENDOR: link) | VENDOR | `sgc.data_residency.disclosure_url` (public one-pager, plain language, including the legal regime) | Wave 2 |
+| 1b. Data residency acceptance (TENANT_CONFIG: signed) | TENANT_CONFIG | `sgc.data_residency.disclosure_accepted` (the tenant's signed acceptance) | Wave 2 |
 | 2. Cross-border transfer assessment | TENANT_CONFIG (attestation) / VENDOR (block) | screening-adapter interface; readiness gate | Wave 2 (G28 + screening-adapter item 5) |
 | 3. Encryption at rest | VENDOR (engine) / TENANT_CONFIG (key mgmt) | deployment + column-level encryption in personal-data fields | Wave 2 |
 | 4. Encryption in transit | VENDOR | adapter interface, mTLS | Wave 2 |
