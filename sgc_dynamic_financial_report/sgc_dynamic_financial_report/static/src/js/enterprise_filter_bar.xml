@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <!-- ── DfrFilterWidget ─────────────────────────────────────────── -->
+    <t t-name="sgc_dynamic_financial_report.DfrFilterWidget">
+        <div class="o_dfr_filter_widget d-inline-flex align-items-center me-2 mb-2"
+             t-att-data-widget="widget"
+             t-att-data-key="props.filterDef.key">
+
+            <!-- Label -->
+            <label class="o_dfr_filter_label me-1 mb-0 text-nowrap small"
+                   t-att-for="'dfr_filter_' + props.filterDef.key">
+                <t t-esc="label"/>:
+            </label>
+
+            <!-- widget: selection (default) -->
+            <select t-if="widget === 'selection'"
+                    t-att-name="'dfr_filter_' + props.filterDef.key"
+                    class="o_dfr_filter_select form-select form-select-sm"
+                    t-att-value="props.value"
+                    t-on-change="onSelectionChange">
+                <option value=""><t t-esc="placeholder"/></option>
+                <t t-foreach="options" t-as="opt">
+                    <option t-att-value="opt.value"
+                            t-att-selected="props.value === opt.value">
+                        <t t-esc="opt.label or opt.name or opt.value"/>
+                    </option>
+                </t>
+            </select>
+
+            <!-- widget: many2one -->
+            <div t-elif="widget === 'many2one'" class="o_dfr_filter_many2one position-relative">
+                <input type="text"
+                       class="o_dfr_filter_search form-control form-control-sm"
+                       t-att-value="state.searchTerm"
+                       t-att-placeholder="placeholder"
+                       t-on-input="onSearchInput"/>
+                <div t-if="state.searchResults.length > 0"
+                     class="o_dfr_filter_dropdown dropdown-menu show position-absolute w-100">
+                    <button t-foreach="state.searchResults" t-as="rec" type="button"
+                            class="dropdown-item"
+                            t-on-click="() => selectMany2One(rec)">
+                        <t t-esc="rec.name"/>
+                    </button>
+                </div>
+            </div>
+
+            <!-- widget: many2many_tags -->
+            <div t-elif="widget === 'many2many_tags'" class="o_dfr_filter_m2m_tags d-inline-flex align-items-center">
+                <div class="o_dfr_m2m_tags_list d-inline-flex flex-wrap gap-1 me-1">
+                    <t t-foreach="props.value or []" t-as="tagId">
+                        <span class="o_dfr_tag badge bg-primary d-inline-flex align-items-center gap-1"
+                              t-att-data-id="tagId">
+                            <t t-esc="tagId.display_name or tagId.name or tagId"/>
+                            <a href="#" class="o_dfr_tag_remove text-white ms-1 text-decoration-none"
+                               t-on-click.prevent="() => removeMany2ManyTag(tagId)">
+                                &times;
+                            </a>
+                        </span>
+                    </t>
+                </div>
+                <input type="text"
+                       class="o_dfr_filter_search form-control form-control-sm"
+                       t-att-placeholder="placeholder"
+                       t-on-input="onSearchInput"/>
+                <div t-if="state.searchResults.length > 0"
+                     class="o_dfr_filter_dropdown dropdown-menu show position-absolute w-100"
+                     style="top: 100%; z-index: 1050;">
+                    <button t-foreach="state.searchResults" t-as="rec" type="button"
+                            class="dropdown-item"
+                            t-on-click="() => selectMany2ManyTag(rec)">
+                        <t t-esc="rec.name"/>
+                    </button>
+                </div>
+            </div>
+
+            <!-- widget: date_range -->
+            <div t-elif="widget === 'date_range'" class="o_dfr_filter_date_range d-inline-flex align-items-center gap-1">
+                <input type="date"
+                       class="o_dfr_date_input form-control form-control-sm"
+                       t-att-name="'dfr_from_' + props.filterDef.key"
+                       t-att-value="(props.value or [])[0] or ''"
+                       t-on-change="onDateFromChange"/>
+                <span class="mx-1 text-muted small">→</span>
+                <input type="date"
+                       class="o_dfr_date_input form-control form-control-sm"
+                       t-att-name="'dfr_to_' + props.filterDef.key"
+                       t-att-value="(props.value or [])[1] or ''"
+                       t-on-change="onDateToChange"/>
+            </div>
+
+            <!-- widget: boolean_with_date_range -->
+            <div t-elif="widget === 'boolean_with_date_range'"
+                 class="o_dfr_filter_boolean_date d-inline-flex align-items-center gap-1">
+                <div class="form-check form-switch mb-0">
+                    <input type="checkbox" class="form-check-input" role="switch"
+                           t-att-name="'dfr_bool_' + props.filterDef.key"
+                           t-att-checked="props.value?.enabled"
+                           t-on-change="onBooleanToggle"/>
+                    <label class="form-check-label small">
+                        <t t-esc="props.filterDef.toggle_label or label"/>
+                    </label>
+                </div>
+                <div t-att-class="'o_dfr_date_subgroup d-inline-flex align-items-center gap-1 ' + (props.value?.enabled ? '' : 'o_dfr_disabled')">
+                    <input type="date"
+                           class="form-control form-control-sm"
+                           t-att-value="props.value?.date_from or ''"
+                           t-on-change="onDateFromChange"/>
+                    <span class="mx-1 text-muted small">→</span>
+                    <input type="date"
+                           class="form-control form-control-sm"
+                           t-att-value="props.value?.date_to or ''"
+                           t-on-change="onDateToChange"/>
+                </div>
+            </div>
+
+            <!-- widget: boolean (simple toggle) -->
+            <div t-elif="widget === 'boolean'" class="form-check form-switch mb-0">
+                <input type="checkbox" class="form-check-input" role="switch"
+                       t-att-name="'dfr_bool_' + props.filterDef.key"
+                       t-att-checked="props.value"
+                       t-on-change="onBooleanToggle"/>
+            </div>
+
+            <!-- widget: boolean_with_many2many -->
+            <div t-elif="widget === 'boolean_with_many2many'"
+                 class="o_dfr_filter_bool_m2m d-inline-flex align-items-center gap-1">
+                <div class="form-check form-switch mb-0">
+                    <input type="checkbox" class="form-check-input" role="switch"
+                           t-att-checked="props.value?.enabled"
+                           t-on-change="onBooleanToggle"/>
+                    <label class="form-check-label small">
+                        <t t-esc="props.filterDef.toggle_label or label"/>
+                    </label>
+                </div>
+                <div t-att-class="'o_dfr_m2m_subgroup ' + (props.value?.enabled ? '' : 'o_dfr_disabled')">
+                    <input type="text" class="form-control form-control-sm"
+                           t-att-placeholder="placeholder"
+                           t-on-input="onSearchInput"/>
+                </div>
+            </div>
+
+            <!-- widget: readonly_company_setting -->
+            <span t-elif="widget === 'readonly_company_setting'"
+                  class="o_dfr_readonly small text-muted">
+                <t t-esc="props.value or props.filterDef.default_label or ''"/>
+            </span>
+
+        </div>
+    </t>
+
+    <!-- ── EnterpriseFilterBar ──────────────────────────────────────── -->
+    <t t-name="sgc_dynamic_financial_report.EnterpriseFilterBar">
+        <div class="o_enterprise_filter_bar card card-body bg-light p-2 mb-2">
+            <div class="o_filter_bar_filters d-flex flex-wrap align-items-start">
+                <t t-foreach="visibleFilters" t-as="filterDef" t-key="filterDef.key">
+                    <t t-call="sgc_dynamic_financial_report.DfrFilterWidget">
+                        <t t-set="filterDef" t-value="filterDef"/>
+                    </t>
+                </t>
+            </div>
+
+            <div class="o_filter_bar_actions d-flex flex-wrap align-items-center gap-1 mt-1">
+                <!-- More / Less filters toggle -->
+                <button t-if="hasAdvancedFilters"
+                        class="btn btn-sm btn-outline-secondary"
+                        t-on-click="toggleMoreFilters">
+                    <t t-if="state.showMore">Less Filters</t>
+                    <t t-else="">More Filters</t>
+                </button>
+
+                <!-- Generate -->
+                <button class="btn btn-sm btn-primary"
+                        t-on-click="onGenerateClick"
+                        t-att-disabled="!canGenerate">
+                    <t t-if="state.generating">
+                        <span class="spinner-border spinner-border-sm me-1" role="status"/>
+                        Generating…
+                    </t>
+                    <t t-else="">
+                        <i class="fa fa-play me-1"/> Generate
+                    </t>
+                </button>
+
+                <!-- Export XLSX -->
+                <button class="btn btn-sm btn-success"
+                        t-on-click="onExportClick"
+                        t-att-disabled="!canGenerate">
+                    <t t-if="state.exporting">
+                        <span class="spinner-border spinner-border-sm me-1" role="status"/>
+                        Exporting…
+                    </t>
+                    <t t-else="">
+                        <i class="fa fa-file-excel-o me-1"/> Export XLSX
+                    </t>
+                </button>
+
+                <!-- Export PDF -->
+                <button class="btn btn-sm btn-outline-danger"
+                        t-on-click="onExportPdfClick"
+                        t-att-disabled="!canGenerate">
+                    <t t-if="state.exportingPdf">
+                        <span class="spinner-border spinner-border-sm me-1" role="status"/>
+                        Exporting PDF…
+                    </t>
+                    <t t-else="">
+                        <i class="fa fa-file-pdf-o me-1"/> PDF
+                    </t>
+                </button>
+
+                <!-- Reset -->
+                <button class="btn btn-sm btn-outline-secondary"
+                        t-on-click="onResetClick">
+                    <i class="fa fa-undo me-1"/> Reset
+                </button>
+            </div>
+        </div>
+    </t>
+
+</templates>

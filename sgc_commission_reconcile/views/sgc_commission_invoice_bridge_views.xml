@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_sgc_commission_invoice_bridge" model="ir.actions.act_window">
+            <field name="name">Invoice Bridges</field>
+            <field name="res_model">sgc.commission.invoice_bridge</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="view_sgc_commission_invoice_bridge_list" model="ir.ui.view">
+            <field name="name">sgc.commission.invoice_bridge.list</field>
+            <field name="model">sgc.commission.invoice_bridge</field>
+            <field name="arch" type="xml">
+                <list string="Invoice Bridges">
+                    <field name="name"/>
+                    <field name="tenant_id"/>
+                    <field name="invoice_state"/>
+                    <field name="invoice_date"/>
+                    <field name="amount_aed"/>
+                    <field name="confirmed_received" widget="boolean_toggle"/>
+                    <field name="confirmed_received_date"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_sgc_commission_invoice_bridge_form" model="ir.ui.view">
+            <field name="name">sgc.commission.invoice_bridge.form</field>
+            <field name="model">sgc.commission.invoice_bridge</field>
+            <field name="arch" type="xml">
+                <form string="Commission Invoice Bridge">
+                    <header>
+                        <button name="action_confirm_received" type="object"
+                                string="Confirm Receipt"
+                                class="btn-primary"
+                                invisible="confirmed_received"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group string="Linkage">
+                                <field name="tenant_id"/>
+                                <field name="commission_line_id"/>
+                                <field name="invoice_id"/>
+                            </group>
+                            <group string="Invoice snapshot (read-only)">
+                                <field name="invoice_state" readonly="1"/>
+                                <field name="invoice_date" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Confirmation">
+                                <field name="currency_id" invisible="1"/>
+                                <field name="amount_aed"/>
+                                <field name="confirmed_received" readonly="1"/>
+                                <field name="confirmed_received_date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="notes"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

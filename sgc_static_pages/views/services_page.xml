@@ -6,8 +6,10 @@
         <t t-set="pageName" t-value="'services'"/>
         <div id="wrap" class="oe_structure oe_empty">
 
-          <!-- Hero -->
-          <section class="py-5" style="background: var(--re-bg-page-2, #06101D);">
+          <!-- Hero: no opaque background here on purpose - the body-level
+               animated gold shader (sgc_design_tokens/05_shader_bg.js) needs
+               a transparent section to show through. -->
+          <section class="py-5">
             <div class="container py-5 text-center">
               <p class="text-uppercase small mb-3"
                  style="letter-spacing: 0.15em; color: var(--re-accent);">Services</p>
@@ -106,8 +108,8 @@
             </div>
           </section>
 
-          <!-- CTA -->
-          <section class="py-5" style="background: var(--re-bg-page-2, #06101D);">
+          <!-- CTA: transparent for the same reason as the hero above -->
+          <section class="py-5">
             <div class="container text-center py-3">
               <h2 class="mb-3">Not sure where to start?</h2>
               <p class="mb-4" style="color: var(--re-text-page-muted);">

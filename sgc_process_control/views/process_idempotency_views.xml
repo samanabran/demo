@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_process_idempotency_tree" model="ir.ui.view">
+        <field name="name">process.idempotency.list</field>
+        <field name="model">process.idempotency</field>
+        <field name="arch" type="xml">
+            <list string="Idempotency Keys">
+                <field name="created_at"/>
+                <field name="key"/>
+                <field name="target_system"/>
+                <field name="operation"/>
+                <field name="status" widget="badge"
+                       decoration-warning="status=='pending'"
+                       decoration-success="status=='succeeded'"
+                       decoration-danger="status=='dead_letter'"/>
+                <field name="expires_at"/>
+                <field name="completed_at" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_process_idempotency" model="ir.actions.act_window">
+        <field name="name">Idempotency Keys</field>
+        <field name="res_model">process.idempotency</field>
+        <field name="view_mode">list</field>
+    </record>
+</odoo>

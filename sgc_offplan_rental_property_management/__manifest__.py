@@ -24,7 +24,7 @@
         - Public rental website with search, filtering, and inquiry capture
     """,
     "summary": "Property Sale & Management with Portal Syndication and Public Website",
-    "version": "19.0.2.26",
+    "version": "19.0.2.32",
     "author": "SGC TECH AI",
     "company": "SGC TECH AI",
     "maintainer": "SGC TECH AI",
@@ -112,6 +112,7 @@
         "views/portal/portal_sync_log_views.xml",
         "views/portal/xml_feed_config_views.xml",
         "views/portal/portal_lead_views.xml",
+        "views/portal/property_details_feed_source_views.xml",
         # Portal frontend views
         "views/portal/portal_my_properties.xml",
         "views/portal/portal_my_contracts.xml",
@@ -139,6 +140,7 @@
         "report/sale_contract_installment_plan_template.xml",
         "report/maintenance_contract_report_template.xml",
         "report/booking_agreement_template.xml",
+        "data/ir_cron_feed_ingest.xml",
     ],
     "assets": {
         "web.assets_backend": [

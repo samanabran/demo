@@ -94,7 +94,14 @@ class PropertyVendor(models.Model):
     def action_confirm(self):
         for rec in self:
             rec.state = 'confirmed'
+            # Mirrors sale.contract.action_sign() / rent.contract.action_activate():
+            # confirming a booking is what actually reserves the property, so it
+            # must drive the same property.details.state the contract flows do.
+            if rec.property_id:
+                rec.property_id.state = 'booked'
 
     def action_cancel(self):
         for rec in self:
             rec.state = 'cancelled'
+            if rec.property_id:
+                rec.property_id.state = 'available'

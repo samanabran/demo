@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tenant_compliance_officer_search" model="ir.ui.view">
+        <field name="name">tenant.compliance.officer.search</field>
+        <field name="model">tenant.compliance.officer</field>
+        <field name="arch" type="xml">
+            <search string="Compliance Officers">
+                <field name="user_id"/>
+                <field name="role"/>
+                <field name="tenant_company_id"/>
+                <field name="state"/>
+                <filter name="filter_primary" string="Primary" domain="[('role','=','primary')]"/>
+                <filter name="filter_alternate" string="Alternate" domain="[('role','=','alternate')]"/>
+                <filter name="filter_active" string="Active" domain="[('state','=','active')]"/>
+                <filter name="filter_draft" string="Draft" domain="[('state','=','draft')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_tenant_compliance_officer_tree" model="ir.ui.view">
+        <field name="name">tenant.compliance.officer.list</field>
+        <field name="model">tenant.compliance.officer</field>
+        <field name="arch" type="xml">
+            <list string="Compliance Officers"
+                  decoration-success="state=='active'"
+                  decoration-warning="state=='draft'">
+                <field name="tenant_company_id"/>
+                <field name="role" widget="badge"
+                       decoration-success="role=='primary'"
+                       decoration-info="role=='alternate'"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="appointment_date"/>
+                <field name="appointment_notification_date"/>
+                <field name="state" widget="badge"
+                       decoration-success="state=='active'"
+                       decoration-warning="state=='draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tenant_compliance_officer_form" model="ir.ui.view">
+        <field name="name">tenant.compliance.officer.form</field>
+        <field name="model">tenant.compliance.officer</field>
+        <field name="arch" type="xml">
+            <form string="Compliance Officer / MLRO">
+                <header>
+                    <button name="action_activate" string="Activate"
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"
+                            groups="sgc_tenant_readiness.group_tenant_readiness_officer"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,active,superseded"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group name="identity" string="Identity">
+                            <field name="role" widget="radio"/>
+                            <field name="user_id" widget="many2one_avatar_user"/>
+                            <field name="tenant_company_id"/>
+                        </group>
+                        <group name="appointment" string="Appointment">
+                            <field name="appointment_date"/>
+                            <field name="appointment_notification_date"/>
+                            <field name="appointment_notification_reference"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="fit_and_proper" string="Fit-and-proper assessment">
+                            <field name="fit_and_proper_id"/>
+                            <group>
+                                <p class="text-muted">
+                                    Per MoJ Notice 247/2026, the CO/MLRO and
+                                    Alternate must each pass a fit-and-proper
+                                    test on integrity, qualifications,
+                                    experience, skills, and a documented
+                                    professional path. Records of the
+                                    assessment are maintained per MoET
+                                    DNFBP Guidelines, March 2026.
+                                </p>
+                            </group>
+                        </page>
+                        <page name="lnoo" string="LNOO (where required)">
+                            <field name="lnoo_reference" placeholder="LNOO reference from the supervisory authority, where one is required."/>
+                            <group>
+                                <p class="text-muted">
+                                    Per MoJ Notice 247/2026 §4.2: the
+                                    CO/MLRO role cannot be outsourced at all.
+                                    Specific tasks may be outsourced only
+                                    after obtaining a Letter of No Objection
+                                    (LNOO) from the supervisory authority. The
+                                    guidance lists "System Support" among the
+                                    examples. Whether this product's role
+                                    requires an LNOO is for the tenant's
+                                    counsel to determine. The product does not
+                                    assert that an LNOO is or is not required.
+                                    Blank by default.
+                                </p>
+                            </group>
+                        </page>
+                        <page name="chatter" string="Chatter">
+                            <chatter/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tenant_compliance_officer" model="ir.actions.act_window">
+        <field name="name">Compliance Officers (CO/MLRO + Alternate)</field>
+        <field name="res_model">tenant.compliance.officer</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_tenant_compliance_officer_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No compliance officers recorded yet.
+            </p>
+            <p>
+                Record the tenant's appointed CO/MLRO and Alternate. Per
+                MoJ Notice 247/2026, both are required and both pass a
+                fit-and-proper test.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_sgc_commission_policy" model="ir.actions.act_window">
+            <field name="name">Commission Policies</field>
+            <field name="res_model">sgc.commission.policy</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="view_sgc_commission_policy_list" model="ir.ui.view">
+            <field name="name">sgc.commission.policy.list</field>
+            <field name="model">sgc.commission.policy</field>
+            <field name="arch" type="xml">
+                <list string="Commission Policies">
+                    <field name="sequence" widget="handle"/>
+                    <field name="name"/>
+                    <field name="tenant_id"/>
+                    <field name="transaction_type"/>
+                    <field name="calculation_basis"/>
+                    <field name="co_broker_default_split_pct"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_sgc_commission_policy_search" model="ir.ui.view">
+            <field name="name">sgc.commission.policy.search</field>
+            <field name="model">sgc.commission.policy</field>
+            <field name="arch" type="xml">
+                <search string="Commission Policies">
+                    <field name="name"/>
+                    <field name="tenant_id"/>
+                    <field name="transaction_type"/>
+                    <filter name="active_only" string="Active"
+                            domain="[('active', '=', True)]"/>
+                    <filter name="inactive_only" string="Inactive (unconfigured)"
+                            domain="[('active', '=', False)]"/>
+                    <!-- Odoo 19 dropped `expand`/`string` attributes on search-view
+                         <group> (verified against live core XML,
+                         base/views/res_partner_views.xml, 2026-08-31 —
+                         the current idiom is a bare `<group name="group_by">`
+                         wrapping `<filter>` elements; the previous
+                         `expand="0" string="Group By"` form broke
+                         installation with a RelaxNG schema validation
+                         error). -->
+                    <group name="group_by">
+                        <filter name="group_by_tenant" string="Tenant"
+                                context="{'group_by': 'tenant_id'}"/>
+                        <filter name="group_by_type" string="Transaction type"
+                                context="{'group_by': 'transaction_type'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_sgc_commission_policy_form" model="ir.ui.view">
+            <field name="name">sgc.commission.policy.form</field>
+            <field name="model">sgc.commission.policy</field>
+            <field name="arch" type="xml">
+                <form string="Commission Policy">
+                    <header>
+                        <field name="active" invisible="1"/>
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Unconfigured"
+                                bg_color="text-bg-danger"
+                                invisible="active"/>
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+                        <group>
+                            <group string="Identification">
+                                <field name="tenant_id"/>
+                                <field name="transaction_type"/>
+                                <field name="active"/>
+                            </group>
+                            <group string="Calculation">
+                                <field name="calculation_basis"/>
+                                <field name="currency_id"/>
+                                <field name="co_broker_default_split_pct"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Tiers" name="tiers">
+                                <field name="tier_ids">
+                                    <list editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="threshold_from"/>
+                                        <field name="threshold_to"/>
+                                        <field name="rate_pct"/>
+                                        <field name="fixed_aed_amount"/>
+                                        <field name="currency_id" column_invisible="1"/>
+                                        <field name="active" widget="boolean_toggle"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Settings" name="settings">
+                                <group>
+                                    <field name="notes"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

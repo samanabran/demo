@@ -1,0 +1,292 @@
+{
+  "version": 1,
+  "jobId": "4cce4bd7-bfe2-428d-a497-88ffdc54b2d0",
+  "sessionId": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+  "scopeKey": "93fa1dd98f4acca7d07730dadf4a72ca9af104d6d9ff22f954c058279519eb3b",
+  "revision": 2,
+  "createdAt": "2026-07-27T15:49:03.443Z",
+  "updatedAt": "2026-07-27T15:49:03.489Z",
+  "producerGraceExpiresAt": "2026-07-27T15:49:33.445Z",
+  "bestEffortDeadlineAt": "2026-07-27T15:50:24.445Z",
+  "producers": {
+    "core": {
+      "state": "sealed",
+      "intentKey": "b1b6894212c93784381588901b0834af93a682dcb4348fe9dd0a9b200764d95d",
+      "payloadDigest": "b1b6894212c93784381588901b0834af93a682dcb4348fe9dd0a9b200764d95d",
+      "sealedAt": "2026-07-27T15:49:03.474Z",
+      "sealedBy": "foreground"
+    },
+    "wiki": {
+      "state": "no-op",
+      "sealedAt": "2026-07-27T15:49:03.489Z",
+      "sealedBy": "wiki-producer"
+    }
+  },
+  "actions": {
+    "foreground-cleanup": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "completed",
+      "attempts": 0,
+      "idempotencyKey": "56f72a4f1f157961cfb817be80279d0bb3c1ebb70e78d982c8088f2755eaf75e",
+      "payload": {
+        "transcriptPath": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+        "cwd": "C:\\Livedata-base",
+        "reason": "other",
+        "input": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "transcript_path": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+          "cwd": "C:\\Livedata-base",
+          "prompt_id": "7a9b3aa2-caf4-420c-92c5-891cee43519a",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "ended_at": "2026-07-27T15:49:03.341Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {},
+        "foregroundResult": {
+          "removedTransientFiles": 4,
+          "completedAt": "2026-07-27T15:49:03.470Z"
+        }
+      },
+      "budgetMs": 9000,
+      "completedAt": "2026-07-27T15:49:03.474Z",
+      "lastOutcomeCode": "completed"
+    },
+    "wiki-capture": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "completed",
+      "attempts": 0,
+      "idempotencyKey": "1b3535e4aeb779abdcc87e859e26619aaeb3d39095b0b70fd4068f5ec9ede83e",
+      "payload": {
+        "transcriptPath": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+        "cwd": "C:\\Livedata-base",
+        "reason": "other",
+        "input": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "transcript_path": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+          "cwd": "C:\\Livedata-base",
+          "prompt_id": "7a9b3aa2-caf4-420c-92c5-891cee43519a",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "ended_at": "2026-07-27T15:49:03.341Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000,
+      "completedAt": "2026-07-27T15:49:03.489Z"
+    },
+    "team-cleanup": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "8500f10b0f5ade910d678f009a069f376fe6bf5b5c3268e6aaf09033c5c6fea6",
+      "payload": {
+        "transcriptPath": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+        "cwd": "C:\\Livedata-base",
+        "reason": "other",
+        "input": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "transcript_path": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+          "cwd": "C:\\Livedata-base",
+          "prompt_id": "7a9b3aa2-caf4-420c-92c5-891cee43519a",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "ended_at": "2026-07-27T15:49:03.341Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000
+    },
+    "python-cleanup": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "af3a33e4193bb24f8c5c677957e6e489361997a8aeaf43faf50ba4412890454e",
+      "payload": {
+        "transcriptPath": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+        "cwd": "C:\\Livedata-base",
+        "reason": "other",
+        "input": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "transcript_path": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+          "cwd": "C:\\Livedata-base",
+          "prompt_id": "7a9b3aa2-caf4-420c-92c5-891cee43519a",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "ended_at": "2026-07-27T15:49:03.341Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000
+    },
+    "reply-cleanup": {
+      "class": "required",
+      "phase": "deferred-required",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "4a33e1cbb12c7474715688b630319372b572009e3d18b8db2cab1729ee0c8d00",
+      "payload": {
+        "transcriptPath": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+        "cwd": "C:\\Livedata-base",
+        "reason": "other",
+        "input": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "transcript_path": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+          "cwd": "C:\\Livedata-base",
+          "prompt_id": "7a9b3aa2-caf4-420c-92c5-891cee43519a",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "ended_at": "2026-07-27T15:49:03.341Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 9000
+    },
+    "callback": {
+      "class": "best-effort",
+      "phase": "deferred-best-effort",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "2f249d7952c55b2254390044aaf1211f079a0b466262f0aa7bd2859ffa3a2e79",
+      "payload": {
+        "transcriptPath": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+        "cwd": "C:\\Livedata-base",
+        "reason": "other",
+        "input": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "transcript_path": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+          "cwd": "C:\\Livedata-base",
+          "prompt_id": "7a9b3aa2-caf4-420c-92c5-891cee43519a",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "ended_at": "2026-07-27T15:49:03.341Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 2000
+    },
+    "notification": {
+      "class": "best-effort",
+      "phase": "deferred-best-effort",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "b708745e9b7bc9e0d7c5a5986b6aa0ee75e240309b05de18f737102f9eadbf34",
+      "payload": {
+        "transcriptPath": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+        "cwd": "C:\\Livedata-base",
+        "reason": "other",
+        "input": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "transcript_path": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+          "cwd": "C:\\Livedata-base",
+          "prompt_id": "7a9b3aa2-caf4-420c-92c5-891cee43519a",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "ended_at": "2026-07-27T15:49:03.341Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 2000
+    },
+    "openclaw": {
+      "class": "best-effort",
+      "phase": "deferred-best-effort",
+      "status": "pending",
+      "attempts": 0,
+      "idempotencyKey": "5ab5b6d155b06b530c0865c7c920ef4a14f80a118e22b04c5f4bb2c4bcea6147",
+      "payload": {
+        "transcriptPath": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+        "cwd": "C:\\Livedata-base",
+        "reason": "other",
+        "input": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "transcript_path": "C:\\Users\\USER\\.claude\\projects\\C--Livedata-base\\c04bf967-c8d8-474f-93ee-4c9fc50ef177.jsonl",
+          "cwd": "C:\\Livedata-base",
+          "prompt_id": "7a9b3aa2-caf4-420c-92c5-891cee43519a",
+          "hook_event_name": "SessionEnd",
+          "reason": "other"
+        },
+        "metrics": {
+          "session_id": "c04bf967-c8d8-474f-93ee-4c9fc50ef177",
+          "ended_at": "2026-07-27T15:49:03.341Z",
+          "reason": "other",
+          "agents_spawned": 0,
+          "agents_completed": 0,
+          "modes_used": []
+        },
+        "initialTeamNames": [],
+        "openClawEnabled": false,
+        "openClawRouting": {}
+      },
+      "budgetMs": 2000
+    }
+  },
+  "owner": null,
+  "phase": "ready"
+}

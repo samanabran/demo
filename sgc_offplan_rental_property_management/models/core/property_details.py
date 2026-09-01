@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 from odoo.tools.image import image_process
 from datetime import date, timedelta
 
@@ -56,7 +57,7 @@ class PropertyDetails(models.Model):
     dld_fee_percentage = fields.Float(string='DLD Fee %', default=4.0)
     # UAE-standard document identifiers (Makani/DEWA/Title Deed) — used by the
     # Ejari-style rental contract report and the resale purchase agreement.
-    # Added for report field coverage; not yet exposed on any form view.
+    # Exposed on the Compliance & Permits tab of the property form (Phase 0.5).
     makani_number = fields.Char(string='Makani Number')
     dewa_premises_number = fields.Char(string='DEWA Premises Number')
     title_deed_number = fields.Char(string='Title Deed Number')
@@ -230,6 +231,53 @@ class PropertyDetails(models.Model):
         for rec in self:
             rec.document_count = self.env['property.documents'].search_count(
                 [('property_id', '=', rec.id)])
+
+    # ------------------------------------------------------------------
+    # Trakheesi permit constraints (Phase 0.6)
+    # ------------------------------------------------------------------
+    # Allow empty values; reject duplicates and malformed values. Format
+    # pattern is configurable via ``ir.config_parameter`` key
+    # ``sgc_offplan_rental_property_management.trakheesi_permit_format``
+    # so the operator (or compliance officer) can update the regex without
+    # a code change once DLD/Trakheesi confirms the exact format. The
+    # default below is intentionally permissive — see OPEN_QUESTIONS.md.
+    @api.constrains('trakheesi_permit_number')
+    def _check_trakheesi_permit_number(self):
+        import re as _re
+        for rec in self:
+            value = (rec.trakheesi_permit_number or '').strip()
+            if not value:
+                # Empty is allowed (compliance gate is at publish time, not save).
+                continue
+            pattern = rec.env['ir.config_parameter'].sudo().get_param(
+                'sgc_offplan_rental_property_management.trakheesi_permit_format',
+                default=r'^[A-Za-z0-9._\-]{3,50}$',
+            )
+            if not _re.match(pattern, value):
+                raise ValidationError(_(
+                    "Trakheesi Permit Number '%(value)s' does not match the configured format (%(pattern)s). "
+                    "Adjust the format in Settings or update the value.",
+                    value=value, pattern=pattern,
+                ))
+
+    @api.constrains('trakheesi_permit_number')
+    def _check_trakheesi_permit_number_unique(self):
+        for rec in self:
+            value = (rec.trakheesi_permit_number or '').strip()
+            if not value:
+                continue
+            dup = rec.env['property.details'].sudo().with_context(
+                active_test=False,
+            ).search([
+                ('trakheesi_permit_number', '=', value),
+                ('id', '!=', rec.id),
+            ])
+            if dup:
+                raise ValidationError(_(
+                    "Trakheesi Permit Number '%(value)s' is already used by property %(other)s. "
+                    "Permit numbers must be unique per property.",
+                    value=value, other=dup[0].display_name or dup[0].name,
+                ))
 
     @api.depends('trakheesi_permit_number', 'permit_expiry_date',
                  'title_deed_number', 'owner_id',

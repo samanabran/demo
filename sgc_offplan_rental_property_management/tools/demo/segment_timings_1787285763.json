@@ -1,0 +1,90 @@
+[
+  {
+    "id": "01-intro",
+    "duration_s": 25.61
+  },
+  {
+    "id": "02-rapidapi-intro",
+    "duration_s": 12.84
+  },
+  {
+    "id": "03-rapidapi-bayut",
+    "duration_s": 8.41
+  },
+  {
+    "id": "04-rapidapi-pf",
+    "duration_s": 6.54
+  },
+  {
+    "id": "05-rapidapi-dubizzle",
+    "duration_s": 8.23
+  },
+  {
+    "id": "06-rapidapi-note",
+    "duration_s": 10.88
+  },
+  {
+    "id": "07-publish-unpublished",
+    "duration_s": 9.86
+  },
+  {
+    "id": "08-publish-click",
+    "duration_s": 4.96
+  },
+  {
+    "id": "09-publish-confirm",
+    "duration_s": 5.65
+  },
+  {
+    "id": "10-public-search",
+    "duration_s": 13.03
+  },
+  {
+    "id": "11-public-detail",
+    "duration_s": 8.68
+  },
+  {
+    "id": "12-inquiry-open",
+    "duration_s": 7.86
+  },
+  {
+    "id": "13-inquiry-fill",
+    "duration_s": 7.5
+  },
+  {
+    "id": "14-inquiry-submit",
+    "duration_s": 8.28
+  },
+  {
+    "id": "15-gap-fix-intro",
+    "duration_s": 9.03
+  },
+  {
+    "id": "16-smart-button-click",
+    "duration_s": 10.13
+  },
+  {
+    "id": "17-smart-button-proof",
+    "duration_s": 6.65
+  },
+  {
+    "id": "18-feed-intro",
+    "duration_s": 10.38
+  },
+  {
+    "id": "19-feed-config",
+    "duration_s": 10.65
+  },
+  {
+    "id": "20-feed-run",
+    "duration_s": 14.17
+  },
+  {
+    "id": "21-feed-result",
+    "duration_s": 8.06
+  },
+  {
+    "id": "22-closing",
+    "duration_s": 11.78
+  }
+]

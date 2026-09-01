@@ -17,11 +17,11 @@
   <template id="frontend_fonts" inherit_id="web.frontend_layout" name="SGC Frontend Fonts">
     <xpath expr="//head" position="inside">
       <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&amp;display=swap"
-            data-sgc-font="fraunces-global"/>
-      <link rel="stylesheet"
             href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700&amp;display=swap"
             data-sgc-font="cabinet-grotesk-global"/>
+      <link rel="stylesheet"
+            href="https://api.fontshare.com/v2/css?f[]=gambetta@400,500,600,700&amp;display=swap"
+            data-sgc-font="gambetta-global"/>
     </xpath>
   </template>
 

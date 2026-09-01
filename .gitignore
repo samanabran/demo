@@ -1,0 +1,24 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.tox/
+*.egg-info/
+
+# Odoo local artefacts
+*.sql
+*.dump
+*.backup
+filestore/
+/opt/
+/tmp/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local session artefacts
+.session/

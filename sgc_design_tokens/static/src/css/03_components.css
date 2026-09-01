@@ -171,10 +171,11 @@ i.fa-phone {
 
 /* -- Generic page-header title band (s_title snippet: Contact Us, Jobs,
       and other default Odoo pages that use it without a background image)
-      — replace the flat black overlay with the brand navy so it reads as
-      an intentional header strip, not an unstyled placeholder. ---------- */
+      — transparent so the body-level animated gold shader
+      (sgc_design_tokens/05_shader_bg.js) shows through instead of being
+      covered by a flat opaque band. -------------------------------------- */
 .s_title.bg-black-50 {
-  background-color: var(--re-bg-page-2) !important;
+  background-color: transparent !important;
 }
 
 /* -- Generic icon badge — circular gold-tinted icon chip, for feature/value

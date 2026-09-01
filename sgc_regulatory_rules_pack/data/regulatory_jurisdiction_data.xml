@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Jurisdiction catalogue.
+        Per Wave 0 / Q1 answer: only Dubai is populated at Wave 1 exit.
+        Abu Dhabi, DIFC, ADGM are present as empty placeholder rows with
+        population_status='placeholder' so the catalogue is full and
+        future rules-pack entries have a home to reference.
+    -->
+    <record id="jurisdiction_dubai" model="regulatory.jurisdiction">
+        <field name="name">Dubai (UAE)</field>
+        <field name="code">dubai</field>
+        <field name="primary_regulator">dld</field>
+        <field name="population_status">populated</field>
+        <field name="sequence">10</field>
+        <field name="notes">Primary operating jurisdiction. DLD, RERA, Trakheesi, Ejari, Mollak, MoET. Populated per Q1.</field>
+    </record>
+
+    <record id="jurisdiction_abu_dhabi" model="regulatory.jurisdiction">
+        <field name="name">Abu Dhabi (UAE)</field>
+        <field name="code">abu_dhabi</field>
+        <field name="primary_regulator">adrec</field>
+        <field name="population_status">placeholder</field>
+        <field name="sequence">20</field>
+        <field name="notes">Placeholder per Q1. ADREC under Law 3 of 2015. Population deferred to a later wave.</field>
+    </record>
+
+    <record id="jurisdiction_difc" model="regulatory.jurisdiction">
+        <field name="name">DIFC (Dubai International Financial Centre)</field>
+        <field name="code">difc</field>
+        <field name="primary_regulator">dfsa</field>
+        <field name="population_status">placeholder</field>
+        <field name="sequence">30</field>
+        <field name="notes">Placeholder per Q1. DFSA-supervised. Real estate activity in DIFC operates under the DIFC Real Property Law and DFSA Conduct of Business rules. Population deferred.</field>
+    </record>
+
+    <record id="jurisdiction_adgm" model="regulatory.jurisdiction">
+        <field name="name">ADGM (Abu Dhabi Global Market)</field>
+        <field name="code">adgm</field>
+        <field name="primary_regulator">fsra</field>
+        <field name="population_status">placeholder</field>
+        <field name="sequence">40</field>
+        <field name="notes">Placeholder per Q1. FSRA-supervised. Real estate activity in ADGM operates under the ADGM Real Property Regulations. Population deferred.</field>
+    </record>
+
+    <record id="jurisdiction_uae_federal" model="regulatory.jurisdiction">
+        <field name="name">UAE Federal (cross-jurisdiction)</field>
+        <field name="code">uae_federal</field>
+        <field name="primary_regulator">moet</field>
+        <field name="population_status">populated</field>
+        <field name="sequence">5</field>
+        <field name="notes">Cross-jurisdiction AML regime. Federal Decree-Law No. 10 of 2025 (in force 14/10/2025) + Cabinet Resolution No. 134 of 2025 (in force 14/12/2025). Constants applicable Dubai-wide and Abu-Dhabi-wide live here.</field>
+    </record>
+</odoo>

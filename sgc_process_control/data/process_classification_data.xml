@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Classification catalogue is enforced at the model layer
+             (process.exception.CLASSIFICATIONS). This XML file exists
+             so downstream modules can reference these labels in
+             searches and reports without hard-coding the strings. -->
+        <record id="classification_integration" model="ir.model.data">
+            <field name="name">integration</field>
+            <field name="module">sgc_process_control</field>
+            <field name="model">process.classification.reference</field>
+            <field name="res_id">0</field>
+        </record>
+    </data>
+</odoo>

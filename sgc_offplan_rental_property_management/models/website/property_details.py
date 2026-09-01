@@ -168,6 +168,25 @@ class PropertyDetails(models.Model):
             }
         }
 
+    def action_view_website_inquiries(self):
+        """Open the gated-form inquiries captured for this property.
+
+        Mirrors action_open_portal_leads (models/portal/property_details_portal.py)
+        so both smart buttons behave the same way — this one just points at
+        property.website.inquiry (leads from our own site) instead of
+        portal.lead (leads from partner portals like Bayut/Dubizzle).
+        """
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Website Inquiries'),
+            'res_model': 'property.website.inquiry',
+            'view_mode': 'list,form',
+            'domain': [('property_id', '=', self.id)],
+            'context': {'default_property_id': self.id},
+            'target': 'current',
+        }
+
     def increment_website_views(self):
         """Increment view counter (called from controller)"""
         self.sudo().write({'website_views_count': self.website_views_count + 1})

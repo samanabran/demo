@@ -7,12 +7,6 @@
         sequence="10"
         web_icon="sgc_deals_management,static/description/icon.png"/>
 
-    <menuitem id="menu_commissions_root"
-        name="Commissions"
-        sequence="30"
-        action="sgc_commission.action_commission_line"
-        web_icon="sgc_deals_management,static/description/commissions_icon.png"/>
-
     <!-- ========== DEALS CHILDREN ========== -->
 
     <menuitem id="menu_deals_all"

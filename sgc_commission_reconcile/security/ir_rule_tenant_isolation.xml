@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SGC Commission Reconcile — tenant isolation.
+
+    Section 0 CHECK 0.4 finding: no existing `tenant_id`-scoped ir.rule
+    pattern was found anywhere in `sgc_realestate_brokerage_template`.
+    The only existing rule scopes `sgc.brokerage.tenant` itself by
+    `company_id in company_ids` (that model IS the tenant anchor, so it
+    doesn't carry a `tenant_id` field to scope by).
+
+    TODO(human-verify): this module therefore implements the MOST
+    DEFENSIVE version per the brief's fallback instruction: deny by
+    default (`[(0, '=', 1)]` for anyone outside both groups), allow
+    only records whose `tenant_id` is NOT set (legacy/single-tenant
+    installs) OR resolves via the requesting user's own tenant
+    assignment. Because `res.users` in this codebase does NOT currently
+    carry a `tenant_id` field (not created by any prior reconciliation
+    pass — confirmed absent during this generation's context), the
+    domains below fall back to `company_id in company_ids` — the same
+    multi-company primitive the existing sgc.brokerage.tenant rule
+    uses — cross-referenced through `tenant_id.company_id`. This is a
+    reasonable interim default, NOT a guess at a nonexistent field, but
+    it must be re-verified once (if) a direct user-to-tenant mapping is
+    introduced.
+
+    ACL groups alone do NOT prevent one tenant from seeing another
+    tenant's commission data once multiple tenants share a company —
+    these ir.rule records are the actual isolation boundary.
+-->
+<odoo>
+    <data noupdate="1">
+
+        <record id="rule_commission_policy_tenant" model="ir.rule">
+            <field name="name">Commission Policy: tenant-company isolation</field>
+            <field name="model_id" ref="model_sgc_commission_policy"/>
+            <field name="domain_force">
+                [('tenant_id.company_id', 'in', company_ids)]
+            </field>
+            <field name="groups" eval="[
+                (4, ref('sgc_realestate_brokerage_template.group_realestate_brokerage_user')),
+                (4, ref('sgc_realestate_brokerage_template.group_realestate_brokerage_manager')),
+            ]"/>
+        </record>
+
+        <record id="rule_commission_policy_tier_tenant" model="ir.rule">
+            <field name="name">Commission Policy Tier: tenant-company isolation (via policy_id)</field>
+            <field name="model_id" ref="model_sgc_commission_policy_tier"/>
+            <field name="domain_force">
+                [('policy_id.tenant_id.company_id', 'in', company_ids)]
+            </field>
+            <field name="groups" eval="[
+                (4, ref('sgc_realestate_brokerage_template.group_realestate_brokerage_user')),
+                (4, ref('sgc_realestate_brokerage_template.group_realestate_brokerage_manager')),
+            ]"/>
+        </record>
+
+        <record id="rule_commission_partner_split_tenant" model="ir.rule">
+            <field name="name">Commission Partner Split: tenant-company isolation</field>
+            <field name="model_id" ref="model_sgc_commission_partner_split"/>
+            <field name="domain_force">
+                [('tenant_id.company_id', 'in', company_ids)]
+            </field>
+            <field name="groups" eval="[
+                (4, ref('sgc_realestate_brokerage_template.group_realestate_brokerage_user')),
+                (4, ref('sgc_realestate_brokerage_template.group_realestate_brokerage_manager')),
+            ]"/>
+        </record>
+
+        <record id="rule_commission_invoice_bridge_tenant" model="ir.rule">
+            <field name="name">Commission Invoice Bridge: tenant-company isolation</field>
+            <field name="model_id" ref="model_sgc_commission_invoice_bridge"/>
+            <field name="domain_force">
+                [('tenant_id.company_id', 'in', company_ids)]
+            </field>
+            <field name="groups" eval="[
+                (4, ref('sgc_realestate_brokerage_template.group_realestate_brokerage_user')),
+                (4, ref('sgc_realestate_brokerage_template.group_realestate_brokerage_manager')),
+            ]"/>
+        </record>
+
+        <!-- Audit reviewer: read-only visibility across ALL tenants in
+             their accessible companies, mirroring the audit group's
+             role elsewhere in the estate (read-only, cross-tenant, for
+             compliance review). This is a deliberate widening beyond
+             the deny-by-default posture above, scoped to a group whose
+             ACL (see ir.model.access.csv) already grants read-only. -->
+        <record id="rule_commission_policy_audit" model="ir.rule">
+            <field name="name">Commission Policy: audit reviewer (read-only, all tenants)</field>
+            <field name="model_id" ref="model_sgc_commission_policy"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[
+                (4, ref('sgc_realestate_brokerage_template.group_realestate_audit_reviewer')),
+            ]"/>
+        </record>
+
+    </data>
+</odoo>

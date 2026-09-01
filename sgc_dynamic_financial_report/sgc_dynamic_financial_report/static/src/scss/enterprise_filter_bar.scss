@@ -1,0 +1,172 @@
+// ─────────────────────────────────────────────────────────────────────
+// SGC Enterprise Filter Bar – Frontend Styles
+// ─────────────────────────────────────────────────────────────────────
+// These styles are loaded in web.assets_backend.
+// ─────────────────────────────────────────────────────────────────────
+
+// ── Filter Bar Container ────────────────────────────────────────────
+.o_enterprise_filter_bar {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+
+    .o_filter_bar_filters {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .o_filter_bar_actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.25rem;
+
+        .btn {
+            white-space: nowrap;
+        }
+    }
+}
+
+// ── Individual Filter Widget ────────────────────────────────────────
+.o_dfr_filter_widget {
+    position: relative;
+    vertical-align: middle;
+
+    .o_dfr_filter_label {
+        font-size: 0.8rem;
+        color: #495057;
+        min-width: auto;
+    }
+
+    .o_dfr_filter_select {
+        max-width: 200px;
+    }
+
+    // Tag pills for many2many_tags
+    .o_dfr_tag {
+        font-size: 0.75rem;
+        padding: 0.15rem 0.4rem;
+        border-radius: 3px;
+        background-color: #091528;
+
+        .o_dfr_tag_remove {
+            font-size: 0.85rem;
+            line-height: 1;
+            opacity: 0.7;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    // Search dropdown for many2one / many2many_tags
+    .o_dfr_filter_dropdown {
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1050;
+        top: 100%;
+    }
+
+    // Date inputs
+    .o_dfr_date_input {
+        max-width: 150px;
+        font-size: 0.8rem;
+    }
+
+    // Disabled subgroup (boolean toggle controls)
+    .o_dfr_disabled {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    // Read-only value
+    .o_dfr_readonly {
+        font-size: 0.85rem;
+        padding: 0.2rem 0.5rem;
+        background-color: #e9ecef;
+        border-radius: 3px;
+    }
+}
+
+// ── Many2many tags list (inline) ────────────────────────────────────
+.o_dfr_m2m_tags_list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+}
+
+// ── Responsive breakpoints ──────────────────────────────────────────
+// Desktop: default layout (no changes needed)
+
+// Tablet (<= 991.98px)
+@media (max-width: 991.98px) {
+    .o_enterprise_filter_bar {
+        .o_filter_bar_filters {
+            gap: 0.5rem;
+        }
+
+        .o_filter_bar_actions {
+            margin-top: 0.5rem;
+        }
+    }
+
+    .o_dfr_filter_widget {
+        .o_dfr_filter_select {
+            max-width: 160px;
+        }
+
+        .o_dfr_date_input {
+            max-width: 130px;
+        }
+    }
+}
+
+// Mobile (<= 575.98px)
+@media (max-width: 575.98px) {
+    .o_enterprise_filter_bar {
+        padding: 0.5rem;
+
+        .o_filter_bar_filters {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .o_filter_bar_actions {
+            flex-direction: column;
+            width: 100%;
+
+            .btn {
+                width: 100%;
+            }
+        }
+    }
+
+    .o_dfr_filter_widget {
+        width: 100%;
+
+        .o_dfr_filter_select,
+        .o_dfr_filter_search,
+        .o_dfr_date_input {
+            max-width: 100%;
+            width: 100%;
+        }
+
+        .o_dfr_filter_date_range {
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .o_dfr_filter_boolean_date,
+        .o_dfr_filter_bool_m2m {
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .o_dfr_tag {
+            font-size: 0.7rem;
+        }
+    }
+}

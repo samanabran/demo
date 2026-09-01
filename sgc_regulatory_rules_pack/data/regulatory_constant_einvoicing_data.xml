@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        UAE e-invoicing constants.
+        Per amendment 001 §10.5: ASP appointment extended to 30 October 2026;
+        go-live remains 1 January 2027. The extension covers appointment
+        only.
+
+        Class: these constants are TENANT_CONFIG (per amendment 001 §4
+        table). Whether a given tenant triggers mandatory e-invoicing
+        depends on its annual revenue relative to AED 50m — a fact
+        the tenant owns, not us. The product gates the capability on
+        the tenant's own revenue attestation and ASP appointment.
+
+        All values are verified against the published guidance at the
+        time of writing. The current FTA position must be re-verified
+        within 5 working days per amendment 001 §10.5.
+    -->
+    <data noupdate="1">
+
+        <record id="const_einvoicing_asp_appointment_due" model="regulatory.constant">
+            <field name="name">E-invoicing — ASP appointment due date (revenue ≥ AED 50m)</field>
+            <field name="code">einvoicing_asp_appointment_due</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">filing_window</field>
+            <field name="value_text">2026-10-30</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.tax.gov.ae/</field>
+            <field name="source_reference">UAE e-invoicing: voluntary phase from 1 July 2026. ASP appointment extended to 30 October 2026. Go-live 1 January 2027 for revenue ≥ AED 50m. TENANT_CONFIG: whether a given tenant triggers mandatory e-invoicing depends on tenant revenue, which the tenant attests.</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified</field>
+            <field name="valid_from">2026-07-01</field>
+            <field name="version">1</field>
+            <field name="notes">Amendment 001 §10.5: extension covers appointment only. Date must be re-verified within 5 working days; the rules pack is not the source of truth, the published FTA position is.</field>
+        </record>
+
+        <record id="const_einvoicing_go_live" model="regulatory.constant">
+            <field name="name">E-invoicing — mandatory go-live (revenue ≥ AED 50m)</field>
+            <field name="code">einvoicing_go_live</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">filing_window</field>
+            <field name="value_text">2027-01-01</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.tax.gov.ae/</field>
+            <field name="source_reference">UAE e-invoicing: go-live 1 January 2027 for revenue ≥ AED 50m. TENANT_CONFIG: trigger depends on tenant revenue, which the tenant attests.</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified</field>
+            <field name="valid_from">2026-07-01</field>
+            <field name="version">1</field>
+        </record>
+
+        <record id="const_einvoicing_voluntary_phase_start" model="regulatory.constant">
+            <field name="name">E-invoicing — voluntary phase start</field>
+            <field name="code">einvoicing_voluntary_phase_start</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">filing_window</field>
+            <field name="value_text">2026-07-01</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.tax.gov.ae/</field>
+            <field name="source_reference">UAE e-invoicing: voluntary phase opened 1 July 2026. TENANT_CONFIG: opting in is the tenant's decision.</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified</field>
+            <field name="valid_from">2026-07-01</field>
+            <field name="version">1</field>
+        </record>
+
+    </data>
+</odoo>

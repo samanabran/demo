@@ -7,16 +7,16 @@ function sgcInitScrollHeroV2() {
     var instances = new WeakMap();
 
     var storyBeats = [
-        { text: "Before it's an address, it's a feeling.", start: 0.00, end: 0.08 },
-        { text: "A place you haven't found yet — but already miss.", start: 0.10, end: 0.18 },
-        { text: "Somewhere, a street is waiting to learn your name.", start: 0.20, end: 0.28 },
-        { text: "The porch light you'll leave on for the people you love.", start: 0.30, end: 0.38 },
-        { text: "A door that will learn the sound of your keys.", start: 0.40, end: 0.48 },
-        { text: "Walls that don't know your laughter yet.", start: 0.50, end: 0.58 },
-        { text: "A window where morning will find you first.", start: 0.60, end: 0.68 },
-        { text: "This is what 'home' means, before it means anything else.", start: 0.70, end: 0.78 },
-        { text: "Every homeowner remembers the day it stopped being a house.", start: 0.80, end: 0.88 },
-        { text: "Let's find yours.", start: 0.90, end: 1.00, isFinal: true }
+        { text: "You\u2019ve imagined this home more times than you can remember.", start: 0.00, end: 0.09 },
+        { text: "A place where mornings feel peaceful and evenings feel complete.", start: 0.10, end: 0.19 },
+        { text: "Every room holds a piece of who you are.", start: 0.20, end: 0.29 },
+        { text: "A place where your family grows and your dreams grow with them.", start: 0.30, end: 0.39 },
+        { text: "Laughter fills the silence and love leaves its mark.", start: 0.40, end: 0.49 },
+        { text: "The right home doesn\u2019t just shelter you \u2014 it shapes your future.", start: 0.50, end: 0.59 },
+        { text: "One decision can turn everything you\u2019ve dreamed into everything you live.", start: 0.60, end: 0.69 },
+        { text: "True luxury isn\u2019t measured in space \u2014 it\u2019s measured in how it makes you feel.", start: 0.70, end: 0.79 },
+        { text: "Someday, you\u2019ll look around and remember the decision that brought you here.", start: 0.80, end: 0.88 },
+        { text: "Your story has been waiting for a place like this.", start: 0.89, end: 1.00, isFinal: true }
     ];
 
     function pad4(n) {
@@ -28,6 +28,17 @@ function sgcInitScrollHeroV2() {
         var pinHeightVh = parseInt(section.dataset.pinHeight, 10) || 600;
         section.style.setProperty('--sgc-pin-height-v2', pinHeightVh + 'vh');
 
+        // frame_0001..~0010 are an intentional near-black "fade up from
+        // night" opening in the source photography, but frame 1 is also
+        // what a visitor sees at rest (scroll progress 0) the instant they
+        // land - before they've scrolled at all. That made the hero look
+        // broken/empty on arrival instead of cinematic. Retiring those
+        // darkest frames from the scroll-scrubbable range (below) fixes it
+        // for every visitor regardless of how they arrive (fresh load, back
+        // button, deep link mid-scroll) since it changes what progress=0
+        // *means*, rather than depending on a load-time animation race.
+        var INTRO_HOLD_FRAME = Math.min(12, frameCount);
+
         var canvas = section.querySelector('.s_re_hero_canvas_v2');
         var ctx = canvas.getContext('2d');
         var caption = section.querySelector('.s_re_hero_caption_v2');
@@ -38,19 +49,35 @@ function sgcInitScrollHeroV2() {
         // without colliding with this module's own .s_re_hero_search_wrap_v2
         // sizing rules at equal CSS specificity).
         var searchWrap = section.querySelector('.s_re_hero_search_wrap_v2, .s_re_hero_search_wrap');
+        var revealDivider = section.querySelector('.s_re_hero_reveal_divider');
         var hint = section.querySelector('.s_re_hero_scroll_hint_v2');
         var loading = section.querySelector('.s_re_hero_loading_v2');
 
+        // Budget select posts a single "min-max" value; split it into the
+        // two plain query params /offplan/properties already understands
+        // (min_price/max_price) rather than teaching the controller a new
+        // param.
+        var budgetSelect = section.querySelector('.s_re_hero_search_budget');
+        var minPriceInput = section.querySelector('input[name="min_price"]');
+        var maxPriceInput = section.querySelector('input[name="max_price"]');
+        if (budgetSelect && minPriceInput && maxPriceInput) {
+            budgetSelect.addEventListener('change', function () {
+                var parts = budgetSelect.value ? budgetSelect.value.split('-') : [];
+                minPriceInput.value = parts[0] || '';
+                maxPriceInput.value = parts.length > 1 ? (parts[1] || '') : '';
+            });
+        }
+
         var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         var frameImgs = new Array(frameCount + 1);
-        var currentFrame = 1;
+        var currentFrame = INTRO_HOLD_FRAME;
         var lastDrawnFrame = -1;
         var activeBeatIndex = -1;
         var engineStarted = false;
 
         var targetProgress = 0;
         var smoothedProgress = 0;
-        var SGC_SMOOTHING = 0.15;
+        var SGC_SMOOTHING = 0.10;
         var loopRunning = false;
         var stillFrames = 0;
         var STILLNESS_THRESHOLD = 0.0005;
@@ -326,6 +353,12 @@ function sgcInitScrollHeroV2() {
             eagerList.forEach(function (i) {
                 loadOne(i, function () {
                     setLoadingProgress(Math.round((loaded / eagerCount) * 100));
+                    // Draw the resting frame (INTRO_HOLD_FRAME, not frame 1)
+                    // the INSTANT its image loads, so the canvas never sits
+                    // on a stale/blank frame behind the caption.
+                    if (i === INTRO_HOLD_FRAME && frameImgs[i] && frameImgs[i].complete) {
+                        drawFrame(i);
+                    }
                     if (loaded >= eagerCount) {
                         if (loading) {
                             loading.classList.add('s_re_hero_loading_v2_done');
@@ -334,7 +367,7 @@ function sgcInitScrollHeroV2() {
                             engineStarted = true;
                             startEngine();
                         }
-                        drawFrame(1);
+                        drawFrame(INTRO_HOLD_FRAME);
                     }
                 });
             });
@@ -378,7 +411,7 @@ function sgcInitScrollHeroV2() {
                     y: -34,
                     scale: 0.97,
                     filter: 'blur(6px)',
-                    duration: 0.55,
+                    duration: 0.70,
                     ease: 'power2.in'
                 });
             }
@@ -389,7 +422,7 @@ function sgcInitScrollHeroV2() {
             gsap.fromTo(
                 caption,
                 { opacity: 0, y: 44, scale: 0.94, filter: 'blur(10px)' },
-                { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 0.9, ease: 'power3.out' }
+                { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', duration: 1.1, ease: 'power4.out' }
             );
         }
 
@@ -425,6 +458,9 @@ function sgcInitScrollHeroV2() {
                 scale: 0.9 + 0.1 * t,
                 pointerEvents: t > 0.5 ? 'auto' : 'none'
             });
+            if (revealDivider) {
+                gsap.set(revealDivider, { opacity: t });
+            }
             if (t > 0 && hint) {
                 gsap.set(hint, { opacity: 0 });
             }
@@ -466,7 +502,12 @@ function sgcInitScrollHeroV2() {
             updateFinalReveal(progress);
             updateScrubRate(progress);
             var frameProgress = Math.min(progress, FRAME_FREEZE_PROGRESS);
-            var idx = Math.min(frameCount, Math.max(1, Math.round(frameProgress * (frameCount - 1)) + 1));
+            // Map scroll progress across [INTRO_HOLD_FRAME .. frameCount]
+            // instead of [1 .. frameCount], so progress=0 (page landing,
+            // before any scroll) always resolves to the first well-lit
+            // frame rather than the near-black frame 1.
+            var idx = Math.round(INTRO_HOLD_FRAME + frameProgress * (frameCount - INTRO_HOLD_FRAME));
+            idx = Math.min(frameCount, Math.max(INTRO_HOLD_FRAME, idx));
             currentFrame = idx;
             if (idx !== lastDrawnFrame) {
                 drawFrame(idx);
@@ -548,6 +589,9 @@ function sgcInitScrollHeroV2() {
                 if (searchWrap) {
                     searchWrap.style.opacity = 1;
                     searchWrap.style.pointerEvents = 'auto';
+                }
+                if (revealDivider) {
+                    revealDivider.style.opacity = 1;
                 }
                 markSearchReady();
                 if (hint) {

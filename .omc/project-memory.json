@@ -1,0 +1,2101 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1785127257568,
+  "projectRoot": "C:\\Livedata-base",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "docs"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "account_statement_base": {
+      "path": "account_statement_base",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257201,
+      "keyFiles": [
+        "pyproject.toml",
+        "README.rst",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "account_statement_import_base": {
+      "path": "account_statement_import_base",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257202,
+      "keyFiles": [
+        "pyproject.toml",
+        "README.rst",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "account_statement_import_file": {
+      "path": "account_statement_import_file",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257203,
+      "keyFiles": [
+        "pyproject.toml",
+        "README.rst",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "account_statement_import_sheet_file": {
+      "path": "account_statement_import_sheet_file",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257204,
+      "keyFiles": [
+        "pyproject.toml",
+        "README.rst",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "account_statement_import_sheet_file_xlsx": {
+      "path": "account_statement_import_sheet_file_xlsx",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257205,
+      "keyFiles": [
+        "pyproject.toml",
+        "README.rst",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "aml_compliance": {
+      "path": "aml_compliance",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1785127257206,
+      "keyFiles": [
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 2,
+      "lastAccessed": 1785127257207,
+      "keyFiles": [
+        "host-inventory.md",
+        "investigation-2026-07-18-offplan-deletion.md"
+      ]
+    },
+    "eh_uae_payroll_wps": {
+      "path": "eh_uae_payroll_wps",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1785127257207,
+      "keyFiles": [
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "global_button_color_coding": {
+      "path": "global_button_color_coding",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1785127257208,
+      "keyFiles": [
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "hr_payroll_community": {
+      "path": "hr_payroll_community",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1785127257209,
+      "keyFiles": [
+        "README.rst",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "ks_dynamic_financial_report": {
+      "path": "ks_dynamic_financial_report",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1785127257209,
+      "keyFiles": [
+        "DEPLOY_QUICK_START.md",
+        "ODOO19_UPGRADE.md",
+        "__init__.py",
+        "__manifest__.py",
+        "__manifest__.py.bak"
+      ]
+    },
+    "kyc_management": {
+      "path": "kyc_management",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1785127257210,
+      "keyFiles": [
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "module_generator_v19": {
+      "path": "module_generator_v19",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1785127257210,
+      "keyFiles": []
+    },
+    "muk_mcp": {
+      "path": "muk_mcp",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257211,
+      "keyFiles": [
+        "LICENSE",
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "muk_web_utils": {
+      "path": "muk_web_utils",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257213,
+      "keyFiles": [
+        "LICENSE",
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "report_xlsx": {
+      "path": "report_xlsx",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257213,
+      "keyFiles": [
+        "pyproject.toml",
+        "README.rst",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_ai_powerbox": {
+      "path": "sgc_ai_powerbox",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1785127257214,
+      "keyFiles": [
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_appraisal": {
+      "path": "sgc_appraisal",
+      "purpose": null,
+      "fileCount": 7,
+      "lastAccessed": 1785127257214,
+      "keyFiles": [
+        "00_START_HERE.txt",
+        "CHANGELOG.md",
+        "PRODUCTION_DEPLOYMENT_GUIDE.md",
+        "QUICK_START.md",
+        "README.md"
+      ]
+    },
+    "sgc_assessment": {
+      "path": "sgc_assessment",
+      "purpose": null,
+      "fileCount": 13,
+      "lastAccessed": 1785127257215,
+      "keyFiles": [
+        "CHANGELOG.md",
+        "DEPLOY_LANDING_PAGE_TIMER.sh",
+        "FORMSPREE_INTEGRATION.md",
+        "hooks.py",
+        "INSTALL.md"
+      ]
+    },
+    "sgc_brochure_leadcapture": {
+      "path": "sgc_brochure_leadcapture",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1785127257215,
+      "keyFiles": [
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_commission": {
+      "path": "sgc_commission",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1785127257216,
+      "keyFiles": [
+        "CHANGELOG.md",
+        "PURCHASE_ORDER_CREATION_FIX.md",
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_construction_management": {
+      "path": "sgc_construction_management",
+      "purpose": null,
+      "fileCount": 16,
+      "lastAccessed": 1785127257216,
+      "keyFiles": [
+        "CHANGELOG.md",
+        "docker-compose.yml",
+        "docker-compose.yml.bak",
+        "hooks.py",
+        "LICENSE"
+      ]
+    },
+    "sgc_deals_management": {
+      "path": "sgc_deals_management",
+      "purpose": null,
+      "fileCount": 12,
+      "lastAccessed": 1785127257217,
+      "keyFiles": [
+        "ADMIN_INSTALLATION.md",
+        "CHANGELOG.md",
+        "DATABASE_CLEANUP.md",
+        "DEVELOPER_GUIDE.md",
+        "FIX_NOW.md"
+      ]
+    },
+    "sgc_design_tokens": {
+      "path": "sgc_design_tokens",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1785127257217,
+      "keyFiles": [
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_dynamic_financial_report": {
+      "path": "sgc_dynamic_financial_report",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1785127257217,
+      "keyFiles": [
+        "CHANGES.md",
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_elearning": {
+      "path": "sgc_elearning",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257218,
+      "keyFiles": [
+        "CHANGELOG.md",
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_employment_certificate": {
+      "path": "sgc_employment_certificate",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1785127257218,
+      "keyFiles": [
+        "CHANGELOG.md",
+        "hooks.py",
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_fix_context_eval": {
+      "path": "sgc_fix_context_eval",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257218,
+      "keyFiles": [
+        "fix_context_eval.sql",
+        "hooks.py",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_hr_memos": {
+      "path": "sgc_hr_memos",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257219,
+      "keyFiles": [
+        "CHANGELOG.md",
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_invoicing_dashboard": {
+      "path": "sgc_invoicing_dashboard",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257219,
+      "keyFiles": [
+        "CHANGELOG.md",
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_lead_scoring": {
+      "path": "sgc_lead_scoring",
+      "purpose": null,
+      "fileCount": 17,
+      "lastAccessed": 1785127257220,
+      "keyFiles": [
+        "API_KEY_SETUP_GUIDE.md",
+        "CHANGELOG.md",
+        "deploy_to_production.ps1",
+        "emergency_security_fix.py",
+        "fix_cloudpepper_security.sh"
+      ]
+    },
+    "sgc_llm_router": {
+      "path": "sgc_llm_router",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1785127257220,
+      "keyFiles": [
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_offplan_rental_property_management": {
+      "path": "sgc_offplan_rental_property_management",
+      "purpose": null,
+      "fileCount": 10,
+      "lastAccessed": 1785127257220,
+      "keyFiles": [
+        "MERGE_NOTES.md",
+        "PORTAL_INTEGRATION.md",
+        "README.md",
+        "rent_contract_report_template.xml",
+        "sales_purchase_agreement_template.xml"
+      ]
+    },
+    "sgc_realestate_website": {
+      "path": "sgc_realestate_website",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1785127257221,
+      "keyFiles": [
+        "CHANGELOG.md",
+        "README.md",
+        "RESPONSIVE_DESIGN_FIX.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_recruitment": {
+      "path": "sgc_recruitment",
+      "purpose": null,
+      "fileCount": 6,
+      "lastAccessed": 1785127257221,
+      "keyFiles": [
+        "CHANGELOG.md",
+        "INSTALL.md",
+        "PRE_COMMIT_CHECKLIST.md",
+        "README.md",
+        "__init__.py"
+      ]
+    },
+    "sgc_scroll_hero_builder": {
+      "path": "sgc_scroll_hero_builder",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1785127257222,
+      "keyFiles": [
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_scroll_hero_homepage": {
+      "path": "sgc_scroll_hero_homepage",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1785127257222,
+      "keyFiles": [
+        "hooks.py",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_scroll_hero_v2": {
+      "path": "sgc_scroll_hero_v2",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1785127257223,
+      "keyFiles": [
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_static_pages": {
+      "path": "sgc_static_pages",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1785127257223,
+      "keyFiles": [
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_tech_ai_theme": {
+      "path": "sgc_tech_ai_theme",
+      "purpose": null,
+      "fileCount": 5,
+      "lastAccessed": 1785127257223,
+      "keyFiles": [
+        "CHANGES.md",
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_ui_brand_palette": {
+      "path": "sgc_ui_brand_palette",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1785127257224,
+      "keyFiles": [
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "sgc_video_conferencing": {
+      "path": "sgc_video_conferencing",
+      "purpose": null,
+      "fileCount": 4,
+      "lastAccessed": 1785127257225,
+      "keyFiles": [
+        "CHANGELOG.md",
+        "README.md",
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "uae_einvoice_core": {
+      "path": "uae_einvoice_core",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1785127257226,
+      "keyFiles": [
+        "__init__.py",
+        "__manifest__.py"
+      ]
+    },
+    "_stock_icons": {
+      "path": "_stock_icons",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1785127257229,
+      "keyFiles": []
+    },
+    "account_statement_base\\models": {
+      "path": "account_statement_base\\models",
+      "purpose": "Data models",
+      "fileCount": 4,
+      "lastAccessed": 1785127257230,
+      "keyFiles": [
+        "account_bank_statement.py",
+        "account_bank_statement_line.py",
+        "account_journal_dashboard.py"
+      ]
+    },
+    "account_statement_base\\static": {
+      "path": "account_statement_base\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257230,
+      "keyFiles": []
+    },
+    "account_statement_base\\tests": {
+      "path": "account_statement_base\\tests",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257230,
+      "keyFiles": [
+        "test_account_statement_base.py",
+        "__init__.py"
+      ]
+    },
+    "account_statement_base\\views": {
+      "path": "account_statement_base\\views",
+      "purpose": "View templates",
+      "fileCount": 2,
+      "lastAccessed": 1785127257231,
+      "keyFiles": [
+        "account_bank_statement.xml",
+        "account_bank_statement_line.xml"
+      ]
+    },
+    "account_statement_import_base\\models": {
+      "path": "account_statement_import_base\\models",
+      "purpose": "Data models",
+      "fileCount": 3,
+      "lastAccessed": 1785127257231,
+      "keyFiles": [
+        "account_bank_statement_line.py",
+        "account_journal.py",
+        "__init__.py"
+      ]
+    },
+    "account_statement_import_base\\static": {
+      "path": "account_statement_import_base\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257231,
+      "keyFiles": []
+    },
+    "account_statement_import_base\\views": {
+      "path": "account_statement_import_base\\views",
+      "purpose": "View templates",
+      "fileCount": 1,
+      "lastAccessed": 1785127257232,
+      "keyFiles": [
+        "account_bank_statement_line.xml"
+      ]
+    },
+    "account_statement_import_file\\models": {
+      "path": "account_statement_import_file\\models",
+      "purpose": "Data models",
+      "fileCount": 2,
+      "lastAccessed": 1785127257232,
+      "keyFiles": [
+        "account_journal.py",
+        "__init__.py"
+      ]
+    },
+    "account_statement_import_file\\static": {
+      "path": "account_statement_import_file\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257233,
+      "keyFiles": []
+    },
+    "account_statement_import_file\\tests": {
+      "path": "account_statement_import_file\\tests",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257233,
+      "keyFiles": [
+        "test_account_statement_import_file.py",
+        "__init__.py"
+      ]
+    },
+    "account_statement_import_file\\views": {
+      "path": "account_statement_import_file\\views",
+      "purpose": "View templates",
+      "fileCount": 1,
+      "lastAccessed": 1785127257233,
+      "keyFiles": [
+        "account_journal.xml"
+      ]
+    },
+    "account_statement_import_sheet_file\\models": {
+      "path": "account_statement_import_sheet_file\\models",
+      "purpose": "Data models",
+      "fileCount": 3,
+      "lastAccessed": 1785127257234,
+      "keyFiles": [
+        "account_journal.py",
+        "account_statement_import_sheet_mapping.py",
+        "__init__.py"
+      ]
+    },
+    "account_statement_import_sheet_file\\static": {
+      "path": "account_statement_import_sheet_file\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257234,
+      "keyFiles": []
+    },
+    "account_statement_import_sheet_file\\tests": {
+      "path": "account_statement_import_sheet_file\\tests",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257235,
+      "keyFiles": [
+        "test_account_statement_import_sheet_file.py",
+        "__init__.py"
+      ]
+    },
+    "account_statement_import_sheet_file\\views": {
+      "path": "account_statement_import_sheet_file\\views",
+      "purpose": "View templates",
+      "fileCount": 3,
+      "lastAccessed": 1785127257235,
+      "keyFiles": [
+        "account_journal_views.xml",
+        "account_statement_import.xml",
+        "account_statement_import_sheet_mapping.xml"
+      ]
+    },
+    "account_statement_import_sheet_file_xlsx\\static": {
+      "path": "account_statement_import_sheet_file_xlsx\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257236,
+      "keyFiles": []
+    },
+    "account_statement_import_sheet_file_xlsx\\tests": {
+      "path": "account_statement_import_sheet_file_xlsx\\tests",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257236,
+      "keyFiles": [
+        "test_account_statement_import_sheet_file_xlsx.py",
+        "__init__.py"
+      ]
+    },
+    "aml_compliance\\data": {
+      "path": "aml_compliance\\data",
+      "purpose": "Data files",
+      "fileCount": 8,
+      "lastAccessed": 1785127257236,
+      "keyFiles": [
+        "cron_data.xml",
+        "edd_enquiry_data.xml",
+        "fatf_jurisdiction_data.xml"
+      ]
+    },
+    "aml_compliance\\models": {
+      "path": "aml_compliance\\models",
+      "purpose": "Data models",
+      "fileCount": 13,
+      "lastAccessed": 1785127257237,
+      "keyFiles": [
+        "account_move.py",
+        "edd_workflow.py",
+        "fatf_jurisdiction.py"
+      ]
+    },
+    "aml_compliance\\static": {
+      "path": "aml_compliance\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257237,
+      "keyFiles": []
+    },
+    "aml_compliance\\tests": {
+      "path": "aml_compliance\\tests",
+      "purpose": "Test files",
+      "fileCount": 4,
+      "lastAccessed": 1785127257238,
+      "keyFiles": [
+        "test_goaml_report.py",
+        "test_risk_assessment.py",
+        "test_transaction_monitoring.py"
+      ]
+    },
+    "aml_compliance\\views": {
+      "path": "aml_compliance\\views",
+      "purpose": "View templates",
+      "fileCount": 13,
+      "lastAccessed": 1785127257238,
+      "keyFiles": [
+        "aml_menu.xml",
+        "dashboard_views.xml",
+        "edd_workflow_views.xml"
+      ]
+    },
+    "eh_uae_payroll_wps\\data": {
+      "path": "eh_uae_payroll_wps\\data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1785127257239,
+      "keyFiles": [
+        "menu.xml"
+      ]
+    },
+    "eh_uae_payroll_wps\\models": {
+      "path": "eh_uae_payroll_wps\\models",
+      "purpose": "Data models",
+      "fileCount": 3,
+      "lastAccessed": 1785127257239,
+      "keyFiles": [
+        "hr_employee.py",
+        "hr_version.py",
+        "__init__.py"
+      ]
+    },
+    "eh_uae_payroll_wps\\static": {
+      "path": "eh_uae_payroll_wps\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257239,
+      "keyFiles": []
+    },
+    "eh_uae_payroll_wps\\views": {
+      "path": "eh_uae_payroll_wps\\views",
+      "purpose": "View templates",
+      "fileCount": 2,
+      "lastAccessed": 1785127257240,
+      "keyFiles": [
+        "hr_employee_views.xml",
+        "hr_version_views.xml"
+      ]
+    },
+    "global_button_color_coding\\static": {
+      "path": "global_button_color_coding\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257240,
+      "keyFiles": []
+    },
+    "hr_payroll_community\\data": {
+      "path": "hr_payroll_community\\data",
+      "purpose": "Data files",
+      "fileCount": 4,
+      "lastAccessed": 1785127257242,
+      "keyFiles": [
+        "hr_payroll_community_data.xml",
+        "hr_payroll_community_demo.xml",
+        "ir_module_category_data.xml"
+      ]
+    },
+    "hr_payroll_community\\models": {
+      "path": "hr_payroll_community\\models",
+      "purpose": "Data models",
+      "fileCount": 20,
+      "lastAccessed": 1785127257242,
+      "keyFiles": [
+        "hr_branch.py",
+        "hr_business_unit.py",
+        "hr_contract_advantage_template.py"
+      ]
+    },
+    "hr_payroll_community\\static": {
+      "path": "hr_payroll_community\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257243,
+      "keyFiles": []
+    },
+    "hr_payroll_community\\views": {
+      "path": "hr_payroll_community\\views",
+      "purpose": "View templates",
+      "fileCount": 12,
+      "lastAccessed": 1785127257243,
+      "keyFiles": [
+        "hr_contract_advantage_template_views.xml",
+        "hr_contribution_register_views.xml",
+        "hr_employee_views.xml"
+      ]
+    },
+    "ks_dynamic_financial_report\\controllers": {
+      "path": "ks_dynamic_financial_report\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257244,
+      "keyFiles": [
+        "main.py",
+        "__init__.py"
+      ]
+    },
+    "ks_dynamic_financial_report\\data": {
+      "path": "ks_dynamic_financial_report\\data",
+      "purpose": "Data files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257244,
+      "keyFiles": [
+        "ks_dfr_account_data.xml",
+        "ks_dynamic_financial_report.xml"
+      ]
+    },
+    "ks_dynamic_financial_report\\models": {
+      "path": "ks_dynamic_financial_report\\models",
+      "purpose": "Data models",
+      "fileCount": 8,
+      "lastAccessed": 1785127257245,
+      "keyFiles": [
+        "ir_action.py",
+        "ks_account_move_line.py",
+        "ks_dfr_account_type.py"
+      ]
+    },
+    "ks_dynamic_financial_report\\static": {
+      "path": "ks_dynamic_financial_report\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257245,
+      "keyFiles": []
+    },
+    "kyc_management\\controllers": {
+      "path": "kyc_management\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257246,
+      "keyFiles": [
+        "portal.py",
+        "__init__.py"
+      ]
+    },
+    "kyc_management\\data": {
+      "path": "kyc_management\\data",
+      "purpose": "Data files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257246,
+      "keyFiles": [
+        "crm_data.xml",
+        "legacy_security_compat.xml"
+      ]
+    },
+    "kyc_management\\models": {
+      "path": "kyc_management\\models",
+      "purpose": "Data models",
+      "fileCount": 6,
+      "lastAccessed": 1785127257247,
+      "keyFiles": [
+        "ir_model_data.py",
+        "kyc_application.py",
+        "kyc_approval.py"
+      ]
+    },
+    "kyc_management\\static": {
+      "path": "kyc_management\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257247,
+      "keyFiles": []
+    },
+    "kyc_management\\views": {
+      "path": "kyc_management\\views",
+      "purpose": "View templates",
+      "fileCount": 5,
+      "lastAccessed": 1785127257248,
+      "keyFiles": [
+        "kyc_application_views.xml",
+        "kyc_approval_views.xml",
+        "kyc_menu.xml"
+      ]
+    },
+    "muk_mcp\\controllers": {
+      "path": "muk_mcp\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257251,
+      "keyFiles": [
+        "mcp.py",
+        "__init__.py"
+      ]
+    },
+    "muk_mcp\\data": {
+      "path": "muk_mcp\\data",
+      "purpose": "Data files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257252,
+      "keyFiles": [
+        "prompt.xml",
+        "tool.xml"
+      ]
+    },
+    "muk_mcp\\migrations": {
+      "path": "muk_mcp\\migrations",
+      "purpose": "Database migrations",
+      "fileCount": 0,
+      "lastAccessed": 1785127257252,
+      "keyFiles": []
+    },
+    "muk_mcp\\models": {
+      "path": "muk_mcp\\models",
+      "purpose": "Data models",
+      "fileCount": 11,
+      "lastAccessed": 1785127257252,
+      "keyFiles": [
+        "ir_http.py",
+        "key.py",
+        "log.py"
+      ]
+    },
+    "muk_web_utils\\models": {
+      "path": "muk_web_utils\\models",
+      "purpose": "Data models",
+      "fileCount": 3,
+      "lastAccessed": 1785127257253,
+      "keyFiles": [
+        "ir_http.py",
+        "res_config_settings.py",
+        "__init__.py"
+      ]
+    },
+    "muk_web_utils\\static": {
+      "path": "muk_web_utils\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257253,
+      "keyFiles": []
+    },
+    "muk_web_utils\\tests": {
+      "path": "muk_web_utils\\tests",
+      "purpose": "Test files",
+      "fileCount": 3,
+      "lastAccessed": 1785127257254,
+      "keyFiles": [
+        "test_encoder.py",
+        "test_js.py",
+        "__init__.py"
+      ]
+    },
+    "muk_web_utils\\views": {
+      "path": "muk_web_utils\\views",
+      "purpose": "View templates",
+      "fileCount": 1,
+      "lastAccessed": 1785127257254,
+      "keyFiles": [
+        "res_config_settings.xml"
+      ]
+    },
+    "report_xlsx\\controllers": {
+      "path": "report_xlsx\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257254,
+      "keyFiles": [
+        "main.py",
+        "__init__.py"
+      ]
+    },
+    "report_xlsx\\models": {
+      "path": "report_xlsx\\models",
+      "purpose": "Data models",
+      "fileCount": 2,
+      "lastAccessed": 1785127257255,
+      "keyFiles": [
+        "ir_report.py",
+        "__init__.py"
+      ]
+    },
+    "report_xlsx\\static": {
+      "path": "report_xlsx\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257255,
+      "keyFiles": []
+    },
+    "report_xlsx\\tests": {
+      "path": "report_xlsx\\tests",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257255,
+      "keyFiles": [
+        "test_report.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_ai_powerbox\\controllers": {
+      "path": "sgc_ai_powerbox\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257256,
+      "keyFiles": [
+        "main.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_ai_powerbox\\static": {
+      "path": "sgc_ai_powerbox\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257256,
+      "keyFiles": []
+    },
+    "sgc_appraisal\\controllers": {
+      "path": "sgc_appraisal\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257257,
+      "keyFiles": [
+        "oh_appraisal.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_appraisal\\data": {
+      "path": "sgc_appraisal\\data",
+      "purpose": "Data files",
+      "fileCount": 3,
+      "lastAccessed": 1785127257258,
+      "keyFiles": [
+        "hr_appraisal_demo.xml",
+        "hr_appraisal_stages_demo.xml",
+        "hr_employee_demo.xml"
+      ]
+    },
+    "sgc_appraisal\\models": {
+      "path": "sgc_appraisal\\models",
+      "purpose": "Data models",
+      "fileCount": 14,
+      "lastAccessed": 1785127257263,
+      "keyFiles": [
+        "appraisal_production.py",
+        "appraisal_report.py",
+        "appraisal_survey_bulk_wizard.py"
+      ]
+    },
+    "sgc_assessment\\controllers": {
+      "path": "sgc_assessment\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 3,
+      "lastAccessed": 1785127257265,
+      "keyFiles": [
+        "main.py",
+        "portal.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_assessment\\data": {
+      "path": "sgc_assessment\\data",
+      "purpose": "Data files",
+      "fileCount": 4,
+      "lastAccessed": 1785127257266,
+      "keyFiles": [
+        "assessment_questions_data.xml",
+        "formspree_config_data.xml",
+        "ir_cron_data.xml"
+      ]
+    },
+    "sgc_assessment\\models": {
+      "path": "sgc_assessment\\models",
+      "purpose": "Data models",
+      "fileCount": 8,
+      "lastAccessed": 1785127257266,
+      "keyFiles": [
+        "assessment_ai_score.py",
+        "assessment_audit_log.py",
+        "assessment_candidate.py"
+      ]
+    },
+    "sgc_brochure_leadcapture\\controllers": {
+      "path": "sgc_brochure_leadcapture\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257267,
+      "keyFiles": [
+        "brochure_lead.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_brochure_leadcapture\\static": {
+      "path": "sgc_brochure_leadcapture\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257267,
+      "keyFiles": []
+    },
+    "sgc_brochure_leadcapture\\views": {
+      "path": "sgc_brochure_leadcapture\\views",
+      "purpose": "View templates",
+      "fileCount": 1,
+      "lastAccessed": 1785127257267,
+      "keyFiles": [
+        "brochure_button_templates.xml"
+      ]
+    },
+    "sgc_commission\\data": {
+      "path": "sgc_commission\\data",
+      "purpose": "Data files",
+      "fileCount": 7,
+      "lastAccessed": 1785127257268,
+      "keyFiles": [
+        "cleanup_views.xml",
+        "commission_payment_cron.xml",
+        "commission_purchase_orders_action.xml"
+      ]
+    },
+    "sgc_commission\\migrations": {
+      "path": "sgc_commission\\migrations",
+      "purpose": "Database migrations",
+      "fileCount": 0,
+      "lastAccessed": 1785127257268,
+      "keyFiles": []
+    },
+    "sgc_commission\\models": {
+      "path": "sgc_commission\\models",
+      "purpose": "Data models",
+      "fileCount": 11,
+      "lastAccessed": 1785127257269,
+      "keyFiles": [
+        "account_move_line.py",
+        "commission_dashboard.py",
+        "commission_line.py"
+      ]
+    },
+    "sgc_commission\\static": {
+      "path": "sgc_commission\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257269,
+      "keyFiles": []
+    },
+    "sgc_construction_management\\controllers": {
+      "path": "sgc_construction_management\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 3,
+      "lastAccessed": 1785127257270,
+      "keyFiles": [
+        "portal.py",
+        "xlsx_export.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_construction_management\\data": {
+      "path": "sgc_construction_management\\data",
+      "purpose": "Data files",
+      "fileCount": 3,
+      "lastAccessed": 1785127257270,
+      "keyFiles": [
+        "construction_data.xml",
+        "construction_sequences.xml",
+        "ir_sequence.xml"
+      ]
+    },
+    "sgc_construction_management\\docs": {
+      "path": "sgc_construction_management\\docs",
+      "purpose": "Documentation",
+      "fileCount": 7,
+      "lastAccessed": 1785127257271,
+      "keyFiles": [
+        "DEMO_SCRIPT.md",
+        "E2E_Workflow_Showcase.html",
+        "REPORTS_MANUAL.md"
+      ]
+    },
+    "sgc_deals_management\\data": {
+      "path": "sgc_deals_management\\data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1785127257276,
+      "keyFiles": [
+        "cleanup_views.xml"
+      ]
+    },
+    "sgc_deals_management\\models": {
+      "path": "sgc_deals_management\\models",
+      "purpose": "Data models",
+      "fileCount": 5,
+      "lastAccessed": 1785127257276,
+      "keyFiles": [
+        "account_move.py",
+        "realestate_project.py",
+        "realestate_unit.py"
+      ]
+    },
+    "sgc_design_tokens\\static": {
+      "path": "sgc_design_tokens\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257277,
+      "keyFiles": []
+    },
+    "sgc_design_tokens\\views": {
+      "path": "sgc_design_tokens\\views",
+      "purpose": "View templates",
+      "fileCount": 2,
+      "lastAccessed": 1785127257295,
+      "keyFiles": [
+        "frontend_floating_paths.xml",
+        "frontend_layout_head.xml"
+      ]
+    },
+    "sgc_dynamic_financial_report\\controllers": {
+      "path": "sgc_dynamic_financial_report\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257307,
+      "keyFiles": [
+        "sgc_report_controller.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_dynamic_financial_report\\data": {
+      "path": "sgc_dynamic_financial_report\\data",
+      "purpose": "Data files",
+      "fileCount": 3,
+      "lastAccessed": 1785127257320,
+      "keyFiles": [
+        "scheduled_report_data.xml",
+        "sgc_account_type_data.xml",
+        "sgc_report_actions.xml"
+      ]
+    },
+    "sgc_dynamic_financial_report\\models": {
+      "path": "sgc_dynamic_financial_report\\models",
+      "purpose": "Data models",
+      "fileCount": 12,
+      "lastAccessed": 1785127257332,
+      "keyFiles": [
+        "dfr_budget.py",
+        "dfr_report_log.py",
+        "dfr_scheduled_report.py"
+      ]
+    },
+    "sgc_elearning\\data": {
+      "path": "sgc_elearning\\data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1785127257368,
+      "keyFiles": [
+        "learning_chapters.xml"
+      ]
+    },
+    "sgc_elearning\\models": {
+      "path": "sgc_elearning\\models",
+      "purpose": "Data models",
+      "fileCount": 3,
+      "lastAccessed": 1785127257390,
+      "keyFiles": [
+        "learning.py",
+        "res_users.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_elearning\\static": {
+      "path": "sgc_elearning\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257403,
+      "keyFiles": []
+    },
+    "sgc_elearning\\tests": {
+      "path": "sgc_elearning\\tests",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257416,
+      "keyFiles": [
+        "test_module.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_elearning\\views": {
+      "path": "sgc_elearning\\views",
+      "purpose": "View templates",
+      "fileCount": 3,
+      "lastAccessed": 1785127257427,
+      "keyFiles": [
+        "learning_menus.xml",
+        "learning_views.xml",
+        "res_users_views.xml"
+      ]
+    },
+    "sgc_employment_certificate\\controllers": {
+      "path": "sgc_employment_certificate\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257434,
+      "keyFiles": [
+        "certificate_verification.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_employment_certificate\\data": {
+      "path": "sgc_employment_certificate\\data",
+      "purpose": "Data files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257434,
+      "keyFiles": [
+        "certificate_sequence.xml",
+        "hr_employment_certificate_mail_templates.xml"
+      ]
+    },
+    "sgc_employment_certificate\\models": {
+      "path": "sgc_employment_certificate\\models",
+      "purpose": "Data models",
+      "fileCount": 4,
+      "lastAccessed": 1785127257434,
+      "keyFiles": [
+        "hr_employee.py",
+        "hr_employment_certificate.py",
+        "hr_employment_certificate.py.bak"
+      ]
+    },
+    "sgc_employment_certificate\\static": {
+      "path": "sgc_employment_certificate\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257435,
+      "keyFiles": []
+    },
+    "sgc_employment_certificate\\tests": {
+      "path": "sgc_employment_certificate\\tests",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257435,
+      "keyFiles": [
+        "test_module.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_fix_context_eval\\models": {
+      "path": "sgc_fix_context_eval\\models",
+      "purpose": "Data models",
+      "fileCount": 2,
+      "lastAccessed": 1785127257436,
+      "keyFiles": [
+        "ir_actions.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_hr_memos\\controllers": {
+      "path": "sgc_hr_memos\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257436,
+      "keyFiles": [
+        "memo_verification.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_hr_memos\\data": {
+      "path": "sgc_hr_memos\\data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1785127257437,
+      "keyFiles": [
+        "memo_sequence.xml"
+      ]
+    },
+    "sgc_hr_memos\\models": {
+      "path": "sgc_hr_memos\\models",
+      "purpose": "Data models",
+      "fileCount": 2,
+      "lastAccessed": 1785127257437,
+      "keyFiles": [
+        "hr_memo.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_hr_memos\\static": {
+      "path": "sgc_hr_memos\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257444,
+      "keyFiles": []
+    },
+    "sgc_hr_memos\\tests": {
+      "path": "sgc_hr_memos\\tests",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257451,
+      "keyFiles": [
+        "test_module.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_hr_memos\\views": {
+      "path": "sgc_hr_memos\\views",
+      "purpose": "View templates",
+      "fileCount": 2,
+      "lastAccessed": 1785127257453,
+      "keyFiles": [
+        "hr_memo_views.xml",
+        "memo_verification_templates.xml"
+      ]
+    },
+    "sgc_invoicing_dashboard\\controllers": {
+      "path": "sgc_invoicing_dashboard\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257456,
+      "keyFiles": [
+        "exports.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_invoicing_dashboard\\data": {
+      "path": "sgc_invoicing_dashboard\\data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1785127257457,
+      "keyFiles": [
+        "sale_order_type_data.xml"
+      ]
+    },
+    "sgc_invoicing_dashboard\\models": {
+      "path": "sgc_invoicing_dashboard\\models",
+      "purpose": "Data models",
+      "fileCount": 5,
+      "lastAccessed": 1785127257466,
+      "keyFiles": [
+        "account_move.py",
+        "sales_invoicing_dashboard.py",
+        "sale_order.py"
+      ]
+    },
+    "sgc_invoicing_dashboard\\static": {
+      "path": "sgc_invoicing_dashboard\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257474,
+      "keyFiles": []
+    },
+    "sgc_invoicing_dashboard\\tests": {
+      "path": "sgc_invoicing_dashboard\\tests",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257486,
+      "keyFiles": [
+        "test_dashboard.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_invoicing_dashboard\\views": {
+      "path": "sgc_invoicing_dashboard\\views",
+      "purpose": "View templates",
+      "fileCount": 4,
+      "lastAccessed": 1785127257487,
+      "keyFiles": [
+        "account_move_views.xml",
+        "dashboard_views.xml",
+        "sale_order_views.xml"
+      ]
+    },
+    "sgc_lead_scoring\\data": {
+      "path": "sgc_lead_scoring\\data",
+      "purpose": "Data files",
+      "fileCount": 3,
+      "lastAccessed": 1785127257488,
+      "keyFiles": [
+        "ir_cron_data.xml",
+        "llm_provider_data.xml",
+        "web_research_provider_data.xml"
+      ]
+    },
+    "sgc_lead_scoring\\migrations": {
+      "path": "sgc_lead_scoring\\migrations",
+      "purpose": "Database migrations",
+      "fileCount": 0,
+      "lastAccessed": 1785127257489,
+      "keyFiles": []
+    },
+    "sgc_lead_scoring\\models": {
+      "path": "sgc_lead_scoring\\models",
+      "purpose": "Data models",
+      "fileCount": 12,
+      "lastAccessed": 1785127257490,
+      "keyFiles": [
+        "crm_lead.py",
+        "lead_intelligence.py",
+        "llm_provider.py"
+      ]
+    },
+    "sgc_llm_router\\data": {
+      "path": "sgc_llm_router\\data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1785127257501,
+      "keyFiles": [
+        "llm_provider_data.xml"
+      ]
+    },
+    "sgc_llm_router\\models": {
+      "path": "sgc_llm_router\\models",
+      "purpose": "Data models",
+      "fileCount": 2,
+      "lastAccessed": 1785127257502,
+      "keyFiles": [
+        "llm_provider.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_llm_router\\static": {
+      "path": "sgc_llm_router\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257503,
+      "keyFiles": []
+    },
+    "sgc_llm_router\\views": {
+      "path": "sgc_llm_router\\views",
+      "purpose": "View templates",
+      "fileCount": 1,
+      "lastAccessed": 1785127257504,
+      "keyFiles": [
+        "llm_provider_views.xml"
+      ]
+    },
+    "sgc_offplan_rental_property_management\\controllers": {
+      "path": "sgc_offplan_rental_property_management\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 6,
+      "lastAccessed": 1785127257504,
+      "keyFiles": [
+        "offplan_website.py",
+        "portal.py",
+        "webhook_controller.py"
+      ]
+    },
+    "sgc_offplan_rental_property_management\\data": {
+      "path": "sgc_offplan_rental_property_management\\data",
+      "purpose": "Data files",
+      "fileCount": 14,
+      "lastAccessed": 1785127257505,
+      "keyFiles": [
+        "active_contract_mail_template.xml",
+        "agreement_templates.xml",
+        "agreement_template_test.xml"
+      ]
+    },
+    "sgc_offplan_rental_property_management\\docs": {
+      "path": "sgc_offplan_rental_property_management\\docs",
+      "purpose": "Documentation",
+      "fileCount": 0,
+      "lastAccessed": 1785127257506,
+      "keyFiles": []
+    },
+    "sgc_offplan_rental_property_management\\migrations": {
+      "path": "sgc_offplan_rental_property_management\\migrations",
+      "purpose": "Database migrations",
+      "fileCount": 0,
+      "lastAccessed": 1785127257506,
+      "keyFiles": []
+    },
+    "sgc_offplan_rental_property_management\\models": {
+      "path": "sgc_offplan_rental_property_management\\models",
+      "purpose": "Data models",
+      "fileCount": 1,
+      "lastAccessed": 1785127257506,
+      "keyFiles": [
+        "__init__.py"
+      ]
+    },
+    "sgc_realestate_website\\controllers": {
+      "path": "sgc_realestate_website\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257507,
+      "keyFiles": [
+        "main.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_realestate_website\\data": {
+      "path": "sgc_realestate_website\\data",
+      "purpose": "Data files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257507,
+      "keyFiles": [
+        "property_data.xml",
+        "website_menu.xml"
+      ]
+    },
+    "sgc_realestate_website\\models": {
+      "path": "sgc_realestate_website\\models",
+      "purpose": "Data models",
+      "fileCount": 4,
+      "lastAccessed": 1785127257511,
+      "keyFiles": [
+        "consultation_request.py",
+        "destination_country.py",
+        "property.py"
+      ]
+    },
+    "sgc_realestate_website\\static": {
+      "path": "sgc_realestate_website\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257511,
+      "keyFiles": []
+    },
+    "sgc_realestate_website\\tests": {
+      "path": "sgc_realestate_website\\tests",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257512,
+      "keyFiles": [
+        "test_module.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_realestate_website\\views": {
+      "path": "sgc_realestate_website\\views",
+      "purpose": "View templates",
+      "fileCount": 9,
+      "lastAccessed": 1785127257512,
+      "keyFiles": [
+        "consultation_request_views.xml",
+        "destination_country_views.xml",
+        "menu.xml"
+      ]
+    },
+    "sgc_recruitment\\data": {
+      "path": "sgc_recruitment\\data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1785127257513,
+      "keyFiles": [
+        "email_templates.xml"
+      ]
+    },
+    "sgc_recruitment\\models": {
+      "path": "sgc_recruitment\\models",
+      "purpose": "Data models",
+      "fileCount": 3,
+      "lastAccessed": 1785127257513,
+      "keyFiles": [
+        "crm_lead.py",
+        "hr_applicant.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_recruitment\\static": {
+      "path": "sgc_recruitment\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257514,
+      "keyFiles": []
+    },
+    "sgc_recruitment\\tests": {
+      "path": "sgc_recruitment\\tests",
+      "purpose": "Test files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257515,
+      "keyFiles": [
+        "test_module.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_scroll_hero_builder\\static": {
+      "path": "sgc_scroll_hero_builder\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257515,
+      "keyFiles": []
+    },
+    "sgc_scroll_hero_builder\\views": {
+      "path": "sgc_scroll_hero_builder\\views",
+      "purpose": "View templates",
+      "fileCount": 0,
+      "lastAccessed": 1785127257516,
+      "keyFiles": []
+    },
+    "sgc_scroll_hero_homepage\\data": {
+      "path": "sgc_scroll_hero_homepage\\data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1785127257516,
+      "keyFiles": [
+        "set_homepage_url.xml"
+      ]
+    },
+    "sgc_scroll_hero_homepage\\static": {
+      "path": "sgc_scroll_hero_homepage\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257517,
+      "keyFiles": []
+    },
+    "sgc_scroll_hero_homepage\\views": {
+      "path": "sgc_scroll_hero_homepage\\views",
+      "purpose": "View templates",
+      "fileCount": 1,
+      "lastAccessed": 1785127257517,
+      "keyFiles": [
+        "homepage.xml"
+      ]
+    },
+    "sgc_scroll_hero_v2\\static": {
+      "path": "sgc_scroll_hero_v2\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257518,
+      "keyFiles": []
+    },
+    "sgc_scroll_hero_v2\\views": {
+      "path": "sgc_scroll_hero_v2\\views",
+      "purpose": "View templates",
+      "fileCount": 1,
+      "lastAccessed": 1785127257519,
+      "keyFiles": [
+        "page_v2.xml"
+      ]
+    },
+    "sgc_static_pages\\data": {
+      "path": "sgc_static_pages\\data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1785127257519,
+      "keyFiles": [
+        "website_menu.xml"
+      ]
+    },
+    "sgc_static_pages\\views": {
+      "path": "sgc_static_pages\\views",
+      "purpose": "View templates",
+      "fileCount": 2,
+      "lastAccessed": 1785127257520,
+      "keyFiles": [
+        "about_page.xml",
+        "services_page.xml"
+      ]
+    },
+    "sgc_tech_ai_theme\\data": {
+      "path": "sgc_tech_ai_theme\\data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1785127257521,
+      "keyFiles": [
+        "ir_cron.xml"
+      ]
+    },
+    "sgc_tech_ai_theme\\models": {
+      "path": "sgc_tech_ai_theme\\models",
+      "purpose": "Data models",
+      "fileCount": 6,
+      "lastAccessed": 1785127257522,
+      "keyFiles": [
+        "ir_http.py",
+        "launcher.py",
+        "res_company.py"
+      ]
+    },
+    "sgc_tech_ai_theme\\static": {
+      "path": "sgc_tech_ai_theme\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257523,
+      "keyFiles": []
+    },
+    "sgc_tech_ai_theme\\tests": {
+      "path": "sgc_tech_ai_theme\\tests",
+      "purpose": "Test files",
+      "fileCount": 3,
+      "lastAccessed": 1785127257523,
+      "keyFiles": [
+        "test_hoot_launcher.py",
+        "test_regression.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_ui_brand_palette\\data": {
+      "path": "sgc_ui_brand_palette\\data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1785127257530,
+      "keyFiles": [
+        "sgc_brand_menu_overrides.xml"
+      ]
+    },
+    "sgc_ui_brand_palette\\models": {
+      "path": "sgc_ui_brand_palette\\models",
+      "purpose": "Data models",
+      "fileCount": 2,
+      "lastAccessed": 1785127257533,
+      "keyFiles": [
+        "ir_ui_menu.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_ui_brand_palette\\static": {
+      "path": "sgc_ui_brand_palette\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257534,
+      "keyFiles": []
+    },
+    "sgc_video_conferencing\\controllers": {
+      "path": "sgc_video_conferencing\\controllers",
+      "purpose": "Controllers",
+      "fileCount": 2,
+      "lastAccessed": 1785127257534,
+      "keyFiles": [
+        "main.py",
+        "__init__.py"
+      ]
+    },
+    "sgc_video_conferencing\\data": {
+      "path": "sgc_video_conferencing\\data",
+      "purpose": "Data files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257536,
+      "keyFiles": [
+        "mail_template_data.xml",
+        "video_provider_data.xml"
+      ]
+    },
+    "sgc_video_conferencing\\models": {
+      "path": "sgc_video_conferencing\\models",
+      "purpose": "Data models",
+      "fileCount": 16,
+      "lastAccessed": 1785127257538,
+      "keyFiles": [
+        "calendar_inherit.py",
+        "crm_inherit.py",
+        "helpdesk_inherit.py"
+      ]
+    },
+    "sgc_video_conferencing\\services": {
+      "path": "sgc_video_conferencing\\services",
+      "purpose": "Business logic services",
+      "fileCount": 10,
+      "lastAccessed": 1785127257539,
+      "keyFiles": [
+        "google_meet.py",
+        "goto.py",
+        "jitsi.py"
+      ]
+    },
+    "sgc_video_conferencing\\static": {
+      "path": "sgc_video_conferencing\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257545,
+      "keyFiles": []
+    },
+    "uae_einvoice_core\\data": {
+      "path": "uae_einvoice_core\\data",
+      "purpose": "Data files",
+      "fileCount": 2,
+      "lastAccessed": 1785127257551,
+      "keyFiles": [
+        "document_type_codes.xml",
+        "predefined_endpoints.xml"
+      ]
+    },
+    "uae_einvoice_core\\models": {
+      "path": "uae_einvoice_core\\models",
+      "purpose": "Data models",
+      "fileCount": 7,
+      "lastAccessed": 1785127257551,
+      "keyFiles": [
+        "account_move.py",
+        "einvoice_document_type.py",
+        "einvoice_endpoint.py"
+      ]
+    },
+    "uae_einvoice_core\\static": {
+      "path": "uae_einvoice_core\\static",
+      "purpose": "Static files",
+      "fileCount": 0,
+      "lastAccessed": 1785127257557,
+      "keyFiles": []
+    },
+    "uae_einvoice_core\\tests": {
+      "path": "uae_einvoice_core\\tests",
+      "purpose": "Test files",
+      "fileCount": 4,
+      "lastAccessed": 1785127257562,
+      "keyFiles": [
+        "test_flag_engine.py",
+        "test_pint_ae_field_mapping.py",
+        "test_ubl_schematron_validation.py"
+      ]
+    },
+    "uae_einvoice_core\\views": {
+      "path": "uae_einvoice_core\\views",
+      "purpose": "View templates",
+      "fileCount": 2,
+      "lastAccessed": 1785127257568,
+      "keyFiles": [
+        "account_move_views.xml",
+        "res_partner_views.xml"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "sgc_offplan_rental_property_management/report/property_brochure_luxury_template.xml",
+      "accessCount": 94,
+      "lastAccessed": 1785149670571,
+      "type": "directory"
+    },
+    {
+      "path": "sgc_brochure_leadcapture/controllers/brochure_lead.py",
+      "accessCount": 12,
+      "lastAccessed": 1785163393341,
+      "type": "file"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/__manifest__.py",
+      "accessCount": 11,
+      "lastAccessed": 1785136237647,
+      "type": "file"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/report/property_brochure_luxury_report.py",
+      "accessCount": 11,
+      "lastAccessed": 1785149190301,
+      "type": "file"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management",
+      "accessCount": 8,
+      "lastAccessed": 1785155031832,
+      "type": "directory"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/models/core/property_details.py",
+      "accessCount": 5,
+      "lastAccessed": 1785155086514,
+      "type": "file"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/models",
+      "accessCount": 4,
+      "lastAccessed": 1785147949928,
+      "type": "directory"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/report/property_brochure_template.xml",
+      "accessCount": 3,
+      "lastAccessed": 1785146890676,
+      "type": "directory"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/views/core/property_details_view.xml",
+      "accessCount": 3,
+      "lastAccessed": 1785155087115,
+      "type": "directory"
+    },
+    {
+      "path": "sgc_brochure_leadcapture/static/src/js/brochure_lead.js",
+      "accessCount": 3,
+      "lastAccessed": 1785155220334,
+      "type": "file"
+    },
+    {
+      "path": "sgc_brochure_leadcapture/__manifest__.py",
+      "accessCount": 3,
+      "lastAccessed": 1785155237614,
+      "type": "file"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/verify_luxury.py",
+      "accessCount": 2,
+      "lastAccessed": 1785147960378,
+      "type": "file"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/data/report_actions.xml",
+      "accessCount": 1,
+      "lastAccessed": 1785127291701,
+      "type": "directory"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/report/property_brochure_report.py",
+      "accessCount": 1,
+      "lastAccessed": 1785127328433,
+      "type": "file"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/report/__init__.py",
+      "accessCount": 1,
+      "lastAccessed": 1785127329801,
+      "type": "file"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/controllers/offplan_website.py",
+      "accessCount": 1,
+      "lastAccessed": 1785127378935,
+      "type": "directory"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/views/website/offplan_property_detail.xml",
+      "accessCount": 1,
+      "lastAccessed": 1785127380873,
+      "type": "directory"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/report/paperformat_data.xml",
+      "accessCount": 1,
+      "lastAccessed": 1785127381157,
+      "type": "file"
+    },
+    {
+      "path": "docker-compose.yml",
+      "accessCount": 1,
+      "lastAccessed": 1785128219438,
+      "type": "file"
+    },
+    {
+      "path": "AGENTS.md",
+      "accessCount": 1,
+      "lastAccessed": 1785128582056,
+      "type": "file"
+    },
+    {
+      "path": "sgc_brochure_leadcapture/views/brochure_button_templates.xml",
+      "accessCount": 1,
+      "lastAccessed": 1785153961586,
+      "type": "file"
+    },
+    {
+      "path": "sgc_brochure_leadcapture/static/src/css/brochure_lead.css",
+      "accessCount": 1,
+      "lastAccessed": 1785154115247,
+      "type": "file"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/controllers",
+      "accessCount": 1,
+      "lastAccessed": 1785155031717,
+      "type": "directory"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/controllers/webhook_controller.py",
+      "accessCount": 1,
+      "lastAccessed": 1785155040619,
+      "type": "file"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/controllers/portal.py",
+      "accessCount": 1,
+      "lastAccessed": 1785155043252,
+      "type": "file"
+    },
+    {
+      "path": "sgc_offplan_rental_property_management/models/core/crm_lead.py",
+      "accessCount": 1,
+      "lastAccessed": 1785155085139,
+      "type": "file"
+    },
+    {
+      "path": "sgc_lead_scoring/models/crm_lead.py",
+      "accessCount": 1,
+      "lastAccessed": 1785155585458,
+      "type": "directory"
+    }
+  ],
+  "userDirectives": []
+}

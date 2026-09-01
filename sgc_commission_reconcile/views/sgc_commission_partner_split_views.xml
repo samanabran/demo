@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_sgc_commission_partner_split" model="ir.actions.act_window">
+            <field name="name">Co-Broker Splits</field>
+            <field name="res_model">sgc.commission.partner_split</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="view_sgc_commission_partner_split_list" model="ir.ui.view">
+            <field name="name">sgc.commission.partner_split.list</field>
+            <field name="model">sgc.commission.partner_split</field>
+            <field name="arch" type="xml">
+                <list string="Co-Broker Splits"
+                      decoration-danger="status == 'disputed'"
+                      decoration-success="status == 'paid'">
+                    <field name="name"/>
+                    <field name="tenant_id"/>
+                    <field name="deal_ref"/>
+                    <field name="partner_agency_id"/>
+                    <field name="split_pct"/>
+                    <field name="split_aed"/>
+                    <field name="status" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_sgc_commission_partner_split_form" model="ir.ui.view">
+            <field name="name">sgc.commission.partner_split.form</field>
+            <field name="model">sgc.commission.partner_split</field>
+            <field name="arch" type="xml">
+                <form string="Co-Broker Split">
+                    <header>
+                        <field name="status" widget="statusbar"
+                               statusbar_visible="draft,confirmed,paid"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="%(sgc_commission.action_commission_line)d"
+                                    type="action"
+                                    class="oe_stat_button"
+                                    icon="fa-money"
+                                    invisible="not commission_line_id"
+                                    context="{'default_id': commission_line_id}">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Commission Line</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1><field name="name" readonly="1"/></h1>
+                        </div>
+                        <group>
+                            <group string="Deal and Partner">
+                                <field name="tenant_id"/>
+                                <field name="deal_ref"/>
+                                <field name="crm_lead_id"/>
+                                <field name="partner_agency_id"/>
+                                <field name="commission_line_id"/>
+                            </group>
+                            <group string="Split">
+                                <field name="currency_id" invisible="1"/>
+                                <field name="gross_commission_aed"/>
+                                <field name="split_pct"/>
+                                <field name="split_aed" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Dates">
+                                <field name="agreement_date"/>
+                                <field name="payment_date"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="notes"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

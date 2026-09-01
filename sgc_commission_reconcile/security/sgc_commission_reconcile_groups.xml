@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SGC Commission Reconcile — security groups.
+
+    Section 5.1 instruction: do NOT create new top-level groups; extend
+    the existing SGC brokerage groups. Section 0 CHECK 0.4 confirmed
+    these three groups exist in `sgc_realestate_brokerage_template`:
+
+        group_realestate_brokerage_user
+        group_realestate_brokerage_manager
+        group_realestate_audit_reviewer
+
+    All ACL and ir.rule records in this module reference those groups
+    directly (via the `sgc_realestate_brokerage_template.` module
+    prefix) — no new group is declared here. This file exists as a
+    placeholder/anchor for any future group-implied_ids adjustment
+    specific to commission access, but currently declares nothing new.
+-->
+<odoo>
+    <data>
+        <!-- Intentionally empty: see docstring above. -->
+    </data>
+</odoo>
