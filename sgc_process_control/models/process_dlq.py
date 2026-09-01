@@ -46,6 +46,13 @@ class ProcessDlq(models.Model):
         domain=[("classification", "=", "integration"),
                 ("status", "=", "dead_letter")],
     )
+    # Tenant scoping. Derived from the linked exception so the
+    # per-tenant ir.rule can isolate. Stored explicitly so a
+    # search by company does not require a join.
+    company_id = fields.Many2one(
+        "res.company", required=True, index=True,
+        default=lambda s: s.env.company,
+    )
 
     # --- Timing / attempts ----------------------------------------------
 

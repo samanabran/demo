@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SGC Tenant Readiness — tenant isolation.
+
+    Per Wave 3 protocol §10 and the G27 PDPL position item 5:
+    every model holding tenant-scoped or personal data must have a
+    per-tenant ir.rule with a ('tenant_company_id', 'in', company_ids)
+    domain. ACL groups alone do not prevent one tenant from seeing
+    another's records — these ir.rule records are the isolation boundary.
+
+    Pattern: sgc_commission_reconcile/security/ir_rule_tenant_isolation.xml
+    Adapted for tenant_readiness models which carry tenant_company_id
+    (Many2one to res.company directly, no traversal needed).
+-->
+<odoo>
+    <data noupdate="1">
+
+        <record id="rule_tenant_compliance_officer_tenant" model="ir.rule">
+            <field name="name">Tenant Compliance Officer: tenant-company isolation</field>
+            <field name="model_id" ref="model_tenant_compliance_officer"/>
+            <field name="domain_force">[('tenant_company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="rule_tenant_fit_and_proper_tenant" model="ir.rule">
+            <field name="name">Tenant Fit and Proper: tenant-company isolation (via subject)</field>
+            <field name="model_id" ref="model_tenant_fit_and_proper"/>
+            <field name="domain_force">[('subject_user_id.company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="rule_tenant_readiness_state_tenant" model="ir.rule">
+            <field name="name">Tenant Readiness State: tenant-company isolation</field>
+            <field name="model_id" ref="model_tenant_readiness_state"/>
+            <field name="domain_force">[('tenant_company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="rule_tenant_decision_ack_tenant" model="ir.rule">
+            <field name="name">Tenant Decision Acknowledgement: tenant-company isolation</field>
+            <field name="model_id" ref="model_tenant_decision_acknowledgement"/>
+            <field name="domain_force">[('acknowledged_for_tenant_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="rule_tenant_high_risk_override_tenant" model="ir.rule">
+            <field name="name">Tenant High-Risk Override: tenant-company isolation</field>
+            <field name="model_id" ref="model_tenant_high_risk_override"/>
+            <field name="domain_force">[('tenant_company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+    </data>
+</odoo>

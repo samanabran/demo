@@ -31,6 +31,11 @@ class ProcessSla(models.Model):
         index=True,
         help="Identifier used by consumers to find their clock.",
     )
+    # Tenant scoping.
+    company_id = fields.Many2one(
+        "res.company", required=True, index=True,
+        default=lambda s: s.env.company,
+    )
 
     # --- Timing ----------------------------------------------------------
 

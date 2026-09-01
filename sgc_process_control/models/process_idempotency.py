@@ -30,6 +30,13 @@ class ProcessIdempotency(models.Model):
     target_system = fields.Char(required=True, index=True)
     operation = fields.Char(required=True, index=True)
 
+    # Tenant scoping. Idempotency keys are company-scoped — a key in
+    # tenant A must not collide with a key in tenant B.
+    company_id = fields.Many2one(
+        "res.company", required=True, index=True,
+        default=lambda s: s.env.company,
+    )
+
     # --- Result cache ----------------------------------------------------
 
     status = fields.Selection(

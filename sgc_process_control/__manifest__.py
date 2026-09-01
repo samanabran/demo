@@ -23,6 +23,7 @@
         # Security
         "security/security.xml",
         "security/ir.model.access.csv",
+        "security/ir_rule_tenant_isolation.xml",
         # Data — exception classification catalogue
         "data/process_classification_data.xml",
         # Views

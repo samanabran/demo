@@ -81,6 +81,14 @@ class ProcessException(models.Model):
         string="Source record",
         help="Polymorphic reference to the record that raised this exception.",
     )
+    # Tenant scoping. The exception is anchored to a company so the
+    # per-tenant ir.rule can isolate it. Defaults to the current
+    # user's company, never user-editable on a different tenant's
+    # record (enforced by check_company + ir.rule).
+    company_id = fields.Many2one(
+        "res.company", required=True, index=True,
+        default=lambda s: s.env.company,
+    )
     integration_key = fields.Char(
         index=True,
         help="Idempotency key when the exception is integration-class.",

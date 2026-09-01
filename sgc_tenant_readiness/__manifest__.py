@@ -24,6 +24,7 @@
         # Security
         "security/security.xml",
         "security/ir.model.access.csv",
+        "security/ir_rule_tenant_isolation.xml",
         # Data — capability catalogue (per amendment §6)
         "data/tenant_readiness_capability_data.xml",
         # Views
