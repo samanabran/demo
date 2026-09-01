@@ -74,10 +74,10 @@
         <record id="capability_einvoicing" model="tenant.readiness.capability">
             <field name="code">einvoicing</field>
             <field name="name">E-invoicing (ASP + go-live)</field>
-            <field name="description">UAE e-invoicing. Mandatory go-live 1 January 2027 for revenue ≥ AED 50m. ASP appointment by 30 October 2026.</field>
+            <field name="description">UAE e-invoicing has at least three distinct tracks with different deadlines, not one: Phase 1 (revenue ≥ AED 50m — ASP appointment by 30 October 2026, go-live 1 January 2027), Phase 2 (revenue below AED 50m — ASP appointment by 31 March 2027, go-live 1 July 2027, verified_secondary only), and a separate government-entity track whose go-live date is actively disputed between secondary sources (do not encode). Which deadline pair applies depends on the tenant's own revenue band — a fact this product cannot know unless the tenant declares it. Per Wave 3 remediation round 3: `einvoicing_revenue_band` is a required field precisely so the capability blocks until the tenant states which band they are in, rather than silently applying the Phase 1 deadline to a Phase 2 tenant.</field>
             <field name="severity">high</field>
             <field name="sequence">70</field>
-            <field name="required_tenant_config">asp_provider_name, asp_appointment_date, einvoicing_revenue_threshold_attestation</field>
+            <field name="required_tenant_config">einvoicing_revenue_band, asp_provider_name, asp_appointment_date</field>
             <field name="required_tenant_decision">einvoicing_opt_in_decision, einvoicing_threshold_acknowledgement</field>
             <field name="module_dependency">uae_einvoice_core</field>
         </record>

@@ -274,6 +274,37 @@ class TestFreshTenantBlockingConfigured(TransactionCase):
                          f"einvoicing did not reach ready; missing={state.missing_keys}")
         self.assertTrue(state.gate_open)
 
+    def test_configured_einvoicing_blocks_without_revenue_band(self):
+        """Wave 3 remediation round 3: UAE e-invoicing has at least three
+        deadline tracks (Phase 1 ≥ AED 50m, Phase 2 below AED 50m,
+        government entities on a separate and disputed track). Without
+        knowing which band a tenant is in, applying a single hard-coded
+        deadline pair gives the wrong date to whichever bands aren't the
+        one that was hard-coded — which, for this product's actual
+        target market of brokerages, is the majority of tenants (most
+        sit below AED 50m, i.e. Phase 2, not Phase 1).
+
+        This test proves the fail-closed property explicitly, by name,
+        rather than relying on it being incidentally covered by the
+        generic partial-configuration loop: every OTHER required field
+        for e-invoicing can be fully populated, and the capability must
+        still be blocked while einvoicing_revenue_band is unset.
+        """
+        cap, state = self._get_state("einvoicing")
+        self._populate_full_set(cap, skip_key="einvoicing_revenue_band")
+        state.action_recompute()
+        self.assertFalse(
+            state.gate_open,
+            "einvoicing became ready with the revenue band unset — the "
+            "wrong-deadline-to-most-tenants defect this test exists to "
+            "catch.",
+        )
+        self.assertIn(
+            "einvoicing_revenue_band", state.missing_keys or "",
+            "missing_keys did not name einvoicing_revenue_band as the "
+            "reason the gate is closed.",
+        )
+
     # ---- Partial configuration still blocks, one per capability ------
 
     def test_configured_partial_config_still_blocks_every_capability(self):

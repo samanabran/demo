@@ -262,13 +262,18 @@ class RegulatoryConstant(models.Model):
         # Highest version wins.
         candidates_sorted = candidates.sorted("version", reverse=True)
         winner = candidates_sorted[0]
-        if winner.confidence == "unverified":
+        if winner.confidence in ("unverified", "conflicting"):
             # Log but do not raise — the caller decides whether to block.
+            # 'conflicting' is at least as dangerous as 'unverified': it
+            # means sources actively disagree, not merely that no
+            # primary source has been checked yet. A caller that reads
+            # value_text off a conflicting constant and treats it as a
+            # usable date has ignored a warning that fires either way.
             _logger = __import__("logging").getLogger(__name__)
             _logger.warning(
                 "regulatory.constant %s (jurisdiction=%s, as_of=%s) "
-                "is UNVERIFIED. source_url=%s verified_on=%s",
-                code, jurisdiction_code, as_of,
+                "is %s. source_url=%s verified_on=%s",
+                code, jurisdiction_code, as_of, winner.confidence.upper(),
                 winner.source_url, winner.verified_on,
             )
         return winner

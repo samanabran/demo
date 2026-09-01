@@ -219,6 +219,41 @@ class TestRegulatoryIntegrity(TransactionCase):
         self.assertEqual(rec.confidence, "verified")
         self.assertTrue(rec.value_text.lower() in ("true", "1", "yes"))
 
+    def test_12_conflicting_constant_value_text_is_not_a_parseable_date(self):
+        """A 'conflicting' constant must never be silently usable as if
+        it were a normal value. Wave 3 remediation round 3 added the
+        first real 'conflicting' constant (the government-entity
+        e-invoicing go-live date, where secondary sources actively
+        disagree). Its value_text is deliberately not a bare ISO date —
+        a careless caller that does `datetime.fromisoformat(rec.value_text)`
+        without checking confidence first must get an exception, not a
+        wrong date silently accepted.
+        """
+        rec = self.Constant.get_effective(
+            "einvoicing_government_entity_go_live", "uae_federal",
+            as_of=date(2026, 9, 1),
+        )
+        self.assertEqual(rec.confidence, "conflicting")
+        from datetime import datetime
+        with self.assertRaises(ValueError):
+            datetime.fromisoformat(rec.value_text)
+
+    def test_13_phase2_einvoicing_constants_are_verified_secondary(self):
+        """Phase 2 (revenue below AED 50m) e-invoicing constants — added
+        in Wave 3 remediation round 3 because the rules pack previously
+        had only the Phase 1 (≥ AED 50m) band, which would have given
+        the wrong deadline to most brokerage tenants.
+        """
+        for code in ("einvoicing_phase2_asp_appointment_due", "einvoicing_phase2_go_live"):
+            rec = self.Constant.get_effective(
+                code, "uae_federal", as_of=date(2026, 9, 1),
+            )
+            self.assertEqual(
+                rec.confidence, "verified_secondary",
+                f"{code} must be verified_secondary, not a higher or "
+                f"lower confidence tier.",
+            )
+
     def test_11_nominee_not_ubo_constant_is_verified(self):
         """Nominee shareholders and directors cannot be UBOs under the
         2025 Executive Regulations.
