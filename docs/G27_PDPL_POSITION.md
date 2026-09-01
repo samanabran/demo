@@ -39,7 +39,7 @@ A silent default to `uae_mainland` would assert the wrong legal regime on a DIFC
 
 ### Residency enum (the new field shape)
 
-`sgc.data_residency.region` is replaced by the **enum** below. The string `"uae"` is no longer accepted. The test `test_02_residency_migration_no_silent_default_to_uae_mainland` will assert that no stored value of `"uae"` is silently mapped.
+`sgc.data_residency.region` is replaced by the **enum** below, implemented as a real `res.company` field (`data_residency_region`) in `sgc_tenant_readiness/models/tenant_data_residency.py`. The string `"uae"` is no longer an accepted value — the ORM `Selection` type rejects it. The test `sgc_tenant_readiness/tests/test_upgrade_migrations.py::TestTenantReadinessUpgradeMigrations::test_03_residency_migration_no_silent_default_to_uae_mainland` asserts that an existing non-default value (e.g. `difc`) is never overwritten to `uae_mainland` by an unrelated write. (Moved here from `sgc_process_control` in Wave 3 remediation round 2 — the field is owned by `sgc_tenant_readiness`, and the earlier location reached into a downstream module's model from an upstream one.)
 
 | Enum value | Where it sits | Applicable regime |
 |---|---|---|
