@@ -12,9 +12,17 @@
         the tenant owns, not us. The product gates the capability on
         the tenant's own revenue attestation and ASP appointment.
 
-        All values are verified against the published guidance at the
-        time of writing. The current FTA position must be re-verified
-        within 5 working days per amendment 001 §10.5.
+        Wave 3 remediation round 2 correction: the ASP-appointment-date
+        constant was previously marked confidence='verified' — an
+        overclaim. It has not been directly checked against the primary
+        decision text (the amendment to Ministerial Decision 244/2025).
+        It IS corroborated by multiple independent secondary sources
+        (advisory-firm bulletins, press coverage, and an MoF
+        communication referenced by the CEO's own re-verification pass,
+        2026-09-01) — that is 'verified_secondary', a real step above
+        UNVERIFIED but short of a primary citation. The go-live date and
+        the revenue threshold are unchanged by that amendment and are
+        left at 'verified' pending the same primary-text check.
     -->
     <data noupdate="1">
 
@@ -26,12 +34,12 @@
             <field name="value_text">2026-10-30</field>
             <field name="unit">text</field>
             <field name="source_url">https://www.tax.gov.ae/</field>
-            <field name="source_reference">UAE e-invoicing: voluntary phase from 1 July 2026. ASP appointment extended to 30 October 2026. Go-live 1 January 2027 for revenue ≥ AED 50m. TENANT_CONFIG: whether a given tenant triggers mandatory e-invoicing depends on tenant revenue, which the tenant attests.</field>
+            <field name="source_reference">UAE e-invoicing Phase 1 ASP appointment deadline extended from 31 July 2026 to 30 October 2026, by amendment to Ministerial Decision 244/2025. Go-live 1 January 2027 and the AED 50m revenue threshold are unchanged. Corroborated by multiple independent advisory sources and an MoF communication; the primary amendment decision text has not itself been directly cited yet. TENANT_CONFIG: whether a given tenant triggers mandatory e-invoicing depends on tenant revenue, which the tenant attests.</field>
             <field name="verified_on">2026-09-01</field>
-            <field name="confidence">verified</field>
+            <field name="confidence">verified_secondary</field>
             <field name="valid_from">2026-07-01</field>
             <field name="version">1</field>
-            <field name="notes">Amendment 001 §10.5: extension covers appointment only. Date must be re-verified within 5 working days; the rules pack is not the source of truth, the published FTA position is.</field>
+            <field name="notes">Amendment 001 §10.5: extension covers appointment only. Corrected from an overclaimed 'verified' to 'verified_secondary' in Wave 3 remediation round 2 — the date was never directly checked against the primary Ministerial Decision 244/2025 amendment text, only against secondary corroboration. Primary-text citation is a named pre-go-live task, not a test.</field>
         </record>
 
         <record id="const_einvoicing_go_live" model="regulatory.constant">

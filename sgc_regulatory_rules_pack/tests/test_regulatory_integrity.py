@@ -40,12 +40,40 @@ class TestRegulatoryIntegrity(TransactionCase):
         )
 
     def test_02_every_verified_constant_has_verified_on_date(self):
-        """A constant with confidence=verified must have verified_on set."""
-        seeded = self.Constant.search([("confidence", "=", "verified")])
+        """A constant with confidence in (verified, verified_secondary)
+        must have verified_on set. Wave 3 remediation round 2 added the
+        verified_secondary tier for facts corroborated by multiple
+        independent secondary sources but not yet checked against
+        primary decision/law text — e.g. the e-invoicing ASP appointment
+        date extension, corroborated but not yet cited to the primary
+        Ministerial Decision 244/2025 amendment text.
+        """
+        seeded = self.Constant.search([
+            ("confidence", "in", ("verified", "verified_secondary")),
+        ])
         missing = [c.code for c in seeded if not c.verified_on]
         self.assertFalse(
             missing,
-            f"Verified constants missing verified_on: {missing}",
+            f"Verified/verified_secondary constants missing verified_on: {missing}",
+        )
+
+    def test_02b_einvoicing_asp_deadline_is_verified_secondary_not_overclaimed(self):
+        """Ground truth check for a specific, previously-overclaimed
+        constant. The ASP appointment date was marked 'verified'
+        without ever being checked against the primary MD 244/2025
+        amendment text — an overclaim caught in Wave 3 remediation
+        round 2. It must be 'verified_secondary', not 'verified'.
+        """
+        rec = self.Constant.get_effective(
+            "einvoicing_asp_appointment_due", "uae_federal",
+            as_of=date(2026, 9, 1),
+        )
+        self.assertEqual(
+            rec.confidence, "verified_secondary",
+            "einvoicing_asp_appointment_due must be verified_secondary "
+            "(corroborated by secondary sources, primary text not yet "
+            "cited) — marking it 'verified' outright is the overclaim "
+            "this test exists to catch.",
         )
 
     def test_03_every_constant_has_jurisdiction_scope(self):

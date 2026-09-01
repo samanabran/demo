@@ -124,10 +124,19 @@ class RegulatoryConstant(models.Model):
     confidence = fields.Selection(
         selection=[
             ("verified", "Verified — primary source confirmed"),
+            ("verified_secondary", "Verified (secondary) — multiple independent "
+             "advisory/press sources corroborate; primary decision/law text not "
+             "yet directly cited"),
             ("unverified", "UNVERIFIED — awaiting primary source confirmation"),
             ("conflicting", "Conflicting sources — see notes"),
         ],
         default="unverified", required=True, index=True,
+        help="'verified' requires source_url + verified_on pointing at the "
+             "primary legal text. 'verified_secondary' is for a fact that is "
+             "corroborated by multiple independent secondary sources (advisory "
+             "firms, press, an MoF/MoET communication) but where the primary "
+             "decision text has not itself been directly cited yet — a real "
+             "step above UNVERIFIED, still short of a primary-source citation.",
     )
 
     # --- Effective dating (mandatory) -----------------------------------
@@ -190,17 +199,19 @@ class RegulatoryConstant(models.Model):
     @api.constrains("confidence", "source_url", "verified_on")
     def _check_confidence_requires_provenance(self):
         for rec in self:
-            if rec.confidence == "verified":
+            if rec.confidence in ("verified", "verified_secondary"):
                 if not rec.source_url:
                     raise ValidationError(_(
-                        "Constant '%s' is marked 'verified' but source_url "
-                        "is empty. Confidence=verified requires source_url."
-                    ) % rec.code)
+                        "Constant '%s' is marked '%s' but source_url "
+                        "is empty. Both verified and verified_secondary "
+                        "require source_url."
+                    ) % (rec.code, rec.confidence))
                 if not rec.verified_on:
                     raise ValidationError(_(
-                        "Constant '%s' is marked 'verified' but verified_on "
-                        "is empty. Confidence=verified requires verified_on."
-                    ) % rec.code)
+                        "Constant '%s' is marked '%s' but verified_on "
+                        "is empty. Both verified and verified_secondary "
+                        "require verified_on."
+                    ) % (rec.code, rec.confidence))
 
     _sql_constraints = [
         (
