@@ -347,3 +347,129 @@ ALL CHECKS INTERNALLY CONSISTENT.
 Exit code 0. Every number in §3, §4, §6, and §15.1 of this document was pasted from this output, not typed by hand.
 
 **What this script does not do:** it does not know whether the document's *prose* — what a test is claimed to prove, whether a design decision was the right one — is correct. That still needs a human or an agent reader. What it removes is the specific failure mode this review caught three times: a number in the document that the tree does not actually produce. Any future revision of this result document should run this script first and build the factual tables from its output.
+
+---
+
+## 17. Wave 3 Run Order — session evidence and blocker
+
+**Date:** 2026-09-01 (Asia/Dubai). **Authoring session:** the Wave 3 run-order "Runtime run" pass. **Status of this section:** documents what the session actually did, what it could not do, and the exact reconciliation steps the next session must take before §2 commands can be re-executed.
+
+### 17.1 The order this section responds to
+
+The "Wave 3 — Runtime Run Order" instruction, dated 2026-09-01, defined two tasks in strict order: (1) patch the log parser in `tools/run_wave3_protocol.py` and add unit tests; (2) execute install commands §6.1–§6.4 against a real Odoo 19 runtime and record the actual output. The order's own closing line: "If the runtime cannot be reached, say so directly and stop — do not synthesise, estimate, or infer any result. A blocked run honestly recorded is the correct output; a fabricated green is not."
+
+### 17.2 What the session did — Task 1 (parser patch), complete
+
+The parser in `tools/run_wave3_protocol.py` was rewritten. The previous regex (`(?P<ran>\d+)\s+tests?\s+(?:passed|ran|executed)`) only knew the passing-summary shape; a failing run that emitted `2 failed, 1 error(s) of 16 tests when loading database 'sgc_install'` was misclassified or lost. The new parser recognises both shapes and the four terminal states the order mandates:
+
+| State | Trigger | Notes |
+|---|---|---|
+| `PASS` | summary found, total > 0, failed == 0, errors == 0, exit code == 0 | |
+| `FAIL_TESTS` | summary found, failed > 0 or errors > 0 | Real test failures; expected outcome of the new tenant-readiness tests per §5 of the order. |
+| `FAIL_ZERO_TESTS` | summary found, total == 0, regardless of exit code | The false-green the meta-tests exist to close; hard failure. |
+| `FAIL_NO_SUMMARY` | no recognisable summary line in the log | Distinct from the existing `BINARY_NOT_FOUND` runtime-missing state; never coerced into PASS. |
+| `BINARY_NOT_FOUND` | `run_command()` could not execute the binary (no PATH, no ODOO_BIN override) | Preserved unchanged from the previous behaviour. |
+
+The runner now uses `classify_run(output, exit_code)` per command. A passing summary with non-zero exit is bumped to `FAIL_TESTS` so a process that died after emitting a summary line is not misrecorded as green. The suspiciously-clean-output flag is retained: if 6.2, 6.3 and 6.4 all reach `PASS` on first attempt with exact-baseline counts, the runner surfaces a finding, not a result, exactly as the order requires.
+
+**Working-tree state of the patch (uncommitted, see §17.3 for why):**
+
+```
+$ git diff --stat tools/run_wave3_protocol.py
+ tools/run_wave3_protocol.py | 518 ++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 437 insertions(+), 81 deletions(-)
+```
+
+**Unit-test result (15/15):**
+
+```
+$ python tools/run_wave3_protocol.py --selftest
+…
+Ran 15 tests in 0.001s
+OK
+```
+
+Test coverage spans the four mandated states plus: empty output → `FAIL_NO_SUMMARY`; `BINARY_NOT_FOUND` passthrough; `Loaded module X (N tests)` line is **not** a summary (this was the false-positive in the old parser); passing shape with no "failed" phrase; failing shape with no "error(s)" phrase; passing summary + non-zero exit → `FAIL_TESTS`; the LAST matching summary line wins, not the first (Odoo can emit more than one "of N tests" line in a tagged sub-run).
+
+**Verifier result (exit 0, no regression):**
+
+```
+$ python tools/verify_wave3_claims.py
+…
+ALL CHECKS INTERNALLY CONSISTENT.
+Exit code 0.
+```
+
+The patch does not change the verifier's output. The §3, §4, §6 and §15.1 numbers in this document, re-pasted from the verifier run above this section, are unaffected by the patch.
+
+**Existing behaviour preserved:** `python tools/run_wave3_protocol.py` without `--run` still exits 2 with the "REFUSING: no Odoo runtime in PATH" message. A new `--selftest` flag was added for the parser-only test path; it does not run the verifier, does not touch the result document, and does not require an Odoo runtime.
+
+### 17.3 What the session could not do — Task 2 (runtime run), blocked
+
+The order's precondition for Task 2 is Rule 1 of `AGENTS.md`: local, GitHub and the live server must be at the same SHA before any edit. This session opened with that check failed on all three copies:
+
+| Copy | Command run | Result |
+|---|---|---|
+| Local `C:\demo_presentation` | `git log -1 --oneline` | `b110ff3 Wave 3 runtime tooling: verifier in the loop and runtime runner with per-command count assertions.` |
+| GitHub `gh-demo-addons:Rams-Lab-01/demo.git` `origin` | `git ls-remote origin main` | `ssh: Could not resolve hostname gh-demo-addons: Name or service not known` — DNS for the `gh-demo-addons` host does not resolve from this network. The remote cannot be reached at all. |
+| Live server `vps-root:/opt/odoo/demo_presentation/addons` | `ssh vps-root "cd /opt/odoo/demo_presentation/addons && git log -1 --oneline"` | `67c28bc fix(sgc_commission): self-heal orphaned billed lines; scope bill sync to current bill link` |
+
+`67c28bc` does not exist in the local history. The server is on a separate `sgc_commission` work branch with the following commits, none of which are present locally:
+
+```
+67c28bc fix(sgc_commission): self-heal orphaned billed lines; scope bill sync to current bill link
+69863b0 fix(sgc_commission): sync commission lines with bill lifecycle (post/cancel/reset/delete)
+5d87a7b feat: add burned-in captions to the syndication demo video
+b75ef4c feat: add Remotion wrapper for the portal syndication demo video
+502f4bd fix(sgc_commission): block bill generation for zero-amount commission lines
+```
+
+Local is `[ahead 47]` of `origin/main`, but the server has moved on a parallel branch and `origin` itself is unreachable from this machine. Three independent failures, each on its own a Rule 1 violation. The user, asked, confirmed the "Stop and reconcile first" option. Per the order, a blocked run honestly recorded is the correct output: this section is that record.
+
+**What the parser patch *would* have done in Task 2 if Rule 1 had cleared:** the runner would have started a `postgres:16` container with a real `POSTGRES_DB` (the previous local `odoo19_module_eval_db` container had crashed 15 hours ago on FATAL `database "odoo" does not exist` because no `POSTGRES_DB` env was set; that crash is in the docker logs and reproduced here for the next session), waited for `pg_isready`, mounted the addons path into an `odoo:19.0-<dated-tag>` container, listed the three module dirs from inside the container to prove the mount, created `sgc_install` / `sgc_upgrade` / `sgc_tenant`, run §6.1 alone first and stopped on any install-time failure, then §6.2, §6.3, §6.4 with the parser's four-state classification asserting against the 4/4/8 baselines. None of those steps were taken. The patch is uncommitted; no container was started; no command was run; no log file was produced.
+
+### 17.4 Reconciliation procedure for the next session
+
+In order, no skipping, all three copies must reach the same SHA before the parser patch is committed and §6.1 is run.
+
+1. **Run Rule 1 checks on a machine that resolves `gh-demo-addons`.** If the DNS problem persists on this machine, the reconciliation cannot start from here. From any machine that can reach the remote:
+   ```
+   git -C C:\demo_presentation log -1 --oneline
+   git -C C:\demo_presentation ls-remote origin main
+   ssh vps-root "cd /opt/odoo/demo_presentation/addons && git log -1 --oneline"
+   ```
+2. **Identify the divergence point.** Local's `b110ff3` is the tip of the Wave 3 remediation + runtime-tooling branch. The server's `67c28bc` is the tip of an `sgc_commission` work branch with five commits that never made it to local. GitHub is the unknown. Find the merge-base:
+   ```
+   git fetch origin
+   git merge-base origin/main vps-root-addons/main   # if both remotes exist
+   git log --oneline --all --graph -20
+   ```
+3. **Merge or rebase the `sgc_commission` branch into the Wave 3 branch locally**, or fast-forward whichever side is behind. The five server-side commits are `sgc_commission` fixes; the local `b110ff3` commit message indicates it is the *Wave 3 runtime tooling* commit on top of the round-3 remediation stack. The two branches share ancestry but have not been merged. A rebase of the five `sgc_commission` commits onto `b110ff3` (or a merge from the server branch into `b110ff3`) is the likely move, but the right choice depends on the merge-base the previous step returns.
+4. **Push the merged result to `origin/main`** so the GitHub copy matches, then `ssh vps-root "cd /opt/odoo/demo_presentation/addons && git fetch && git reset --hard origin/main"` (per `AGENTS.md` Rule 2, do not leave a server-side uncommitted hotfix; commit before reset). Re-run the three `git log -1 --oneline` checks. All three must be identical.
+5. **Commit the parser patch.** It is sitting as a working-tree modification on `b110ff3`:
+   ```
+   git add tools/run_wave3_protocol.py
+   git commit -m "Wave 3 run order: parser four-state contract + 15 unit tests
+
+   Old parser keyed only on the passing-summary shape and lost
+   failing runs. New parser recognises both shapes, classifies into
+   PASS / FAIL_TESTS / FAIL_ZERO_TESTS / FAIL_NO_SUMMARY, preserves
+   the BINARY_NOT_FOUND runtime-missing state, and keeps the
+   suspiciously-clean-output flag. 15 unit tests in --selftest cover
+   the four states plus edge cases. tools/verify_wave3_claims.py
+   still exits 0 against the patched tree."
+   ```
+6. **Stand up the runtime, run §6.1 first, then §6.2/§6.3/§6.4.** Use the procedure in §3 of the order, not a re-derivation. Do not collapse §6.1 into §6.2; the install-time signal is the only thing that distinguishes a load-order defect from a logic defect. Capture full stdout+stderr per command to log files in `docs/WAVE_3_RUNTIME_LOGS/` (or wherever the next session's convention lands); paste numbers into a new §18 of this document, not the prose of §2.
+7. **Update the verdict at the top of this document** from `BLOCK — runtime pending only` to `SHIP` / `SHIP WITH DEFERRALS` / `BLOCK` per §6 of the order, with one stated cause, once the run is complete and the tracebacks are on file.
+
+### 17.5 What this section is *not*
+
+- It is not a green result. The four commands were not run. No test counts are claimed. No exit codes are pasted from tool output, because no tool output was produced for §6.1–§6.4.
+- It is not a re-opening of the remediation. The order is explicit that "All design and remediation work is signed off and closed. Do not reopen it, do not re-audit closed defects, do not restate prior closure summaries." This section documents the runtime-order pass and the Rule 1 blocker; it does not touch the §3, §4, §6, §15, §16 numbers or their proofs.
+- It is not an estimate. The five server-side commits are named, the DNS error is the literal command output, and the next-session reconciliation steps are the actual steps required by `AGENTS.md`. Anyone reading this section on the next machine with `gh-demo-addons` reachable can execute step 1 and confirm the divergence independently.
+
+### 17.6 The one thing this session proved, captured for the record
+
+`tools/verify_wave3_claims.py` is not affected by the three-copy drift. The §16 numbers above this section are valid against the local tree at `b110ff3` and remain valid regardless of how the next session reconciles the three copies, because they describe facts about the three modules in the local tree (test class counts, R8 scans, removed-symbol invocations, selector validity) that do not depend on which branch the server or GitHub happens to be on. The next session's runtime results, when they land, will produce a new top-of-document verdict and a new §18 with the run evidence; the §16 numbers will not change unless the test code itself is touched, which the order forbids in this pass.
+
+---

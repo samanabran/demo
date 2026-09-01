@@ -23,6 +23,11 @@ Thumbs.db
 # Local session artefacts
 .session/
 
-# OMC operational state (ignored by convention; .omc/skills/** would be the
-# committable exception, none present here)
+# OMC / oh-my-claudecode operational state (ignored by convention;
+# .omc/skills/** or .omo/skills/** would be the committable exception,
+# none present here)
 .omc/
+.omo/
+
+# Stray terminal scrollback captured by Claude Code sessions; not source.
+*-local-command-caveat*.txt
