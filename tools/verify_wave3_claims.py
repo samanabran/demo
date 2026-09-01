@@ -218,66 +218,122 @@ def _short_rev(ref):
     return ref[:12] if len(ref) >= 12 else ref
 
 
+def _run(cmd, timeout=10):
+    """Run cmd, return (returncode, stdout). Never raises."""
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True,
+                           timeout=timeout, cwd=ROOT)
+        return r.returncode, (r.stdout or "").strip(), (r.stderr or "").strip()
+    except subprocess.TimeoutExpired:
+        return -1, "", f"timeout after {timeout}s"
+    except FileNotFoundError as e:
+        return -1, "", f"command not found: {e}"
+
+
+def _git_origin_head(ref):
+    """Return short SHA at origin/<ref>, or None on any failure."""
+    code, out, err = _run(["git", "ls-remote", "origin", ref], timeout=20)
+    if code != 0:
+        return None, f"origin/{ref}: {err or 'non-zero exit'}"
+    line = out.splitlines()
+    if not line or not line[0]:
+        return None, f"origin/{ref}: empty ls-remote output"
+    return _short_rev(line[0].split()[0]), None
+
+
 def check_rule1_sync():
     """AGENTS.md Rule 1: local / GitHub / live-server HEAD must match.
 
-    This is a *soft* check. If a remote (origin or vps-root) cannot be
-    reached from the environment the script runs in, the script reports
-    "<unreachable>" for that endpoint and does not fail -- the verifier
-    is designed to run anywhere, including offline. Reaching a "could
-    not match" verdict requires all three endpoints reachable; otherwise
-    the check returns match=None (indeterminate) and the human
-    decides.
+    The contract per AGENTS.md is "local / GitHub / live server all at
+    the same commit, where GitHub = origin/main and live server is the
+    canonical main checkout at /opt/odoo/demo_presentation/addons."
 
-    On match=True the three HEADs are byte-identical.
-    On match=False at least one HEAD diverges -- a Rule 1 violation; the
-    next session must reconcile before any edit (per AGENTS.md Rule 1).
+    On a feature branch (e.g. wave3-runtime with PR #1 in flight), local
+    HEAD is intentionally ahead of origin/main -- that's the PR state,
+    not drift. The right Rule 1 question on a feature branch is
+    "local == origin/<current-branch>". The script handles both:
+
+      - On main: compare local, origin/main, live-server. Three-way sync.
+      - On a feature branch with upstream: compare local, origin/<branch>;
+        also check origin/main == live-server (the live server is always
+        on main per AGENTS.md; the canonical main contract).
+
+    This is a *soft* check. If a remote (origin or vps-root) cannot be
+    reached, the script reports "<unreachable>" for that endpoint and
+    does not fail -- the verifier must run anywhere, including offline.
+    Hard rule: "if you can see drift, say so and fail"; soft rule:
+    "if you can't see, say so but don't lie about it."
+
+    On match=True the relevant heads are byte-identical.
+    On match=False at least one expected comparison diverges -- a Rule 1
+    violation; the next session must reconcile before any edit.
     On match=None one or more endpoints were unreachable; the rule is
     not violated by the verifier (it doesn't know) but should be
     verified by a human or a follow-up session.
     """
     findings = {
         "local": None,
-        "origin": None,
+        "local_branch": None,
+        "upstream": None,
+        "upstream_origin": None,
+        "origin_main": None,
         "live_server": None,
         "match": None,
         "unreachable": [],
+        "comparison": None,
     }
 
-    # Local HEAD (always available -- this script runs from a checkout)
-    try:
-        r = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
-            capture_output=True, text=True, timeout=10, cwd=ROOT,
-        )
-        if r.returncode == 0 and r.stdout.strip():
-            findings["local"] = _short_rev(r.stdout)
-        else:
-            findings["unreachable"].append(f"local: {r.stderr.strip() or 'no output'}")
-    except (subprocess.TimeoutExpired, FileNotFoundError) as e:
-        findings["unreachable"].append(f"local: {e}")
+    # Local HEAD + current branch
+    code, out, err = _run(["git", "rev-parse", "HEAD"], timeout=10)
+    if code == 0 and out:
+        findings["local"] = _short_rev(out)
+    else:
+        findings["unreachable"].append(f"local HEAD: {err or 'no output'}")
 
-    # origin/main (network may be down -- that's not a script failure)
-    try:
-        r = subprocess.run(
-            ["git", "ls-remote", "origin", "main"],
-            capture_output=True, text=True, timeout=20, cwd=ROOT,
-        )
-        if r.returncode == 0:
-            line = (r.stdout or "").strip().splitlines()
-            if line and line[0]:
-                findings["origin"] = _short_rev(line[0].split()[0])
-            else:
-                findings["unreachable"].append("origin: empty ls-remote output")
-        else:
-            findings["unreachable"].append(f"origin: {r.stderr.strip() or 'non-zero exit'}")
-    except subprocess.TimeoutExpired:
-        findings["unreachable"].append("origin: timeout (20s)")
-    except FileNotFoundError:
-        findings["unreachable"].append("origin: git not on PATH")
+    code, out, err = _run(["git", "rev-parse", "--abbrev-ref", "HEAD"], timeout=10)
+    if code == 0 and out and out != "HEAD":
+        findings["local_branch"] = out
 
-    # Live server (vps-root /opt/odoo/demo_presentation/addons per AGENTS.md).
-    # Override target/path via env if a session uses a different alias.
+    # Upstream of current branch (the right comparison on a feature branch)
+    if findings["local_branch"]:
+        code, out, err = _run(
+            ["git", "rev-parse", "--abbrev-ref",
+             f"{findings['local_branch']}@{{upstream}}"],
+            timeout=10,
+        )
+        if code == 0 and out:
+            findings["upstream"] = out  # e.g. origin/wave3-runtime
+        # else: no upstream set; fall through to origin/main comparison
+
+    # Resolve the upstream origin ref
+    if findings["upstream"]:
+        # findings["upstream"] looks like "origin/wave3-runtime"; split
+        remote, _, ref = findings["upstream"].partition("/")
+        sha, err = _git_origin_head(ref)
+        if sha:
+            findings["upstream_origin"] = sha
+        else:
+            findings["unreachable"].append(err or "origin upstream fetch failed")
+    elif findings["local_branch"] in (None, "main"):
+        # Detached or on main -- compare against origin/main directly
+        sha, err = _git_origin_head("main")
+        if sha:
+            findings["upstream_origin"] = sha
+            findings["upstream"] = "origin/main"
+        else:
+            findings["unreachable"].append(err or "origin/main fetch failed")
+
+    # origin/main separately (always wanted -- the live server is on main)
+    sha, err = _git_origin_head("main")
+    if sha:
+        findings["origin_main"] = sha
+    else:
+        # Only add the error if it isn't already in the list (avoid duplicate)
+        msg = err or "origin/main fetch failed"
+        if not any("origin/main" in u for u in findings["unreachable"]):
+            findings["unreachable"].append(msg)
+
+    # Live server
     ssh_target = os.environ.get("WAVE3_VPS_SSH", "vps-root")
     ssh_path = os.environ.get("WAVE3_VPS_PATH", "/opt/odoo/demo_presentation/addons")
     ssh_cmd = f"cd {ssh_path} && git rev-parse HEAD"
@@ -295,20 +351,36 @@ def check_rule1_sync():
                 findings["unreachable"].append(f"live server ({ssh_target}): empty ssh output")
         else:
             findings["unreachable"].append(
-                f"live server ({ssh_target}): {r.stderr.strip() or 'non-zero exit'}"
+                f"live server ({ssh_target}): {(r.stderr or '').strip() or 'non-zero exit'}"
             )
     except subprocess.TimeoutExpired:
         findings["unreachable"].append(f"live server ({ssh_target}): timeout (20s)")
     except FileNotFoundError:
         findings["unreachable"].append("live server: ssh not on PATH")
 
-    # Determine match. Match is determinable only when at least two
-    # endpoints returned a HEAD and we have a basis to compare.
-    heads = [h for h in (findings["local"], findings["origin"], findings["live_server"])
-             if h is not None]
-    if len(heads) >= 2:
-        findings["match"] = len(set(heads)) == 1
-    # else: leave match=None (indeterminate)
+    # Determine match.
+    # Comparison 1: local vs upstream (the "is the branch in sync with
+    # its remote" check).
+    # Comparison 2: origin/main vs live_server (the "is canonical main
+    # intact" check).
+    comp1_ok = None
+    comp2_ok = None
+    if findings["local"] and findings["upstream_origin"]:
+        comp1_ok = findings["local"] == findings["upstream_origin"]
+        findings["comparison"] = f"local vs {findings['upstream']}"
+    elif findings["local"] and findings["origin_main"] and findings["local_branch"] in (None, "main"):
+        # No upstream, but we are on main -- use origin/main directly
+        comp1_ok = findings["local"] == findings["origin_main"]
+        findings["comparison"] = "local vs origin/main (on main, no upstream set)"
+    if findings["origin_main"] and findings["live_server"]:
+        comp2_ok = findings["origin_main"] == findings["live_server"]
+
+    if comp1_ok is True and (comp2_ok is True or comp2_ok is None):
+        findings["match"] = True
+    elif comp1_ok is False or comp2_ok is False:
+        findings["match"] = False
+    else:
+        findings["match"] = None  # indeterminate (one or more endpoints unreachable)
     return findings
 
 
@@ -421,9 +493,14 @@ def main():
 
     print("-- AGENTS.md Rule 1 sync check (local / origin / live server HEAD) --")
     r1 = result["rule1_sync"]
-    print(f"  local:        {r1['local'] or '<unreachable>'}")
-    print(f"  origin/main:  {r1['origin'] or '<unreachable>'}")
-    print(f"  live server:  {r1['live_server'] or '<unreachable>'}")
+    branch = r1["local_branch"] or "(detached)"
+    print(f"  local HEAD:       {r1['local'] or '<unreachable>'}  [branch: {branch}]")
+    if r1["upstream"]:
+        print(f"  upstream:         {r1['upstream']} = {r1['upstream_origin'] or '<unreachable>'}")
+    if r1["comparison"]:
+        print(f"  comparison:       {r1['comparison']}")
+    print(f"  origin/main:      {r1['origin_main'] or '<unreachable>'}")
+    print(f"  live server:      {r1['live_server'] or '<unreachable>'}")
     if r1["match"] is True:
         print("  STATUS: MATCH (Rule 1 satisfied)")
     elif r1["match"] is False:
