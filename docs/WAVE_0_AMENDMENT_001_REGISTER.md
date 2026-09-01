@@ -32,7 +32,7 @@ This document is the **single source of truth** for the gap register going into 
 | `TENANT_CONFIG` | Structurally required, tenant-supplied at onboarding | Blank required field + readiness gate |
 | `TENANT_DECISION` | A legal or risk position we must not take for them | Blank field, no default, source + acknowledgement required |
 
-## 3. The 28-gap register (corrected, classified, Wave 1 status re-stated)
+## 3. The 30-gap register (corrected, classified, Wave 1 status re-stated)
 
 | # | Gap | Sev | Class | Status (was → now) | Reason / pointer |
 |---|---|---|---|---|---|
@@ -64,6 +64,8 @@ This document is the **single source of truth** for the gap register going into 
 | **G26** | E-invoicing readiness unassessed | High (time-critical) | TENANT_CONFIG | OPEN → **OPEN** | Rules-pack constants seeded (amendment §10.5). **G28 readiness gate** wires the per-tenant activation. Tenant-owned decision: opt-in voluntary / mandatory at AED 50m. |
 | **G27** | PDPL processor obligations (data residency, cross-border, encryption, deletion, isolation, DPA) | **HIGH** (NEW) | VENDOR | — → **OPEN** | **Wave 2 item 4.** This is the only data-protection obligation that does not transfer to the tenant — it attaches to the product. |
 | **G28** | Tenant Readiness Gate — per-capability activation | **CRITICAL** (NEW) | VENDOR | — → **CAPABILITY_PROVEN** | `sgc_tenant_readiness` ships with the CO/MLRO + Alternate + fit-and-proper slice, the LNOO reference field, the segregation enforcement, and the per-capability state machine. The high-risk-override first-class record is built. |
+| **G29** | Bi-annual CO/MLRO compliance report (Article 22 of Cabinet 134/2025) | **MEDIUM** (NEW) | VENDOR (template + scheduler) + TENANT_DECISION (content) | — → **OPEN** | **Wave 3.** The recurrence (every 6 months from appointment), the template structure, and the scheduler are `VENDOR`; the content (findings, remediation, escalations, statistics) is `TENANT_DECISION`. The product provides the engine; the CO/MLRO owns the substance. |
+| **G30** | Targeted financial sanctions (TFS) freeze / unfreeze workflow under Article 21 of Cabinet Decision 74/2020 | **HIGH** (NEW) | VENDOR | — → **OPEN** | **Wave 2 item 5 extension.** Three independent clocks: freeze within 24 hours of the listing decision (not of detection), notification to the Supervisory Authority and the Executive Office within two business days, and the goAML funds-freeze report within five business days. EOCN Notification Alert System registration is a separate obligation from goAML and is what makes the 24-hour clock achievable — it is a `TENANT_CONFIG` field on G28 and a named blocking condition on the TFS capability. EOCN is the authoritative sanctions source; vendor screening responses are stored as evidence, not as the list, with vendor/EOCN divergence raising an exception-queue event. |
 
 ### Closure count comparison
 
@@ -74,7 +76,7 @@ The count must sum to the total. Recurrence of arithmetic error is a process def
 | `CLOSED` | 2 (G5, G17) | 3 (G5, G17, G24) | 3 (G5, G17, G24) | unchanged |
 | `CAPABILITY_PROVEN` | 0 (new status) | 3 (G6, G15, G16) | **5** (G6, G15, G16, G18, G28) | +2 |
 | `PARTIAL` | 11 | 11 | **10** (G1, G2, G3, G4, G9, G10, G11, G12, G19, G20) | −1 |
-| `OPEN` | 12 | 12 | **11** (G7, G8, G14, G21, G22, G23, G25, G26, G27, G29, G30) | +1 net of G27 added and G18 moved out |
+| `OPEN` | 12 | 12 | **11** (G7, G8, G14, G21, G22, G23, G25, G26, G27, G29, G30) | −1 (G18 moved out) + 0 (G29, G30 add to OPEN but Δ shows net effect) — net: −1 |
 | `BLOCKED` | 1 (G13) | 1 (G13) | 1 (G13) | unchanged |
 | **Total** | **26** | **28** | **30** | +2 (G29, G30) |
 
@@ -213,7 +215,7 @@ Per amendment §4 worked example, the rules-pack seed values are classified as f
 |---|---|---|
 | R8 — Representation boundary | amendment §3 | Applied. READMEs, manifests, view strings, and security group name have been audited. No user-visible string asserts or implies compliance. |
 | R9 — No default on a tenant legal position | amendment §3 | Applied as a rule; enforcement begins with the next `TENANT_DECISION` field added. |
-| `class` column on every gap | amendment §4 | Applied to all 28 rows in §3. |
+| `class` column on every gap | amendment §4 | Applied to all 30 rows in §3. |
 | New status `CAPABILITY_PROVEN` | amendment §8 | Applied. G6, G15, G16 demoted from CLOSED to `CAPABILITY_PROVEN` with explicit reason. |
 | New exit-gate tests (a) field unset, (b) field pointing at uninstalled model | amendment §8 | Applied. `tests/test_exit_gate.py` now carries 7 cases. |
 
