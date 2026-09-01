@@ -1,11 +1,12 @@
 # Wave 3 — Install / Regression / Fresh-tenant Blocking Result
 
 > **Programme:** Real-Estate Workflow Gap Closure
-> **Authoritative references:** `docs/TEST_PROTOCOL_WAVE_3.md`, `AGENT_BRIEF_REAL_ESTATE_WORKFLOW_GAP_CLOSURE.md`, `AMENDMENT_001_VENDOR_TENANT_BOUNDARY.md`, remediation orders round 1 and round 2 (this session).
+> **Authoritative references:** `docs/TEST_PROTOCOL_WAVE_3.md`, `AGENT_BRIEF_REAL_ESTATE_WORKFLOW_GAP_CLOSURE.md`, `AMENDMENT_001_VENDOR_TENANT_BOUNDARY.md`, remediation orders round 1, round 2, and round 3 (this session).
+> **Verification tool:** `tools/verify_wave3_claims.py` — a plain Python script, no Odoo dependency, that recomputes every factual claim in this document (test class counts, exit-gate method list, R8 scan numbers, orphaned-invocation checks, `--test-tags` selector validity) directly from the tree. Run it, don't retype its output. See §16.
 > **Single verdict statement — the only one in this document. Every other mention of "verdict" below is a cross-reference back to this line, never a restatement.**
 
 > ## VERDICT: **BLOCK — runtime pending only.**
-> The four install commands (§2) cannot be executed in this environment because no Odoo runtime is available. That is now the *only* reason for BLOCK. Round 2 of remediation (this session) closed every false-green risk a reviewer could find by inspection alone: the class-name/class-count mismatches, the R8 arithmetic left as scratch-thinking in the prior draft, the residency enum that existed only in test docstrings, and the "unblock" half of the fresh-tenant matrix that was one cumulative test standing in for six of seven capabilities. Section §12 below records exactly what changed, with commit SHAs.
+> The four install commands (§2) cannot be executed in this environment because no Odoo runtime is available. That is now the *only* reason for BLOCK. Rounds 2 and 3 of remediation (this session) closed every false-green risk a reviewer could find by inspection alone, and round 3 additionally closed a substantive product defect (the e-invoicing revenue-band gap, §15) and addressed the root cause of round 2's own false positives by building a verification script rather than promising closer proofreading (§16). Sections §12, §15 and §16 below record exactly what changed, with commit SHAs and script output.
 
 ---
 
@@ -258,4 +259,91 @@ Additional cleanup performed alongside the above, not separately requested but d
 
 **The single non-negotiable property** — "any capability that functions without configuration" — is now backed by a real completeness computation, not a manual flag. `test_08_no_capability_passes_while_unconfigured` and the seven dedicated `test_configured_*` tests together prove both directions: blocked when empty, and — critically, now genuinely testable — open only when actually complete.
 
-Per the verdict at the top of this document: **BLOCK, runtime pending only.**
+---
+
+## 15. Round 3 — three residual risks confirmed, one substantive gap closed
+
+Round 3 responded to a follow-up review of the round-2 draft. That review made an important distinction: three of its eight points were artifacts of a document written as prose rather than generated from the tree ("already correct on disk"), and it named the durable fix — non-authorial factual sections (§16) — rather than asking for another round of careful proofreading. The other findings were real and are closed below.
+
+### 15.1 Three residual risks from the round-2 remediation itself, confirmed
+
+| Risk raised | Verification performed | Finding |
+|---|---|---|
+| Moving the residency/LNOO tests from `sgc_process_control` to `sgc_tenant_readiness` could leave `--test-tags` selectors in 6.2–6.4 pointing at a module that no longer has the test — "defect 1 reborn in a new location." | Read the exact selector strings in `docs/TEST_PROTOCOL_WAVE_3.md` and cross-checked each against the current class list. 6.2 and 6.3 are module-level (`/sgc_process_control`, `/sgc_tenant_readiness`), not class-scoped — they pick up whatever is in that module's `tests/` directory regardless of which file a class lives in. 6.4 targets `TestExitGate`, which never moved. **No broken selector in the four install commands.** One genuine stale cross-reference *was* found, in prose, not in a runnable command: `docs/G27_PDPL_POSITION.md` line 42 named `test_02_residency_migration_no_silent_default_to_uae_mainland` — the equivalent test is now `test_03_...` in the new file, after two new tests were inserted ahead of it. Fixed (commit `4857041`). | **Confirmed clean in the four commands; one doc cross-reference fixed.** |
+| The class-counts (4/4/8) and R8 denominators (75=57+18) reconciled in round 2 might have been computed before the config-value model and its 10 new tests were added, not after. | Re-ran both computations live against the current tree, independent of git history: AST-based class enumeration and a fresh R8 scan. Both matched the committed document exactly: 4/4/8 classes, 75 total = 57 scanned + 18 excluded, 0 violations. | **Confirmed current — not stale.** |
+| `action_mark_ready()` was removed as a breaking API change; if any view, server action, automation, or the onboarding wizard still referenced it, install would fail at view validation, not at test time. | `grep -rn "action_mark_ready" sgc_regulatory_rules_pack/ sgc_process_control/ sgc_tenant_readiness/` across the full three-module tree (not just `sgc_tenant_readiness`). Four hits, all in comments/docstrings explaining the removal (in `tenant_readiness_config_value.py`, `tenant_readiness_state.py` ×2, `test_fresh_tenant_blocking.py`), zero in an XML `<button name="...">` or a Python call. | **Confirmed clean — no orphaned invocation anywhere in the tree.** |
+
+### 15.2 Substantive gap: e-invoicing revenue band
+
+The rules pack encoded Phase 1 dates only (revenue ≥ AED 50m: ASP appointment 30 October 2026, go-live 1 January 2027). This product is a multi-tenant template for brokerages, most of which sit below that threshold — Phase 2. A tenant below AED 50m would have had the Phase 1 deadline pair silently applied to them by any naive implementation, because there was no field anywhere recording which band a tenant was in, and no second set of dates to apply even if there had been.
+
+**What shipped:**
+
+- Three new rules-pack constants (`sgc_regulatory_rules_pack/data/regulatory_constant_einvoicing_data.xml`): `einvoicing_phase2_asp_appointment_due` (31 March 2027) and `einvoicing_phase2_go_live` (1 July 2027), both `confidence='verified_secondary'` per the user's own guidance that Phase 2 dates are corroborated by secondary advisory sources but not yet checked against the primary MD 244/2025 amendment text. A fourth constant, `einvoicing_government_entity_go_live`, uses a new `confidence='conflicting'` tier — the first real use of that tier in the rules pack — because secondary sources actively disagree on the government-entity date rather than merely lacking a primary citation. Its `value_text` is deliberately not a parseable ISO date (`"CONFLICTING — ... do not encode a single date"`), so a caller that reads it without checking `confidence` first gets a `ValueError` from `datetime.fromisoformat()`, not a silently-wrong date. Proven by `test_12_conflicting_constant_value_text_is_not_a_parseable_date`.
+- `get_effective()` in `regulatory_constant.py` now logs its "unusable without checking confidence" warning for `confidence in ('unverified', 'conflicting')`, not just `'unverified'` — `conflicting` is at least as dangerous.
+- `einvoicing_revenue_band` added as the **first** entry in the e-invoicing capability's `required_tenant_config` (`sgc_tenant_readiness/data/tenant_readiness_capability_data.xml`) — fail-closed: the capability cannot reach `ready` until the tenant declares their band, consistent with the fail-closed principle applied everywhere else in this programme. The capability's `description` was rewritten to state the three-track reality plainly instead of asserting a single hardcoded pair.
+- A dedicated test, `test_configured_einvoicing_blocks_without_revenue_band`, populates every *other* required field for e-invoicing and asserts the gate stays closed — named explicitly rather than left to be incidentally covered by the generic partial-configuration loop, because this is the specific property the review flagged.
+
+**What did not ship, deliberately:** a computed lookup that resolves *which* deadline pair applies based on the declared band. The instruction was to make the capability block until the band is known, not to build the full resolution engine — that is real Wave 2/3 business-logic scope (deciding how a `screening`-style adapter pattern applies to e-invoicing deadline resolution, handling the government-entity track's disputed date, etc.) and doing it under this remediation pass would have meant guessing at a design instead of building the one piece explicitly asked for.
+
+### 15.3 Verdict, restated per the review's own framing
+
+**Concur: BLOCK, runtime pending, and that is now an honest single-cause block** for the reasons in §15.1 (no orphaned selectors, current numbers, no orphaned invocations) and §15.2 (the revenue-band gap is closed, fail-closed, at the scope asked for).
+
+---
+
+## 16. Root cause and the durable fix
+
+**Finding:** three of the eight round-2 defects were not bugs in the tree — they were a hand-authored result document whose factual sections (class counts, file-scan denominators, "is X implemented" claims) drifted from disk in both directions, because nothing forced them to agree with it. Better proofreading does not fix this; it just changes which review catches the next drift.
+
+**Fix:** `tools/verify_wave3_claims.py` — a standalone script, no Odoo runtime required, that computes:
+
+1. Test class counts per module via `ast` parsing (not a hand count) — the same convention documented in §3.1.
+2. The exit-gate class's file path and its exact list of `test_*` methods.
+3. The R8 scan, module by module, with the same allow-list `sgc_tenant_readiness/tests/test_r8_scan.py` uses at runtime.
+4. Whether any symbol on a maintained "removed API" list (`action_mark_ready` is the first entry) appears as an actual invocation — an XML `<button name="...">` or a Python call — anywhere in the three modules, versus only in prose explaining its removal.
+5. Whether any `--test-tags` selector in `docs/TEST_PROTOCOL_WAVE_3.md` or this result document names a class that does not exist in the module the selector claims it's in.
+
+Run against the current tree, captured verbatim (not retyped):
+
+```
+======================================================================
+WAVE 3 CLAIM VERIFICATION -- ground truth computed from disk
+======================================================================
+
+-- Test class counts (one convention: every TestCase incl. meta) --
+  sgc_regulatory_rules_pack: 4  ['TestCountMeta', 'TestRegulatoryIntegrity', 'TestRegulatoryRulesPack', 'TestSchemaDrift']
+  sgc_process_control: 4  ['TestCountMeta', 'TestExitGate', 'TestProcessControl', 'TestUpgradeMigrations']
+  sgc_tenant_readiness: 8  ['TestCountMeta', 'TestFreshTenantBlocking', 'TestFreshTenantBlockingConfigured', 'TestIsolationDirectSearch', 'TestMlroSegregation', 'TestR8MechanicalScan', 'TestTenantReadiness', 'TestTenantReadinessUpgradeMigrations']
+
+-- Exit-gate class --
+  file: sgc_process_control/tests/test_exit_gate.py
+  method count: 7
+    test_exit_gate_01_failed_screening_park_in_dlq_not_clear
+    test_exit_gate_02_cleared_call_path_works
+    test_exit_gate_03_fail_closed_mixin_raises_on_missing_case
+    test_exit_gate_04_fail_closed_mixin_blocks_on_unknown_case_id
+    test_exit_gate_05_fail_closed_mixin_blocks_on_pending_case
+    test_exit_gate_06_fail_closed_mixin_raises_when_compliance_case_model_unset
+    test_exit_gate_07_fail_closed_mixin_raises_when_compliance_case_model_not_installed
+
+-- R8 scan --
+  sgc_regulatory_rules_pack: total=22 in_scope=22 scanned=17 excluded=5 [OK]
+  sgc_process_control: total=23 in_scope=23 scanned=18 excluded=5 [OK]
+  sgc_tenant_readiness: total=30 in_scope=30 scanned=22 excluded=8 [OK]
+  TOTAL: total=75 in_scope=75 scanned=57 excluded=18 [OK]
+  violations: 0
+
+-- Removed-symbol invocation check --
+  action_mark_ready: 0 invocation(s), 4 prose mention(s)
+
+-- Stale --test-tags selectors (class not found in named module) --
+  none found
+
+======================================================================
+ALL CHECKS INTERNALLY CONSISTENT.
+```
+
+Exit code 0. Every number in §3, §4, §6, and §15.1 of this document was pasted from this output, not typed by hand.
+
+**What this script does not do:** it does not know whether the document's *prose* — what a test is claimed to prove, whether a design decision was the right one — is correct. That still needs a human or an agent reader. What it removes is the specific failure mode this review caught three times: a number in the document that the tree does not actually produce. Any future revision of this result document should run this script first and build the factual tables from its output.
