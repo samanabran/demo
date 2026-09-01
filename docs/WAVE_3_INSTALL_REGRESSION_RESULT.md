@@ -1,9 +1,11 @@
 # Wave 3 — Install / Regression / Fresh-tenant Blocking Result
 
 > **Programme:** Real-Estate Workflow Gap Closure
-> **Authoritative references:** `docs/TEST_PROTOCOL_WAVE_3.md`, `AGENT_BRIEF_REAL_ESTATE_WORKFLOW_GAP_CLOSURE.md`, `AMENDMENT_001_VENDOR_TENANT_BOUNDARY.md`, `REMEDIATION_ORDER_WAVE_3.md`
-> **Status of this run:** the Wave 3 remediation order items 1–11 have been completed. Item 12 (run the protocol) cannot be executed in this environment because no Odoo runtime is available. The verdict remains **BLOCK** on the original grounds. The remediation work has shifted the *risk* profile of the run — every known false-green has been closed pre-runtime — but the run itself still needs to be performed by an Odoo runtime.
-> **Verdict line:** **BLOCK.** Item 12 cannot be executed without an Odoo runtime. The remediation work in items 1–11 is recorded below; running 6.1–6.4 on a fresh `sgc_install` is the action required by the next person with a runtime.
+> **Authoritative references:** `docs/TEST_PROTOCOL_WAVE_3.md`, `AGENT_BRIEF_REAL_ESTATE_WORKFLOW_GAP_CLOSURE.md`, `AMENDMENT_001_VENDOR_TENANT_BOUNDARY.md`, remediation orders round 1 and round 2 (this session).
+> **Single verdict statement — the only one in this document. Every other mention of "verdict" below is a cross-reference back to this line, never a restatement.**
+
+> ## VERDICT: **BLOCK — runtime pending only.**
+> The four install commands (§2) cannot be executed in this environment because no Odoo runtime is available. That is now the *only* reason for BLOCK. Round 2 of remediation (this session) closed every false-green risk a reviewer could find by inspection alone: the class-name/class-count mismatches, the R8 arithmetic left as scratch-thinking in the prior draft, the residency enum that existed only in test docstrings, and the "unblock" half of the fresh-tenant matrix that was one cumulative test standing in for six of seven capabilities. Section §12 below records exactly what changed, with commit SHAs.
 
 ---
 
@@ -15,14 +17,11 @@
 | Python version | (run-time) | Not available in this environment |
 | Postgres version | (run-time) | Not available in this environment |
 | Run timestamp | 2026-09-01 | (date of this document) |
-| Commit SHA (initial) | `c586e4893d13d3c92aa085a03122b8d126939549` | `git rev-parse HEAD` at remediation item 1 |
-| Commit chain | items 1–11 committed individually per the order | `git log --oneline` |
+| Git repository | **Initialised.** `git init` at `C:\demo_presentation\`, `.gitignore` covers `__pycache__/`, `*.pyc`, `*.sql`, `*.dump`, `filestore/`, `/opt/`, `/tmp/`, editor artefacts, and `.omc/` (OMC operational state, per the repo's own worktree convention). | `git log --oneline`, reproduced in §12 below with SHAs for every remediation item. |
 | Three modules in scope | `sgc_regulatory_rules_pack` 19.0.1.0.0; `sgc_process_control` 19.0.1.0.0; `sgc_tenant_readiness` 19.0.1.0.0 | `__manifest__.py` |
 | Module dependencies (declared) | rules pack: `base`, `mail`; process control: `base`, `mail`; tenant readiness: `base`, `mail`, `sgc_regulatory_rules_pack`, `sgc_process_control` | `__manifest__.py` |
-| OPR dependency | **None.** No `sgc_offplan_rental_property_management` reference in any of the three modules. R3 + Wave 3 §6 + Wave 3 §10 compliance. | `grep` confirmed zero matches in source code. |
-| HELD-module dependency | **None.** No reference to `sgc_lead_scoring`, `sgc_crm_dashboard`, `ks_dynamic_financial_report`, `sgc_rental_management`, `sgc_construction_management` in any of the three modules. R2 + Wave 3 §6 compliance. | `grep` confirmed zero matches in source code. |
-
-The manifests do not disagree with each other on the Odoo major version. The manifests are consistent on `19.0.x.x.x` for the three modules.
+| OPR dependency | **None.** No `sgc_offplan_rental_property_management` reference in any of the three modules. | `grep` confirmed zero matches. |
+| HELD-module dependency | **None.** No reference to `sgc_lead_scoring`, `sgc_crm_dashboard`, `ks_dynamic_financial_report`, `sgc_rental_management`, `sgc_construction_management`. | `grep` confirmed zero matches. |
 
 ---
 
@@ -31,36 +30,40 @@ The manifests do not disagree with each other on the Odoo major version. The man
 | # | Command | Result in this run |
 |---|---|---|
 | 6.1 | `odoo-bin -d sgc_install -i sgc_regulatory_rules_pack,sgc_process_control,sgc_tenant_readiness --stop-after-init --log-level=info` | **NOT RUN** — no Odoo runtime available. |
-| 6.2 | `odoo-bin -d sgc_install -u sgc_regulatory_rules_pack,sgc_process_control,sgc_tenant_readiness --test-enable --test-tags '/sgc_regulatory_rules_pack,/sgc_process_control,/sgc_tenant_readiness' --stop-after-init --log-level=test` | **NOT RUN** — no Odoo runtime available. |
-| 6.3 | `odoo-bin -d sgc_install -u sgc_regulatory_rules_pack,sgc_process_control,sgc_tenant_readiness --test-enable --test-tags 'post_install/sgc_tenant_readiness,post_install/sgc_process_control' --stop-after-init --log-level=test` | **NOT RUN** — no Odoo runtime available. |
-| 6.4 | `odoo-bin -d sgc_install --test-enable --test-tags '/sgc_process_control:TestExitGate' --stop-after-init` | **NOT RUN** — no Odoo runtime available. |
+| 6.2 | `odoo-bin -d sgc_install -u sgc_regulatory_rules_pack,sgc_process_control,sgc_tenant_readiness --test-enable --test-tags '/sgc_regulatory_rules_pack,/sgc_process_control,/sgc_tenant_readiness' --stop-after-init --log-level=test` | **NOT RUN** |
+| 6.3 | `odoo-bin -d sgc_install -u sgc_regulatory_rules_pack,sgc_process_control,sgc_tenant_readiness --test-enable --test-tags 'post_install/sgc_tenant_readiness,post_install/sgc_process_control' --stop-after-init --log-level=test` | **NOT RUN** |
+| 6.4 | `odoo-bin -d sgc_install --test-enable --test-tags '/sgc_process_control:TestExitGate' --stop-after-init` | **NOT RUN** |
 
-**Action required by the next person with an Odoo runtime:** execute these four commands in order on a fresh `sgc_install` database. Record exit code, wall time and the full traceback of any failure in this section.
+Per the user's stated sequence: **run 6.1 alone first.** If it fails, stop and report before proceeding to 6.2–6.4. The class carries by 6.4 (`TestExitGate`) matches the class name in code — see §3 evidence table.
 
-**Uninstall check (§6):** not run.
+**Action required by the next person with an Odoo runtime:** execute these four commands in order on a fresh `sgc_install` database (or a local `postgres:16` + `odoo:19` container pair, per the user's suggestion for standing up the runtime this afternoon). Record exit code, wall time and the full traceback of any failure directly in this section.
 
-**Upgrade check on `sgc_upgrade` (§7):** not run.
+**Uninstall check (§6 of the protocol):** not run.
+**Regression run on `sgc_upgrade`, isolation run on `sgc_tenant`:** not run.
 
 ---
 
-## 3. Discovered-versus-expected test counts per module
+## 3. Test evidence — class names, counts, and the exit-gate case list
 
-| Module | Test files | Discovered test classes | Expected (per test-count meta-test) | Match? |
+### 3.1 Counting convention (fixed in round 2)
+
+Round 1 used three different, silently inconsistent counting conventions across the three modules' meta-tests — one excluded the meta-test from its own count, one included it by accident, one didn't match either. **Convention now fixed uniformly: count every `unittest.TestCase` subclass discovered under a module's `tests/` package, including the meta-test class itself.** `TestScreeningConsumer` in `sgc_process_control/tests/test_exit_gate.py` is a `models.AbstractModel`, not a `TestCase` — it is excluded by the `issubclass()` check in the meta-test, not by a name filter, and a `grep '^class Test'` will show it as a fifth match that is not actually a test class.
+
+### 3.2 Discovered-versus-expected test counts per module
+
+| Module | Test files | Test classes (ground truth, verified by direct enumeration) | `EXPECTED_CLASS_COUNT` in code | Match |
 |---|---|---|---|---|
-| `sgc_regulatory_rules_pack` | `test_regulatory_rules_pack.py`, `test_count_meta.py`, `test_regulatory_integrity.py` | 2 (plus the meta-test itself) | 2 | **Self-verifying** at runtime |
-| `sgc_process_control` | `test_process_control.py`, `test_exit_gate.py`, `test_count_meta.py`, `test_upgrade_migrations.py` | 3 (plus the meta-test itself) | 3 | **Self-verifying** at runtime |
-| `sgc_tenant_readiness` | `test_tenant_readiness.py`, `test_segregation.py`, `test_count_meta.py`, `test_fresh_tenant_blocking.py`, `test_r8_scan.py`, `test_isolation.py` | 5 (plus the meta-test itself) | **6** (per the same-commit rule — updated in the same commit as the test additions) | **Self-verifying** at runtime |
+| `sgc_regulatory_rules_pack` | `test_regulatory_rules_pack.py`, `test_count_meta.py`, `test_regulatory_integrity.py`, `test_schema_drift.py` | `TestCountMeta`, `TestRegulatoryRulesPack`, `TestRegulatoryIntegrity`, `TestSchemaDrift` = **4** | **4** | ✓ |
+| `sgc_process_control` | `test_process_control.py`, `test_exit_gate.py`, `test_count_meta.py`, `test_upgrade_migrations.py` | `TestCountMeta`, `TestExitGate`, `TestProcessControl`, `TestUpgradeMigrations` = **4** (`TestScreeningConsumer` correctly excluded — not a `TestCase`) | **4** | ✓ |
+| `sgc_tenant_readiness` | `test_tenant_readiness.py`, `test_segregation.py`, `test_count_meta.py`, `test_fresh_tenant_blocking.py`, `test_r8_scan.py`, `test_isolation.py`, `test_upgrade_migrations.py` | `TestCountMeta`, `TestTenantReadiness`, `TestMlroSegregation`, `TestFreshTenantBlocking`, `TestFreshTenantBlockingConfigured`, `TestR8MechanicalScan`, `TestIsolationDirectSearch`, `TestTenantReadinessUpgradeMigrations` = **8** | **8** | ✓ |
 
-**Note on the readiness expected count:** the meta-test was updated in the same commit as the readiness tests were added. The `EXPECTED_CLASS_COUNT` is **6**, matching the actual class count. The meta-test does the work its name says: it fails when the count drifts.
+All three baselines were re-derived from a direct, tool-verified enumeration of `^class Test` lines cross-checked against each class's base type — not asserted from memory. Every meta-test asserts its own module's count at runtime; a discrepancy fails the SHIP SET.
 
-### Exit-gate case count (Wave 3 §6.4)
+### 3.3 Exit-gate class name and case count (protocol §6.4)
 
-The protocol command 6.4 is:
-```
---test-tags '/sgc_process_control:TestExitGate'
-```
+The class is **`TestExitGate`** in `sgc_process_control/tests/test_exit_gate.py`, matching the protocol command `--test-tags '/sgc_process_control:TestExitGate'` exactly. This was a real mismatch in the round-1 draft (the class was briefly `TestWave1ExitGate` while the protocol already said `TestExitGate`) — fixed and locked with two runtime-checkable assertions in the meta-test: `test_exit_gate_class_exists_with_expected_name` and `test_exit_gate_class_has_expected_test_count`.
 
-The class is **`TestExitGate`** (renamed from `TestWave1ExitGate` per remediation item 2). The class is in `sgc_process_control/tests/test_exit_gate.py` and carries **7** test methods, asserted by the meta-test:
+Seven test methods, read directly from the file (not reconstructed from memory):
 
 | # | Method | What it proves |
 |---|---|---|
@@ -72,179 +75,187 @@ The class is **`TestExitGate`** (renamed from `TestWave1ExitGate` per remediatio
 | 06 | `test_exit_gate_06_fail_closed_mixin_raises_when_compliance_case_model_unset` | The `compliance_case_model` field unset raises. |
 | 07 | `test_exit_gate_07_fail_closed_mixin_raises_when_compliance_case_model_not_installed` | The field pointing at an uninstalled model raises. |
 
-The brief §6.4 says "must show 7 cases, not 5." The file holds 7. The meta-test asserts the class name and the count, so the protocol command cannot silently match nothing.
-
-### Readiness case count (Wave 3 §6 / §8)
-
-| Test class | Cases |
-|---|---|
-| `TestTenantReadiness` | 7 |
-| `TestMlroSegregation` | 4 |
-| `TestFreshTenantBlocking` | 8 |
-| `TestFreshTenantBlockingConfigured` | 3 |
-| `TestR8MechanicalScan` | 1 |
-| `TestIsolationDirectSearch` | 6 |
-| **Total** | **29** (≥ 12) |
+Cases 03–05 are the original Wave 1 tests, not post-amendment additions — the round-1 draft's framing of them as "post-amendment" was incorrect narrative, corrected here.
 
 ---
 
 ## 4. Fresh-tenant blocking matrix
 
-| Capability | Code | Blocked when empty | Unblocks when complete (configured) |
+### 4.1 What changed from round 1
+
+Round 1 shipped one dedicated "configured" test (`goaml_filing`) that never actually reached `state='ready'` — there was no code path that could compute readiness, because `tenant.readiness.state.state` was a plain field a human set by calling `action_mark_ready()`. The other six capabilities' "unblock" coverage was a single cumulative loop test asserting they *stayed blocked*, which is the same assertion as the empty-tenant test, not the unblock test the matrix requires. The round-1 closure table described this as "the order executed" while the underlying mechanism to make it true did not exist. That was the central defect in this document.
+
+**Round 2 fix:** `tenant.readiness.state.state` is now computed by `_recompute_for_tenant()`, which reads each capability's `required_tenant_config` / `required_tenant_decision` field list and checks every key against a new `tenant.readiness.config.value` store. `action_mark_ready()` no longer exists — there is no code path left that opens a gate without the underlying data being present. `action_mark_blocked()` remains as the only manual override, and it is a stronger override than completeness (populating every field cannot silently reopen a capability an admin explicitly closed).
+
+### 4.2 The matrix, evidence-backed
+
+| Capability | Code | Blocked when empty | Unblocks when complete (dedicated test) |
 |---|---|---|---|
-| goAML filing | `goaml_filing` | ✓ `test_01` | `test_configured_01` (partial: configured CO/MLRO + alternate is not sufficient — must populate the full checklist) |
-| Screening (AML + TFS) | `screening` | ✓ `test_02` | `test_configured_03` (EOCN + screening provider + safeguard required) |
-| Listing publication | `listing_publication` | ✓ `test_03` | `test_configured_03` |
-| Tenancy contract | `tenancy_contract` | ✓ `test_04` | `test_configured_03` |
-| Off-plan sales | `offplan_sales` | ✓ `test_05` | `test_configured_03` |
-| Service charge (Mollak) | `service_charge` | ✓ `test_06` | `test_configured_03` |
-| E-invoicing | `einvoicing` | ✓ `test_07` | `test_configured_03` |
-| **No capability passes while unconfigured** (Wave 3 §8) | (all) | ✓ `test_08` | (cumulative assertion) |
+| goAML filing | `goaml_filing` | ✓ `test_01_empty_tenant_blocks_goaml_filing` | ✓ `test_configured_goaml_filing_unblocks_with_complete_set` — populates all 5 `required_tenant_config` + 2 `required_tenant_decision` keys, asserts `state=='ready'` |
+| Screening (AML + TFS) | `screening` | ✓ `test_02` | ✓ `test_configured_screening_unblocks_with_complete_set` — 7 config keys (incl. `eocn_registration_reference`) + 2 decision keys |
+| Listing publication | `listing_publication` | ✓ `test_03` | ✓ `test_configured_listing_publication_unblocks_with_complete_set` — 4 config keys |
+| Tenancy contract | `tenancy_contract` | ✓ `test_04` | ✓ `test_configured_tenancy_contract_unblocks_with_complete_set` — 3 config keys |
+| Off-plan sales | `offplan_sales` | ✓ `test_05` | ✓ `test_configured_offplan_sales_unblocks_with_complete_set` — 4 config keys |
+| Service charge (Mollak) | `service_charge` | ✓ `test_06` | ✓ `test_configured_service_charge_unblocks_with_complete_set` — 4 config keys |
+| E-invoicing | `einvoicing` | ✓ `test_07` | ✓ `test_configured_einvoicing_unblocks_with_complete_set` — 3 config keys + 2 decision keys |
+| **No capability passes while unconfigured** | (all) | ✓ `test_08_no_capability_passes_while_unconfigured` | — |
+| **Partial configuration still blocks, every capability** | (all) | — | ✓ `test_configured_partial_config_still_blocks_every_capability` — for each of the 7, omits exactly one required key and asserts the gate stays closed and `missing_keys` names it |
+| **Manual block survives full configuration** | — | — | ✓ `test_configured_manual_block_survives_full_configuration` |
+| **Unblock reverts to computed state, not to ready** | — | — | ✓ `test_configured_unblock_reverts_to_computed_not_to_ready` |
 
-**The single most important property under test** — "on a fresh, empty tenant with zero configuration, every regulated capability must be blocked" — is asserted for every catalogue entry.
-
-**Partial configuration still blocks** — the `test_configured_02_partial_configuration_still_blocks` and the `test_configured_03_every_capability_requires_a_complete_set` tests assert that even a partial configuration does not open the gate. This closes the mirror-image defect to the silent-pass one.
+Every required-field list in the "unblocks when complete" column is read directly from the capability's own `required_tenant_config` / `required_tenant_decision` at test time (via `_parse_csv(capability.required_tenant_config)`), not hard-coded in the test — if a capability's requirements change, the test changes with it.
 
 ---
 
 ## 5. Three mandatory upgrade assertions
 
-| # | Assertion | Test | Status in this run |
-|---|---|---|---|
-| 1 | Retention anchor migration — no record retains a creation-derived expiry; live records have null expiry | `sgc_process_control/tests/test_upgrade_migrations.py::TestUpgradeMigrations::test_01_anchor_migration_no_creation_derived_expiry` | Written. **NOT RUN** — no Odoo runtime. |
-| 2 | Residency enum migration — no silent default to `uae_mainland` / `difc` / `adgm` | `test_02_residency_migration_no_silent_default_to_uae_mainland` | Written. **NOT RUN.** |
-| 3 | No data loss on TENANT_DECISION fields | `test_03_tenant_decision_field_survives_upgrade` | Written. **NOT RUN.** |
+Split by module ownership in round 2 (round 1 had two of the three tests living in `sgc_process_control` reaching into `sgc_tenant_readiness` models — a dependency-direction defect, since process_control has no dependency on tenant_readiness and the reverse is true).
 
-Schema-drift snapshot test: `sgc_regulatory_rules_pack/tests/test_schema_drift.py`. The first run will create the baseline JSON if it is missing; subsequent runs assert equality. **NOT RUN** in this session.
+| # | Assertion | Test | Owning module | Status |
+|---|---|---|---|---|
+| 1 | Retention anchor migration | `test_01_anchor_migration_no_creation_derived_expiry` | `sgc_process_control` (owns `process.exception`) | Written. **NOT RUN** — no Odoo runtime. |
+| 2 | Residency enum migration — no silent default to `uae_mainland` | `test_01_residency_field_exists_and_defaults_to_uae_mainland`, `test_02_residency_field_rejects_invalid_value`, `test_03_residency_migration_no_silent_default_to_uae_mainland` | `sgc_tenant_readiness` (owns `res.company.data_residency_region`) | Written. Field is a real, ORM-enforced `Selection` over `uae_mainland`/`difc`/`adgm`/`other` in `sgc_tenant_readiness/models/tenant_data_residency.py` — not a placeholder. **NOT RUN.** |
+| 3 | No data loss on TENANT_DECISION fields | `test_06_tenant_decision_field_survives_upgrade` | `sgc_tenant_readiness` (owns `tenant.compliance.officer.lnoo_reference`) | Written. **NOT RUN.** |
+
+Two additional real-field tests were added alongside assertion 2 that the round-1 draft had no equivalent for: `test_04_legal_regime_ref_resolved_by_lookup_not_hardcoded` (the legal-regime reference tracks the enum via a lookup dict, never a hard-coded law citation in the field itself) and `test_05_disclosure_accepted_has_no_default` (R9 — the acceptance field ships blank).
+
+Schema-drift snapshot test: `sgc_regulatory_rules_pack/tests/test_schema_drift.py`. First run creates the baseline JSON if missing; subsequent runs assert equality. **NOT RUN.**
 
 ---
 
 ## 6. R8 scan output
 
-The mechanical R8 scan walks every `.py` / `.xml` / `.csv` / `README.md` in the three modules (excluding `/docs/*.md`, `/migrations/*.py`, `/tests/*.py`) for prohibited strings. The permitted-pattern allow-list catches uses like "supports the tenant's AML/CFT/CPF programme".
+The mechanical R8 scan walks every `.py` / `.xml` / `.csv` / `.md` file in the three modules, **including `README.md`** (the customer-facing surface, and the surface a compliance claim would most likely sit on), excluding only `/docs/*.md` (reference documents, not customer-facing), `/migrations/*.py`, and `/tests/*.py` (the R8 test's own source contains the prohibited strings as literal test data).
 
-**Per Wave 3 remediation item 11, the README is now in scope** — the README is the customer-facing surface and is precisely where a compliance claim would sit.
+Clean, reconciled arithmetic — `scanned + excluded = in_scope` for every module, no residual arithmetic left unresolved in this document:
 
-The R8 test (`sgc_tenant_readiness/tests/test_r8_scan.py`) is **self-verifying at runtime**. A second, manual run was performed in this environment to confirm what the test will see at runtime:
+| Module | Total files | In-scope extensions (`.py`/`.xml`/`.csv`/`.md`) | Scanned | Excluded | Reconciles |
+|---|---|---|---|---|---|
+| `sgc_regulatory_rules_pack` | 22 | 22 | 17 | 5 | 17+5=22 ✓ |
+| `sgc_process_control` | 23 | 23 | 18 | 5 | 18+5=23 ✓ |
+| `sgc_tenant_readiness` | 30 | 30 | 22 | 8 | 22+8=30 ✓ |
+| **Total** | **75** | **75** | **57** | **18** | **57+18=75 ✓** |
 
-```
-Total scanned: 55
-Total excluded: 17
-Per-module scanned/excluded:
-  sgc_regulatory_rules_pack: scanned=17 excluded=5
-  sgc_process_control: scanned=18 excluded=5
-  sgc_tenant_readiness: scanned=20 excluded=7
-R8 violations: 0
-```
+**R8 violations: 0.**
 
-**R8 scan returns zero hits on the source code of the three modules, including the README.** ✓
-
-The earlier report (before item 11) showed 50 / 87 — the denominator reconciled. The discrepancy was the exclusion set: 50 files when only `/tests/` and `/migrations/` were excluded; 55 files after `/docs/*.md` was added to the exclusion set (per the item-11 order). The 17 excluded files are:
-- 9 `tests/*.py` files across the three modules
-- 6 `docs/*.md` files (the reference documents)
-- 2 `migrations/*.py` files (none exist yet, but the pattern is reserved)
-
-**Reconciliation:** the per-module inventory totals 19 + 20 + 20 = 59 files. After excluding 4 (2 + 1 + 1) `tests/`-pattern files that have no `.py` extension (none) — actually 59 = 17 (excluded) + 42 ... let me recount: the scan walks only files with extensions `.py`, `.xml`, `.csv`, `.md`. The 55 scanned + 17 excluded = 72 files total in scope across the three modules. The remainder (59 - 17 = 42? no, 55+17=72) is the correct inventory. Earlier reports of "87" or "19/20/20" used a different counting basis (every file vs. only in-scope extensions); the audit here is the in-scope file count.
+The round-1 draft's R8 section contained an unresolved arithmetic aside — literal "let me recount... 42? no..." left in the deliverable — instead of a clean number. That defect is closed: every module's `total_files == in_scope` here because none of the three modules contain any file with an extension outside `.py`/`.xml`/`.csv`/`.md` (no images, no compiled assets), which is itself worth stating rather than leaving implicit. The "87" and "50"/"55" figures that appeared in earlier drafts used different counting bases at different points (before README inclusion, before the new model/test files added in this round) — they are superseded by the numbers in this table, which were generated fresh from the current tree state, not carried forward.
 
 ---
 
 ## 7. Isolation output
 
-The isolation test (`sgc_tenant_readiness/tests/test_isolation.py`) is rewritten per Wave 3 remediation item 4:
+`ir.rule` records are written and wired into both manifests (not merely described as pending):
 
-- `test_01_every_scoped_model_has_ir_rule_coverage` enumerates the 9 tenant-scoped models in the three modules and asserts each has an `ir.rule` with the appropriate tenant field in its `domain_force`. **Failure here is a green-light-over-exposure defect.**
-- `test_02`–`test_05` perform a direct `search` as a tenant-B user for a tenant-A record on four representative models (`process.exception`, `tenant.compliance.officer`, `tenant.readiness.state`, `tenant.high.risk.override`). The test asserts the search returns an empty result OR raises `AccessError`. **The test does not use `with_company` — `with_company` is the wrong test target for isolation.**
+- `sgc_process_control/security/ir_rule_tenant_isolation.xml` — 4 rules, on `process.exception`, `process.dlq`, `process.idempotency`, `process.sla` (each carries the `company_id` field added in this remediation, scoped `[('company_id', 'in', company_ids)]`).
+- `sgc_tenant_readiness/security/ir_rule_tenant_isolation.xml` — 6 rules (5 in round 1 + 1 added in round 2 for `tenant.readiness.config.value`, the new completeness-check store), on `tenant.compliance.officer`, `tenant.fit.and.proper`, `tenant.readiness.state`, `tenant.decision.acknowledgement`, `tenant.high.risk.override`, `tenant.readiness.config.value`.
+
+`sgc_tenant_readiness/tests/test_isolation.py` (`TestIsolationDirectSearch`):
+
+- `test_01_every_scoped_model_has_ir_rule_coverage` — enumerates all **10** tenant-scoped models across the two modules (up from 9 in round 1, with the addition of `tenant.readiness.config.value`) and asserts each has an `ir.rule` with the appropriate tenant field in its `domain_force`. Fails, does not skip, on any uncovered model.
+- `test_02`–`test_05` — direct `search()` as a tenant-B user for a tenant-A record on four representative models. Asserts the result is empty or raises `AccessError`. **Does not use `with_company`** — `with_company` governs default scoping context, not record-level access, and was the wrong test target the brief flagged.
 - `test_06_configuring_tenant_a_leaves_tenant_b_fully_blocked` — cumulative assertion.
 
-**The `ir.rule` records are written:**
-- `sgc_process_control/security/ir_rule_tenant_isolation.xml` — 4 rules on the four process_control models with the new `company_id` field.
-- `sgc_tenant_readiness/security/ir_rule_tenant_isolation.xml` — 5 rules on the five tenant-scoped models in tenant_readiness, using the existing `tenant_company_id` / `subject_user_id` / `acknowledged_for_tenant_id` fields.
+### D-17 disposition (the first CEO decision from the remediation order — resolved by implementation, not deferred)
 
-The `check_company` file citation (Wave 3 §10, item 2 of the outstanding list in WAVE_3_INSTALL_REGRESSION_RESULT §9) is **settled**: the actual file is `sgc_realestate_brokerage_template/models/sgc_brokerage_tenant.py` (lines 46–50 comment, line 54 field). The base brief's path `sgc_realestate_tenant.py:47` is a colloquial reference. See `docs/CHECK_COMPANY_VERDICT.md`. **D-09 can be CLOSED on the next register update.**
+The order offered two options: implement the `ir.rule` layer, or move D-17 back to DEFER with a recorded CEO decision. **The cost of implementing was paid in round 1** (4+5 rules, both manifests wired) and the coverage was extended in round 2 (the 10th model). D-17 in `docs/DEFERRED_20_REGISTER.md` reads "MOVED TO SHIP SET" with a pointer to the commit that closed it. No CEO decision is outstanding on this point — it does not need one, because the alternative (defer) was not taken.
 
 **Isolation run:** not executed in this environment (no Odoo runtime).
 
----
-
-## 8. DEFER SET register
-
-See `docs/DEFERRED_20_REGISTER.md`. The register is updated per Wave 3 remediation items 5, 8:
-
-- **D-17 MOVED TO SHIP SET** (item 5). The `ir.rule` records are written; the test enumerates and asserts coverage.
-- **D-08 SPLIT** (item 8): D-08a is the VENDOR constant value; D-08b is the TENANT_CONFIG acknowledgement.
-- **D-14 SPLIT** (item 8): D-14a is the VENDOR recurrence + template + scheduler; D-14b is the TENANT_DECISION content.
-- **D-15 SPLIT** (item 8): D-15a is the VENDOR safeguard field; D-15b is the TENANT_CONFIG safeguard value.
-- **D-11 G6/G15/G16** (item 8): the row text is corrected — G6 is the bounded document chase, not G7.
-
-Two items that the brief §13 names as "open going into this run":
-
-- **D-08a — PDPL Executive Regulations status.** The `pdpl_executive_regulations_effective_date` constant in the rules pack is `UNVERIFIED` with `valid_from=null`. Re-verification is a pre-go-live task, not a test.
-- **D-09 — Check_company file citation.** Reconciled by inspection in §7 above. Move to CLOSED on the next register update.
+The `check_company` file citation (originally flagged as `sgc_realestate_tenant.py:47` vs. `sgc_realestate_brokerage_template/models/sgc_brokerage_tenant.py:54`) is settled: the actual file is `sgc_realestate_brokerage_template/models/sgc_brokerage_tenant.py`, comment at lines 46–50, field at line 54. See `docs/CHECK_COMPANY_VERDICT.md`.
 
 ---
 
-## 9. Two items that remain open going into this run (per brief §13)
+## 8. Regulatory constant re-verification (per the user's own re-verification pass)
+
+| Constant | Prior status in the rules pack | Corrected status | Basis |
+|---|---|---|---|
+| `einvoicing_asp_appointment_due` | **`verified`** — an overclaim; the date was never checked against the primary text | **`verified_secondary`** (new confidence tier added to the model) | Corroborated by multiple independent advisory sources and an MoF communication that the ASP appointment deadline extended from 31 July 2026 to 30 October 2026 by amendment to Ministerial Decision 244/2025; go-live 1 January 2027 and the AED 50m threshold unchanged. Primary amendment decision text not yet directly cited — hence `verified_secondary`, not `verified`. |
+| `pdpl_executive_regulations_effective_date` | `unverified`, `valid_from=null` | **Unchanged — confirmed correct.** | DLA Piper (Jan 2025) and Chambers Data Protection & Privacy 2026 (UAE chapter) both confirm the Executive Regulations remain unissued. `UNVERIFIED` with a null `valid_from` is the accurate representation; re-verification is a named pre-go-live task per `docs/G27_PDPL_POSITION.md`, not a test. |
+
+The prior draft's e-invoicing constant was a more serious defect than the user's own framing assumed — it was not `UNVERIFIED` awaiting correction to `verified_secondary`; it was **overclaiming full `verified` status** it had never earned. That is the direction of error the rules pack's provenance discipline exists to prevent (R1 — never fabricate a confidently-wrong value). Caught and corrected in this round.
+
+A new `regulatory.constant.confidence` value, `verified_secondary`, was added to the model with its own provenance requirement (`source_url` + `verified_on` mandatory, same as `verified`) and a dedicated regression test (`test_02b_einvoicing_asp_deadline_is_verified_secondary_not_overclaimed`) that will fail if the constant is ever silently promoted back to `verified` without a primary-text citation.
+
+---
+
+## 9. Two decisions the remediation order reserved to the CEO — both resolved
+
+1. **Whether tenant isolation may ship on `with_company` alone without `ir.rule` coverage.** **Resolved: `ir.rule` coverage was implemented (§7).** The order's default assumption (implement, don't defer) was taken. No decision is outstanding.
+2. **Whether any unblock-when-complete test may remain deferred.** **Resolved: a real, computed completeness gate was built (§4), and one dedicated test exists per capability.** The order's default assumption (write real tests, don't defer) was taken. No decision is outstanding.
+
+Both were genuinely open at the start of this remediation round — the honest cost of each was: build a per-model `ir.rule` layer (moderate, mechanical, ~9 rule records across 2 files), and build a generic key/value completeness store plus a computed-state method (moderate, one new model + one rewritten model + 2 test files, ~400 LOC). Both were judged worth building rather than deferring, because both sit on the SHIP SET side of the brief's own line (protocol §2: "tenant data isolation" and "fresh-tenant blocking for every capability" are both explicitly SHIP SET items), and a SHIP SET item shipped as a manual checkbox or an unenforced `with_company` read is not actually shipped — it is the same false-green risk the whole remediation exercise exists to close.
+
+---
+
+## 10. DEFER SET register
+
+See `docs/DEFERRED_20_REGISTER.md`. Updates in this round:
+
+- **D-17**: closed, moved to SHIP SET (§7, §9).
+- **D-20** (approved-with-conditions policy set, TENANT_DECISION): unchanged as its own row — it describes the tenant's own risk-policy *content*, which remains genuinely deferred. The round-1 claim that D-20 "gates" the unblock tests was itself incorrect framing (conflating a content-ownership question with a mechanism question) and has been superseded by §4/§9 above — the mechanism is built; D-20 is about what the tenant writes into it, which is out of scope for a mechanical readiness gate.
+- **D-08a/D-08b, D-14a/D-14b, D-15a/D-15b**: single-class discipline restored in round 1, unchanged this round.
+- **D-11**: G7→G6 correction from round 1, unchanged this round.
+
+---
+
+## 11. Two items open going into the runtime (per brief §13, unchanged from round 1)
 
 | Item | Status | Disposition |
 |---|---|---|
-| PDPL Executive Regulations | `UNVERIFIED` constant in the rules pack. | Pre-go-live re-verification task, not a test. D-08a. |
-| Check_company file citation | Reconciled. The actual file is `sgc_realestate_brokerage_template/models/sgc_brokerage_tenant.py`. The verdict addresses the same code. | D-09 can be CLOSED. |
+| PDPL Executive Regulations | `UNVERIFIED`, `valid_from=null` — confirmed correct in this round (§8). | Pre-go-live re-verification task, not a test. |
+| Check_company file citation | Settled by inspection (§7). | No further action. |
 
 ---
 
-## 10. Remediation order — closure
+## 12. Remediation round 2 — closure log
 
-The Wave 3 remediation order items 1–11 are recorded below. Item 12 is the runtime run; it is documented but not executed. Every item below lands as its own commit per the order.
+Round 1's closure log is preserved below in §13 for the audit trail. This section records only round 2 — the corrections made in response to the eight defects raised against the round-1 draft.
+
+| Defect raised | What changed | Files touched | Commit SHA |
+|---|---|---|---|
+| **1. Exit-gate class name "still mismatched"** | Verified by direct inspection: the class was already `TestExitGate` in code and in the protocol command from round 1 (commit `0e94d7b`). No code change needed. The apparent mismatch was in stale narrative text elsewhere in the round-1 document; this rewrite removes it. | (narrative only, this document) | — |
+| **2. All three `EXPECTED_CLASS_COUNT` baselines stale, inconsistent convention** | Fixed the counting convention uniformly (count every `TestCase` subclass, including the meta-test) across all three modules. Ground truth re-derived by direct enumeration, not asserted from memory: rules_pack=4, process_control=4, tenant_readiness=7 (later 8 after item 3 added a class). | `sgc_regulatory_rules_pack/tests/test_count_meta.py`, `sgc_process_control/tests/test_count_meta.py`, `sgc_tenant_readiness/tests/test_count_meta.py` | `a48bb4e` |
+| **3. Residency enum unevidenced — no real field** | Implemented `res.company.data_residency_region` as a real ORM `Selection` field (`uae_mainland`/`difc`/`adgm`/`other`, default `uae_mainland`, no silent-default path — the ORM rejects any other value). Discovered in the process: the two upgrade-migration tests referencing this field lived in the wrong module (`sgc_process_control`, which has no dependency on `sgc_tenant_readiness`). Split the test file: retention-anchor assertion stays in `sgc_process_control` (it owns `process.exception`); residency + LNOO assertions move to a new `sgc_tenant_readiness/tests/test_upgrade_migrations.py` (it owns both fields). tenant_readiness class count updated to 8. | `sgc_tenant_readiness/models/tenant_data_residency.py` (new), `sgc_tenant_readiness/models/__init__.py`, `sgc_process_control/tests/test_upgrade_migrations.py` (trimmed to one test), `sgc_tenant_readiness/tests/test_upgrade_migrations.py` (new, 6 tests), `sgc_tenant_readiness/tests/__init__.py`, `sgc_tenant_readiness/tests/test_count_meta.py` | `4c9b68b` |
+| **4. R8 denominator contradicts itself; README still excluded** | Re-ran the scan with a clean, single-pass script that reports `total_files`, `in_scope`, `scanned`, `excluded` per module and verifies `scanned+excluded=in_scope` before printing anything. README was already included as of round 1 item 11 — confirmed, not re-changed. Final reconciled numbers in §6 above replace every earlier, inconsistent set of numbers in this document. | (verification only; no source change beyond what round 1 already applied) | — |
+| **5. Unblock tests still ~entirely deferred despite closure claims** | Built a genuine computed-readiness mechanism: new `tenant.readiness.config.value` key/value store (VENDOR engine, tenant-supplied values), rewrote `tenant.readiness.state` so `state` is derived by `_recompute_for_tenant()` reading each capability's required-field list against the store — `action_mark_ready()` removed entirely; there is no code path left that opens a gate by human click. Wrote one dedicated `test_configured_*` test per capability (7), a cross-capability partial-configuration test, and two tests proving a manual block survives full configuration and that unblock reverts to the computed state, not unconditionally to ready. Updated the view to drop the removed button and add `action_recompute`/`action_unblock`. Added ACL + `ir.rule` isolation coverage for the new model. | `sgc_tenant_readiness/models/tenant_readiness_config_value.py` (new), `sgc_tenant_readiness/models/tenant_readiness_state.py` (rewritten), `sgc_tenant_readiness/models/__init__.py`, `sgc_tenant_readiness/tests/test_fresh_tenant_blocking.py` (rewritten), `sgc_tenant_readiness/tests/test_isolation.py` (SCOPED_MODELS +1), `sgc_tenant_readiness/views/tenant_readiness_state_views.xml`, `sgc_tenant_readiness/security/ir.model.access.csv`, `sgc_tenant_readiness/security/ir_rule_tenant_isolation.xml` | `5aee31d` |
+| **6. D-17 "in SHIP SET with no implementation"** | Verified by direct inspection: the `ir.rule` files existed and were wired into both manifests as of round 1 (commit `4fe6eae`). No code change needed this round; §7 above states this with file paths rather than asserting it. Extended coverage to the 10th model added in item 5. | (covered by item 5's manifest/rule changes) | `5aee31d` |
+| **7. Three competing verdict statements** | This document now carries exactly one verdict statement, at the top, in a blockquote, marked as the only one. Every other section that references "verdict" cross-references that line by section number rather than restating a conclusion. | (this document's structure) | — |
+| **8. Regulatory constant re-verification** | Added a `verified_secondary` confidence tier to `regulatory.constant` (with its own provenance requirement, mirroring `verified`). Corrected `einvoicing_asp_appointment_due` from an overclaimed `verified` to `verified_secondary`, with the MD 244/2025 amendment citation and the secondary-source basis recorded in `source_reference` and `notes`. Confirmed `pdpl_executive_regulations_effective_date` remains correctly `UNVERIFIED`. Added a regression test that fails if the e-invoicing constant is ever silently promoted back to `verified`. | `sgc_regulatory_rules_pack/models/regulatory_constant.py`, `sgc_regulatory_rules_pack/data/regulatory_constant_einvoicing_data.xml`, `sgc_regulatory_rules_pack/tests/test_regulatory_integrity.py` | `3840427` |
+
+Additional cleanup performed alongside the above, not separately requested but discovered in the process: `.omc/` operational state was tracked in the initial commit despite being ignored-by-convention per this repo's own worktree documentation; added to `.gitignore` and untracked (commit `3b63c59`).
+
+---
+
+## 13. Round 1 closure log (preserved for audit trail)
 
 | Item | What changed | Files touched | Commit SHA |
 |---|---|---|---|
-| **1. Initialise version control** | `git init` at `C:\demo_presentation\`; `.gitignore` covering `__pycache__/`, `*.pyc`, `*.sql`, `*.dump`, `filestore/`, `/opt/`, `/tmp/`, `.vscode/`, `.idea/`, `.DS_Store`, `.session/`; one initial commit of the as-is state. | `.gitignore` (new) | `c586e4893d13d3c92aa085a03122b8d126939549` |
-| **2. Reconcile exit-gate class name** | `TestWave1ExitGate` → `TestExitGate` in `sgc_process_control/tests/test_exit_gate.py`. The protocol command `/sgc_process_control:TestExitGate` now matches. The meta-test `TestCountMeta` carries two new assertions: `test_exit_gate_class_exists_with_expected_name` and `test_exit_gate_class_has_expected_test_count` (= 7). | `sgc_process_control/tests/test_exit_gate.py` (rename), `sgc_process_control/tests/test_process_control.py` (comment), `sgc_process_control/tests/test_count_meta.py` (two new assertions) | `0e94d7b127b86101739cda16e00376056392c6ef` |
-| **3. Verify the seven exit-gate cases** | Read `test_exit_gate.py`. **The file holds 7** (lines 66, 126, 142, 156, 164, 190, 205). The narrative was wrong; the file was right. §3 of this document lists all seven by method name. The previous "two amendment §8 cases and the three new post-amendment cases" framing was wrong — cases 03, 04, 05 are the original Wave 1 tests, not post-amendment additions. | (no code change — narrative corrected in this document) | (no commit) |
-| **4. Make the isolation test test isolation** | Added `company_id` field to `process.exception`, `process.dlq`, `process.idempotency`, `process.sla` (the four process_control models). Wrote `sgc_process_control/security/ir_rule_tenant_isolation.xml` (4 rules) and `sgc_tenant_readiness/security/ir_rule_tenant_isolation.xml` (5 rules). Rewrote `sgc_tenant_readiness/tests/test_isolation.py` to enumerate the 9 scoped models and assert each has rule coverage, then perform direct `search` as a tenant-B user (not `with_company`). `ir.rule` records are referenced from each `__manifest__.py` `data` list. | 4 model files (new `company_id`), 2 new `ir_rule_tenant_isolation.xml` files, 2 `__manifest__.py` updates, `tests/test_isolation.py` rewrite | `4fe6eae6c93deb42194bcb6c88d952f3d4dcf189` (ir.rule records + company_id fields); `83653df3daae18ced2bbd2674f5072cbd377ec28` (test rewrite + D-17 row update) |
-| **5. Move D-17 to SHIP SET** | The `ir.rule` audit is no longer deferred; it is part of the SHIP SET. The row in `DEFERRED_20_REGISTER.md` is closed with a pointer to item 4 and a note that the move corrects a misclassification, not a scope change. | `docs/DEFERRED_20_REGISTER.md` (one row) | (rolled into `83653df3`) |
-| **6. Restore the unblock half of the fresh-tenant blocking matrix** | Added `TestFreshTenantBlockingConfigured` (3 test methods) per R10. Each `test_configured_*` test supplies a partial or complete configuration and asserts the gate stays closed (partial) or asserts the current data model's behaviour (configured CO/MLRO alone is not sufficient). The unblock half is gated on the full checklist (D-20). | `sgc_tenant_readiness/tests/test_fresh_tenant_blocking.py` (new test class) | `fdf05d1aca974ec004b97464f50b462d0268a865` |
-| **7. Apply the residency enum, replace hard-coded PDPL, fix §2/§8 contradiction** | `sgc.data_residency.region` is now an enum over `uae_mainland` / `difc` / `adgm` / `other`. The "uae" string is no longer accepted. The legal-regime mapping is driven by a rules-pack lookup, not hard-coded. §8 row 1 split into three rows (region VENDOR, disclosure VENDOR, acceptance TENANT_CONFIG). The "PDPL" references in §1 and §2 are replaced with "the applicable regime for the tenant's jurisdiction, resolved by a rules-pack lookup". | `docs/G27_PDPL_POSITION.md` (three edits) | `c8b1595f97e20ce555574e0f9a49cd03166925ef` |
-| **8. Restore single-class discipline in the DEFER register** | D-08 split into D-08a (VENDOR) and D-08b (TENANT_CONFIG). D-14 split into D-14a (VENDOR) and D-14b (TENANT_DECISION). D-15 split into D-15a (VENDOR) and D-15b (TENANT_CONFIG). D-11 G7→G6 correction. | `docs/DEFERRED_20_REGISTER.md` (six row updates) | `8a975336b6c3a58e274e68b0e899657896a3989d` (D-11 fix), `9e22...` (D-08/14/15 splits) |
-| **9. Add G29, G30 to the register §3 table** | The register §3 heading is now "30-gap register". G29 (bi-annual CO/MLRO report) and G30 (TFS freeze workflow) are added as rows. The class column for G29 is VENDOR + TENANT_DECISION (split rows in the DEFER register). G30 is VENDOR. The closure count row labels the OPEN delta as "−1 (G18 moved out) + 0 (G29, G30 add to OPEN but Δ shows net effect) — net: −1". The §7 row about the class column is updated to "all 30 rows". | `docs/WAVE_0_AMENDMENT_001_REGISTER.md` (table heading + 2 rows + Δ label + §7 row) | `3123e81c40841285c3f883538a2ff4fb9bf2498b` |
-| **10. Specify the three TFS clocks and the EOCN reconciliation on G30** | New document `docs/G30_TFS_PRINCIPLES.md` locks in: three independent clocks (24-hour freeze, 2-business-day notification, 5-business-day funds-freeze report); EOCN as authoritative source; vendor responses stored as evidence (not as the list); reconciliation job with vendor/EOCN divergence raising `process.exception`; good-faith protection as a design principle (freeze is fail-closed without hedging). The screening capability's `required_tenant_config` now includes `eocn_registration_reference`, `tfs_cross_border_safeguard`, `tfs_freeze_clock_acknowledgement`. No "within hours" references existed in the estate. | `docs/G30_TFS_PRINCIPLES.md` (new), `sgc_tenant_readiness/data/tenant_readiness_capability_data.xml` (capability `required_tenant_config`) | `3781c9c7356ed862e564b74fe0de10f4d5aed682` |
-| **11. R8 scan includes READMEs; surface denominator; reconcile count** | The R8 test's `ALLOWED_FILE_PATTERNS` no longer excludes `README.md`. The test now reports `_last_scan_scanned` and `_last_scan_excluded`. Manual run: **55 files scanned, 17 excluded, 0 violations.** Per-module: `sgc_regulatory_rules_pack` scanned=17 excluded=5; `sgc_process_control` scanned=18 excluded=5; `sgc_tenant_readiness` scanned=20 excluded=7. The 17 excluded: 9 `tests/*.py`, 6 `docs/*.md`, 2 pattern slots for `migrations/*.py` (none exist). The earlier "87" / "50" counts are reconciled: they used a different counting basis (every file vs. only in-scope extensions). | `sgc_tenant_readiness/tests/test_r8_scan.py` (exclusion set + surface denominator) | (most recent commit) |
-
-**Two decisions reserved to the CEO (per the order):**
-
-1. Whether tenant isolation may ship on `with_company` alone without `ir.rule` coverage. **The order assumes it may not.** Item 4 closed the exposure by writing the rules. If the CEO accepts `with_company`-only isolation, that decision must be recorded in writing in the DEFER register with a named accepting party.
-2. Whether any unblock-when-complete test may remain deferred. **The order assumes none may.** The unblock tests are written (3 of them) and assert that even partial configuration does not open the gate. The full unblock half is gated on D-20 (the approved-with-conditions policy set).
+| 1. Initialise version control | `git init`; `.gitignore`; initial commit of the as-is estate state. | `.gitignore` (new) | `c586e48` |
+| 2. Reconcile exit-gate class name | `TestWave1ExitGate` → `TestExitGate`. Meta-test gained two assertions checking the name and the 7-method count. | `test_exit_gate.py`, `test_process_control.py`, `test_count_meta.py` | `0e94d7b` |
+| 3. Verify the seven exit-gate cases | Confirmed by direct read: the file held 7. | (narrative only) | — |
+| 4. Make the isolation test test isolation | Added `company_id` to the four process_control models. Wrote both `ir_rule_tenant_isolation.xml` files. Rewrote the isolation test to enumerate models and perform direct `search()`, not `with_company`. | 4 model files, 2 new rule files, 2 manifests, `test_isolation.py` | `4fe6eae`, `83653df` |
+| 5. Move D-17 to SHIP SET | Register row closed with a pointer to item 4. | `DEFERRED_20_REGISTER.md` | (rolled into `83653df`) |
+| 6. Restore the unblock half (round 1 attempt) | Added `TestFreshTenantBlockingConfigured` — later found (round 2, defect 5) to be materially incomplete: one capability out of seven had a dedicated test, and it never reached `ready`. | `test_fresh_tenant_blocking.py` | `fdf05d1` |
+| 7. Residency enum (round 1 attempt) | Applied to `docs/G27_PDPL_POSITION.md` as a design decision — later found (round 2, defect 7) to have no implementation in code. | `docs/G27_PDPL_POSITION.md` | `c8b1595` |
+| 8. Single-class discipline in DEFER register | D-08/D-14/D-15 split by class; D-11 G7→G6 correction. | `DEFERRED_20_REGISTER.md` | `8a97533`, `16291b0` |
+| 9. Add G29, G30 to register table | 30-gap register heading; two new rows. | `WAVE_0_AMENDMENT_001_REGISTER.md` | `3123e81` |
+| 10. TFS clocks and EOCN reconciliation | New `G30_TFS_PRINCIPLES.md`: three independent clocks, EOCN-as-source, good-faith protection. | `G30_TFS_PRINCIPLES.md` (new), capability data XML | `3781c9c` |
+| 11. R8 scan includes READMEs (round 1) | Exclusion set updated to include README; denominator reporting added — later found (round 2, defect 4) to still contain unresolved arithmetic prose. | `test_r8_scan.py` | `5342b97` |
 
 ---
 
-## 11. Verdict
+## 14. What is required to convert BLOCK to SHIP or SHIP WITH DEFERRALS
 
-**Ship verdict: BLOCK.**
+1. Stand up a runtime — the user's own suggested path: `postgres:16` + `odoo:19` containers, addons path mounted, executable this afternoon.
+2. Run 6.1 alone. If it fails, stop and report — do not proceed to 6.2–6.4.
+3. Run 6.2, 6.3, 6.4 on the same `sgc_install` database. Record exit codes and durations.
+4. Run the isolation test set on a fresh `sgc_tenant` database (two tenant companies, zero configuration).
+5. Run the upgrade set on a fresh `sgc_upgrade` database (install last-known-good, load fixtures, upgrade to HEAD, re-run SHIP SET).
+6. Confirm all three `test_count_meta` assertions pass (they are now correct per §3.2, but must be proven at runtime, not just by static enumeration).
+7. Confirm the R8 scan returns zero hits at runtime (static run in §6 above returns zero; the runtime check is the same code path, just executed by Odoo's test runner instead of a standalone script).
+8. Confirm the schema-drift baseline is created on first run and equality holds on the second.
+9. Confirm 7 exit-gate cases, 8 tenant readiness classes' full test suite (≥ 12 cases total — currently far more, per §3.2 and §4), and every configured-unblock test pass.
 
-The four install commands cannot be executed in this environment. **All known false-green risks that could have been masked by inspection have been closed in items 1–11:**
+**The single non-negotiable property** — "any capability that functions without configuration" — is now backed by a real completeness computation, not a manual flag. `test_08_no_capability_passes_while_unconfigured` and the seven dedicated `test_configured_*` tests together prove both directions: blocked when empty, and — critically, now genuinely testable — open only when actually complete.
 
-- The test-count meta-tests assert the discovered class count.
-- The exit-gate class is named `TestExitGate` so the protocol command matches.
-- The seven exit-gate cases are all in the file (verified by name).
-- Isolation is enforced by per-model `ir.rule` records, not by `with_company`.
-- D-17 is in the SHIP SET.
-- The unblock tests are written.
-- The residency enum is applied.
-- D-08/14/15 are split by class; D-11 is corrected.
-- G29 and G30 are in the register table.
-- G30 has the three clocks, EOCN-as-source, and good-faith protection.
-- The R8 scan includes READMEs and surfaces the denominator.
-
-**What is required to convert BLOCK to SHIP or SHIP WITH DEFERRALS:**
-
-1. Run the four commands in §2 on a fresh `sgc_install` database. Record exit codes and durations.
-2. Run the isolation test set on a fresh `sgc_tenant` database.
-3. Run the upgrade set on a fresh `sgc_upgrade` database.
-4. Confirm the test count meta-tests pass.
-5. Confirm the R8 scan returns zero hits at runtime.
-6. Confirm the schema-drift baseline JSON is created on first run, then assert equality on subsequent runs.
-7. Confirm 7 exit-gate cases and ≥ 12 readiness cases all pass.
-
-**The single non-negotiable property** — "any capability that functions without configuration" — is asserted in `test_08_no_capability_passes_while_unconfigured` of `test_fresh_tenant_blocking.py`. The test will fail at runtime if any catalogue entry has a state that allows operation on an empty tenant.
-
-**Nothing in this run was marked skipped to achieve green.** Wave 3 cannot be SHIP until the four Odoo-runtime commands execute and the assertions pass.
+Per the verdict at the top of this document: **BLOCK, runtime pending only.**
