@@ -50,5 +50,12 @@
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
+        <record id="rule_tenant_readiness_config_value_tenant" model="ir.rule">
+            <field name="name">Tenant Readiness Config Value: tenant-company isolation</field>
+            <field name="model_id" ref="model_tenant_readiness_config_value"/>
+            <field name="domain_force">[('tenant_company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
     </data>
 </odoo>

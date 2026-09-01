@@ -40,6 +40,7 @@ SCOPED_MODELS = {
     "tenant.readiness.state": ("tenant_company_id",),
     "tenant.decision.acknowledgement": ("acknowledged_for_tenant_id",),
     "tenant.high.risk.override": ("tenant_company_id",),
+    "tenant.readiness.config.value": ("tenant_company_id",),
 }
 
 

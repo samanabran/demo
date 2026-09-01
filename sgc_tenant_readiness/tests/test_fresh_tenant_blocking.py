@@ -2,20 +2,32 @@
 # Part of SGC Tenant Readiness.
 """Fresh-tenant blocking matrix — the core of the ship gate.
 
-Per Wave 3 protocol §8 and remediation order item 6.
+Per Wave 3 protocol §8 and remediation order (round 1 item 6, round 2
+defect 5).
 
 For every capability in the catalogue, two tests:
   - On a fresh, empty tenant with zero configuration: the capability
     is blocked.
   - When the required set is fully populated (test_configured_*):
-    the capability is ready and the gate is open.
+    the capability is genuinely ready — computed by
+    `tenant.readiness.state._recompute_for_tenant()` reading
+    `tenant.readiness.config.value`, not set by a human clicking a
+    button. `action_mark_ready()` does not exist (round 2 removed it);
+    there is no code path left that can open a gate without the data
+    behind it being present.
 
 Per R10, the configured tests are the only tests permitted to use a
 pre-configured tenant fixture. The blocked tests start from an empty
 tenant.
+
+One real test_configured_* per capability (round 2 fix): the round-1
+version had a single cumulative loop test standing in for six of the
+seven capabilities and one capability whose "configured" test never
+actually reached state=ready, because there was no completeness
+algorithm to reach it with. That gap is closed here.
 """
 
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import TransactionCase, tagged
 
 
@@ -124,12 +136,24 @@ class TestFreshTenantBlocking(TransactionCase):
             self.assertFalse(state.gate_open, f"{code}: gate_open must be False on empty tenant")
 
 
+def _parse_csv(text):
+    if not text:
+        return []
+    return [k.strip() for k in text.split(",") if k.strip()]
+
+
 @tagged("post_install", "-at_install", "sgc_install", "sgc_tenant_readiness", "sgc_gate")
 class TestFreshTenantBlockingConfigured(TransactionCase):
     """The configured half of the matrix. Per R10, these are the only
     tests permitted to use a pre-configured tenant fixture. Each test
     names itself test_configured_* to make the deviation from the
     empty-tenant default visible.
+
+    One dedicated test per capability, plus a shared helper that
+    populates the FULL required_tenant_config + required_tenant_decision
+    set read directly from the capability record — so if a capability's
+    required-field list changes, the test changes with it rather than
+    silently testing a stale list.
     """
 
     @classmethod
@@ -137,127 +161,174 @@ class TestFreshTenantBlockingConfigured(TransactionCase):
         super().setUpClass()
         cls.Capability = cls.env["tenant.readiness.capability"]
         cls.State = cls.env["tenant.readiness.state"]
-        cls.Officer = cls.env["tenant.compliance.officer"]
-        cls.FitAndProper = cls.env["tenant.fit.and.proper"]
+        cls.ConfigValue = cls.env["tenant.readiness.config.value"]
+        cls.Ack = cls.env["tenant.decision.acknowledgement"]
         cls.company = cls.env.ref("base.main_company")
-        cls.compliance_user = cls.env["res.users"].create({
-            "name": "Test Configured Compliance Officer",
-            "login": "test_configured_compliance_officer",
-            "email": "configured_co@example.com",
-            "company_id": cls.company.id,
-            "groups_id": [(4, cls.env.ref("base.group_user").id)],
-        })
-        cls.manager_user = cls.env["res.users"].create({
-            "name": "Test Manager",
-            "login": "test_configured_manager",
-            "email": "manager@example.com",
-            "company_id": cls.company.id,
-            "groups_id": [(4, cls.env.ref("base.group_user").id)],
-        })
 
-    def _seed_primary_officer(self):
-        fap = self.FitAndProper.create({
-            "subject_user_id": self.compliance_user.id,
-            "outcome": "pass",
-            "integrity_attested": True,
-            "skills_attested": True,
-            "professional_path_attested": True,
-        })
-        return self.Officer.create({
-            "role": "primary",
-            "user_id": self.compliance_user.id,
-            "tenant_company_id": self.company.id,
-            "fit_and_proper_id": fap.id,
-            "appointment_date": "2026-09-01",
-        })
+    def _populate_full_set(self, capability, tenant_company_id=None, skip_key=None):
+        """Populate every required_tenant_config and
+        required_tenant_decision key for `capability` on the given
+        tenant. Decision keys get a linked acknowledgement, matching
+        the constraint in tenant.readiness.config.value.
 
-    def _seed_alternate_officer(self):
-        alt_user = self.env["res.users"].create({
-            "name": "Test Configured Alternate",
-            "login": "test_configured_alternate",
-            "email": "alt@example.com",
-            "company_id": self.company.id,
-            "groups_id": [(4, self.env.ref("base.group_user").id)],
-        })
-        fap = self.FitAndProper.create({
-            "subject_user_id": alt_user.id,
-            "outcome": "pass",
-            "integrity_attested": True,
-            "skills_attested": True,
-            "professional_path_attested": True,
-        })
-        return self.Officer.create({
-            "role": "alternate",
-            "user_id": alt_user.id,
-            "tenant_company_id": self.company.id,
-            "fit_and_proper_id": fap.id,
-            "appointment_date": "2026-09-01",
-        })
-
-    # ---- Configured unblocks ----------------------------------------
-
-    def test_configured_01_goaml_filing_unblocks_with_complete_set(self):
-        """A complete goAML filing configuration (primary CO/MLRO +
-        alternate + LNOO reference + goAML org ID placeholder) unblocks
-        the capability.
-
-        Per Wave 3 protocol §8: "Every TENANT_DECISION threshold blocks
-        its consuming capability while blank." Here the threshold is
-        'rear_filing_deadline_acknowledgement' and the safety check is
-        that the configuration is named and acknowledged.
+        skip_key, if given, is left unpopulated — used for the
+        partial-configuration tests.
         """
-        self._seed_primary_officer()
-        self._seed_alternate_officer()
-        # The configured state is marked ready only via action_mark_ready
-        # by an officer. The current data model does not yet encode the
-        # full readiness checklist (D-20). The current assertion is
-        # the negative form: the state is not 'not_configured' once
-        # the CO/MLRO is in place, but it does not open the gate
-        # until the full checklist is implemented.
-        cap = self.env.ref("sgc_tenant_readiness.capability_goaml_filing")
-        state = self.State.create({
-            "tenant_company_id": self.company.id,
-            "capability_id": cap.id,
-        })
-        # The state must remain not_configured until the full checklist
-        # is populated. The configured CO/MLRO is one of several
-        # required fields.
-        self.assertEqual(state.state, "not_configured",
-                         "Configured CO/MLRO alone opens the goAML gate")
+        tenant_company_id = tenant_company_id or self.company.id
+        config_keys = _parse_csv(capability.required_tenant_config)
+        decision_keys = _parse_csv(capability.required_tenant_decision)
 
-    def test_configured_02_partial_configuration_still_blocks(self):
-        """Partial configuration must still block per Wave 3 protocol §8.
+        for key in config_keys:
+            if key == skip_key:
+                continue
+            self.ConfigValue.set_value(
+                tenant_company_id, key, f"test-value-{key}",
+                field_class="tenant_config",
+            )
+        for key in decision_keys:
+            if key == skip_key:
+                continue
+            ack = self.Ack.create({
+                "decision_summary": f"Test acknowledgement for {key}",
+                "decision_field_reference": key,
+                "decision_value": f"test-value-{key}",
+                "decision_source_url": "https://example.test/source",
+                "decision_source_reference": "Test source citation",
+                "acknowledged_by_id": self.env.uid,
+                "acknowledged_for_tenant_id": tenant_company_id,
+            })
+            self.ConfigValue.set_value(
+                tenant_company_id, key, f"test-value-{key}",
+                field_class="tenant_decision",
+                acknowledgement_id=ack.id,
+            )
 
-        A configured CO/MLRO + alternate + LNOO, but missing the goAML
-        organisation ID, must still block.
-        """
-        self._seed_primary_officer()
-        self._seed_alternate_officer()
-        cap = self.env.ref("sgc_tenant_readiness.capability_goaml_filing")
-        state = self.State.create({
-            "tenant_company_id": self.company.id,
-            "capability_id": cap.id,
-        })
-        # No goAML org ID populated. The gate must remain closed.
-        self.assertFalse(state.gate_open,
-                         "Partial goAML configuration opened the gate")
-
-    def test_configured_03_every_capability_requires_a_complete_set(self):
-        """The full matrix: for each catalogue entry, the partial-
-        configuration case must still block. This is the mirror of
-        test_08_no_capability_passes_while_unconfigured — the same
-        defect, viewed from the other side.
-        """
-        for code in CATALOGUE:
-            cap = self.env.ref(f"sgc_tenant_readiness.capability_{code}")
+    def _get_state(self, code):
+        cap = self.env.ref(f"sgc_tenant_readiness.capability_{code}")
+        state = self.State.search([
+            ("tenant_company_id", "=", self.company.id),
+            ("capability_id", "=", cap.id),
+        ], limit=1)
+        if not state:
             state = self.State.create({
                 "tenant_company_id": self.company.id,
                 "capability_id": cap.id,
             })
-            # Even with the CO/MLRO seeded, the capability is not
-            # 'ready' until the full required set is populated (D-20).
-            # The partial case still blocks.
+        return cap, state
+
+    # ---- One real unblock test per capability -------------------------
+
+    def test_configured_goaml_filing_unblocks_with_complete_set(self):
+        cap, state = self._get_state("goaml_filing")
+        self._populate_full_set(cap)
+        state.action_recompute()
+        self.assertEqual(state.state, "ready",
+                         f"goaml_filing did not reach ready; missing={state.missing_keys}")
+        self.assertTrue(state.gate_open)
+
+    def test_configured_screening_unblocks_with_complete_set(self):
+        cap, state = self._get_state("screening")
+        self._populate_full_set(cap)
+        state.action_recompute()
+        self.assertEqual(state.state, "ready",
+                         f"screening did not reach ready; missing={state.missing_keys}")
+        self.assertTrue(state.gate_open)
+
+    def test_configured_listing_publication_unblocks_with_complete_set(self):
+        cap, state = self._get_state("listing_publication")
+        self._populate_full_set(cap)
+        state.action_recompute()
+        self.assertEqual(state.state, "ready",
+                         f"listing_publication did not reach ready; missing={state.missing_keys}")
+        self.assertTrue(state.gate_open)
+
+    def test_configured_tenancy_contract_unblocks_with_complete_set(self):
+        cap, state = self._get_state("tenancy_contract")
+        self._populate_full_set(cap)
+        state.action_recompute()
+        self.assertEqual(state.state, "ready",
+                         f"tenancy_contract did not reach ready; missing={state.missing_keys}")
+        self.assertTrue(state.gate_open)
+
+    def test_configured_offplan_sales_unblocks_with_complete_set(self):
+        cap, state = self._get_state("offplan_sales")
+        self._populate_full_set(cap)
+        state.action_recompute()
+        self.assertEqual(state.state, "ready",
+                         f"offplan_sales did not reach ready; missing={state.missing_keys}")
+        self.assertTrue(state.gate_open)
+
+    def test_configured_service_charge_unblocks_with_complete_set(self):
+        cap, state = self._get_state("service_charge")
+        self._populate_full_set(cap)
+        state.action_recompute()
+        self.assertEqual(state.state, "ready",
+                         f"service_charge did not reach ready; missing={state.missing_keys}")
+        self.assertTrue(state.gate_open)
+
+    def test_configured_einvoicing_unblocks_with_complete_set(self):
+        cap, state = self._get_state("einvoicing")
+        self._populate_full_set(cap)
+        state.action_recompute()
+        self.assertEqual(state.state, "ready",
+                         f"einvoicing did not reach ready; missing={state.missing_keys}")
+        self.assertTrue(state.gate_open)
+
+    # ---- Partial configuration still blocks, one per capability ------
+
+    def test_configured_partial_config_still_blocks_every_capability(self):
+        """For each capability, populate every required key EXCEPT the
+        first one, and assert the gate stays closed. Missing even a
+        single required field must not open the gate — the mirror
+        image of test_08_no_capability_passes_while_unconfigured.
+        """
+        for code in CATALOGUE:
+            cap, state = self._get_state(code)
+            all_keys = _parse_csv(cap.required_tenant_config) + \
+                _parse_csv(cap.required_tenant_decision)
+            self.assertTrue(all_keys, f"{code} has no required fields declared")
+            skip = all_keys[0]
+            self._populate_full_set(cap, skip_key=skip)
+            state.action_recompute()
             self.assertFalse(
                 state.gate_open,
-                f"{code}: partial configuration opened the gate",
+                f"{code}: gate opened with '{skip}' still missing",
             )
+            self.assertIn(
+                skip, state.missing_keys or "",
+                f"{code}: missing_keys did not name '{skip}'",
+            )
+
+    # ---- Blocked override cannot be bypassed by completeness ---------
+
+    def test_configured_manual_block_survives_full_configuration(self):
+        """An administrator's manual block is a stronger override than
+        completeness. Populating every field must not silently reopen
+        a capability an admin explicitly closed.
+        """
+        cap, state = self._get_state("goaml_filing")
+        state.action_mark_blocked("Held pending counsel review")
+        self._populate_full_set(cap)
+        state.action_recompute()
+        self.assertEqual(
+            state.state, "blocked",
+            "A manual block was silently lifted by populating the "
+            "required fields — action_recompute must not override "
+            "action_mark_blocked.",
+        )
+
+    def test_configured_unblock_reverts_to_computed_not_to_ready(self):
+        """action_unblock reverts to the computed state, not
+        unconditionally to 'ready'. An unblocked-but-incomplete
+        capability must land back in not_configured/in_progress, not
+        ready.
+        """
+        cap, state = self._get_state("screening")
+        state.action_mark_blocked("Held pending review")
+        state.action_unblock()
+        self.assertNotEqual(
+            state.state, "ready",
+            "action_unblock opened the gate without the required data "
+            "being present.",
+        )
+        self.assertFalse(state.gate_open)
