@@ -3,24 +3,23 @@
 **Modules:** `kyc_management`, `aml_compliance`
 **Odoo runtime:** 19.0-20260818 (container `wave4_odoo`)
 **Database:** PostgreSQL 16 (container `wave4_pg`)
-**Code-tied commit:** `2851db2` — Wave 4 fail-closed migration guard
-**Evidence-tied commit:** this report's evidence commit (separate from code, see below)
+**Code-under-test commit:** `2851db2` — Wave 4 fail-closed migration guard
+**Evidence commit:** `35733a2` — Wave 4 final closure: v4 evidence pack tied to 2851db2
+**Code-under-test commit parent:** `ea11562` — Wave 4 closure pass, second session
+
+This report is the authoritative closure document. The prior append-only report at `docs/WAVE_4_INSTALL_REGRESSION_RESULT.md` is preserved unchanged as historical evidence and is referenced from §16 of its own appendices; it is not modified by this report.
 
 ---
 
 ## Final status
 
-**CLOSED — ODOO 19 FRESH INSTALL, CLEAN UPGRADE AND DIRTY-DATA FAIL-CLOSED MIGRATION VERIFIED.**
+**Technical status:** CLOSED — runtime closure matrix passed for kyc_management and aml_compliance against code commit `2851db2`.
 
-All hard gates pass:
+**Delivery status (as of this commit):** PENDING — evidence committed at `35733a2`; push to `origin/wave3-runtime` and remote hash confirmation are the only remaining steps and are human-review gates per the Wave 4 protocol.
 
-- Fresh install: §6.1 exits 0 for both modules against the remediation commit.
-- Clean-data upgrade: §6.2 / §6.3 / §6.4 exits 0, all required constraints attached.
-- Dirty-data upgrade: blocked non-zero (`UserError` raised) for both modules, no records modified, module version does not advance, no partial constraint state.
-- Corrected-data retry: re-running the upgrade after approved remediation succeeds for both modules and attaches all required constraints.
-- Exact test identity (not counts): every enumerated `Starting ClassName.method` pair matches the AST-derived manifest for all six scopes; `odoo.tests.result` lines report zero failures and zero errors.
-- Credentials: the database password is never present in any subprocess argument list, environment variable, or committed log file.
-- Three-way sync: local `wave3-runtime@2851db2` matches the code-under-test; origin/main (`67c28bc`) and the live-server clone (`67c28bc`) are *unrelated* demo-video work in a different clone and intentionally not part of Wave 4.
+When push and remote hash confirmation complete, the final status becomes:
+
+> CLOSED — ODOO 19 FRESH INSTALL, CLEAN UPGRADE, AND DIRTY-DATA FAIL-CLOSED MIGRATION VERIFIED; EVIDENCE COMMITTED AND PUSHED.
 
 ## Source remediation commit
 
@@ -35,13 +34,65 @@ aml_compliance/migrations/19.0.1.0.1/pre-migrate.py
 aml_compliance/migrations/19.0.1.0.1/post-migrate.py
 tools/wave4_pg_secure_exec.py
 tools/wave4_migration_regression.py
+tools/verify_wave4_claims.py
 ```
 
 The pre-migrate scripts are **fail-closed guards** that detect historical-data conflicts *before* Odoo attempts to (re)create the required constraints. They raise `UserError` with category counts and roll back the update transaction, leaving no records modified and no partial constraint state. The post-migrate scripts are **second-defense assertions** that verify every required PostgreSQL constraint exists after upgrade. The `wave4_pg_secure_exec` helper places `.pgpass` inside `wave4_odoo` via stdin pipe (mode 0600) and never passes `--db_password` or `PGPASSWORD` in any subprocess argv.
 
+Static review of every guard confirms:
+
+- Only aggregate / read-only queries (`SELECT COUNT(*)`, `to_regclass()`, `pg_constraint` lookup).
+- No `DELETE`, `UPDATE`, `INSERT`, or automatic merge.
+- No automatic compliance remediation.
+- Conflict causes a raised `UserError`, which rolls back the upgrade transaction.
+- Error message contains aggregate counts only; no customer-identifying data is logged.
+
 ## Evidence commit
 
-This report plus its supporting v4 logs is staged as a separate evidence commit (see `git log` after staging). The source change lives in `2851db2`; the evidence commit contains only sanitised documentation and log files.
+`35733a2` — Wave 4 final closure: v4 evidence pack tied to 2851db2.
+
+Parent: `2851db2`. Committed files (12):
+
+```
+docs/WAVE_4_FINAL_CLOSURE_RESULT.md
+docs/WAVE_4_RUNTIME_LOGS/SHA256SUMS.txt
+docs/WAVE_4_RUNTIME_LOGS/preflight_6.0_v4.log
+docs/WAVE_4_RUNTIME_LOGS/aml_compliance_6.1_final_v4.log
+docs/WAVE_4_RUNTIME_LOGS/aml_compliance_6.2_final_v4.log
+docs/WAVE_4_RUNTIME_LOGS/aml_compliance_6.3_final_v4.log
+docs/WAVE_4_RUNTIME_LOGS/aml_compliance_6.4_final_v4.log
+docs/WAVE_4_RUNTIME_LOGS/kyc_management_6.1_final_v4.log
+docs/WAVE_4_RUNTIME_LOGS/kyc_management_6.2_final_v4.log
+docs/WAVE_4_RUNTIME_LOGS/kyc_management_6.3_final_v4.log
+docs/WAVE_4_RUNTIME_LOGS/kyc_management_6.4_final_v4.log
+docs/WAVE_4_RUNTIME_LOGS/migration_regression_final.log
+```
+
+Intentionally excluded (untracked / superseded / gitignored / session scratch):
+
+```
+2026-09-02-002311-see-the-working-of-previous-agent-and-continue-wh.txt   (prior-agent dump)
+docs/WAVE_4_RUNTIME_LOGS/*_final.log        (superseded v3 logs)
+docs/WAVE_4_RUNTIME_LOGS/*_summary.md       (interim summary)
+docs/WAVE_4_RUNTIME_LOGS/aml_smoke_run.log  (interim smoke)
+docs/WAVE_4_RUNTIME_LOGS/migration_guard_*.log (per-checkpoint logs superseded by migration_regression_final.log)
+docs/WAVE_4_RUNTIME_LOGS/preflight_6.0_v4_old.log (superseded preflight)
+docs/WAVE_4_RUNTIME_LOGS/preflight_6.0.log       (superseded preflight)
+session-ses_fa29.md                            (session transcript)
+tools/_v4_runner.py                            (gitignored local helper)
+tools/_closure_runner.py / tools/_wave4_runner.py (gitignored local helpers)
+```
+
+## Version transitions
+
+Verified directly from each module's `__manifest__.py`:
+
+| Module | Installed before | Candidate manifest | Migration directory |
+|---|---|---|---|
+| kyc_management | 19.0.1.0.1 | 19.0.1.0.2 | migrations/19.0.1.0.2/ |
+| aml_compliance | 19.0.1.0.0 | 19.0.1.0.1 | migrations/19.0.1.0.1/ |
+
+Each migration-directory version is strictly greater than the installed version and equal to the candidate manifest version, so Odoo's upgrade-script mechanism fires on `-u`.
 
 ## Fresh-install results
 
@@ -94,11 +145,11 @@ Specific dirty-data results:
 [PASS] AML dirty: no partial constraint state committed -- set()
 ```
 
-The regression suite uses a snapshot built from `git archive 2851db2 | tar --force-local -xf` to guarantee the upgrade attempt is tied to the source remediation commit, not to working-tree edits.
+The regression suite uses a snapshot built from `git archive 2851db2 | tar --force-local -xf` to guarantee the upgrade attempt is tied to the source remediation commit, not to working-tree edits. All dirty-data conflicts were created by **controlled test-fixture remediation SQL** that runs only inside the regression suite; no production-data remediation was performed or authorised.
 
 ## Corrected-data retry results
 
-After applying the approved remediation SQL, the dirty-data upgrade is re-run:
+After applying controlled test-fixture remediation SQL inside the regression suite, the dirty-data upgrade is re-run:
 
 ```
 [PASS] KYC dirty: corrected-data retry succeeds
@@ -110,18 +161,20 @@ After applying the approved remediation SQL, the dirty-data upgrade is re-run:
         'aml_fatf_jurisdiction_country_uniq', 'aml_risk_factor_code_uniq'}
 ```
 
-This proves the gate releases cleanly when remediation is applied: the same dirty seed that was blocked on the first attempt passes the second time and attaches every required constraint.
+This proves the gate releases cleanly when the controlled-fixture remediation is applied: the same dirty seed that was blocked on the first attempt passes the second time and attaches every required constraint.
+
+## Combined-update scope
+
+The fail-closed guards were verified **independently per module** in `migration_regression_final.log` (one Odoo process per scenario). A combined `-u kyc_management,aml_compliance` or `-u all` failure scenario on a dirty database was not separately exercised in the evidence log, and no claim of combined-update behaviour is made here.
+
+If production deployment uses a combined-update command, a separate focused combined dirty-data run is recommended before that deployment. The gate behaviour for combined updates is structurally the same as for independent updates because each module's `pre-migrate.py` reads only its own tables and raises per-module, but this was not separately executed in this evidence pack.
 
 ## Exact test identities
 
-For reproducibility, the enumerated `(ClassName, method)` pairs that the verifier expects for each scope. Built AST-based from the modules on disk (the same source the v4 logs were generated from), never hand-typed.
+For reproducibility, the enumerated `(ClassName, method)` pairs the verifier expects for each scope. Built AST-based from the modules on disk (the same source the v4 logs were generated from), never hand-typed.
 
 **kyc_management §6.2** (10):
-- `TestExitGate.test_authorized_officer_in_group_gets_approval_record`
-- `TestExitGate.test_duplicate_kyc_id_blocked_by_constraint`
-- `TestExitGate.test_empty_approver_group_creates_no_approval`
-- `TestExitGate.test_inactive_user_excluded_from_routing`
-- `TestExitGate.test_unrelated_user_gets_no_approval`
+- `TestExitGate.test_*` (5)
 - `TestKycOfficerRouting.test_*` (3)
 - `TestPostInstall.test_*` (2)
 
@@ -143,7 +196,7 @@ For reproducibility, the enumerated `(ClassName, method)` pairs that the verifie
 
 ## Constraint verification
 
-Required constraints per module (from `post-migrate.py`):
+Required constraints per module (verified directly from each `post-migrate.py`):
 
 - `kyc_management`: `kyc_application_kyc_id_unique` (1 constraint).
 - `aml_compliance`:
@@ -155,66 +208,71 @@ Required constraints per module (from `post-migrate.py`):
 
 Verification path:
 
-1. Clean-data upgrade: every required constraint attached and visible in `pg_constraint` after upgrade (verified via `SELECT conname FROM pg_constraint WHERE conrelid = 'public.kyc_application'::regclass` and analog for AML tables).
+1. Clean-data upgrade: every required constraint attached and visible in `pg_constraint` after upgrade.
 2. Dirty-data upgrade blocked: zero of the required constraints attached (proves the gate fires before schema work).
 3. Corrected-data retry: every required constraint attached.
 
-## Record-preservation proof
+## Record-preservation result
 
-The pre-migrate guard never executes any `UPDATE`, `DELETE`, or `INSERT`. Only an aggregate `SELECT COUNT(*)` over a derived conflict table. The `migration_regression_final.log` shows:
+Row counts, module versions, and required-constraint sets were unchanged after the blocked upgrade. Static review confirms that the guards execute aggregate read-only queries, and the raised `UserError` rolls back the upgrade transaction. The dirty-data evidence log reports:
 
 - KYC dirty: row count unchanged after the blocked upgrade.
 - AML dirty: row counts `(27, 13, 2)` unchanged before/after the blocked upgrade.
 
-After the corrected-data retry, the previously-duplicate rows are merged via the approved remediation SQL (also recorded in `migration_regression_final.log`), then the upgrade succeeds.
+This measures row counts, module versions, and required-constraint sets only. It does **not** measure the contents of individual rows; it confirms no row was inserted, deleted, or changed in any controlled-fixture column referenced by the guards, because the guard's only database actions are aggregate `SELECT COUNT(*)` queries and the surrounding upgrade transaction is rolled back by the raised `UserError`.
 
-## Secret scan
+## Secret / credential / PII scan
 
-The full set of v4 logs and this report were scanned for database passwords, secrets, and credential patterns:
+Scope scanned: current worktree, staged diff, commit `2851db2`, the v4 evidence files committed at `35733a2`, the full `wave3-runtime` branch history, and the command lines recorded in logs.
 
-- `.pgpass` is written inside `wave4_odoo` only for the duration of a single `odoo` invocation (via `secure_pg_auth` context manager, `umask 077`, `rm -f` in `finally`).
-- No `--db_password=<value>` or `PGPASSWORD=<value>` substring appears in any committed log file. (`grep -E "db_password=|PGPASSWORD=" docs/WAVE_4_RUNTIME_LOGS/*_final_v4.log` returns zero matches.)
-- The `wave4_pg_secure_exec` helper fetches `POSTGRES_PASSWORD` from `wave4_pg`'s env once at the top of each run and never re-emits it; `_write_pgpass` writes only to a stdin pipe.
-- Local-only runner scripts (`tools/_v4_runner.py`, `tools/_closure_runner.py`, `tools/_wave4_runner.py`) are listed in `.gitignore` and are not committed.
+Search patterns: `PGPASSWORD`, `POSTGRES_PASSWORD=<value>`, `--db_password=<value>`, database URLs containing credentials, private keys, access tokens, API keys, bearer tokens, passwords, customer names or identifiers exposed by dirty-data fixtures, unsanitized container inspect output.
 
-## Open operational remediation decisions
+The password was not passed in Odoo command-line arguments, was not propagated through PGPASSWORD, and was not written to committed logs. It was retrieved from the PostgreSQL container environment and transferred through stdin to a temporary mode-0600 `.pgpass` file.
 
-These are decisions for the operator of any *production* database that already contains historical conflicts. They are **not blockers** for shipping the modules — the fail-closed guard makes it safe to ship the modules to fresh databases and to databases that have been remediated in advance.
+No secret values appear in any committed file. No customer or fixture PII appears in any committed log.
 
-1. **KYC historical conflicts.** For each `kyc_id` group with `COUNT(*) > 1`, the operator must decide which row is canonical, reconcile any external references, then `UPDATE` or `DELETE` duplicates until no group has more than one non-empty `kyc_id`. The guard reports `(dup_groups, affected_rows)` to drive that decision.
-2. **AML historical conflicts.** Four independent conflict categories — duplicate FATF jurisdiction country, duplicate risk-factor code, negative risk-factor weight, duplicate sanctions name/source. Each is reported in the same `UserError`. The remediation SQL must address each independently.
-3. **Migration ordering.** On a multi-module database, the upgrade must be run as a single `-u all` so the guard for each module sees the same historical state. Re-running per-module (`-u kyc_management` then `-u aml_compliance`) is also valid because each guard is module-scoped.
+Outcome: **PASS**.
+
+## Open operational remediation decisions (separate from controlled test-fixture remediation)
+
+These are decisions for the operator of any *production* database that already contains historical conflicts. They are **not blockers** for shipping the modules to fresh or pre-remediated databases. No production-data remediation was performed or authorised in this evidence pack.
+
+1. **KYC historical conflicts.** For each `kyc_id` group with `COUNT(*) > 1`, a controlled human-approved remediation process must decide which row is canonical, reconcile any external references, then `UPDATE` or `DELETE` duplicates until no group has more than one non-empty `kyc_id`. The guard reports `(dup_groups, affected_rows)` to drive that decision. This evidence pack used controlled test-fixture remediation SQL inside the regression suite only.
+2. **AML historical conflicts.** Four independent conflict categories — duplicate FATF jurisdiction country, duplicate risk-factor code, negative risk-factor weight, duplicate sanctions name/source. Each is reported in the same `UserError`. A controlled human-approved remediation must address each independently.
+3. **Migration ordering.** If production uses `-u all`, the upgrade must be run as a single Odoo process so the guard for each module sees the same historical state. Per-module upgrades are also valid because each guard is module-scoped.
 4. **Re-running the migration regression suite in CI.** `tools/wave4_migration_regression.py` builds its snapshot from `git archive $HEAD`. Pin the CI runner to a known commit hash, not a branch ref.
 
 ## Deployment decision
 
-The modules are **safe to ship** to:
+The modules are safe to ship to:
 
 - Fresh databases (no historical rows): §6.1 fresh install path is verified.
-- Databases that have been pre-remediated per the approved process: dirty-data fail-closed retry confirms the gate releases cleanly.
-- The fail-closed guard makes it **unsafe to ship to databases with known historical conflicts** unless remediation is run first — and the guard itself enforces that by raising `UserError` and blocking the upgrade with non-zero exit.
+- Databases pre-remediated via a controlled human-approved process: dirty-data fail-closed retry confirms the gate releases cleanly.
+- Databases with known historical conflicts are **blocked by the fail-closed guard itself**, which raises `UserError` and prevents the upgrade from completing with non-zero exit.
 
 For the Wave 4 closure scope specifically: no production data exists yet. The decision is recorded here so the next deployment reads it before re-running the upgrade against a live database.
 
+Repository delivery is complete. Production deployment is not authorised by this verification alone. Databases with conflicts will be blocked pending approved business remediation.
+
 ## Evidence index and hashes
 
-All final evidence files live under `docs/WAVE_4_RUNTIME_LOGS/`. SHA-256 hashes are recorded in `docs/WAVE_4_RUNTIME_LOGS/SHA256SUMS.txt`.
+All final evidence files live under `docs/WAVE_4_RUNTIME_LOGS/`. SHA-256 hashes are recorded in `docs/WAVE_4_RUNTIME_LOGS/SHA256SUMS.txt`. Re-verify with `sha256sum -c docs/WAVE_4_RUNTIME_LOGS/SHA256SUMS.txt` from the repo root.
 
-| File | Purpose | SHA-256 |
-|---|---|---|
-| `preflight_6.0_v4.log` | §6.0 preflight verifier output tied to `2851db2` | `09631b03eb3222d0452290ad657c28f83eb3095c69d19a187a718592a1408b8f` |
-| `aml_compliance_6.1_final_v4.log` | §6.1 fresh install | `8c1ac40701bc428eada4095e43601728933bc3102a0ad05fcb682dc49ae70569` |
-| `aml_compliance_6.2_final_v4.log` | §6.2 module tests | `273bf02f2b7c23a9225213c113c8a2c8c72ffead99d2e84ffde23114604620b3` |
-| `aml_compliance_6.3_final_v4.log` | §6.3 post-install tests | `f3a53d718806e821fee77e4507821e8b12943914fe020591fe2e0f110907eece` |
-| `aml_compliance_6.4_final_v4.log` | §6.4 TestExitGate | `ecf245b6fda610d34147f34a9ec0f34ca7b2bbc2067a93124d6cddaffd3fd0ed` |
-| `kyc_management_6.1_final_v4.log` | §6.1 fresh install | `6402e353d2c5d001a02597452c6d6c1366fe0de4a852d7f0a48c88fbabe82fda` |
-| `kyc_management_6.2_final_v4.log` | §6.2 module tests | `cc0282783996b4feebb58132e69759fdab04c6484a02bb3cc84fb847a38024d4` |
-| `kyc_management_6.3_final_v4.log` | §6.3 post-install tests | `7788ff394060d6e0e99edbbb7396db2027f474c6b8785442bce6eb9f83cd70d1` |
-| `kyc_management_6.4_final_v4.log` | §6.4 TestExitGate | `be16a07f636411eee54188480cc261dfc9eb3f07bdad8e1f779f97ac837dfa6c` |
-| `migration_regression_final.log` | 30-check dirty/clean migration regression | `050c5afeee31a4004bb26ea104a179993b94265d27743a7f55cafc64aba8ac62` |
+| File | Stage | DB | Odoo / PG | Code-under-test | SHA-256 |
+|---|---|---|---|---|---|
+| `preflight_6.0_v4.log` | §6.0 preflight | n/a | 19.0-20260818 / PG 16 | 2851db2 | `09631b03eb3222d0452290ad657c28f83eb3095c69d19a187a718592a1408b8f` |
+| `aml_compliance_6.1_final_v4.log` | §6.1 fresh install | wave4_aml_v4_final | 19.0-20260818 / PG 16 | 2851db2 | `8c1ac40701bc428eada4095e43601728933bc3102a0ad05fcb682dc49ae70569` |
+| `aml_compliance_6.2_final_v4.log` | §6.2 module tests | wave4_aml_v4_final | 19.0-20260818 / PG 16 | 2851db2 | `273bf02f2b7c23a9225213c113c8a2c8c72ffead99d2e84ffde23114604620b3` |
+| `aml_compliance_6.3_final_v4.log` | §6.3 post-install tests | wave4_aml_v4_final | 19.0-20260818 / PG 16 | 2851db2 | `f3a53d718806e821fee77e4507821e8b12943914fe020591fe2e0f110907eece` |
+| `aml_compliance_6.4_final_v4.log` | §6.4 TestExitGate | wave4_aml_v4_final | 19.0-20260818 / PG 16 | 2851db2 | `ecf245b6fda610d34147f34a9ec0f34ca7b2bbc2067a93124d6cddaffd3fd0ed` |
+| `kyc_management_6.1_final_v4.log` | §6.1 fresh install | wave4_kyc_v4_final | 19.0-20260818 / PG 16 | 2851db2 | `6402e353d2c5d001a02597452c6d6c1366fe0de4a852d7f0a48c88fbabe82fda` |
+| `kyc_management_6.2_final_v4.log` | §6.2 module tests | wave4_kyc_v4_final | 19.0-20260818 / PG 16 | 2851db2 | `cc0282783996b4feebb58132e69759fdab04c6484a02bb3cc84fb847a38024d4` |
+| `kyc_management_6.3_final_v4.log` | §6.3 post-install tests | wave4_kyc_v4_final | 19.0-20260818 / PG 16 | 2851db2 | `7788ff394060d6e0e99edbbb7396db2027f474c6b8785442bce6eb9f83cd70d1` |
+| `kyc_management_6.4_final_v4.log` | §6.4 TestExitGate | wave4_kyc_v4_final | 19.0-20260818 / PG 16 | 2851db2 | `be16a07f636411eee54188480cc261dfc9eb3f07bdad8e1f779f97ac837dfa6c` |
+| `migration_regression_final.log` | 30-check dirty/clean migration regression | wave4_migreg_* (clean + dirty per module) | 19.0-20260818 / PG 16 | 2851db2 (via `git archive`) | `050c5afeee31a4004bb26ea104a179993b94265d27743a7f55cafc64aba8ac62` |
 
-The prior append-only Wave 4 document (`docs/WAVE_4_INSTALL_REGRESSION_RESULT.md`) is preserved unchanged in this repository for audit history and is referenced by §16 of its own appendices. It is not deleted and not modified; this report is the authoritative closure document, and the prior document is now in supporting/historical status.
+The historical report at `docs/WAVE_4_INSTALL_REGRESSION_RESULT.md` is preserved unchanged and serves as the supporting / historical record.
 
 ---
 
-Closure evidence is complete. The push remains a human-review gate per the Wave 4 protocol.
+Closure evidence is committed at `35733a2`. The push to `origin/wave3-runtime` remains the final human-review gate per the Wave 4 protocol.
