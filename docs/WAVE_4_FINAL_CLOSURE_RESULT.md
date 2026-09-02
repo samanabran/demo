@@ -4,7 +4,8 @@
 **Odoo runtime:** 19.0-20260818 (container `wave4_odoo`)
 **Database:** PostgreSQL 16 (container `wave4_pg`)
 **Code-under-test commit:** `2851db2` — Wave 4 fail-closed migration guard
-**Evidence commit:** `35733a2` — Wave 4 final closure: v4 evidence pack tied to 2851db2
+**Evidence commit (runtime logs):** `35733a2` — Wave 4 final closure: v4 evidence pack tied to 2851db2 (10 v4 evidence files)
+**Evidence commit (this report + checksum manifest):** this commit; exact hash recorded in the final delivery response
 **Code-under-test commit parent:** `ea11562` — Wave 4 closure pass, second session
 
 This report is the authoritative closure document. The prior append-only report at `docs/WAVE_4_INSTALL_REGRESSION_RESULT.md` is preserved unchanged as historical evidence and is referenced from §16 of its own appendices; it is not modified by this report.
@@ -25,7 +26,7 @@ When push and remote hash confirmation complete, the final status becomes:
 
 `2851db2` — Wave 4 fail-closed migration guard: kyc_management + aml_compliance.
 
-The remediation introduces two pairs of files:
+The remediation introduces two pairs of module migration scripts and three supporting verification tools:
 
 ```
 kyc_management/migrations/19.0.1.0.2/pre-migrate.py
@@ -101,7 +102,7 @@ Each migration-directory version is strictly greater than the installed version 
 | kyc_management | §6.1 | wave4_kyc_v4_final | 0 | 97 903 |
 | aml_compliance | §6.1 | wave4_aml_v4_final | 0 | 131 538 |
 
-Both databases are freshly created (`createdb`) before each run and never reused. The DBs are mounted via read-only bind from `C:/demo_presentation` at `/mnt/extra-addons`; the addons are not copied into a container-local directory.
+Both databases are freshly created (`createdb`) before each run and never reused. The addon source is mounted read-only from `C:/demo_presentation` to `/mnt/extra-addons`; the PostgreSQL databases are created separately for each run.
 
 ## Clean-data upgrade results
 
@@ -165,34 +166,25 @@ This proves the gate releases cleanly when the controlled-fixture remediation is
 
 ## Combined-update scope
 
-The fail-closed guards were verified **independently per module** in `migration_regression_final.log` (one Odoo process per scenario). A combined `-u kyc_management,aml_compliance` or `-u all` failure scenario on a dirty database was not separately exercised in the evidence log, and no claim of combined-update behaviour is made here.
+Independent module upgrades were verified. Combined dirty-data behaviour under `-u kyc_management,aml_compliance` or `-u all` was not executed. If the production procedure uses a combined update, perform one focused combined dirty-data validation before deployment.
 
-If production deployment uses a combined-update command, a separate focused combined dirty-data run is recommended before that deployment. The gate behaviour for combined updates is structurally the same as for independent updates because each module's `pre-migrate.py` reads only its own tables and raises per-module, but this was not separately executed in this evidence pack.
+## Test identity groups and verified counts
 
-## Exact test identities
+The complete method-level identities are enforced by `tools/verify_wave4_claims.py --check-run-log MODULE SCOPE LOG EXIT_CODE` and preserved in the v4 logs themselves. The list below names the test classes and the count of `test_*` methods per scope, not an enumerated `(ClassName, method)` list.
 
-For reproducibility, the enumerated `(ClassName, method)` pairs the verifier expects for each scope. Built AST-based from the modules on disk (the same source the v4 logs were generated from), never hand-typed.
+**kyc_management §6.2** (10): `TestExitGate` (5), `TestKycOfficerRouting` (3), `TestPostInstall` (2).
 
-**kyc_management §6.2** (10):
-- `TestExitGate.test_*` (5)
-- `TestKycOfficerRouting.test_*` (3)
-- `TestPostInstall.test_*` (2)
+**kyc_management §6.3** (5): `TestKycOfficerRouting` (3) + `TestPostInstall` (2); `TestExitGate` is excluded (no `post_install` tag).
 
-**kyc_management §6.3** (5): same as §6.2 minus `TestExitGate` (5 post_install-tagged methods: 3 in `TestKycOfficerRouting` + 2 in `TestPostInstall`).
+**kyc_management §6.4** (5): `TestExitGate` only (5).
 
-**kyc_management §6.4** (5): `TestExitGate.test_*` only.
+**aml_compliance §6.2** (22): `TestExitGate` (6), `TestGoAMLReportValidation` (4), `TestMigratedConstraints` (4), `TestPostInstall` (2), `TestRiskAssessment` (3), `TestTransactionAlert` (3).
 
-**aml_compliance §6.2** (22):
-- `TestExitGate.test_*` (6)
-- `TestGoAMLReportValidation.test_*` (4)
-- `TestMigratedConstraints.test_*` (4)
-- `TestPostInstall.test_*` (2)
-- `TestRiskAssessment.test_*` (3)
-- `TestTransactionAlert.test_*` (3)
+**aml_compliance §6.3** (2): `TestPostInstall` only (2).
 
-**aml_compliance §6.3** (2): `TestPostInstall.test_*` only.
+**aml_compliance §6.4** (6): `TestExitGate` only (6).
 
-**aml_compliance §6.4** (6): `TestExitGate.test_*` only.
+The exact `(ClassName, method)` pairs that the verifier expects for each scope are computed AST-based from the modules on disk (the same source the v4 logs were generated from) and matched one-for-one against every `Starting ClassName.method` line parsed from each log. Any mismatch in either direction fails the verifier with `ok: false`. All six scopes passed this gate against the v4 logs committed at `35733a2`.
 
 ## Constraint verification
 
@@ -252,7 +244,7 @@ The modules are safe to ship to:
 
 For the Wave 4 closure scope specifically: no production data exists yet. The decision is recorded here so the next deployment reads it before re-running the upgrade against a live database.
 
-Repository delivery is complete. Production deployment is not authorised by this verification alone. Databases with conflicts will be blocked pending approved business remediation.
+Local evidence packaging is complete. Repository delivery remains pending until the evidence branch is pushed and local HEAD is confirmed equal to origin/wave3-runtime. Production deployment is not authorised by this verification alone. Databases with conflicts will be blocked pending approved business remediation.
 
 ## Evidence index and hashes
 
@@ -270,9 +262,10 @@ All final evidence files live under `docs/WAVE_4_RUNTIME_LOGS/`. SHA-256 hashes 
 | `kyc_management_6.3_final_v4.log` | §6.3 post-install tests | wave4_kyc_v4_final | 19.0-20260818 / PG 16 | 2851db2 | `7788ff394060d6e0e99edbbb7396db2027f474c6b8785442bce6eb9f83cd70d1` |
 | `kyc_management_6.4_final_v4.log` | §6.4 TestExitGate | wave4_kyc_v4_final | 19.0-20260818 / PG 16 | 2851db2 | `be16a07f636411eee54188480cc261dfc9eb3f07bdad8e1f779f97ac837dfa6c` |
 | `migration_regression_final.log` | 30-check dirty/clean migration regression | wave4_migreg_* (clean + dirty per module) | 19.0-20260818 / PG 16 | 2851db2 (via `git archive`) | `050c5afeee31a4004bb26ea104a179993b94265d27743a7f55cafc64aba8ac62` |
+| `WAVE_4_FINAL_CLOSURE_RESULT.md` (this file) | Authoritative closure report | n/a | n/a | 2851db2 (evidence) | see `SHA256SUMS.txt` — a hash of this file cannot be embedded inside itself without becoming stale on the next edit |
 
 The historical report at `docs/WAVE_4_INSTALL_REGRESSION_RESULT.md` is preserved unchanged and serves as the supporting / historical record.
 
 ---
 
-Closure evidence is committed at `35733a2`. The push to `origin/wave3-runtime` remains the final human-review gate per the Wave 4 protocol.
+Closure evidence is committed at `35733a2` (v4 evidence pack) and finalised in a documentation-only commit that updates this report and `SHA256SUMS.txt`. The push to `origin/wave3-runtime` remains the final human-review gate per the Wave 4 protocol.
