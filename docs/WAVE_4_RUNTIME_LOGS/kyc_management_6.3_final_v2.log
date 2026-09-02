@@ -1,0 +1,71 @@
+
+2026-09-02 16:35:45,082 589 INFO ? odoo: Odoo version 19.0-20260817 
+2026-09-02 16:35:45,083 589 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf 
+2026-09-02 16:35:45,083 589 INFO ? odoo: addons paths: _NamespacePath(['/usr/lib/python3/dist-packages/odoo/addons', '/var/lib/odoo/addons/19.0', '/mnt/extra-addons', '/usr/lib/python3/dist-packages/addons']) 
+2026-09-02 16:35:45,084 589 INFO ? odoo: database: odoo@wave4_pg:default 
+2026-09-02 16:35:45,958 589 INFO ? odoo.service.server: HTTP service (werkzeug) running on 2b431b2d5de1:8069 
+2026-09-02 16:35:45,991 589 INFO wave4_kyc_final2 odoo.tests.common: Importing test framework 
+2026-09-02 16:35:46,040 589 INFO wave4_kyc_final2 odoo.modules.loading: loading 1 modules... 
+2026-09-02 16:35:46,050 589 INFO wave4_kyc_final2 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-09-02 16:35:46,094 589 INFO wave4_kyc_final2 odoo.modules.loading: updating modules list 
+2026-09-02 16:35:46,098 589 INFO wave4_kyc_final2 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-09-02 16:35:48,143 589 WARNING wave4_kyc_final2 odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 16:35:48,147 589 WARNING wave4_kyc_final2 odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 16:35:48,275 589 WARNING wave4_kyc_final2 odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 16:35:48,279 589 WARNING wave4_kyc_final2 odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 16:35:48,838 589 INFO wave4_kyc_final2 odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['KYC Management'] to user __system__ #1 via n/a 
+2026-09-02 16:35:48,839 589 INFO wave4_kyc_final2 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['KYC Management'] to user __system__ #1 via n/a 
+2026-09-02 16:35:50,702 589 WARNING wave4_kyc_final2 odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 16:35:50,773 589 WARNING wave4_kyc_final2 odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 16:35:51,163 589 INFO wave4_kyc_final2 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-09-02 16:35:51,223 589 INFO wave4_kyc_final2 odoo.modules.loading: loading 53 modules... 
+2026-09-02 16:35:51,841 589 INFO wave4_kyc_final2 odoo.modules.loading: Loading module kyc_management (47/53) 
+2026-09-02 16:35:52,228 589 INFO wave4_kyc_final2 odoo.registry: module kyc_management: creating or updating database tables 
+<string>:8: (WARNING/2) Line block ends without a blank line.
+<string>:8: (ERROR/3) Undefined substitution referenced: "-------".
+2026-09-02 16:35:52,521 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/security/groups.xml 
+2026-09-02 16:35:52,598 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/security/ir.model.access.csv 
+2026-09-02 16:35:52,635 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/security/ir_rules.xml 
+2026-09-02 16:35:52,658 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/data/legacy_security_compat.xml 
+2026-09-02 16:35:52,665 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/data/crm_data.xml 
+2026-09-02 16:35:52,679 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/reports/kyc_application_report.xml 
+2026-09-02 16:35:52,713 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/reports/kyc_approvals_summary_report.xml 
+2026-09-02 16:35:52,740 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/wizard/kyc_wizard_views.xml 
+2026-09-02 16:35:52,791 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/views/kyc_application_views.xml 
+2026-09-02 16:35:52,869 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/views/kyc_approval_views.xml 
+2026-09-02 16:35:52,936 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/views/kyc_notification_views.xml 
+2026-09-02 16:35:53,000 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/views/kyc_menu.xml 
+2026-09-02 16:35:53,132 589 INFO wave4_kyc_final2 odoo.modules.loading: loading kyc_management/views/portal_kyc_templates.xml 
+2026-09-02 16:35:53,364 589 INFO wave4_kyc_final2 odoo.modules.loading: Module kyc_management loaded in 1.52s, 787 queries (+787 other) 
+2026-09-02 16:35:53,374 589 INFO wave4_kyc_final2 odoo.modules.loading: 53 modules loaded in 2.15s, 787 queries (+787 extra) 
+2026-09-02 16:35:54,161 589 INFO wave4_kyc_final2 odoo.modules.loading: Modules loaded. 
+2026-09-02 16:35:54,182 589 INFO wave4_kyc_final2 odoo.registry: Registry changed, signaling through the database 
+2026-09-02 16:35:54,185 589 INFO wave4_kyc_final2 odoo.registry: Registry loaded in 8.225s 
+2026-09-02 16:35:54,186 589 INFO wave4_kyc_final2 odoo.service.server: Starting post tests 
+2026-09-02 16:35:54,515 589 INFO wave4_kyc_final2 odoo.addons.auth_signup.models.res_users: Signup email sent for user <wave4_kyc_officer> to <wave4_kyc_officer@example.com> 
+2026-09-02 16:35:54,785 589 INFO wave4_kyc_final2 odoo.addons.auth_signup.models.res_users: Signup email sent for user <wave4_kyc_unrelated> to <wave4_kyc_unrelated@example.com> 
+2026-09-02 16:35:54,794 589 INFO wave4_kyc_final2 odoo.addons.kyc_management.tests.test_kyc_officer_routing: Starting TestKycOfficerRouting.test_kyc_id_unique_constraint_rejects_duplicate ... 
+2026-09-02 16:35:54,824 589 ERROR wave4_kyc_final2 odoo.sql_db: bad query: b'INSERT INTO "kyc_application" ("create_date", "create_uid", "currency_id", "email", "first_name", "kyc_id", "partner_id", "phone", "state", "write_date", "write_uid") VALUES (\'2026-09-02T16:35:54.191844\'::timestamp, 1, 1, \'applicant@example.com\', \'Test\', \'WAVE4DUP001\', 23, \'+971500000000\', \'draft\', \'2026-09-02T16:35:54.191844\'::timestamp, 1) RETURNING "id"'
+ERROR: duplicate key value violates unique constraint "kyc_application_kyc_id_unique"
+DETAIL:  Key (kyc_id)=(WAVE4DUP001) already exists.
+ 
+2026-09-02 16:35:54,827 589 INFO wave4_kyc_final2 odoo.addons.kyc_management.tests.test_kyc_officer_routing: Starting TestKycOfficerRouting.test_officer_in_approver_group_gets_routed ... 
+2026-09-02 16:35:55,032 589 INFO wave4_kyc_final2 odoo.addons.kyc_management.models.kyc_application: KYC: Generated PDF attachment id=355 for app EFC65F48-A92 
+2026-09-02 16:35:55,050 589 INFO wave4_kyc_final2 odoo.addons.kyc_management.models.kyc_application: KYC: Created kyc.approval id=8 for officer wave4_kyc_officer (app EFC65F48-A92) 
+2026-09-02 16:35:55,054 589 INFO wave4_kyc_final2 odoo.addons.kyc_management.tests.test_kyc_officer_routing: Starting TestKycOfficerRouting.test_unrelated_user_is_not_routed ... 
+2026-09-02 16:35:55,298 589 INFO wave4_kyc_final2 odoo.addons.kyc_management.models.kyc_application: KYC: Generated PDF attachment id=356 for app CAA3FDDA-5F2 
+2026-09-02 16:35:55,310 589 INFO wave4_kyc_final2 odoo.addons.kyc_management.models.kyc_application: KYC: Created kyc.approval id=9 for officer wave4_kyc_officer (app CAA3FDDA-5F2) 
+2026-09-02 16:35:55,317 589 INFO wave4_kyc_final2 odoo.addons.base.models.ir_attachment: filestore gc 5 checked, 4 removed 
+2026-09-02 16:35:55,320 589 INFO wave4_kyc_final2 odoo.addons.kyc_management.tests.test_post_install: Starting TestPostInstall.test_kyc_id_constraint_survives_prior_module_upgrade ... 
+2026-09-02 16:35:55,371 589 ERROR wave4_kyc_final2 odoo.sql_db: bad query: b'INSERT INTO "kyc_application" ("create_date", "create_uid", "currency_id", "email", "first_name", "kyc_id", "partner_id", "phone", "state", "write_date", "write_uid") VALUES (\'2026-09-02T16:35:55.320488\'::timestamp, 1, 1, \'pi@example.com\', \'PostInstall\', \'WAVE4_PI_DUP\', 26, \'+971500000000\', \'draft\', \'2026-09-02T16:35:55.320488\'::timestamp, 1) RETURNING "id"'
+ERROR: duplicate key value violates unique constraint "kyc_application_kyc_id_unique"
+DETAIL:  Key (kyc_id)=(WAVE4_PI_DUP) already exists.
+ 
+2026-09-02 16:35:55,373 589 INFO wave4_kyc_final2 odoo.addons.kyc_management.tests.test_post_install: Starting TestPostInstall.test_module_is_installed_after_upgrade_path ... 
+2026-09-02 16:35:55,379 589 INFO wave4_kyc_final2 odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-09-02 16:35:55,380 589 INFO wave4_kyc_final2 odoo.service.server: 5 post-tests in 1.19s, 473 queries 
+2026-09-02 16:35:55,380 589 INFO wave4_kyc_final2 odoo.tests.stats: kyc_management: 9 tests 1.19s 473 queries 
+2026-09-02 16:35:55,381 589 INFO wave4_kyc_final2 odoo.tests.result: 0 failed, 0 error(s) of 5 tests when loading database 'wave4_kyc_final2' 
+2026-09-02 16:35:55,381 589 INFO wave4_kyc_final2 odoo.service.server: Initiating shutdown 
+2026-09-02 16:35:55,381 589 INFO wave4_kyc_final2 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-09-02 16:35:55,489 589 INFO wave4_kyc_final2 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  

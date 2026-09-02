@@ -1,0 +1,1070 @@
+
+2026-09-02 16:14:37,593 510 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-09-02 16:14:37,595 510 INFO ? odoo: Odoo version 19.0-20260817 
+2026-09-02 16:14:37,595 510 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf 
+2026-09-02 16:14:37,595 510 INFO ? odoo: addons paths: _NamespacePath(['/usr/lib/python3/dist-packages/odoo/addons', '/var/lib/odoo/addons/19.0', '/mnt/extra-addons', '/usr/lib/python3/dist-packages/addons']) 
+2026-09-02 16:14:37,596 510 INFO ? odoo: database: odoo@wave4_pg:default 
+2026-09-02 16:14:41,714 510 INFO wave4_aml_p62 odoo.modules.loading: Initializing database wave4_aml_p62 
+2026-09-02 16:15:16,283 510 WARNING wave4_aml_p62 odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 16:15:16,289 510 WARNING wave4_aml_p62 odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 16:15:16,781 510 WARNING wave4_aml_p62 odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 16:15:16,788 510 WARNING wave4_aml_p62 odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 16:15:22,973 510 INFO wave4_aml_p62 odoo.modules.loading: loading 1 modules... 
+2026-09-02 16:15:22,974 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module base (1/1) 
+2026-09-02 16:15:23,171 510 INFO wave4_aml_p62 odoo.registry: module base: creating or updating database tables 
+2026-09-02 16:15:27,549 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.module.module.menus_by_module 
+2026-09-02 16:15:27,549 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.module.module.reports_by_module 
+2026-09-02 16:15:27,550 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.module.module.views_by_module 
+2026-09-02 16:15:28,620 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.user_id 
+2026-09-02 16:15:28,621 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.commercial_partner_id 
+2026-09-02 16:15:28,621 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.complete_name 
+2026-09-02 16:15:28,621 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.lang 
+2026-09-02 16:15:28,621 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.company_registry 
+2026-09-02 16:15:28,622 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.commercial_company_name 
+2026-09-02 16:15:28,622 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.properties 
+2026-09-02 16:15:28,622 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.partner_share 
+2026-09-02 16:15:28,817 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.currency.decimal_places 
+2026-09-02 16:15:28,970 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.company.uses_default_logo 
+2026-09-02 16:15:28,971 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.company.logo_web 
+2026-09-02 16:15:28,979 510 INFO wave4_aml_p62 odoo.models: Computing parent_path for table res_company... 
+2026-09-02 16:15:29,111 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.users.signature 
+2026-09-02 16:15:29,111 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.users.share 
+2026-09-02 16:15:48,063 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/res_bank.xml 
+2026-09-02 16:15:48,088 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/res.lang.csv 
+2026-09-02 16:15:48,376 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/res_lang_data.xml 
+2026-09-02 16:15:48,638 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/res_partner_data.xml 
+2026-09-02 16:15:48,925 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/res_currency_data.xml 
+2026-09-02 16:15:51,390 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/res_company_data.xml 
+2026-09-02 16:15:51,419 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/res_users_data.xml 
+2026-09-02 16:15:55,080 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/report_paperformat_data.xml 
+2026-09-02 16:15:55,133 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/res_country_data.xml 
+2026-09-02 16:15:57,660 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/ir_demo_data.xml 
+2026-09-02 16:15:57,715 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/security/base_groups.xml 
+2026-09-02 16:15:58,474 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/security/base_security.xml 
+2026-09-02 16:15:59,230 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/wizard/wizard_ir_model_menu_create_views.xml 
+2026-09-02 16:15:59,292 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/base_menus.xml 
+2026-09-02 16:15:59,577 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/decimal_precision_views.xml 
+2026-09-02 16:15:59,668 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_config_views.xml 
+2026-09-02 16:15:59,711 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/res.country.state.csv 
+2026-09-02 16:16:01,590 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_actions_views.xml 
+2026-09-02 16:16:02,243 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_asset_views.xml 
+2026-09-02 16:16:02,341 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_config_parameter_views.xml 
+2026-09-02 16:16:02,427 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_cron_views.xml 
+2026-09-02 16:16:02,600 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_cron_trigger_views.xml 
+2026-09-02 16:16:02,672 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_filters_views.xml 
+2026-09-02 16:16:02,786 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_mail_server_views.xml 
+2026-09-02 16:16:02,876 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_model_views.xml 
+2026-09-02 16:16:03,363 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_attachment_views.xml 
+2026-09-02 16:16:03,433 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_rule_views.xml 
+2026-09-02 16:16:03,493 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_sequence_views.xml 
+2026-09-02 16:16:03,565 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_ui_menu_views.xml 
+2026-09-02 16:16:03,653 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_ui_view_views.xml 
+2026-09-02 16:16:03,894 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_default_views.xml 
+2026-09-02 16:16:04,018 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/ir_config_parameter_data.xml 
+2026-09-02 16:16:04,035 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/ir_cron_data.xml 
+2026-09-02 16:16:04,123 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/report/ir_model_report.xml 
+2026-09-02 16:16:04,138 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/report/ir_model_templates.xml 
+2026-09-02 16:16:04,180 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_logging_views.xml 
+2026-09-02 16:16:04,317 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_qweb_widget_templates.xml 
+2026-09-02 16:16:04,380 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_module_views.xml 
+2026-09-02 16:16:04,644 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/ir_module_category_data.xml 
+2026-09-02 16:16:04,846 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/ir_module_module.xml 
+2026-09-02 16:16:05,216 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/report/ir_module_reports.xml 
+2026-09-02 16:16:05,226 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/report/ir_module_report_templates.xml 
+2026-09-02 16:16:05,249 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/wizard/base_module_update_views.xml 
+2026-09-02 16:16:05,301 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/wizard/base_language_install_views.xml 
+2026-09-02 16:16:05,402 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/wizard/base_import_language_views.xml 
+2026-09-02 16:16:05,450 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/wizard/base_module_upgrade_views.xml 
+2026-09-02 16:16:05,512 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/wizard/base_module_uninstall_views.xml 
+2026-09-02 16:16:05,554 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/wizard/base_export_language_views.xml 
+2026-09-02 16:16:05,605 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/wizard/base_partner_merge_views.xml 
+2026-09-02 16:16:05,663 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/data/ir_demo_failure_data.xml 
+2026-09-02 16:16:05,715 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/ir_profile_views.xml 
+2026-09-02 16:16:05,800 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_company_views.xml 
+2026-09-02 16:16:05,903 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_lang_views.xml 
+2026-09-02 16:16:05,989 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_partner_views.xml 
+2026-09-02 16:16:06,294 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_bank_views.xml 
+2026-09-02 16:16:06,411 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_country_views.xml 
+2026-09-02 16:16:06,527 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_currency_views.xml 
+2026-09-02 16:16:06,623 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_groups_views.xml 
+2026-09-02 16:16:06,831 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_users_views.xml 
+2026-09-02 16:16:07,172 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_users_apikeys_views.xml 
+2026-09-02 16:16:07,189 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_device_views.xml 
+2026-09-02 16:16:07,257 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_users_identitycheck_views.xml 
+2026-09-02 16:16:07,279 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/res_config_settings_views.xml 
+2026-09-02 16:16:07,302 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/views/report_paperformat_views.xml 
+2026-09-02 16:16:07,395 510 INFO wave4_aml_p62 odoo.modules.loading: loading base/security/ir.model.access.csv 
+2026-09-02 16:16:07,707 510 INFO wave4_aml_p62 odoo.modules.loading: Module base loaded in 44.73s, 8455 queries (+8455 other) 
+2026-09-02 16:16:07,708 510 INFO wave4_aml_p62 odoo.modules.loading: 1 modules loaded in 44.73s, 8455 queries (+8455 extra) 
+2026-09-02 16:16:07,719 510 INFO wave4_aml_p62 odoo.modules.loading: updating modules list 
+2026-09-02 16:16:07,722 510 INFO wave4_aml_p62 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-09-02 16:16:10,982 510 WARNING wave4_aml_p62 odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 16:16:11,125 510 WARNING wave4_aml_p62 odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 16:16:11,696 510 INFO wave4_aml_p62 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on ['AML Compliance & goAML'] to user __system__ #1 via n/a 
+2026-09-02 16:16:12,058 510 INFO wave4_aml_p62 odoo.modules.loading: loading 69 modules... 
+2026-09-02 16:16:12,058 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module rpc (2/69) 
+2026-09-02 16:16:12,121 510 INFO wave4_aml_p62 odoo.modules.loading: Module rpc loaded in 0.06s, 9 queries (+9 other) 
+2026-09-02 16:16:12,121 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module social_media (3/69) 
+2026-09-02 16:16:12,141 510 INFO wave4_aml_p62 odoo.registry: module social_media: creating or updating database tables 
+2026-09-02 16:16:12,313 510 INFO wave4_aml_p62 odoo.modules.loading: loading social_media/views/res_company_views.xml 
+2026-09-02 16:16:12,402 510 INFO wave4_aml_p62 odoo.modules.loading: Module social_media loaded in 0.28s, 75 queries (+75 other) 
+2026-09-02 16:16:12,402 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module uom (4/69) 
+2026-09-02 16:16:12,420 510 INFO wave4_aml_p62 odoo.registry: module uom: creating or updating database tables 
+2026-09-02 16:16:12,563 510 INFO wave4_aml_p62 odoo.modules.loading: loading uom/data/uom_data.xml 
+2026-09-02 16:16:12,740 510 INFO wave4_aml_p62 odoo.modules.loading: loading uom/security/uom_security.xml 
+2026-09-02 16:16:12,753 510 INFO wave4_aml_p62 odoo.modules.loading: loading uom/security/ir.model.access.csv 
+2026-09-02 16:16:12,780 510 INFO wave4_aml_p62 odoo.modules.loading: loading uom/views/uom_uom_views.xml 
+2026-09-02 16:16:12,864 510 INFO wave4_aml_p62 odoo.modules.loading: Module uom loaded in 0.46s, 230 queries (+230 other) 
+2026-09-02 16:16:12,864 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module web (5/69) 
+2026-09-02 16:16:12,949 510 INFO wave4_aml_p62 odoo.registry: module web: creating or updating database tables 
+2026-09-02 16:16:14,799 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/security/ir.model.access.csv 
+2026-09-02 16:16:14,819 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/security/web_security.xml 
+2026-09-02 16:16:14,877 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/views/webclient_templates.xml 
+2026-09-02 16:16:15,050 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/views/report_templates.xml 
+2026-09-02 16:16:15,402 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/views/base_document_layout_views.xml 
+2026-09-02 16:16:15,456 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/views/partner_view.xml 
+2026-09-02 16:16:15,479 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/views/speedscope_template.xml 
+2026-09-02 16:16:15,500 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/views/memory_template.xml 
+2026-09-02 16:16:15,522 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/views/speedscope_config_wizard.xml 
+2026-09-02 16:16:15,553 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/views/neutralize_views.xml 
+2026-09-02 16:16:15,579 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/views/ir_ui_view_views.xml 
+2026-09-02 16:16:15,610 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/data/ir_attachment.xml 
+2026-09-02 16:16:15,634 510 INFO wave4_aml_p62 odoo.modules.loading: loading web/data/report_layout.xml 
+2026-09-02 16:16:15,768 510 INFO wave4_aml_p62 odoo.modules.loading: Module web loaded in 2.90s, 1239 queries (+1239 other) 
+2026-09-02 16:16:15,769 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module api_doc (6/69) 
+2026-09-02 16:16:15,785 510 INFO wave4_aml_p62 odoo.registry: module api_doc: creating or updating database tables 
+2026-09-02 16:16:15,846 510 INFO wave4_aml_p62 odoo.modules.loading: loading api_doc/security/res_groups.xml 
+2026-09-02 16:16:15,920 510 INFO wave4_aml_p62 odoo.modules.loading: loading api_doc/views/docclient.xml 
+2026-09-02 16:16:15,995 510 INFO wave4_aml_p62 odoo.modules.loading: Module api_doc loaded in 0.23s, 63 queries (+63 other) 
+2026-09-02 16:16:15,996 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module auth_totp (7/69) 
+2026-09-02 16:16:16,065 510 INFO wave4_aml_p62 odoo.registry: module auth_totp: creating or updating database tables 
+2026-09-02 16:16:16,479 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp/security/security.xml 
+2026-09-02 16:16:16,582 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp/security/ir.model.access.csv 
+2026-09-02 16:16:16,619 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp/data/ir_action_data.xml 
+2026-09-02 16:16:16,636 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp/views/res_users_views.xml 
+2026-09-02 16:16:16,723 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp/views/templates.xml 
+2026-09-02 16:16:16,743 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp/wizard/auth_totp_wizard_views.xml 
+2026-09-02 16:16:16,831 510 INFO wave4_aml_p62 odoo.modules.loading: Module auth_totp loaded in 0.84s, 218 queries (+218 other) 
+2026-09-02 16:16:16,831 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module base_import (8/69) 
+2026-09-02 16:16:17,021 510 INFO wave4_aml_p62 odoo.registry: module base_import: creating or updating database tables 
+2026-09-02 16:16:18,970 510 INFO wave4_aml_p62 odoo.modules.loading: loading base_import/security/ir.model.access.csv 
+2026-09-02 16:16:19,034 510 INFO wave4_aml_p62 odoo.modules.loading: Module base_import loaded in 2.20s, 966 queries (+966 other) 
+2026-09-02 16:16:19,034 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module base_import_module (9/69) 
+2026-09-02 16:16:19,070 510 INFO wave4_aml_p62 odoo.registry: module base_import_module: creating or updating database tables 
+2026-09-02 16:16:19,401 510 INFO wave4_aml_p62 odoo.modules.loading: loading base_import_module/security/ir.model.access.csv 
+2026-09-02 16:16:19,437 510 INFO wave4_aml_p62 odoo.modules.loading: loading base_import_module/views/base_import_module_view.xml 
+2026-09-02 16:16:19,535 510 INFO wave4_aml_p62 odoo.modules.loading: loading base_import_module/views/ir_module_views.xml 
+2026-09-02 16:16:19,773 510 INFO wave4_aml_p62 odoo.modules.loading: Module base_import_module loaded in 0.74s, 172 queries (+172 other) 
+2026-09-02 16:16:19,774 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module base_setup (10/69) 
+2026-09-02 16:16:19,821 510 INFO wave4_aml_p62 odoo.registry: module base_setup: creating or updating database tables 
+2026-09-02 16:16:20,055 510 INFO wave4_aml_p62 odoo.modules.loading: loading base_setup/data/base_setup_data.xml 
+2026-09-02 16:16:20,066 510 INFO wave4_aml_p62 odoo.modules.loading: loading base_setup/views/res_config_settings_views.xml 
+2026-09-02 16:16:20,273 510 INFO wave4_aml_p62 odoo.modules.loading: loading base_setup/views/res_partner_views.xml 
+2026-09-02 16:16:20,333 510 INFO wave4_aml_p62 odoo.modules.loading: Module base_setup loaded in 0.56s, 152 queries (+152 other) 
+2026-09-02 16:16:20,334 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module bus (11/69) 
+2026-09-02 16:16:20,416 510 INFO wave4_aml_p62 odoo.registry: module bus: creating or updating database tables 
+2026-09-02 16:16:20,791 510 INFO wave4_aml_p62 odoo.modules.loading: loading bus/security/ir.model.access.csv 
+2026-09-02 16:16:20,851 510 INFO wave4_aml_p62 odoo.modules.loading: Module bus loaded in 0.52s, 159 queries (+159 other) 
+2026-09-02 16:16:20,851 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module http_routing (12/69) 
+2026-09-02 16:16:20,889 510 INFO wave4_aml_p62 odoo.registry: module http_routing: creating or updating database tables 
+2026-09-02 16:16:20,964 510 INFO wave4_aml_p62 odoo.modules.loading: loading http_routing/views/http_routing_template.xml 
+2026-09-02 16:16:21,107 510 INFO wave4_aml_p62 odoo.modules.loading: loading http_routing/views/res_lang_views.xml 
+2026-09-02 16:16:21,228 510 INFO wave4_aml_p62 odoo.modules.loading: Module http_routing loaded in 0.38s, 114 queries (+114 other) 
+2026-09-02 16:16:21,228 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module onboarding (13/69) 
+2026-09-02 16:16:21,254 510 INFO wave4_aml_p62 odoo.registry: module onboarding: creating or updating database tables 
+2026-09-02 16:16:22,125 510 INFO wave4_aml_p62 odoo.modules.loading: loading onboarding/views/onboarding_templates.xml 
+2026-09-02 16:16:22,200 510 INFO wave4_aml_p62 odoo.modules.loading: loading onboarding/views/onboarding_views.xml 
+2026-09-02 16:16:22,344 510 INFO wave4_aml_p62 odoo.modules.loading: loading onboarding/views/onboarding_menus.xml 
+2026-09-02 16:16:22,379 510 INFO wave4_aml_p62 odoo.modules.loading: loading onboarding/security/ir.model.access.csv 
+2026-09-02 16:16:22,516 510 INFO wave4_aml_p62 odoo.modules.loading: Module onboarding loaded in 1.29s, 246 queries (+246 other) 
+2026-09-02 16:16:22,516 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module resource (14/69) 
+2026-09-02 16:16:22,726 510 INFO wave4_aml_p62 odoo.registry: module resource: creating or updating database tables 
+2026-09-02 16:16:23,601 510 INFO wave4_aml_p62 odoo.modules.loading: loading resource/data/resource_data.xml 
+2026-09-02 16:16:23,675 510 INFO wave4_aml_p62 odoo.modules.loading: loading resource/security/ir.model.access.csv 
+2026-09-02 16:16:23,750 510 INFO wave4_aml_p62 odoo.modules.loading: loading resource/security/resource_security.xml 
+2026-09-02 16:16:23,826 510 INFO wave4_aml_p62 odoo.modules.loading: loading resource/views/resource_resource_views.xml 
+2026-09-02 16:16:23,913 510 INFO wave4_aml_p62 odoo.modules.loading: loading resource/views/resource_calendar_leaves_views.xml 
+2026-09-02 16:16:24,048 510 INFO wave4_aml_p62 odoo.modules.loading: loading resource/views/resource_calendar_attendance_views.xml 
+2026-09-02 16:16:24,099 510 INFO wave4_aml_p62 odoo.modules.loading: loading resource/views/resource_calendar_views.xml 
+2026-09-02 16:16:24,176 510 INFO wave4_aml_p62 odoo.modules.loading: loading resource/views/menuitems.xml 
+2026-09-02 16:16:24,262 510 INFO wave4_aml_p62 odoo.modules.loading: Module resource loaded in 1.75s, 414 queries (+414 other) 
+2026-09-02 16:16:24,263 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module utm (15/69) 
+2026-09-02 16:16:24,289 510 INFO wave4_aml_p62 odoo.registry: module utm: creating or updating database tables 
+2026-09-02 16:16:24,712 510 INFO wave4_aml_p62 odoo.modules.loading: loading utm/data/utm_medium_data.xml 
+2026-09-02 16:16:24,778 510 INFO wave4_aml_p62 odoo.modules.loading: loading utm/data/utm_source_data.xml 
+2026-09-02 16:16:24,849 510 INFO wave4_aml_p62 odoo.modules.loading: loading utm/data/utm_stage_data.xml 
+2026-09-02 16:16:24,856 510 INFO wave4_aml_p62 odoo.modules.loading: loading utm/data/utm_tag_data.xml 
+2026-09-02 16:16:24,868 510 INFO wave4_aml_p62 odoo.modules.loading: loading utm/views/utm_campaign_views.xml 
+2026-09-02 16:16:24,976 510 INFO wave4_aml_p62 odoo.modules.loading: loading utm/views/utm_medium_views.xml 
+2026-09-02 16:16:25,063 510 INFO wave4_aml_p62 odoo.modules.loading: loading utm/views/utm_source_views.xml 
+2026-09-02 16:16:25,125 510 INFO wave4_aml_p62 odoo.modules.loading: loading utm/views/utm_stage_views.xml 
+2026-09-02 16:16:25,182 510 INFO wave4_aml_p62 odoo.modules.loading: loading utm/views/utm_tag_views.xml 
+2026-09-02 16:16:25,209 510 INFO wave4_aml_p62 odoo.modules.loading: loading utm/views/utm_menus.xml 
+2026-09-02 16:16:25,286 510 INFO wave4_aml_p62 odoo.modules.loading: loading utm/security/ir.model.access.csv 
+2026-09-02 16:16:25,397 510 INFO wave4_aml_p62 odoo.modules.loading: Module utm loaded in 1.13s, 410 queries (+410 other) 
+2026-09-02 16:16:25,398 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module web_tour (16/69) 
+2026-09-02 16:16:25,427 510 INFO wave4_aml_p62 odoo.registry: module web_tour: creating or updating database tables 
+2026-09-02 16:16:25,453 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.users.tour_enabled 
+2026-09-02 16:16:25,923 510 INFO wave4_aml_p62 odoo.modules.loading: loading web_tour/security/ir.model.access.csv 
+2026-09-02 16:16:25,951 510 INFO wave4_aml_p62 odoo.modules.loading: loading web_tour/views/tour_views.xml 
+2026-09-02 16:16:26,182 510 INFO wave4_aml_p62 odoo.modules.loading: Module web_tour loaded in 0.78s, 180 queries (+180 other) 
+2026-09-02 16:16:26,182 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module auth_passkey (17/69) 
+2026-09-02 16:16:26,434 510 INFO wave4_aml_p62 odoo.registry: module auth_passkey: creating or updating database tables 
+2026-09-02 16:16:26,894 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_passkey/views/auth_passkey_key_views.xml 
+2026-09-02 16:16:27,018 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_passkey/views/auth_passkey_login_templates.xml 
+2026-09-02 16:16:27,095 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_passkey/views/res_users_identitycheck_views.xml 
+2026-09-02 16:16:27,144 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_passkey/views/res_users_views.xml 
+2026-09-02 16:16:27,233 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_passkey/security/ir.model.access.csv 
+2026-09-02 16:16:27,268 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_passkey/security/security.xml 
+2026-09-02 16:16:27,427 510 INFO wave4_aml_p62 odoo.modules.loading: Module auth_passkey loaded in 1.24s, 218 queries (+218 other) 
+2026-09-02 16:16:27,427 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module google_recaptcha (18/69) 
+2026-09-02 16:16:27,452 510 INFO wave4_aml_p62 odoo.registry: module google_recaptcha: creating or updating database tables 
+2026-09-02 16:16:27,573 510 INFO wave4_aml_p62 odoo.modules.loading: loading google_recaptcha/views/res_config_settings_view.xml 
+2026-09-02 16:16:27,744 510 INFO wave4_aml_p62 odoo.modules.loading: Module google_recaptcha loaded in 0.32s, 64 queries (+64 other) 
+2026-09-02 16:16:27,744 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module html_editor (19/69) 
+2026-09-02 16:16:28,507 510 INFO wave4_aml_p62 odoo.registry: module html_editor: creating or updating database tables 
+2026-09-02 16:16:31,004 510 INFO wave4_aml_p62 odoo.modules.loading: loading html_editor/security/ir.model.access.csv 
+2026-09-02 16:16:31,053 510 INFO wave4_aml_p62 odoo.modules.loading: Module html_editor loaded in 3.31s, 1160 queries (+1160 other) 
+2026-09-02 16:16:31,053 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module iap (20/69) 
+2026-09-02 16:16:31,066 510 INFO wave4_aml_p62 odoo.registry: module iap: creating or updating database tables 
+2026-09-02 16:16:31,376 510 INFO wave4_aml_p62 odoo.modules.loading: loading iap/data/services.xml 
+2026-09-02 16:16:31,397 510 INFO wave4_aml_p62 odoo.modules.loading: loading iap/security/ir.model.access.csv 
+2026-09-02 16:16:31,423 510 INFO wave4_aml_p62 odoo.modules.loading: loading iap/security/ir_rule.xml 
+2026-09-02 16:16:31,451 510 INFO wave4_aml_p62 odoo.modules.loading: loading iap/views/iap_views.xml 
+2026-09-02 16:16:31,561 510 INFO wave4_aml_p62 odoo.modules.loading: loading iap/views/res_config_settings.xml 
+2026-09-02 16:16:31,702 510 INFO wave4_aml_p62 odoo.modules.loading: Module iap loaded in 0.65s, 184 queries (+184 other) 
+2026-09-02 16:16:31,703 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module mail (21/69) 
+2026-09-02 16:16:32,054 510 INFO wave4_aml_p62 odoo.registry: module mail: creating or updating database tables 
+2026-09-02 16:16:37,967 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.partner_ids 
+2026-09-02 16:16:37,967 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.activity_user_id 
+2026-09-02 16:16:37,968 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.activity_type_id 
+2026-09-02 16:16:37,968 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.template_id 
+2026-09-02 16:16:37,968 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.activity_date_deadline_range 
+2026-09-02 16:16:37,968 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.activity_summary 
+2026-09-02 16:16:37,969 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.followers_type 
+2026-09-02 16:16:37,969 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.followers_partner_field_name 
+2026-09-02 16:16:37,969 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.mail_post_method 
+2026-09-02 16:16:37,969 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.activity_date_deadline_range_type 
+2026-09-02 16:16:37,969 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.activity_user_type 
+2026-09-02 16:16:37,969 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.activity_user_field_name 
+2026-09-02 16:16:37,969 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.activity_note 
+2026-09-02 16:16:37,970 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.mail_post_autofollow 
+2026-09-02 16:16:39,062 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.users.notification_type 
+2026-09-02 16:16:41,096 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.email_normalized 
+<string>:38: (ERROR/3) Unexpected indentation.
+<string>:43: (WARNING/2) Block quote ends without a blank line; unexpected unindent.
+2026-09-02 16:17:07,369 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/mail_groups.xml 
+2026-09-02 16:17:07,466 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/wizard/mail_activity_schedule_views.xml 
+2026-09-02 16:17:07,543 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/wizard/mail_blacklist_remove_views.xml 
+2026-09-02 16:17:07,561 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/wizard/mail_compose_message_views.xml 
+2026-09-02 16:17:07,756 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/wizard/mail_template_preview_views.xml 
+2026-09-02 16:17:08,033 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/wizard/mail_followers_edit_views.xml 
+2026-09-02 16:17:08,077 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/wizard/mail_template_reset_views.xml 
+2026-09-02 16:17:08,133 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/fetchmail_views.xml 
+2026-09-02 16:17:08,228 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/ir_cron_views.xml 
+2026-09-02 16:17:08,286 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/ir_filters_views.xml 
+2026-09-02 16:17:08,375 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/ir_mail_server_views.xml 
+2026-09-02 16:17:08,412 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_message_subtype_views.xml 
+2026-09-02 16:17:08,467 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_tracking_value_views.xml 
+2026-09-02 16:17:08,523 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_notification_views.xml 
+2026-09-02 16:17:08,583 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_message_views.xml 
+2026-09-02 16:17:08,743 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_message_schedule_views.xml 
+2026-09-02 16:17:09,031 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_mail_views.xml 
+2026-09-02 16:17:09,450 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_followers_views.xml 
+2026-09-02 16:17:09,554 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_ice_server_views.xml 
+2026-09-02 16:17:09,648 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/discuss_channel_member_views.xml 
+2026-09-02 16:17:10,100 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/discuss_channel_rtc_session_views.xml 
+2026-09-02 16:17:10,193 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_link_preview_views.xml 
+2026-09-02 16:17:10,317 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/discuss/discuss_gif_favorite_views.xml 
+2026-09-02 16:17:10,405 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/discuss_channel_views.xml 
+2026-09-02 16:17:10,596 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_canned_response_views.xml 
+2026-09-02 16:17:10,790 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/res_role_views.xml 
+2026-09-02 16:17:10,884 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_activity_views.xml 
+2026-09-02 16:17:11,424 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_activity_plan_views.xml 
+2026-09-02 16:17:11,691 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_activity_plan_template_views.xml 
+2026-09-02 16:17:11,768 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/res_config_settings_views.xml 
+2026-09-02 16:17:11,919 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/ir_config_parameter_data.xml 
+2026-09-02 16:17:11,979 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/res_partner_data.xml 
+2026-09-02 16:17:12,443 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/mail_message_subtype_data.xml 
+2026-09-02 16:17:12,478 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/mail_templates_chatter.xml 
+2026-09-02 16:17:12,589 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/mail_templates_email_layouts.xml 
+2026-09-02 16:17:12,683 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/mail_templates_mailgateway.xml 
+2026-09-02 16:17:12,754 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/discuss_channel_data.xml 
+2026-09-02 16:17:13,575 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/mail_activity_type_data.xml 
+2026-09-02 16:17:13,673 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/security_notifications_templates.xml 
+2026-09-02 16:17:13,696 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/ir_cron_data.xml 
+2026-09-02 16:17:14,269 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/ir_actions_client.xml 
+2026-09-02 16:17:14,331 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/security/mail_security.xml 
+2026-09-02 16:17:15,450 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/security/ir.model.access.csv 
+2026-09-02 16:17:15,831 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/discuss_public_templates.xml 
+2026-09-02 16:17:15,858 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_alias_domain_views.xml 
+2026-09-02 16:17:15,970 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_alias_views.xml 
+2026-09-02 16:17:16,151 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_gateway_allowed_views.xml 
+2026-09-02 16:17:16,351 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_guest_views.xml 
+2026-09-02 16:17:16,403 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_message_reaction_views.xml 
+2026-09-02 16:17:16,462 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_templates_public.xml 
+2026-09-02 16:17:16,534 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/res_users_views.xml 
+2026-09-02 16:17:16,713 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/res_users_settings_views.xml 
+2026-09-02 16:17:16,811 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_template_views.xml 
+2026-09-02 16:17:17,033 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/ir_actions_server_views.xml 
+2026-09-02 16:17:17,128 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/ir_model_views.xml 
+2026-09-02 16:17:17,338 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/res_partner_views.xml 
+2026-09-02 16:17:17,678 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_blacklist_views.xml 
+2026-09-02 16:17:17,762 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_menus.xml 
+2026-09-02 16:17:18,670 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/discuss/discuss_menus.xml 
+2026-09-02 16:17:18,688 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/discuss/discuss_call_history_views.xml 
+2026-09-02 16:17:18,780 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/res_company_views.xml 
+2026-09-02 16:17:18,833 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/views/mail_scheduled_message_views.xml 
+2026-09-02 16:17:18,931 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/mail_canned_response_data.xml 
+2026-09-02 16:17:18,997 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/mail_templates_invite.xml 
+2026-09-02 16:17:19,059 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail/data/web_tour_tour.xml 
+2026-09-02 16:17:19,325 510 INFO wave4_aml_p62 odoo.modules.loading: Module mail loaded in 47.62s, 5105 queries (+5106 other) 
+2026-09-02 16:17:19,325 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module web_unsplash (22/69) 
+2026-09-02 16:17:19,410 510 INFO wave4_aml_p62 odoo.registry: module web_unsplash: creating or updating database tables 
+2026-09-02 16:17:19,651 510 INFO wave4_aml_p62 odoo.modules.loading: loading web_unsplash/views/res_config_settings_view.xml 
+2026-09-02 16:17:19,852 510 INFO wave4_aml_p62 odoo.modules.loading: Module web_unsplash loaded in 0.53s, 103 queries (+103 other) 
+2026-09-02 16:17:19,853 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module analytic (23/69) 
+2026-09-02 16:17:19,909 510 INFO wave4_aml_p62 odoo.registry: module analytic: creating or updating database tables 
+2026-09-02 16:17:21,100 510 INFO wave4_aml_p62 odoo.modules.loading: loading analytic/security/analytic_security.xml 
+2026-09-02 16:17:21,214 510 INFO wave4_aml_p62 odoo.modules.loading: loading analytic/security/ir.model.access.csv 
+2026-09-02 16:17:21,259 510 INFO wave4_aml_p62 odoo.modules.loading: loading analytic/views/analytic_line_views.xml 
+2026-09-02 16:17:21,434 510 INFO wave4_aml_p62 odoo.modules.loading: loading analytic/views/analytic_account_views.xml 
+2026-09-02 16:17:21,583 510 INFO wave4_aml_p62 odoo.modules.loading: loading analytic/views/analytic_plan_views.xml 
+2026-09-02 16:17:21,671 510 INFO wave4_aml_p62 odoo.modules.loading: loading analytic/views/analytic_distribution_model_views.xml 
+2026-09-02 16:17:21,747 510 INFO wave4_aml_p62 odoo.modules.loading: loading analytic/data/analytic_data.xml 
+2026-09-02 16:17:21,984 510 INFO wave4_aml_p62 odoo.modules.loading: Module analytic loaded in 2.13s, 425 queries (+425 other) 
+2026-09-02 16:17:21,984 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module auth_signup (24/69) 
+2026-09-02 16:17:22,073 510 INFO wave4_aml_p62 odoo.registry: module auth_signup: creating or updating database tables 
+2026-09-02 16:17:22,507 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_signup/data/ir_config_parameter_data.xml 
+2026-09-02 16:17:22,542 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_signup/data/ir_cron_data.xml 
+2026-09-02 16:17:22,666 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_signup/data/mail_template_data.xml 
+2026-09-02 16:17:23,189 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_signup/views/res_config_settings_views.xml 
+2026-09-02 16:17:23,270 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_signup/views/res_users_views.xml 
+2026-09-02 16:17:23,416 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_signup/views/auth_signup_login_templates.xml 
+2026-09-02 16:17:23,516 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_signup/views/auth_signup_templates_email.xml 
+2026-09-02 16:17:23,578 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_signup/views/webclient_templates.xml 
+2026-09-02 16:17:23,709 510 INFO wave4_aml_p62 odoo.modules.loading: Module auth_signup loaded in 1.72s, 255 queries (+255 other) 
+2026-09-02 16:17:23,709 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module auth_totp_mail (25/69) 
+2026-09-02 16:17:23,824 510 INFO wave4_aml_p62 odoo.registry: module auth_totp_mail: creating or updating database tables 
+2026-09-02 16:17:24,039 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp_mail/data/ir_action_data.xml 
+2026-09-02 16:17:24,191 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp_mail/data/mail_template_data.xml 
+2026-09-02 16:17:24,467 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp_mail/data/security_notifications_template.xml 
+2026-09-02 16:17:24,511 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp_mail/views/res_config_settings_views.xml 
+2026-09-02 16:17:24,632 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp_mail/views/res_users_views.xml 
+2026-09-02 16:17:24,782 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp_mail/views/templates.xml 
+2026-09-02 16:17:24,935 510 INFO wave4_aml_p62 odoo.modules.loading: Module auth_totp_mail loaded in 1.23s, 189 queries (+189 other) 
+2026-09-02 16:17:24,936 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module base_install_request (26/69) 
+2026-09-02 16:17:24,982 510 INFO wave4_aml_p62 odoo.registry: module base_install_request: creating or updating database tables 
+2026-09-02 16:17:25,596 510 INFO wave4_aml_p62 odoo.modules.loading: loading base_install_request/security/ir.model.access.csv 
+2026-09-02 16:17:25,632 510 INFO wave4_aml_p62 odoo.modules.loading: loading base_install_request/wizard/base_module_install_request_views.xml 
+2026-09-02 16:17:25,727 510 INFO wave4_aml_p62 odoo.modules.loading: loading base_install_request/data/mail_template_data.xml 
+2026-09-02 16:17:25,758 510 INFO wave4_aml_p62 odoo.modules.loading: loading base_install_request/data/mail_templates_module_install.xml 
+2026-09-02 16:17:25,787 510 INFO wave4_aml_p62 odoo.modules.loading: loading base_install_request/views/ir_module_module_views.xml 
+2026-09-02 16:17:25,950 510 INFO wave4_aml_p62 odoo.modules.loading: Module base_install_request loaded in 1.01s, 154 queries (+154 other) 
+2026-09-02 16:17:25,950 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module calendar (27/69) 
+2026-09-02 16:17:26,217 510 INFO wave4_aml_p62 odoo.registry: module calendar: creating or updating database tables 
+2026-09-02 16:17:29,206 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/security/ir.model.access.csv 
+2026-09-02 16:17:29,268 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/security/calendar_security.xml 
+2026-09-02 16:17:29,368 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/data/calendar_cron.xml 
+2026-09-02 16:17:29,507 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/data/mail_template_data.xml 
+2026-09-02 16:17:29,679 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/data/calendar_data.xml 
+2026-09-02 16:17:29,767 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/data/mail_activity_type_data.xml 
+2026-09-02 16:17:29,785 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/data/mail_message_subtype_data.xml 
+2026-09-02 16:17:29,803 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/views/mail_activity_views.xml 
+2026-09-02 16:17:29,910 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/views/calendar_templates.xml 
+2026-09-02 16:17:29,947 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/views/calendar_views.xml 
+2026-09-02 16:17:30,584 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/views/res_config_settings_views.xml 
+2026-09-02 16:17:30,665 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/views/res_partner_views.xml 
+2026-09-02 16:17:30,721 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/views/res_users_views.xml 
+2026-09-02 16:17:30,818 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/wizard/calendar_provider_config.xml 
+2026-09-02 16:17:30,856 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/wizard/calendar_popover_delete_wizard.xml 
+2026-09-02 16:17:30,915 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar/wizard/mail_activity_schedule_views.xml 
+2026-09-02 16:17:31,149 510 INFO wave4_aml_p62 odoo.modules.loading: Module calendar loaded in 5.20s, 883 queries (+883 other) 
+2026-09-02 16:17:31,149 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module contacts (28/69) 
+2026-09-02 16:17:31,290 510 INFO wave4_aml_p62 odoo.registry: module contacts: creating or updating database tables 
+2026-09-02 16:17:31,468 510 INFO wave4_aml_p62 odoo.modules.loading: loading contacts/views/contact_views.xml 
+2026-09-02 16:17:31,837 510 INFO wave4_aml_p62 odoo.modules.loading: Module contacts loaded in 0.69s, 209 queries (+209 other) 
+2026-09-02 16:17:31,837 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module google_gmail (29/69) 
+2026-09-02 16:17:31,985 510 INFO wave4_aml_p62 odoo.registry: module google_gmail: creating or updating database tables 
+2026-09-02 16:17:32,273 510 INFO wave4_aml_p62 odoo.modules.loading: loading google_gmail/views/fetchmail_server_views.xml 
+2026-09-02 16:17:32,362 510 INFO wave4_aml_p62 odoo.modules.loading: loading google_gmail/views/ir_mail_server_views.xml 
+2026-09-02 16:17:32,422 510 INFO wave4_aml_p62 odoo.modules.loading: loading google_gmail/views/res_config_settings_views.xml 
+2026-09-02 16:17:32,505 510 INFO wave4_aml_p62 odoo.modules.loading: loading google_gmail/views/templates.xml 
+2026-09-02 16:17:32,672 510 INFO wave4_aml_p62 odoo.modules.loading: Module google_gmail loaded in 0.83s, 155 queries (+155 other) 
+2026-09-02 16:17:32,677 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module html_builder (30/69) 
+2026-09-02 16:17:33,175 510 INFO wave4_aml_p62 odoo.modules.loading: Module html_builder loaded in 0.50s, 10 queries (+10 other) 
+2026-09-02 16:17:33,175 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module iap_mail (31/69) 
+2026-09-02 16:17:33,198 510 INFO wave4_aml_p62 odoo.registry: module iap_mail: creating or updating database tables 
+2026-09-02 16:17:33,368 510 INFO wave4_aml_p62 odoo.modules.loading: loading iap_mail/data/mail_templates.xml 
+2026-09-02 16:17:33,478 510 INFO wave4_aml_p62 odoo.modules.loading: loading iap_mail/views/iap_views.xml 
+2026-09-02 16:17:33,605 510 INFO wave4_aml_p62 odoo.modules.loading: Module iap_mail loaded in 0.43s, 70 queries (+70 other) 
+2026-09-02 16:17:33,605 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module mail_bot (32/69) 
+2026-09-02 16:17:33,735 510 INFO wave4_aml_p62 odoo.registry: module mail_bot: creating or updating database tables 
+2026-09-02 16:17:33,980 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail_bot/views/res_users_views.xml 
+2026-09-02 16:17:34,150 510 INFO wave4_aml_p62 odoo.modules.loading: loading mail_bot/data/mailbot_data.xml 
+2026-09-02 16:17:34,637 510 INFO wave4_aml_p62 odoo.modules.loading: Module mail_bot loaded in 1.03s, 109 queries (+109 other) 
+2026-09-02 16:17:34,637 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module microsoft_outlook (33/69) 
+2026-09-02 16:17:34,858 510 INFO wave4_aml_p62 odoo.registry: module microsoft_outlook: creating or updating database tables 
+2026-09-02 16:17:35,352 510 INFO wave4_aml_p62 odoo.modules.loading: loading microsoft_outlook/views/fetchmail_server_views.xml 
+2026-09-02 16:17:35,431 510 INFO wave4_aml_p62 odoo.modules.loading: loading microsoft_outlook/views/ir_mail_server_views.xml 
+2026-09-02 16:17:35,558 510 INFO wave4_aml_p62 odoo.modules.loading: loading microsoft_outlook/views/res_config_settings_views.xml 
+2026-09-02 16:17:35,774 510 INFO wave4_aml_p62 odoo.modules.loading: loading microsoft_outlook/views/templates.xml 
+2026-09-02 16:17:36,058 510 INFO wave4_aml_p62 odoo.modules.loading: Module microsoft_outlook loaded in 1.42s, 158 queries (+158 other) 
+2026-09-02 16:17:36,058 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module phone_validation (34/69) 
+2026-09-02 16:17:36,891 510 INFO wave4_aml_p62 odoo.registry: module phone_validation: creating or updating database tables 
+2026-09-02 16:17:37,373 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.phone_sanitized 
+2026-09-02 16:17:43,096 510 INFO wave4_aml_p62 odoo.modules.loading: loading phone_validation/security/ir.model.access.csv 
+2026-09-02 16:17:43,135 510 INFO wave4_aml_p62 odoo.modules.loading: loading phone_validation/views/phone_blacklist_views.xml 
+2026-09-02 16:17:43,274 510 INFO wave4_aml_p62 odoo.modules.loading: loading phone_validation/views/res_partner_views.xml 
+2026-09-02 16:17:43,336 510 INFO wave4_aml_p62 odoo.modules.loading: loading phone_validation/wizard/phone_blacklist_remove_view.xml 
+2026-09-02 16:17:43,772 510 INFO wave4_aml_p62 odoo.modules.loading: Module phone_validation loaded in 7.71s, 1856 queries (+1856 other) 
+2026-09-02 16:17:43,772 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module privacy_lookup (35/69) 
+2026-09-02 16:17:43,832 510 INFO wave4_aml_p62 odoo.registry: module privacy_lookup: creating or updating database tables 
+2026-09-02 16:17:46,314 510 INFO wave4_aml_p62 odoo.modules.loading: loading privacy_lookup/wizard/privacy_lookup_wizard_views.xml 
+2026-09-02 16:17:46,774 510 INFO wave4_aml_p62 odoo.modules.loading: loading privacy_lookup/views/privacy_log_views.xml 
+2026-09-02 16:17:46,861 510 INFO wave4_aml_p62 odoo.modules.loading: loading privacy_lookup/security/ir.model.access.csv 
+2026-09-02 16:17:47,157 510 INFO wave4_aml_p62 odoo.modules.loading: loading privacy_lookup/data/ir_actions_server_data.xml 
+2026-09-02 16:17:47,542 510 INFO wave4_aml_p62 odoo.modules.loading: Module privacy_lookup loaded in 3.77s, 296 queries (+296 other) 
+2026-09-02 16:17:47,543 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module product (36/69) 
+2026-09-02 16:17:48,624 510 INFO wave4_aml_p62 odoo.registry: module product: creating or updating database tables 
+2026-09-02 16:18:14,247 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/data/product_data.xml 
+2026-09-02 16:18:14,461 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/security/product_security.xml 
+2026-09-02 16:18:14,732 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/security/ir.model.access.csv 
+2026-09-02 16:18:14,834 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/wizard/product_label_layout_views.xml 
+2026-09-02 16:18:14,882 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/wizard/update_product_attribute_value_views.xml 
+2026-09-02 16:18:14,907 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/product_tag_views.xml 
+2026-09-02 16:18:14,979 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/product_views.xml 
+2026-09-02 16:18:15,595 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/res_config_settings_views.xml 
+2026-09-02 16:18:15,659 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/product_attribute_views.xml 
+2026-09-02 16:18:15,888 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/product_attribute_value_views.xml 
+2026-09-02 16:18:15,947 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/product_category_views.xml 
+2026-09-02 16:18:16,057 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/product_combo_views.xml 
+2026-09-02 16:18:16,198 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/product_document_views.xml 
+2026-09-02 16:18:16,273 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/product_pricelist_item_views.xml 
+2026-09-02 16:18:16,452 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/product_pricelist_views.xml 
+2026-09-02 16:18:16,592 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/product_supplierinfo_views.xml 
+2026-09-02 16:18:16,735 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/product_template_attribute_line_views.xml 
+2026-09-02 16:18:16,788 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/product_template_views.xml 
+2026-09-02 16:18:17,154 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/res_country_group_views.xml 
+2026-09-02 16:18:17,197 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/res_partner_views.xml 
+2026-09-02 16:18:17,276 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/views/uom_views.xml 
+2026-09-02 16:18:17,339 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/report/product_reports.xml 
+2026-09-02 16:18:17,448 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/report/product_product_templates.xml 
+2026-09-02 16:18:17,596 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/report/product_template_templates.xml 
+2026-09-02 16:18:17,698 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/report/product_packaging.xml 
+2026-09-02 16:18:17,797 510 INFO wave4_aml_p62 odoo.modules.loading: loading product/report/product_pricelist_report_templates.xml 
+2026-09-02 16:18:18,189 510 INFO wave4_aml_p62 odoo.modules.loading: Module product loaded in 30.65s, 1637 queries (+1637 other) 
+2026-09-02 16:18:18,189 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module resource_mail (37/69) 
+2026-09-02 16:18:18,254 510 INFO wave4_aml_p62 odoo.registry: module resource_mail: creating or updating database tables 
+2026-09-02 16:18:18,559 510 INFO wave4_aml_p62 odoo.modules.loading: Module resource_mail loaded in 0.37s, 36 queries (+36 other) 
+2026-09-02 16:18:18,560 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module sales_team (38/69) 
+2026-09-02 16:18:18,669 510 INFO wave4_aml_p62 odoo.registry: module sales_team: creating or updating database tables 
+2026-09-02 16:18:19,218 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.users.sale_team_id 
+2026-09-02 16:18:19,883 510 INFO wave4_aml_p62 odoo.modules.loading: loading sales_team/security/sales_team_security.xml 
+2026-09-02 16:18:20,111 510 INFO wave4_aml_p62 odoo.modules.loading: loading sales_team/security/ir.model.access.csv 
+2026-09-02 16:18:20,165 510 INFO wave4_aml_p62 odoo.modules.loading: loading sales_team/data/crm_team_data.xml 
+2026-09-02 16:18:20,310 510 INFO wave4_aml_p62 odoo.modules.loading: loading sales_team/views/crm_tag_views.xml 
+2026-09-02 16:18:20,384 510 INFO wave4_aml_p62 odoo.modules.loading: loading sales_team/views/crm_team_views.xml 
+2026-09-02 16:18:20,514 510 INFO wave4_aml_p62 odoo.modules.loading: loading sales_team/views/crm_team_member_views.xml 
+2026-09-02 16:18:20,681 510 INFO wave4_aml_p62 odoo.modules.loading: loading sales_team/views/mail_activity_views.xml 
+2026-09-02 16:18:20,756 510 INFO wave4_aml_p62 odoo.modules.loading: Module sales_team loaded in 2.20s, 365 queries (+365 other) 
+2026-09-02 16:18:20,756 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module partner_autocomplete (39/69) 
+2026-09-02 16:18:20,905 510 INFO wave4_aml_p62 odoo.registry: module partner_autocomplete: creating or updating database tables 
+2026-09-02 16:18:21,517 510 INFO wave4_aml_p62 odoo.modules.loading: loading partner_autocomplete/views/res_company_views.xml 
+2026-09-02 16:18:21,601 510 INFO wave4_aml_p62 odoo.modules.loading: loading partner_autocomplete/views/res_config_settings_views.xml 
+2026-09-02 16:18:21,685 510 INFO wave4_aml_p62 odoo.modules.loading: loading partner_autocomplete/data/iap_service_data.xml 
+2026-09-02 16:18:21,767 510 INFO wave4_aml_p62 odoo.modules.loading: Module partner_autocomplete loaded in 1.01s, 144 queries (+144 other) 
+2026-09-02 16:18:21,767 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module portal (40/69) 
+2026-09-02 16:18:22,026 510 INFO wave4_aml_p62 odoo.registry: module portal: creating or updating database tables 
+2026-09-02 16:18:23,496 510 INFO wave4_aml_p62 odoo.modules.loading: loading portal/security/ir.model.access.csv 
+2026-09-02 16:18:23,531 510 INFO wave4_aml_p62 odoo.modules.loading: loading portal/data/mail_templates.xml 
+2026-09-02 16:18:23,563 510 INFO wave4_aml_p62 odoo.modules.loading: loading portal/views/address_templates.xml 
+2026-09-02 16:18:23,732 510 INFO wave4_aml_p62 odoo.modules.loading: loading portal/views/mail_templates_public.xml 
+2026-09-02 16:18:23,768 510 INFO wave4_aml_p62 odoo.modules.loading: loading portal/views/portal_templates.xml 
+2026-09-02 16:18:24,344 510 INFO wave4_aml_p62 odoo.modules.loading: loading portal/views/res_config_settings_views.xml 
+2026-09-02 16:18:24,435 510 INFO wave4_aml_p62 odoo.modules.loading: loading portal/wizard/portal_share_views.xml 
+2026-09-02 16:18:24,479 510 INFO wave4_aml_p62 odoo.modules.loading: loading portal/wizard/portal_wizard_views.xml 
+2026-09-02 16:18:24,707 510 INFO wave4_aml_p62 odoo.modules.loading: Module portal loaded in 2.94s, 625 queries (+625 other) 
+2026-09-02 16:18:24,707 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module sms (41/69) 
+2026-09-02 16:18:25,369 510 INFO wave4_aml_p62 odoo.registry: module sms: creating or updating database tables 
+2026-09-02 16:18:25,407 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.sms_template_id 
+2026-09-02 16:18:25,407 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.actions.server.sms_method 
+2026-09-02 16:18:31,974 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/data/iap_service_data.xml 
+2026-09-02 16:18:32,008 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/data/ir_cron_data.xml 
+2026-09-02 16:18:32,161 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/wizard/sms_account_code_views.xml 
+2026-09-02 16:18:32,247 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/wizard/sms_account_phone_views.xml 
+2026-09-02 16:18:32,274 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/wizard/sms_account_sender_views.xml 
+2026-09-02 16:18:32,314 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/wizard/sms_composer_views.xml 
+2026-09-02 16:18:32,380 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/wizard/sms_template_preview_views.xml 
+2026-09-02 16:18:32,429 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/wizard/sms_template_reset_views.xml 
+2026-09-02 16:18:32,473 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/views/ir_actions_server_views.xml 
+2026-09-02 16:18:32,558 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/views/mail_notification_views.xml 
+2026-09-02 16:18:32,637 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/views/res_config_settings_views.xml 
+2026-09-02 16:18:32,718 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/views/res_partner_views.xml 
+2026-09-02 16:18:32,786 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/views/iap_account_views.xml 
+2026-09-02 16:18:32,823 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/views/sms_sms_views.xml 
+2026-09-02 16:18:32,961 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/views/sms_template_views.xml 
+2026-09-02 16:18:33,053 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/security/ir.model.access.csv 
+2026-09-02 16:18:33,158 510 INFO wave4_aml_p62 odoo.modules.loading: loading sms/security/sms_security.xml 
+2026-09-02 16:18:33,313 510 INFO wave4_aml_p62 odoo.modules.loading: Module sms loaded in 8.61s, 2488 queries (+2488 other) 
+2026-09-02 16:18:33,313 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module snailmail (42/69) 
+2026-09-02 16:18:33,899 510 INFO wave4_aml_p62 odoo.registry: module snailmail: creating or updating database tables 
+2026-09-02 16:18:36,211 510 INFO wave4_aml_p62 odoo.modules.loading: loading snailmail/data/iap_service_data.xml 
+2026-09-02 16:18:36,232 510 INFO wave4_aml_p62 odoo.modules.loading: loading snailmail/data/snailmail_data.xml 
+2026-09-02 16:18:36,373 510 INFO wave4_aml_p62 odoo.modules.loading: loading snailmail/views/report_assets.xml 
+2026-09-02 16:18:36,440 510 INFO wave4_aml_p62 odoo.modules.loading: loading snailmail/views/snailmail_views.xml 
+2026-09-02 16:18:36,544 510 INFO wave4_aml_p62 odoo.modules.loading: loading snailmail/security/ir.model.access.csv 
+2026-09-02 16:18:36,680 510 INFO wave4_aml_p62 odoo.modules.loading: Module snailmail loaded in 3.37s, 491 queries (+491 other) 
+2026-09-02 16:18:36,680 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module auth_passkey_portal (43/69) 
+2026-09-02 16:18:36,746 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_passkey_portal/views/templates.xml 
+2026-09-02 16:18:36,921 510 INFO wave4_aml_p62 odoo.modules.loading: Module auth_passkey_portal loaded in 0.24s, 22 queries (+22 other) 
+2026-09-02 16:18:36,922 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module auth_totp_portal (44/69) 
+2026-09-02 16:18:36,990 510 INFO wave4_aml_p62 odoo.registry: module auth_totp_portal: creating or updating database tables 
+2026-09-02 16:18:37,111 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp_portal/security/security.xml 
+2026-09-02 16:18:37,205 510 INFO wave4_aml_p62 odoo.modules.loading: loading auth_totp_portal/views/templates.xml 
+2026-09-02 16:18:37,315 510 INFO wave4_aml_p62 odoo.modules.loading: Module auth_totp_portal loaded in 0.39s, 70 queries (+70 other) 
+2026-09-02 16:18:37,315 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module calendar_sms (45/69) 
+2026-09-02 16:18:37,354 510 INFO wave4_aml_p62 odoo.registry: module calendar_sms: creating or updating database tables 
+2026-09-02 16:18:37,363 510 INFO wave4_aml_p62 odoo.models: Prepare computation of calendar.alarm.sms_template_id 
+2026-09-02 16:18:37,581 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar_sms/data/sms_data.xml 
+2026-09-02 16:18:37,611 510 INFO wave4_aml_p62 odoo.modules.loading: loading calendar_sms/views/calendar_views.xml 
+2026-09-02 16:18:37,869 510 INFO wave4_aml_p62 odoo.modules.loading: Module calendar_sms loaded in 0.55s, 106 queries (+106 other) 
+2026-09-02 16:18:37,870 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module digest (46/69) 
+2026-09-02 16:18:37,957 510 INFO wave4_aml_p62 odoo.registry: module digest: creating or updating database tables 
+2026-09-02 16:18:39,700 510 INFO wave4_aml_p62 odoo.modules.loading: loading digest/security/ir.model.access.csv 
+2026-09-02 16:18:39,732 510 INFO wave4_aml_p62 odoo.modules.loading: loading digest/data/digest_data.xml 
+2026-09-02 16:18:39,844 510 INFO wave4_aml_p62 odoo.modules.loading: loading digest/data/digest_tips_data.xml 
+2026-09-02 16:18:39,939 510 INFO wave4_aml_p62 odoo.modules.loading: loading digest/data/ir_cron_data.xml 
+2026-09-02 16:18:40,039 510 INFO wave4_aml_p62 odoo.modules.loading: loading digest/data/res_config_settings_data.xml 
+2026-09-02 16:18:40,068 510 INFO wave4_aml_p62 odoo.modules.loading: loading digest/views/digest_views.xml 
+2026-09-02 16:18:40,258 510 INFO wave4_aml_p62 odoo.modules.loading: loading digest/views/digest_templates.xml 
+2026-09-02 16:18:40,290 510 INFO wave4_aml_p62 odoo.modules.loading: loading digest/views/res_config_settings_views.xml 
+2026-09-02 16:18:40,694 510 INFO wave4_aml_p62 odoo.modules.loading: Module digest loaded in 2.82s, 326 queries (+326 other) 
+2026-09-02 16:18:40,694 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module payment (47/69) 
+2026-09-02 16:18:41,229 510 INFO wave4_aml_p62 odoo.registry: module payment: creating or updating database tables 
+2026-09-02 16:18:47,192 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/data/ir_actions_server_data.xml 
+2026-09-02 16:18:47,292 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/data/payment_method_data.xml 
+2026-09-02 16:19:02,679 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/data/payment_provider_data.xml 
+2026-09-02 16:19:04,508 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/data/payment_cron.xml 
+2026-09-02 16:19:04,613 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/views/express_checkout_templates.xml 
+2026-09-02 16:19:04,647 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/views/payment_form_templates.xml 
+2026-09-02 16:19:04,881 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/views/portal_templates.xml 
+2026-09-02 16:19:05,159 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/views/payment_provider_views.xml 
+2026-09-02 16:19:05,512 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/views/payment_method_views.xml 
+2026-09-02 16:19:05,711 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/views/payment_transaction_views.xml 
+2026-09-02 16:19:05,951 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/views/payment_token_views.xml 
+2026-09-02 16:19:06,120 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/views/res_partner_views.xml 
+2026-09-02 16:19:06,199 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/security/ir.model.access.csv 
+2026-09-02 16:19:12,136 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/security/payment_security.xml 
+2026-09-02 16:19:12,269 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/wizards/payment_capture_wizard_views.xml 
+2026-09-02 16:19:12,339 510 INFO wave4_aml_p62 odoo.modules.loading: loading payment/wizards/payment_link_wizard_views.xml 
+2026-09-02 16:19:12,612 510 INFO wave4_aml_p62 odoo.modules.loading: Module payment loaded in 31.92s, 2517 queries (+2517 other) 
+2026-09-02 16:19:12,612 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module spreadsheet (48/69) 
+2026-09-02 16:19:12,786 510 INFO wave4_aml_p62 odoo.registry: module spreadsheet: creating or updating database tables 
+2026-09-02 16:19:13,264 510 INFO wave4_aml_p62 odoo.modules.loading: loading spreadsheet/views/public_readonly_spreadsheet_templates.xml 
+2026-09-02 16:19:13,371 510 INFO wave4_aml_p62 odoo.modules.loading: Module spreadsheet loaded in 0.76s, 93 queries (+93 other) 
+2026-09-02 16:19:13,371 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module account (49/69) 
+2026-09-02 16:19:15,263 510 INFO wave4_aml_p62 odoo.registry: module account: creating or updating database tables 
+2026-09-02 16:19:20,011 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.company.domestic_fiscal_position_id 
+2026-09-02 16:19:20,011 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.company.account_fiscal_country_id 
+2026-09-02 16:19:20,011 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.company.invoice_terms_html 
+2026-09-02 16:19:20,011 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.company.account_storno 
+2026-09-02 16:19:48,875 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/security/account_security.xml 
+2026-09-02 16:19:49,913 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/security/ir.model.access.csv 
+2026-09-02 16:19:50,177 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/data/account_data.xml 
+2026-09-02 16:19:50,580 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/data/digest_data.xml 
+2026-09-02 16:19:50,616 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_report.xml 
+2026-09-02 16:19:50,715 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/data/mail_template_data.xml 
+2026-09-02 16:19:50,993 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/data/onboarding_data.xml 
+2026-09-02 16:19:51,168 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/data/account_tour.xml 
+2026-09-02 16:19:51,189 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/data/ir_sequence.xml 
+2026-09-02 16:19:51,255 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/data/res_country_group.xml 
+2026-09-02 16:19:51,340 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_payment_view.xml 
+2026-09-02 16:19:51,804 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/account_automatic_entry_wizard_views.xml 
+2026-09-02 16:19:51,880 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/account_autopost_bills_wizard.xml 
+2026-09-02 16:19:51,930 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/account_unreconcile_view.xml 
+2026-09-02 16:19:52,005 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/account_move_reversal_view.xml 
+2026-09-02 16:19:52,073 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/account_resequence_views.xml 
+2026-09-02 16:19:52,148 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/account_payment_register_views.xml 
+2026-09-02 16:19:52,239 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_move_views.xml 
+2026-09-02 16:19:55,188 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/setup_wizards_view.xml 
+2026-09-02 16:19:55,316 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_account_views.xml 
+2026-09-02 16:19:55,522 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_group_views.xml 
+2026-09-02 16:19:55,638 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_journal_views.xml 
+2026-09-02 16:19:55,931 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_account_tag_views.xml 
+2026-09-02 16:19:56,030 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_bank_statement_views.xml 
+2026-09-02 16:19:56,179 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_reconcile_model_views.xml 
+2026-09-02 16:19:56,335 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_tax_views.xml 
+2026-09-02 16:19:56,693 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_full_reconcile_views.xml 
+2026-09-02 16:19:56,736 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_payment_term_views.xml 
+2026-09-02 16:19:56,868 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_payment_method.xml 
+2026-09-02 16:19:56,908 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/res_partner_bank_views.xml 
+2026-09-02 16:19:57,082 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/report_statement.xml 
+2026-09-02 16:19:57,161 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/terms_template.xml 
+2026-09-02 16:19:57,242 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/account_validate_move_view.xml 
+2026-09-02 16:19:57,354 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/res_company_views.xml 
+2026-09-02 16:19:57,530 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/product_view.xml 
+2026-09-02 16:19:57,942 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_analytic_plan_views.xml 
+2026-09-02 16:19:58,000 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_analytic_account_views.xml 
+2026-09-02 16:19:58,132 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_analytic_distribution_model_views.xml 
+2026-09-02 16:19:58,265 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_analytic_line_views.xml 
+2026-09-02 16:19:58,546 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/report_invoice.xml 
+2026-09-02 16:19:58,794 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/report/account_invoice_report_view.xml 
+2026-09-02 16:19:59,124 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_cash_rounding_view.xml 
+2026-09-02 16:19:59,236 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/ir_actions_views.xml 
+2026-09-02 16:19:59,282 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/ir_module_views.xml 
+2026-09-02 16:19:59,361 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/base_document_layout_views.xml 
+2026-09-02 16:19:59,430 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/res_config_settings_views.xml 
+2026-09-02 16:19:59,733 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/partner_view.xml 
+2026-09-02 16:20:00,163 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_journal_dashboard_view.xml 
+2026-09-02 16:20:00,293 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_portal_templates.xml 
+2026-09-02 16:20:00,640 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/report_payment_receipt_templates.xml 
+2026-09-02 16:20:00,832 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/data/service_cron.xml 
+2026-09-02 16:20:00,988 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_incoterms_view.xml 
+2026-09-02 16:20:01,072 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/data/account_incoterms_data.xml 
+2026-09-02 16:20:01,163 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/digest_views.xml 
+2026-09-02 16:20:01,231 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/account_move_send_wizard.xml 
+2026-09-02 16:20:01,276 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/account_move_send_batch_wizard.xml 
+2026-09-02 16:20:01,367 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/report/account_hash_integrity_templates.xml 
+2026-09-02 16:20:01,406 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/res_currency.xml 
+2026-09-02 16:20:01,504 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/res_country_group_view.xml 
+2026-09-02 16:20:01,563 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_menuitem.xml 
+2026-09-02 16:20:02,267 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/account_secure_entries_wizard.xml 
+2026-09-02 16:20:02,352 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/mail_message_views.xml 
+2026-09-02 16:20:02,562 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/accrued_orders.xml 
+2026-09-02 16:20:02,598 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/bill_preview_template.xml 
+2026-09-02 16:20:02,678 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/data/account_reports_data.xml 
+2026-09-02 16:20:03,028 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/uom_uom_views.xml 
+2026-09-02 16:20:03,094 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/product_views.xml 
+2026-09-02 16:20:03,244 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/tests_shared_js_python.xml 
+2026-09-02 16:20:03,257 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/account_lock_exception_views.xml 
+2026-09-02 16:20:03,312 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/views/report_templates.xml 
+2026-09-02 16:20:03,498 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/wizard/account_merge_wizard_views.xml 
+2026-09-02 16:20:03,558 510 INFO wave4_aml_p62 odoo.modules.loading: loading account/data/ir_config_parameter_data.xml 
+2026-09-02 16:20:05,159 510 INFO wave4_aml_p62 odoo.modules.loading: Module account loaded in 51.79s, 5779 queries (+5779 other) 
+2026-09-02 16:20:05,159 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module crm (50/69) 
+2026-09-02 16:20:05,471 510 INFO wave4_aml_p62 odoo.registry: module crm: creating or updating database tables 
+2026-09-02 16:20:09,024 510 INFO wave4_aml_p62 odoo.addons.mail.models.mail_alias_mixin: Mail alias created for crm.team Sales (id 1) 
+2026-09-02 16:20:09,028 510 INFO wave4_aml_p62 odoo.addons.mail.models.mail_alias_mixin: Mail alias created for crm.team Point of Sale (id 3) 
+2026-09-02 16:20:09,037 510 INFO wave4_aml_p62 odoo.addons.mail.models.mail_alias_mixin: Mail alias created for crm.team Website (id 2) 
+2026-09-02 16:20:10,939 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/security/crm_security.xml 
+2026-09-02 16:20:11,153 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/security/ir.model.access.csv 
+2026-09-02 16:20:11,245 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/data/crm_lead_merge_template.xml 
+2026-09-02 16:20:11,287 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/data/crm_lead_prediction_data.xml 
+2026-09-02 16:20:11,785 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/data/crm_lost_reason_data.xml 
+2026-09-02 16:20:11,815 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/data/crm_stage_data.xml 
+2026-09-02 16:20:11,849 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/data/crm_team_data.xml 
+2026-09-02 16:20:11,955 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/data/digest_data.xml 
+2026-09-02 16:20:12,039 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/data/ir_action_data.xml 
+2026-09-02 16:20:12,141 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/data/ir_cron_data.xml 
+2026-09-02 16:20:12,202 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/data/mail_message_subtype_data.xml 
+2026-09-02 16:20:12,297 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/data/crm_recurring_plan_data.xml 
+2026-09-02 16:20:12,345 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/data/crm_tour.xml 
+2026-09-02 16:20:12,362 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/wizard/crm_lead_lost_views.xml 
+2026-09-02 16:20:12,412 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/wizard/crm_lead_to_opportunity_views.xml 
+2026-09-02 16:20:12,479 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/wizard/crm_lead_to_opportunity_mass_views.xml 
+2026-09-02 16:20:12,535 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/wizard/crm_merge_opportunities_views.xml 
+2026-09-02 16:20:12,582 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/wizard/crm_lead_pls_update_views.xml 
+2026-09-02 16:20:12,612 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/calendar_views.xml 
+2026-09-02 16:20:12,672 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/crm_recurring_plan_views.xml 
+2026-09-02 16:20:12,738 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/crm_lost_reason_views.xml 
+2026-09-02 16:20:12,857 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/crm_stage_views.xml 
+2026-09-02 16:20:12,931 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/crm_lead_views.xml 
+2026-09-02 16:20:13,888 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/crm_team_member_views.xml 
+2026-09-02 16:20:14,074 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/digest_views.xml 
+2026-09-02 16:20:14,143 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/mail_activity_plan_views.xml 
+2026-09-02 16:20:14,170 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/mail_activity_views.xml 
+2026-09-02 16:20:14,191 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/res_config_settings_views.xml 
+2026-09-02 16:20:14,321 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/res_partner_views.xml 
+2026-09-02 16:20:14,412 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/utm_campaign_views.xml 
+2026-09-02 16:20:14,522 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/report/crm_activity_report_views.xml 
+2026-09-02 16:20:14,677 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/report/crm_opportunity_report_views.xml 
+2026-09-02 16:20:14,955 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/crm_team_views.xml 
+2026-09-02 16:20:15,276 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/crm_menu_views.xml 
+2026-09-02 16:20:15,740 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm/views/crm_helper_templates.xml 
+2026-09-02 16:20:15,984 510 INFO wave4_aml_p62 odoo.modules.loading: Module crm loaded in 10.82s, 1994 queries (+1994 other) 
+2026-09-02 16:20:15,984 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module spreadsheet_dashboard (51/69) 
+2026-09-02 16:20:16,111 510 INFO wave4_aml_p62 odoo.registry: module spreadsheet_dashboard: creating or updating database tables 
+2026-09-02 16:20:17,069 510 INFO wave4_aml_p62 odoo.modules.loading: loading spreadsheet_dashboard/security/security.xml 
+2026-09-02 16:20:17,343 510 INFO wave4_aml_p62 odoo.modules.loading: loading spreadsheet_dashboard/security/ir.model.access.csv 
+2026-09-02 16:20:17,392 510 INFO wave4_aml_p62 odoo.modules.loading: loading spreadsheet_dashboard/views/spreadsheet_dashboard_views.xml 
+2026-09-02 16:20:17,525 510 INFO wave4_aml_p62 odoo.modules.loading: loading spreadsheet_dashboard/views/menu_views.xml 
+2026-09-02 16:20:17,653 510 INFO wave4_aml_p62 odoo.modules.loading: loading spreadsheet_dashboard/data/dashboard.xml 
+2026-09-02 16:20:17,820 510 INFO wave4_aml_p62 odoo.modules.loading: Module spreadsheet_dashboard loaded in 1.84s, 313 queries (+313 other) 
+2026-09-02 16:20:17,820 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module website (52/69) 
+2026-09-02 16:20:19,295 510 INFO wave4_aml_p62 odoo.registry: module website: creating or updating database tables 
+2026-09-02 16:20:19,793 510 INFO wave4_aml_p62 odoo.models: Prepare computation of ir.ui.view.is_seo_optimized 
+2026-09-02 16:20:19,835 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.company.website_id 
+2026-09-02 16:20:37,343 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/security/website_security.xml 
+2026-09-02 16:20:37,984 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/security/ir.model.access.csv 
+2026-09-02 16:20:38,136 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/data/image_library.xml 
+2026-09-02 16:20:40,365 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/data/ir_asset.xml 
+2026-09-02 16:20:40,416 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/data/ir_cron_data.xml 
+2026-09-02 16:20:40,604 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/data/mail_mail_data.xml 
+2026-09-02 16:20:40,656 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/data/website_data.xml 
+2026-09-02 16:20:41,384 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/data/website_visitor_cron.xml 
+2026-09-02 16:20:41,468 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/data/digest_data.xml 
+2026-09-02 16:20:41,511 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/website_technical_views.xml 
+2026-09-02 16:20:41,565 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/website_templates.xml 
+2026-09-02 16:20:47,558 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/snippets.xml 
+2026-09-02 16:20:47,732 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_announcement_scroll.xml 
+2026-09-02 16:20:47,826 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_framed_intro.xml 
+2026-09-02 16:20:47,907 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_title.xml 
+2026-09-02 16:20:47,954 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_cover.xml 
+2026-09-02 16:20:47,991 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_text_cover.xml 
+2026-09-02 16:20:48,060 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_image_text_box.xml 
+2026-09-02 16:20:48,138 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_striped_top.xml 
+2026-09-02 16:20:48,173 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_text_image.xml 
+2026-09-02 16:20:48,197 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_image_text.xml 
+2026-09-02 16:20:48,231 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_mockup_image.xml 
+2026-09-02 16:20:48,257 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_instagram_page.xml 
+2026-09-02 16:20:48,294 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_image_text_overlap.xml 
+2026-09-02 16:20:48,316 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_banner.xml 
+2026-09-02 16:20:48,352 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_bento_block.xml 
+2026-09-02 16:20:48,378 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_snippet_group.xml 
+2026-09-02 16:20:48,410 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_text_block.xml 
+2026-09-02 16:20:48,462 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_features.xml 
+2026-09-02 16:20:48,522 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_features_wall.xml 
+2026-09-02 16:20:48,558 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_three_columns.xml 
+2026-09-02 16:20:48,598 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_key_benefits.xml 
+2026-09-02 16:20:48,631 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_picture.xml 
+2026-09-02 16:20:48,668 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_image_punchy.xml 
+2026-09-02 16:20:48,701 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_bento_grid.xml 
+2026-09-02 16:20:48,729 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_carousel.xml 
+2026-09-02 16:20:48,806 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_carousel_intro.xml 
+2026-09-02 16:20:48,851 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_carousel_cards.xml 
+2026-09-02 16:20:48,910 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_alert.xml 
+2026-09-02 16:20:48,956 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_motto.xml 
+2026-09-02 16:20:48,980 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_card.xml 
+2026-09-02 16:20:49,112 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_cards_grid.xml 
+2026-09-02 16:20:49,143 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_cards_soft.xml 
+2026-09-02 16:20:49,181 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_share.xml 
+2026-09-02 16:20:49,214 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_social_media.xml 
+2026-09-02 16:20:49,254 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_rating.xml 
+2026-09-02 16:20:49,311 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_hr.xml 
+2026-09-02 16:20:49,348 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_closer_look.xml 
+2026-09-02 16:20:49,382 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_facebook_page.xml 
+2026-09-02 16:20:49,414 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_image_gallery.xml 
+2026-09-02 16:20:49,545 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_countdown.xml 
+2026-09-02 16:20:49,589 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_product_catalog.xml 
+2026-09-02 16:20:49,651 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_comparisons.xml 
+2026-09-02 16:20:49,692 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_comparisons_horizontal.xml 
+2026-09-02 16:20:49,732 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_company_team.xml 
+2026-09-02 16:20:49,778 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_company_team_basic.xml 
+2026-09-02 16:20:49,824 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_company_team_shapes.xml 
+2026-09-02 16:20:49,852 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_company_team_detail.xml 
+2026-09-02 16:20:50,106 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_company_team_spotlight.xml 
+2026-09-02 16:20:50,133 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_company_team_grid.xml 
+2026-09-02 16:20:50,171 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_company_team_card.xml 
+2026-09-02 16:20:50,215 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_call_to_action.xml 
+2026-09-02 16:20:50,264 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_references.xml 
+2026-09-02 16:20:50,311 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_references_social.xml 
+2026-09-02 16:20:50,370 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_references_grid.xml 
+2026-09-02 16:20:50,408 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_popup.xml 
+2026-09-02 16:20:50,455 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_faq_list.xml 
+2026-09-02 16:20:50,497 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_faq_collapse.xml 
+2026-09-02 16:20:50,538 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_features_grid.xml 
+2026-09-02 16:20:50,603 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_features_wave.xml 
+2026-09-02 16:20:50,749 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_tabs.xml 
+2026-09-02 16:20:50,796 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_tabs_images.xml 
+2026-09-02 16:20:50,831 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_table_of_content.xml 
+2026-09-02 16:20:50,869 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_images_constellation.xml 
+2026-09-02 16:20:50,903 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_chart.xml 
+2026-09-02 16:20:50,935 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_parallax.xml 
+2026-09-02 16:20:50,966 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_quotes_carousel.xml 
+2026-09-02 16:20:51,015 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_numbers_grid.xml 
+2026-09-02 16:20:51,041 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_quotes_carousel_minimal.xml 
+2026-09-02 16:20:51,079 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_quotes_carousel_compact.xml 
+2026-09-02 16:20:51,115 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_numbers.xml 
+2026-09-02 16:20:51,132 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_contact_info.xml 
+2026-09-02 16:20:51,160 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_numbers_boxed.xml 
+2026-09-02 16:20:51,204 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_cta_box.xml 
+2026-09-02 16:20:51,236 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_numbers_framed.xml 
+2026-09-02 16:20:51,266 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_masonry_block.xml 
+2026-09-02 16:20:51,450 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_sidegrid.xml 
+2026-09-02 16:20:51,484 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_media_list.xml 
+2026-09-02 16:20:51,537 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_showcase.xml 
+2026-09-02 16:20:51,606 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_faq_horizontal.xml 
+2026-09-02 16:20:51,651 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_floating_blocks.xml 
+2026-09-02 16:20:51,699 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_opening_hours.xml 
+2026-09-02 16:20:51,741 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_timeline.xml 
+2026-09-02 16:20:51,799 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_timeline_images.xml 
+2026-09-02 16:20:51,836 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_timeline_list.xml 
+2026-09-02 16:20:51,919 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_process_steps.xml 
+2026-09-02 16:20:51,988 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_accordion.xml 
+2026-09-02 16:20:52,030 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_website_form_info.xml 
+2026-09-02 16:20:52,063 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_numbers_showcase.xml 
+2026-09-02 16:20:52,086 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_numbers_charts.xml 
+2026-09-02 16:20:52,123 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_accordion_image.xml 
+2026-09-02 16:20:52,168 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_pricelist_boxed.xml 
+2026-09-02 16:20:52,233 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_adventure.xml 
+2026-09-02 16:20:52,276 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_image_title.xml 
+2026-09-02 16:20:52,326 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_key_images.xml 
+2026-09-02 16:20:52,357 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_kickoff.xml 
+2026-09-02 16:20:52,388 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_discovery.xml 
+2026-09-02 16:20:52,423 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_bento_banner.xml 
+2026-09-02 16:20:52,462 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_striped.xml 
+2026-09-02 16:20:52,487 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_intro_pill.xml 
+2026-09-02 16:20:52,544 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_big_number.xml 
+2026-09-02 16:20:52,584 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_wavy_grid.xml 
+2026-09-02 16:20:52,613 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_images_mosaic.xml 
+2026-09-02 16:20:52,653 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_shape_image.xml 
+2026-09-02 16:20:52,682 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_empowerment.xml 
+2026-09-02 16:20:52,715 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_split_intro.xml 
+2026-09-02 16:20:52,751 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_text_highlight.xml 
+2026-09-02 16:20:52,788 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_pricelist_cafe.xml 
+2026-09-02 16:20:52,866 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_progress_bar.xml 
+2026-09-02 16:20:52,914 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_blockquote.xml 
+2026-09-02 16:20:52,985 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_badge.xml 
+2026-09-02 16:20:53,040 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_color_blocks_2.xml 
+2026-09-02 16:20:53,082 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_attributes_horizontal.xml 
+2026-09-02 16:20:53,146 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_attributes_vertical.xml 
+2026-09-02 16:20:53,201 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_product_list.xml 
+2026-09-02 16:20:53,270 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_mega_menu_multi_menus.xml 
+2026-09-02 16:20:53,319 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_mega_menu_menu_image_menu.xml 
+2026-09-02 16:20:53,393 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_mega_menu_thumbnails.xml 
+2026-09-02 16:20:53,475 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_mega_menu_little_icons.xml 
+2026-09-02 16:20:53,538 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_mega_menu_images_subtitles.xml 
+2026-09-02 16:20:53,642 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_mega_menu_menus_logos.xml 
+2026-09-02 16:20:53,710 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_mega_menu_odoo_menu.xml 
+2026-09-02 16:20:53,785 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_mega_menu_big_icons_subtitles.xml 
+2026-09-02 16:20:53,881 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_mega_menu_cards.xml 
+2026-09-02 16:20:53,974 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_google_map.xml 
+2026-09-02 16:20:54,023 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_cta_mockups.xml 
+2026-09-02 16:20:54,062 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_map.xml 
+2026-09-02 16:20:54,121 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_dynamic_snippet.xml 
+2026-09-02 16:20:54,215 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_dynamic_snippet_carousel.xml 
+2026-09-02 16:20:54,267 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_banner_product.xml 
+2026-09-02 16:20:54,311 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_embed_code.xml 
+2026-09-02 16:20:54,363 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_website_form.xml 
+2026-09-02 16:20:54,457 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_website_form_overlay.xml 
+2026-09-02 16:20:54,504 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_title_form.xml 
+2026-09-02 16:20:54,541 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_searchbar.xml 
+2026-09-02 16:20:54,632 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_inline_text.xml 
+2026-09-02 16:20:54,667 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_button.xml 
+2026-09-02 16:20:54,692 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_freegrid.xml 
+2026-09-02 16:20:54,749 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_card_offset.xml 
+2026-09-02 16:20:54,902 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_image.xml 
+2026-09-02 16:20:54,949 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_video.xml 
+2026-09-02 16:20:55,083 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_cta_badge.xml 
+2026-09-02 16:20:55,118 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_unveil.xml 
+2026-09-02 16:20:55,152 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_image_hexagonal.xml 
+2026-09-02 16:20:55,193 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_striped_center_top.xml 
+2026-09-02 16:20:55,232 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_numbers_list.xml 
+2026-09-02 16:20:55,279 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_quadrant.xml 
+2026-09-02 16:20:55,320 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_cta_card.xml 
+2026-09-02 16:20:55,376 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_image_frame.xml 
+2026-09-02 16:20:55,403 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_cta_mobile.xml 
+2026-09-02 16:20:55,429 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_reviews_wall.xml 
+2026-09-02 16:20:55,516 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_website_form_cover.xml 
+2026-09-02 16:20:55,546 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_form_aside.xml 
+2026-09-02 16:20:55,581 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_banner_connected.xml 
+2026-09-02 16:20:55,616 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_ecomm_categories_showcase.xml 
+2026-09-02 16:20:55,679 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/snippets/s_banner_categories.xml 
+2026-09-02 16:20:55,727 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/new_page_template_templates.xml 
+2026-09-02 16:21:04,099 510 INFO wave4_aml_p62 odoo.addons.website.models.ir_module_module: Generated 227 primary snippet templates for 'website' 
+2026-09-02 16:21:04,385 510 INFO wave4_aml_p62 odoo.addons.website.models.ir_module_module: Generated 39 primary page templates for 'website' 
+2026-09-02 16:21:04,386 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/website_views.xml 
+2026-09-02 16:21:05,175 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/website_pages_views.xml 
+2026-09-02 16:21:05,616 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/website_controller_pages_views.xml 
+2026-09-02 16:21:05,776 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/website_visitor_views.xml 
+2026-09-02 16:21:06,205 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/res_config_settings_views.xml 
+2026-09-02 16:21:06,796 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/website_rewrite.xml 
+2026-09-02 16:21:07,146 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/ir_actions_server_views.xml 
+2026-09-02 16:21:07,306 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/ir_asset_views.xml 
+2026-09-02 16:21:07,400 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/ir_attachment_views.xml 
+2026-09-02 16:21:07,510 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/ir_model_views.xml 
+2026-09-02 16:21:07,716 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/res_partner_views.xml 
+2026-09-02 16:21:07,890 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/neutralize_views.xml 
+2026-09-02 16:21:07,952 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/wizard/base_language_install_views.xml 
+2026-09-02 16:21:08,012 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/wizard/blocked_third_party_domains.xml 
+2026-09-02 16:21:08,039 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/wizard/website_robots.xml 
+2026-09-02 16:21:08,074 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/data/update_theme_images.xml 
+2026-09-02 16:21:08,569 510 INFO wave4_aml_p62 odoo.modules.loading: loading website/views/website_templates_svg.xml 
+2026-09-02 16:21:10,454 510 INFO wave4_aml_p62 odoo.modules.loading: Module website loaded in 52.63s, 8700 queries (+8700 other) 
+2026-09-02 16:21:10,454 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module account_add_gln (53/69) 
+2026-09-02 16:21:10,751 510 INFO wave4_aml_p62 odoo.registry: module account_add_gln: creating or updating database tables 
+2026-09-02 16:21:12,170 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_add_gln/views/res_partner_views.xml 
+2026-09-02 16:21:12,862 510 INFO wave4_aml_p62 odoo.modules.loading: Module account_add_gln loaded in 2.41s, 109 queries (+109 other) 
+2026-09-02 16:21:12,862 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module account_edi_ubl_cii (54/69) 
+2026-09-02 16:21:13,135 510 INFO wave4_aml_p62 odoo.registry: module account_edi_ubl_cii: creating or updating database tables 
+2026-09-02 16:21:13,267 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.peppol_endpoint 
+2026-09-02 16:21:13,268 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.peppol_eas 
+2026-09-02 16:21:14,896 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_edi_ubl_cii/data/cii_22_templates.xml 
+2026-09-02 16:21:15,036 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_edi_ubl_cii/data/ir_config_parameter_data.xml 
+2026-09-02 16:21:15,068 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_edi_ubl_cii/views/account_tax_views.xml 
+2026-09-02 16:21:15,139 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_edi_ubl_cii/views/account_move_views.xml 
+2026-09-02 16:21:15,267 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_edi_ubl_cii/views/res_partner_views.xml 
+2026-09-02 16:21:15,351 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_edi_ubl_cii/report/account_edi_ubl_cii_report_templates.xml 
+2026-09-02 16:21:15,672 510 INFO wave4_aml_p62 odoo.modules.loading: Module account_edi_ubl_cii loaded in 2.81s, 383 queries (+383 other) 
+2026-09-02 16:21:15,672 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module account_payment (55/69) 
+2026-09-02 16:21:15,918 510 INFO wave4_aml_p62 odoo.registry: module account_payment: creating or updating database tables 
+2026-09-02 16:21:17,261 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/data/ir_config_parameter.xml 
+2026-09-02 16:21:17,312 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/security/ir.model.access.csv 
+2026-09-02 16:21:17,369 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/security/ir_rules.xml 
+2026-09-02 16:21:17,411 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/views/account_payment_menus.xml 
+2026-09-02 16:21:17,517 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/views/account_portal_templates.xml 
+2026-09-02 16:21:17,920 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/views/account_move_views.xml 
+2026-09-02 16:21:18,096 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/views/account_journal_views.xml 
+2026-09-02 16:21:18,188 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/views/account_payment_views.xml 
+2026-09-02 16:21:18,264 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/views/payment_form_templates.xml 
+2026-09-02 16:21:18,291 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/views/payment_provider_views.xml 
+2026-09-02 16:21:18,333 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/views/payment_transaction_views.xml 
+2026-09-02 16:21:18,387 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/wizards/account_payment_register_views.xml 
+2026-09-02 16:21:18,448 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/wizards/payment_link_wizard_views.xml 
+2026-09-02 16:21:18,529 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/wizards/payment_refund_wizard_views.xml 
+2026-09-02 16:21:18,564 510 INFO wave4_aml_p62 odoo.modules.loading: loading account_payment/wizards/res_config_settings_views.xml 
+2026-09-02 16:21:18,815 510 INFO wave4_aml_p62 odoo.modules.loading: Module account_payment loaded in 3.14s, 584 queries (+584 other) 
+2026-09-02 16:21:18,815 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module crm_sms (56/69) 
+2026-09-02 16:21:18,900 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_sms/views/crm_lead_views.xml 
+2026-09-02 16:21:19,298 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_sms/security/ir.model.access.csv 
+2026-09-02 16:21:19,334 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_sms/security/sms_security.xml 
+2026-09-02 16:21:19,452 510 INFO wave4_aml_p62 odoo.modules.loading: Module crm_sms loaded in 0.64s, 91 queries (+91 other) 
+2026-09-02 16:21:19,452 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module iap_crm (57/69) 
+2026-09-02 16:21:19,543 510 INFO wave4_aml_p62 odoo.registry: module iap_crm: creating or updating database tables 
+2026-09-02 16:21:19,952 510 INFO wave4_aml_p62 odoo.modules.loading: Module iap_crm loaded in 0.50s, 72 queries (+72 other) 
+2026-09-02 16:21:19,952 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module kyc_management (58/69) 
+2026-09-02 16:21:28,655 510 INFO wave4_aml_p62 odoo.registry: module kyc_management: creating or updating database tables 
+2026-09-02 16:21:29,525 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.x_is_pep 
+2026-09-02 16:21:30,031 510 WARNING wave4_aml_p62 odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.partner() have the same label: Currency. [Modules: kyc_management and account] 
+2026-09-02 16:21:30,032 510 WARNING wave4_aml_p62 odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.users() have the same label: Currency. [Modules: None and None] 
+<string>:8: (WARNING/2) Line block ends without a blank line.
+<string>:8: (ERROR/3) Undefined substitution referenced: "-------".
+2026-09-02 16:21:32,892 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/security/groups.xml 
+2026-09-02 16:21:33,221 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/security/ir.model.access.csv 
+2026-09-02 16:21:33,359 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/security/ir_rules.xml 
+2026-09-02 16:21:33,465 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/data/legacy_security_compat.xml 
+2026-09-02 16:21:33,491 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/data/crm_data.xml 
+2026-09-02 16:21:33,531 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/reports/kyc_application_report.xml 
+2026-09-02 16:21:33,630 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/reports/kyc_approvals_summary_report.xml 
+2026-09-02 16:21:33,748 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/wizard/kyc_wizard_views.xml 
+2026-09-02 16:21:33,910 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/views/kyc_application_views.xml 
+2026-09-02 16:21:34,115 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/views/kyc_approval_views.xml 
+2026-09-02 16:21:34,364 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/views/kyc_notification_views.xml 
+2026-09-02 16:21:34,508 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/views/kyc_menu.xml 
+2026-09-02 16:21:35,186 510 INFO wave4_aml_p62 odoo.modules.loading: loading kyc_management/views/portal_kyc_templates.xml 
+2026-09-02 16:21:36,245 510 INFO wave4_aml_p62 odoo.modules.loading: Module kyc_management loaded in 16.29s, 1005 queries (+1005 other) 
+2026-09-02 16:21:36,245 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module snailmail_account (59/69) 
+2026-09-02 16:21:36,461 510 INFO wave4_aml_p62 odoo.registry: module snailmail_account: creating or updating database tables 
+2026-09-02 16:21:36,642 510 WARNING wave4_aml_p62 odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.partner() have the same label: Currency. [Modules: kyc_management and account] 
+2026-09-02 16:21:36,643 510 WARNING wave4_aml_p62 odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.users() have the same label: Currency. [Modules: None and None] 
+2026-09-02 16:21:37,177 510 INFO wave4_aml_p62 odoo.modules.loading: loading snailmail_account/views/res_config_settings_views.xml 
+2026-09-02 16:21:37,448 510 INFO wave4_aml_p62 odoo.modules.loading: Module snailmail_account loaded in 1.20s, 199 queries (+199 other) 
+2026-09-02 16:21:37,448 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module spreadsheet_account (60/69) 
+2026-09-02 16:21:37,630 510 INFO wave4_aml_p62 odoo.registry: module spreadsheet_account: creating or updating database tables 
+2026-09-02 16:21:38,032 510 INFO wave4_aml_p62 odoo.modules.loading: Module spreadsheet_account loaded in 0.58s, 58 queries (+58 other) 
+2026-09-02 16:21:38,037 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module spreadsheet_dashboard_account (61/69) 
+2026-09-02 16:21:38,112 510 INFO wave4_aml_p62 odoo.modules.loading: loading spreadsheet_dashboard_account/data/dashboards.xml 
+2026-09-02 16:21:38,322 510 INFO wave4_aml_p62 odoo.modules.loading: Module spreadsheet_dashboard_account loaded in 0.29s, 29 queries (+29 other) 
+2026-09-02 16:21:38,322 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module website_crm (62/69) 
+2026-09-02 16:21:38,379 510 INFO wave4_aml_p62 odoo.registry: module website_crm: creating or updating database tables 
+2026-09-02 16:21:38,745 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_crm/security/ir.model.access.csv 
+2026-09-02 16:21:38,771 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_crm/data/crm_lead_merge_template.xml 
+2026-09-02 16:21:38,802 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_crm/data/ir_actions_data.xml 
+2026-09-02 16:21:38,822 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_crm/data/ir_model_data.xml 
+2026-09-02 16:21:38,862 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_crm/views/crm_lead_views.xml 
+2026-09-02 16:21:38,930 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_crm/views/website_visitor_views.xml 
+2026-09-02 16:21:39,046 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_crm/views/website_templates_contactus.xml 
+2026-09-02 16:21:39,119 510 INFO wave4_aml_p62 odoo.modules.loading: Module website_crm loaded in 0.80s, 232 queries (+232 other) 
+2026-09-02 16:21:39,120 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module website_mail (63/69) 
+2026-09-02 16:21:39,153 510 INFO wave4_aml_p62 odoo.registry: module website_mail: creating or updating database tables 
+2026-09-02 16:21:39,197 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_mail/views/website_mail_templates.xml 
+2026-09-02 16:21:39,367 510 INFO wave4_aml_p62 odoo.modules.loading: Module website_mail loaded in 0.25s, 35 queries (+35 other) 
+2026-09-02 16:21:39,367 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module website_sms (64/69) 
+2026-09-02 16:21:39,400 510 INFO wave4_aml_p62 odoo.registry: module website_sms: creating or updating database tables 
+2026-09-02 16:21:39,461 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_sms/views/website_visitor_views.xml 
+2026-09-02 16:21:39,717 510 INFO wave4_aml_p62 odoo.modules.loading: Module website_sms loaded in 0.35s, 80 queries (+80 other) 
+2026-09-02 16:21:39,717 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module aml_compliance (65/69) 
+2026-09-02 16:21:40,958 510 INFO wave4_aml_p62 odoo.registry: module aml_compliance: creating or updating database tables 
+2026-09-02 16:21:41,190 510 INFO wave4_aml_p62 odoo.models: Prepare computation of res.partner.aml_requires_edd 
+2026-09-02 16:21:41,738 510 WARNING wave4_aml_p62 odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.partner() have the same label: Currency. [Modules: kyc_management and account] 
+2026-09-02 16:21:41,740 510 WARNING wave4_aml_p62 odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.users() have the same label: Currency. [Modules: None and None] 
+2026-09-02 16:21:44,241 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/security/aml_groups.xml 
+2026-09-02 16:21:44,355 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/security/ir.model.access.csv 
+2026-09-02 16:21:44,438 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/security/security.xml 
+2026-09-02 16:21:44,544 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/sequence_data.xml 
+2026-09-02 16:21:44,605 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/sequence_phase2_data.xml 
+2026-09-02 16:21:44,661 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/edd_enquiry_data.xml 
+2026-09-02 16:21:44,756 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/risk_factor_data.xml 
+2026-09-02 16:21:44,881 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/fatf_jurisdiction_data.xml 
+2026-09-02 16:21:45,106 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/monitoring_rule_data.xml 
+2026-09-02 16:21:45,186 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/cron_data.xml 
+2026-09-02 16:21:45,606 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/reports/risk_assessment_report.xml 
+2026-09-02 16:21:45,654 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/reports/goaml_report_print.xml 
+2026-09-02 16:21:45,709 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/reports/screening_certificate.xml 
+2026-09-02 16:21:45,795 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/reports/consolidated_kyc_report.xml 
+2026-09-02 16:21:45,880 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/risk_assessment_views.xml 
+2026-09-02 16:21:46,053 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/risk_factor_views.xml 
+2026-09-02 16:21:46,171 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/goaml_report_views.xml 
+2026-09-02 16:21:46,265 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/transaction_monitoring_views.xml 
+2026-09-02 16:21:46,389 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/sanctions_screening_views.xml 
+2026-09-02 16:21:46,509 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/opensanctions_views.xml 
+2026-09-02 16:21:46,563 510 WARNING wave4_aml_p62 odoo.addons.base.models.ir_ui_view: A <i> with fa class (fa fa-check-circle me-2) must have title in its tag, parents, descendants or have text
+View error context:
+{'file': '/mnt/extra-addons/aml_compliance/views/opensanctions_views.xml',
+ 'line': 5,
+ 'name': 'aml.opensanctions.config.form',
+ 'view': ir.ui.view(1815,),
+ 'view.model': 'aml.opensanctions.config',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'view_opensanctions_config_form'} 
+2026-09-02 16:21:46,563 510 WARNING wave4_aml_p62 odoo.addons.base.models.ir_ui_view: A <i> with fa class (fa fa-times-circle me-2) must have title in its tag, parents, descendants or have text
+View error context:
+{'file': '/mnt/extra-addons/aml_compliance/views/opensanctions_views.xml',
+ 'line': 16,
+ 'name': 'aml.opensanctions.config.form',
+ 'view': ir.ui.view(1815,),
+ 'view.model': 'aml.opensanctions.config',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'view_opensanctions_config_form'} 
+2026-09-02 16:21:46,589 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/dashboard_views.xml 
+2026-09-02 16:21:46,814 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/kyc_application_views.xml 
+2026-09-02 16:21:46,872 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/res_partner_views.xml 
+2026-09-02 16:21:46,949 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/edd_workflow_views.xml 
+2026-09-02 16:21:47,051 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/investigation_case_views.xml 
+2026-09-02 16:21:47,168 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/aml_menu.xml 
+2026-09-02 16:21:47,467 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/wizard/risk_override_wizard_views.xml 
+2026-09-02 16:21:47,510 510 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/wizard/goaml_filing_wizard_views.xml 
+2026-09-02 16:21:47,838 510 INFO wave4_aml_p62 odoo.modules.loading: Module aml_compliance loaded in 8.12s, 1906 queries (+1906 other) 
+2026-09-02 16:21:47,838 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module crm_iap_enrich (66/69) 
+2026-09-02 16:21:47,879 510 INFO wave4_aml_p62 odoo.registry: module crm_iap_enrich: creating or updating database tables 
+2026-09-02 16:21:48,003 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_enrich/data/ir_cron.xml 
+2026-09-02 16:21:48,049 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_enrich/data/ir_action.xml 
+2026-09-02 16:21:48,062 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_enrich/data/mail_templates.xml 
+2026-09-02 16:21:48,083 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_enrich/views/crm_lead_views.xml 
+2026-09-02 16:21:48,116 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_enrich/views/res_config_settings_view.xml 
+2026-09-02 16:21:48,191 510 INFO wave4_aml_p62 odoo.modules.loading: Module crm_iap_enrich loaded in 0.35s, 174 queries (+174 other) 
+2026-09-02 16:21:48,192 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module crm_iap_mine (67/69) 
+2026-09-02 16:21:48,223 510 INFO wave4_aml_p62 odoo.registry: module crm_iap_mine: creating or updating database tables 
+2026-09-02 16:21:48,623 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_mine/data/crm.iap.lead.industry.csv 
+2026-09-02 16:21:48,647 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_mine/data/crm.iap.lead.role.csv 
+2026-09-02 16:21:48,665 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_mine/data/crm.iap.lead.seniority.csv 
+2026-09-02 16:21:48,676 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_mine/data/mail_template_data.xml 
+2026-09-02 16:21:48,691 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_mine/data/ir_sequence_data.xml 
+2026-09-02 16:21:48,701 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_mine/security/ir.model.access.csv 
+2026-09-02 16:21:48,724 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_mine/views/crm_lead_views.xml 
+2026-09-02 16:21:48,834 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_mine/views/crm_iap_lead_mining_request_views.xml 
+2026-09-02 16:21:48,896 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_mine/views/res_config_settings_views.xml 
+2026-09-02 16:21:48,935 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_mine/views/mail_templates.xml 
+2026-09-02 16:21:48,954 510 INFO wave4_aml_p62 odoo.modules.loading: loading crm_iap_mine/views/crm_menus.xml 
+2026-09-02 16:21:48,997 510 INFO wave4_aml_p62 odoo.modules.loading: Module crm_iap_mine loaded in 0.81s, 430 queries (+430 other) 
+2026-09-02 16:21:48,997 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module website_crm_sms (68/69) 
+2026-09-02 16:21:49,015 510 INFO wave4_aml_p62 odoo.registry: module website_crm_sms: creating or updating database tables 
+2026-09-02 16:21:49,107 510 INFO wave4_aml_p62 odoo.modules.loading: Module website_crm_sms loaded in 0.11s, 35 queries (+35 other) 
+2026-09-02 16:21:49,107 510 INFO wave4_aml_p62 odoo.modules.loading: Loading module website_payment (69/69) 
+2026-09-02 16:21:49,137 510 INFO wave4_aml_p62 odoo.registry: module website_payment: creating or updating database tables 
+2026-09-02 16:21:49,279 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_payment/data/mail_templates.xml 
+2026-09-02 16:21:49,292 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_payment/views/payment_form_templates.xml 
+2026-09-02 16:21:49,326 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_payment/views/payment_provider.xml 
+2026-09-02 16:21:49,360 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_payment/views/res_config_settings_views.xml 
+2026-09-02 16:21:49,402 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_payment/views/snippets/snippets.xml 
+2026-09-02 16:21:49,432 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_payment/views/snippets/s_donation.xml 
+2026-09-02 16:21:49,451 510 INFO wave4_aml_p62 odoo.modules.loading: loading website_payment/views/snippets/s_supported_payment_methods.xml 
+2026-09-02 16:21:49,477 510 INFO wave4_aml_p62 odoo.modules.loading: Module website_payment loaded in 0.37s, 205 queries (+205 other) 
+2026-09-02 16:21:49,477 510 INFO wave4_aml_p62 odoo.modules.loading: 69 modules loaded in 337.42s, 47583 queries (+47584 extra) 
+2026-09-02 16:21:51,339 510 INFO wave4_aml_p62 odoo.modules.loading: Modules loaded. 
+2026-09-02 16:21:55,194 510 INFO wave4_aml_p62 odoo.registry: Registry changed, signaling through the database 
+2026-09-02 16:21:55,199 510 INFO wave4_aml_p62 odoo.registry: Registry loaded in 434.954s 
+2026-09-02 16:21:55,199 510 INFO wave4_aml_p62 odoo.service.server: Initiating shutdown 
+2026-09-02 16:21:55,200 510 INFO wave4_aml_p62 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-09-02 16:21:55,201 510 INFO wave4_aml_p62 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  
