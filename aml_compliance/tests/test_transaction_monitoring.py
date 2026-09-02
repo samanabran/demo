@@ -20,13 +20,52 @@ class TestTransactionAlert(TransactionCase):
     def test_create_alert_on_threshold(self):
         """Alert created when amount exceeds threshold."""
         yesterday = fields.Datetime.now() - timedelta(days=1)
+        income_account = self.env['account.account'].create({
+            'name': 'Wave4 Test Income Account',
+            'code': 'W4INC',
+            'account_type': 'income',
+            'company_ids': [(6, 0, [self.env.company.id])],
+        })
+        # No chart-of-accounts localization is installed, so the partner
+        # has no receivable account either -- Odoo auto-creates the
+        # invoice's balancing payment-term line from it and would
+        # otherwise fail the same accountable-line check with a NULL
+        # account_id.
+        receivable_account = self.env['account.account'].create({
+            'name': 'Wave4 Test Receivable Account',
+            'code': 'W4REC',
+            'account_type': 'asset_receivable',
+            'reconcile': True,
+            'company_ids': [(6, 0, [self.env.company.id])],
+        })
+        self.partner.property_account_receivable_id = receivable_account.id
+        # A bare install has no chart-of-accounts localization, so no
+        # sale journal exists yet either -- create one rather than
+        # depend on demo/localization data being present.
+        sale_journal = self.env['account.journal'].search(
+            [('type', '=', 'sale'), ('company_id', '=', self.env.company.id)],
+            limit=1,
+        )
+        if not sale_journal:
+            sale_journal = self.env['account.journal'].create({
+                'name': 'Wave4 Test Sales Journal',
+                'type': 'sale',
+                'code': 'W4SJ',
+                'company_id': self.env.company.id,
+            })
         invoice = self.env['account.move'].create({
             'partner_id': self.partner.id,
             'move_type': 'out_invoice',
+            'journal_id': sale_journal.id,
             'invoice_date': fields.Date.today(),
-            'amount_total': 15000.0,
-            'state': 'posted',
+            'invoice_line_ids': [(0, 0, {
+                'name': 'Test line',
+                'quantity': 1,
+                'price_unit': 15000.0,
+                'account_id': income_account.id,
+            })],
         })
+        invoice.action_post()
         alert = self.env['aml.transaction.alert'].create({
             'rule_id': self.rule.id,
             'partner_id': self.partner.id,
