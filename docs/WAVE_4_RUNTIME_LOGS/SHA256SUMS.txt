@@ -1,0 +1,55 @@
+# Wave 4 closure-pass evidence hash manifest
+#
+# Candidate source commit: ba2d6b8ef525da45c60b3e1eb2cb643c2e102e7f
+# Evidence commit (prior pass, superseded by the pending closure-pass commit): 68f38f40fe846b414091e3e94f2b695bc34b7df2
+# Branch: wave3-runtime
+# Odoo: 19.0-20260818 (container wave4_odoo)
+# PostgreSQL: 16 (container wave4_pg)
+# Run timestamps: 2026-09-02 17:46-18:22 local (container clock, UTC+4)
+#
+# Scope: authoritative §6.0-6.4 re-run against the exact committed HEAD
+# (68f38f4) using fresh databases never reused in a prior run
+# (wave4_aml_p63, wave4_kyc_final3), plus the existing-database
+# migration-safety evidence (pre-migration install/seed, clean-data
+# upgrade, dirty-data upgrade, idempotent second update, post-upgrade
+# routing check) built from pre-migration commit bcefd39
+# (parent of f4f4a71, the commit that migrated _sql_constraints to
+# models.Constraint and fixed the groups_id/group_ids KYC routing bug).
+#
+# Generated with: sha256sum <file> (git-bash coreutils)
+#
+# === §6.0-6.4 authoritative re-run (candidate commit 68f38f4, fresh DBs) ===
+1c8177b55230a789708cd1085255385b9c75fa5b825d8f870cad906e65a503e1  preflight_6.0_v3.log
+efcdef9a1c53fa1b3c2076196f3f1dd5d8fe7825987f87500a6786437898c0b2  kyc_management_6.1_final_v3.log
+8f8ed33e25f9d48bc8f229c4b0d10401ec868d73b24203954a4d81956240c631  kyc_management_6.2_final_v3.log
+03b5a90058309bfa051044b28dbf8f0dadcba47d70118d8ced42c649bd8905c5  kyc_management_6.3_final_v3.log
+e73b5d9daecfb9f6ee8089184ecbf817bcd992a9d07bde6e5387e9cd6677d355  kyc_management_6.4_final_v3.log
+816845400ec0fe26135d9e7661508bb2927fe2fb3efeae9bbeeeaf57cef8165c  aml_compliance_6.1_final_v3.log
+0c678a98e81fda1494a59a71473faa02084d1bda0f4d56885f48e8243109c75e  aml_compliance_6.2_final_v3.log
+898fa12ac5fa0ca8ee1558b30c9222c2e68f633b4013042544a6b1c8940da800  aml_compliance_6.3_final_v3.log
+32cf0f256a81b4abb5abe26410facb62a1919cfc15e6f595a57000d0b76cf814  aml_compliance_6.4_final_v3.log
+#
+# === Pre-migration install (commit bcefd39, snapshot extracted via
+#     git archive; fresh DBs) ===
+604ed3b51e7aee9db0a9214b7268384a37ae4e15837a34b1cee0c711ded267fa  premig_kyc_clean_install.log
+88e25eef8a8f468b0aeae3f0464d40fc9deafd5cfa608f50a94de71a77f7cdad  premig_kyc_dirty_install.log
+ac3b1a63e8140865964e2eb663106b329a094558450d84c989b6827938eaf9a5  premig_aml_clean_install.log
+31a4fc6516f0a66c3e33ace97f43b4b4a5c31b3e73f772852aad0c1e56c9d401  premig_aml_dirty_install.log
+#
+# === Pre-migration representative data seeding (odoo shell) ===
+35e704d21ed2819aa57557828448f66aa03cf6df12180387e11dfccfef551db8  premig_kyc_clean_seed.log
+c514cc80a165a78a35c4e7efa7aa04d66d1d4b796721b1d573530a96d26c6ad8  premig_kyc_dirty_seed.log
+251b056dc09d2acc57da6afcf4b152bc0147b750b6a43568308b1453665d2838  premig_aml_clean_seed.log
+dae6ce56fe05104af7ddeb683f1693c7737082f360760e71d707f282e46320d4  premig_aml_dirty_seed.log
+#
+# === Existing-database upgrade tests (pre-migration DB -> candidate
+#     commit 68f38f4 via `odoo -u`) ===
+170e1afc93bc6e6f5dafb1914351cc9b6350495e63d8dc8787f63e327ded6838  upgrade_kyc_clean.log
+2aa9ad9ad5a5a4d8472996d9b7f272341cbdb6a2ee2535ba2c2d16d54c9da610  upgrade_aml_clean.log
+94b2c397c4593f4ef5ea0d2b819e0610e1389c0eedd7432cbdb53f4236ae01da  upgrade_kyc_routing_check.log
+3277d6096a84839d37613ab92c551ae7fc434636a963a3059c23b1593f0f8ea1  upgrade_kyc_clean_idempotent2.log
+035cb71b49d4a7cb428e29ceba4c5a30c41f9fd706b7abb0c0f6ea4817d340bc  upgrade_aml_clean_idempotent2.log
+07f25feb40fc70839a3fb0b89f17c3252e729517a71db408503e95bafc8ccdb2  upgrade_kyc_dirty.log
+b3315743bf9cb1f8026f0979d1ae944921767e2924ab38651bd36b0ec1a14a0d  upgrade_aml_dirty.log
+#
+# Verify with: sha256sum -c SHA256SUMS.txt (run from this directory)

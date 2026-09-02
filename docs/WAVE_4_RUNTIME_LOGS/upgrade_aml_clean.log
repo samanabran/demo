@@ -1,0 +1,77 @@
+
+2026-09-02 18:11:44,557 846 INFO ? odoo: Odoo version 19.0-20260817 
+2026-09-02 18:11:44,557 846 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf 
+2026-09-02 18:11:44,557 846 INFO ? odoo: addons paths: _NamespacePath(['/usr/lib/python3/dist-packages/odoo/addons', '/var/lib/odoo/addons/19.0', '/mnt/extra-addons', '/usr/lib/python3/dist-packages/addons']) 
+2026-09-02 18:11:44,558 846 INFO ? odoo: database: odoo@wave4_pg:default 
+2026-09-02 18:11:45,186 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading 1 modules... 
+2026-09-02 18:11:45,197 846 INFO wave4_premig_aml_clean odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-09-02 18:11:45,324 846 INFO wave4_premig_aml_clean odoo.modules.loading: updating modules list 
+2026-09-02 18:11:45,329 846 INFO wave4_premig_aml_clean odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-09-02 18:11:48,277 846 WARNING wave4_premig_aml_clean odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 18:11:48,281 846 WARNING wave4_premig_aml_clean odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 18:11:48,547 846 WARNING wave4_premig_aml_clean odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 18:11:48,552 846 WARNING wave4_premig_aml_clean odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 18:11:49,289 846 INFO wave4_premig_aml_clean odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['AML Compliance & goAML'] to user __system__ #1 via n/a 
+2026-09-02 18:11:49,289 846 INFO wave4_premig_aml_clean odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['AML Compliance & goAML'] to user __system__ #1 via n/a 
+2026-09-02 18:11:50,986 846 WARNING wave4_premig_aml_clean odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 18:11:51,037 846 WARNING wave4_premig_aml_clean odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 18:11:51,318 846 INFO wave4_premig_aml_clean odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-09-02 18:11:51,365 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading 69 modules... 
+2026-09-02 18:11:52,637 846 INFO wave4_premig_aml_clean odoo.modules.loading: Loading module aml_compliance (65/69) 
+2026-09-02 18:11:53,412 846 INFO wave4_premig_aml_clean odoo.registry: module aml_compliance: creating or updating database tables 
+2026-09-02 18:11:53,596 846 WARNING wave4_premig_aml_clean odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.partner() have the same label: Currency. [Modules: kyc_management and account] 
+2026-09-02 18:11:53,597 846 WARNING wave4_premig_aml_clean odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.users() have the same label: Currency. [Modules: None and None] 
+2026-09-02 18:11:53,860 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/security/aml_groups.xml 
+2026-09-02 18:11:53,872 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/security/ir.model.access.csv 
+2026-09-02 18:11:53,939 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/security/security.xml 
+2026-09-02 18:11:53,950 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/data/sequence_data.xml 
+2026-09-02 18:11:53,962 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/data/sequence_phase2_data.xml 
+2026-09-02 18:11:53,971 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/data/edd_enquiry_data.xml 
+2026-09-02 18:11:53,983 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/data/risk_factor_data.xml 
+2026-09-02 18:11:54,001 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/data/fatf_jurisdiction_data.xml 
+2026-09-02 18:11:54,056 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/data/monitoring_rule_data.xml 
+2026-09-02 18:11:54,099 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/data/cron_data.xml 
+2026-09-02 18:11:54,122 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/reports/risk_assessment_report.xml 
+2026-09-02 18:11:54,151 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/reports/goaml_report_print.xml 
+2026-09-02 18:11:54,172 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/reports/screening_certificate.xml 
+2026-09-02 18:11:54,203 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/reports/consolidated_kyc_report.xml 
+2026-09-02 18:11:54,239 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/views/risk_assessment_views.xml 
+2026-09-02 18:11:54,330 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/views/risk_factor_views.xml 
+2026-09-02 18:11:54,431 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/views/goaml_report_views.xml 
+2026-09-02 18:11:54,502 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/views/transaction_monitoring_views.xml 
+2026-09-02 18:11:54,572 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/views/sanctions_screening_views.xml 
+2026-09-02 18:11:54,650 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/views/opensanctions_views.xml 
+2026-09-02 18:11:54,668 846 WARNING wave4_premig_aml_clean odoo.addons.base.models.ir_ui_view: A <i> with fa class (fa fa-check-circle me-2) must have title in its tag, parents, descendants or have text
+View error context:
+{'file': '/mnt/extra-addons/aml_compliance/views/opensanctions_views.xml',
+ 'line': 6,
+ 'name': 'aml.opensanctions.config.form',
+ 'view': ir.ui.view(1815,),
+ 'view.model': 'aml.opensanctions.config',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'view_opensanctions_config_form'} 
+2026-09-02 18:11:54,668 846 WARNING wave4_premig_aml_clean odoo.addons.base.models.ir_ui_view: A <i> with fa class (fa fa-times-circle me-2) must have title in its tag, parents, descendants or have text
+View error context:
+{'file': '/mnt/extra-addons/aml_compliance/views/opensanctions_views.xml',
+ 'line': 17,
+ 'name': 'aml.opensanctions.config.form',
+ 'view': ir.ui.view(1815,),
+ 'view.model': 'aml.opensanctions.config',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'view_opensanctions_config_form'} 
+2026-09-02 18:11:54,684 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/views/dashboard_views.xml 
+2026-09-02 18:11:54,819 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/views/kyc_application_views.xml 
+2026-09-02 18:11:54,853 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/views/res_partner_views.xml 
+2026-09-02 18:11:54,918 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/views/edd_workflow_views.xml 
+2026-09-02 18:11:54,969 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/views/investigation_case_views.xml 
+2026-09-02 18:11:55,053 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/views/aml_menu.xml 
+2026-09-02 18:11:55,273 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/wizard/risk_override_wizard_views.xml 
+2026-09-02 18:11:55,318 846 INFO wave4_premig_aml_clean odoo.modules.loading: loading aml_compliance/wizard/goaml_filing_wizard_views.xml 
+2026-09-02 18:11:57,823 846 INFO wave4_premig_aml_clean odoo.modules.loading: Module aml_compliance loaded in 5.19s, 1415 queries (+1415 other) 
+2026-09-02 18:11:57,839 846 INFO wave4_premig_aml_clean odoo.modules.loading: 69 modules loaded in 6.47s, 1415 queries (+1415 extra) 
+2026-09-02 18:12:01,067 846 INFO wave4_premig_aml_clean odoo.modules.loading: Modules loaded. 
+2026-09-02 18:12:01,095 846 INFO wave4_premig_aml_clean odoo.registry: Registry changed, signaling through the database 
+2026-09-02 18:12:01,098 846 INFO wave4_premig_aml_clean odoo.registry: Registry loaded in 16.003s 
+2026-09-02 18:12:01,098 846 INFO wave4_premig_aml_clean odoo.service.server: Initiating shutdown 
+2026-09-02 18:12:01,098 846 INFO wave4_premig_aml_clean odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-09-02 18:12:01,098 846 INFO wave4_premig_aml_clean odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  

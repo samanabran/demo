@@ -1,16 +1,21 @@
 # Wave 4 Install / Regression Result — kyc_management + aml_compliance
 
-**Status: CONDITIONAL GREEN — NOT CLOSED.**
-**Branch (working-tree HEAD at the time of this run):** `f24dc97` on `wave3-runtime` — **not the verified code state; see §6.**
-**Date:** 2026-09-02
-**Runtime container:** `wave4_odoo` (Odoo 19.0-20260817) on `wave4_pg` (Postgres 16)
-**Protocol:** `docs/TEST_PROTOCOL_WAVE_3.md` §6.0–§6.4
+**Status: CONDITIONAL GREEN — FRESH INSTALL AND CLEAN-DATA UPGRADE VERIFIED; DIRTY-DATA (PRE-EXISTING DUPLICATE) UPGRADE NOT SAFE. See §12–§17 (closure pass, 2026-09-02, second session).**
+**Candidate source commit:** `ba2d6b8` on `wave3-runtime` (source/tests). **Prior evidence commit:** `68f38f4` (superseded in part by §12-§17 below — see §13 for the correction to its now-stale self-description).
+**Sections 1–11 below are the FIRST closure-pass session's record and are preserved verbatim for provenance. They describe a state that has since been superseded: `f24dc97` was the working-tree HEAD at the time Sections 1–11 were written; the candidate and evidence commits above were created immediately afterward, in the same session, and §11.7's "not yet committed" claim is corrected in §13.**
+**Date:** 2026-09-02 (two sessions, same day)
+**Runtime container:** `wave4_odoo` (Odoo 19.0-20260818) on `wave4_pg` (Postgres 16)
+**Protocol:** `docs/TEST_PROTOCOL_WAVE_3.md` §6.0–§6.4, plus the §10 module-specific manifest and the existing-database migration-safety protocol in §12-§17.
 
 > This document is a runtime-evidence report, not a ship approval.
-> Final ship approval is blocked on the items in §7. The six audit
-> defects called out in the governance review have been corrected
-> below; the corrections are listed again at the head of §7 for
-> traceability.
+> Sections 1-11 are the first closure-pass session (produced the
+> candidate + evidence commits). Sections 12-17 are the second
+> session: repository reconciliation, an authoritative re-run tied
+> to the exact committed HEAD, and — the substantive addition —
+> existing-database migration-safety testing, which **found a real,
+> unresolved gap** (§15). Final ship approval for existing databases
+> carrying pre-fix duplicate/invalid data remains blocked on that
+> gap; fresh installs and clean-data upgrades are fully verified.
 
 ---
 
@@ -796,3 +801,411 @@ command line per the prior doc's convention.
   §7 and on the candidate/evidence commit + push workflow that
   is explicitly forbidden by the audit directive until further
   user review.
+
+---
+
+## 12. Closure pass, second session (2026-09-02) — repository reconciliation
+
+### 12.1 What was actually loaded by Odoo — settled definitively
+
+`docker inspect wave4_odoo --format '{{range .Mounts}}{{.Source}} -> {{.Destination}}{{end}}'`:
+
+```
+C:/demo_presentation -> /mnt/extra-addons (ro)
+```
+
+This repository, on branch `wave3-runtime`, is the exact and only
+source tree mounted into the Odoo container. There is no ambiguity
+to resolve here.
+
+### 12.2 The `C:/Users/USER/vps-root-planning` / live-server "mismatch" — resolved
+
+The first session's §7 item 2 treated the divergence between this
+repo and `C:/Users/USER/vps-root-planning` as an open blocker. It
+is not. Direct inspection:
+
+```
+git -C C:/Users/USER/vps-root-planning log -1 --oneline  -> 5d87a7b feat: add burned-in captions...
+git -C C:/Users/USER/vps-root-planning branch --show-current -> main
+ssh vps-root "cd /opt/odoo/demo_presentation/addons && git log -1 --oneline && git branch --show-current"
+  -> 67c28bc fix(sgc_commission): self-heal orphaned billed lines...
+  -> main
+```
+
+Both `vps-root-planning` and the live server are on branch `main`,
+several unrelated commits deep into `sgc_offplan_rental_property_management`
+demo-video tooling (frame captures, narration audio, rendered MP4s).
+Neither has ever touched `kyc_management`, `aml_compliance`, or
+`wave3-runtime`. They are a second clone of the same `origin`
+remote, doing unrelated work on a different branch, not a
+deployment target for this branch, and not part of the runtime path
+(§12.1 already settles what Odoo actually loads). There is nothing
+to reconcile between them and the Wave 4 closure pass.
+
+`tools/verify_wave4_claims.py`'s Rule 1 check (inherited from
+`verify_wave3_claims.py`, docstring at line 245) already encodes
+the correct feature-branch semantics: on a feature branch, compare
+(a) local vs `origin/<branch>`, and separately (b) `origin/main` vs
+live-server. Running it against the second session's candidate HEAD:
+
+```
+local: 68f38f40fe84 [branch: wave3-runtime]
+upstream: origin/wave3-runtime = f24dc979a99e
+origin/main: 67c28bcccc6b
+live server: 67c28bcccc6b
+STATUS: MISMATCH -- Rule 1 VIOLATED
+```
+
+Comparison (b) passes (`67c28bc` == `67c28bc`), `main` and the live
+server agree, as expected for unrelated work. Comparison (a) is the
+real and only finding: local (`68f38f4`) is 2 commits ahead of
+`origin/wave3-runtime` (`f24dc97`) because the candidate commit
+(`ba2d6b8`) and the first session's evidence commit (`68f38f4`) were
+created but never pushed (`git rev-list --left-right --count
+origin/wave3-runtime...HEAD` = `0 2`). This resolves by pushing; see
+§17 for why that has not yet happened.
+
+---
+
+## 13. Correction to §11.7 — the candidate and evidence commits already exist
+
+§11.7 (written by the first session, before it committed) states
+that "the source/test changes... have been committed" is not
+claimed, and that "the new evidence has been pushed" is not
+claimed. Both statements are now stale: in the same first session,
+immediately after writing §11, the source/test changes were
+committed as `ba2d6b8` and this evidence document plus the §11 logs
+were committed as `68f38f4`. Neither has been pushed (§12.2). This
+correction supersedes §11.7's wording without altering anything
+else in §1-§11, which remain the literal, unedited record of that
+session's run.
+
+---
+
+## 14. Authoritative re-run tied to the exact committed HEAD
+
+The first session's §11 run (the one that produced the `_v2` logs)
+executed in the working tree immediately before the
+candidate/evidence commits, not from a clean checkout of them. To
+close the reproducibility gap explicitly, the second session
+re-ran the full §6.0-§6.4 matrix with the working tree in its
+current, clean, fully-committed state (`git status --short
+--branch`: no `M` paths, only pre-existing untracked cruft listed
+in §16.4) at `HEAD = 68f38f4`, using new database names never used
+by any prior run (`wave4_aml_p63`, `wave4_kyc_final3`, replacing
+`..._p61`/`..._p62` and `wave4_kyc_final`/`_final2`).
+
+| Scope | Module | Expected (§10 manifest) | Actual testsRun | Exit |
+|---|---|---|---|---|
+| §6.0 preflight | both | ALL MANIFEST ASSERTIONS PASS | PASS (`preflight_6.0_v3.log`) | 0 |
+| §6.1 | aml_compliance | 0 (logged only) | 0, 69 modules loaded | 0 |
+| §6.1 | kyc_management | 0 (logged only) | 0, 53 modules loaded | 0 |
+| §6.2 | aml_compliance | 22 | 22 | 0, 0 failed, 0 errors |
+| §6.2 | kyc_management | 10 | 10 | 0, 0 failed, 0 errors |
+| §6.3 | aml_compliance | 2 | 2 | 0, 0 failed, 0 errors |
+| §6.3 | kyc_management | 5 | 5 | 0, 0 failed, 0 errors |
+| §6.4 | aml_compliance | 6 | 6 | 0, 0 failed, 0 errors |
+| §6.4 | kyc_management | 5 | 5 | 0, 0 failed, 0 errors |
+
+All eight scopes match the §10 manifest exactly, executed against
+the exact commit that is now `HEAD`, with fresh databases. Logs:
+`docs/WAVE_4_RUNTIME_LOGS/{aml_compliance,kyc_management}_6.{1,2,3,4}_final_v3.log`
+and `preflight_6.0_v3.log`. SHA-256 hashes for all nine files are in
+`docs/WAVE_4_RUNTIME_LOGS/SHA256SUMS.txt`. Reproducibility from the
+exact committed source is demonstrated directly, not inferred from
+"the tree did not change between run and commit."
+
+---
+
+## 15. Existing-database upgrade safety — the substantive gap this pass was missing
+
+This is the one item in the original governance list that had zero
+prior evidence. The second session built it from scratch since
+`wave4_odoo`/`wave4_pg` were available.
+
+### 15.1 Pre-migration revision
+
+`f4f4a71` ("Harden all modules: migrate remaining dead
+`_sql_constraints`, fix `res.users.groups_id` rename") is the
+production fix. Its parent, `bcefd392a2b89494ee780625f5c46491f0312d06`,
+is the pre-migration revision: `kyc_management/models/kyc_application.py`
+still declared `_sql_constraints = [('kyc_id_unique', ...)]` and
+queried `('groups_id', 'in', ...)`; the three `aml_compliance` model
+files still declared `_sql_constraints` instead of `models.Constraint`.
+
+### 15.2 Method
+
+A snapshot of `kyc_management/` and `aml_compliance/` at `bcefd39`
+was extracted with `git archive bcefd39 kyc_management aml_compliance`
+into `.wave4_premigration/` (gitignored, not committed), a directory
+inside the repo so the existing read-only bind mount exposes it to
+the container without recreating it. Four fresh databases were
+installed from this snapshot via `--addons-path=/mnt/extra-addons/.wave4_premigration,/mnt/extra-addons`
+(the premigration path first, so only `kyc_management` and
+`aml_compliance` resolve to the old code; every dependency still
+resolves from the current tree):
+
+- `wave4_premig_kyc_clean`, `wave4_premig_aml_clean`, representative
+  valid, non-conflicting data (one KYC application, one
+  approver-group officer user, one FATF jurisdiction / risk factor /
+  sanctions entry each, using values not already claimed by the
+  modules' own shipped `data/*.xml`).
+- `wave4_premig_kyc_dirty`, `wave4_premig_aml_dirty`, the same, plus
+  deliberately conflicting rows the dead constraints of that era
+  would have allowed: two KYC applications sharing `kyc_id =
+  'KYC-PREMIG-DUP-001'`; two FATF jurisdiction rows for the same
+  country; two risk factors sharing `code = 'WAVE4-DUP-CODE'`; one
+  risk factor with `weight = -5.0`; two sanctions-list rows sharing
+  `(listed_name, list_source)`.
+
+All eight dirty-data inserts succeeded under the pre-migration code
+(`premig_{kyc,aml}_{clean,dirty}_seed.log`), confirming the
+constraints were genuinely inert pre-fix, not merely believed to be.
+
+A methodological note for anyone re-running this: the addons-path
+value must be passed with `MSYS_NO_PATHCONV=1` set on the invoking
+git-bash shell (Windows). Without it, git-bash rewrites the leading
+`/` of `--addons-path=/mnt/extra-addons/...` into a Windows path,
+Odoo logs "no such directory, skipped" and silently falls back to
+the container's default `addons_path` (the current tree), which was
+caught in this session only because a direct
+`pg_constraint`/`inspect.getfile()` check on the first attempt
+showed a constraint that should not have existed yet. The first
+attempt's install/seed logs for this reason were discarded and
+redone; only the corrected run's logs are in the evidence set.
+
+Each database was then upgraded in place with `odoo -u <module>`
+using the current addons_path (no premigration override), exactly
+what a real `-u` deploy of the candidate commit onto an existing
+database would run.
+
+### 15.3 Clean-data upgrade — PASS
+
+Both `wave4_premig_kyc_clean` and `wave4_premig_aml_clean` upgraded
+successfully (`upgrade_kyc_clean.log`, `upgrade_aml_clean.log`, both
+exit 0, no schema warnings):
+
+- All four `aml_compliance` constraints exist post-upgrade:
+  `aml_fatf_jurisdiction_country_uniq`, `aml_risk_factor_code_uniq`,
+  `aml_risk_factor_weight_positive` (`CHECK (weight >= 0)`),
+  `aml_sanctions_list_name_source_uniq`.
+- The `kyc_application_kyc_id_unique` constraint exists post-upgrade.
+- The pre-existing valid KYC application row (`kyc_id =
+  'KYC-PREMIG-CLEAN-001'`) survived the upgrade intact.
+- KYC officer routing, exercised directly against the upgraded
+  database (`upgrade_kyc_routing_check.log`): calling
+  `_create_approval_and_notify_officer()` on the pre-existing
+  application created exactly one `kyc.approval` routed to the
+  pre-existing approver-group officer (`routed_to_officer=True`),
+  this is the actual bug the `groups_id` to `group_ids` fix
+  addresses, verified end-to-end against migrated data, not just a
+  fresh-install unit test.
+- A second `-u` update on both databases is idempotent, no errors,
+  no changes (`upgrade_{kyc,aml}_clean_idempotent2.log`). Each
+  `docker exec ... odoo ...` invocation is a fresh process/registry
+  load, which also stands in for the "registry restart" requirement.
+- Uninstall/reinstall: N/A, uninstall/reinstall is not a supported
+  production lifecycle for compliance-record-bearing modules holding
+  real KYC/AML data; upgrade and idempotent-update tests (above)
+  were used instead, per the protocol's own allowed exception
+  wording.
+
+### 15.4 Dirty-data upgrade — NOT SAFE (real, unresolved finding)
+
+Both `wave4_premig_kyc_dirty` and `wave4_premig_aml_dirty` upgrades
+exited 0 and Odoo marked both modules `state = installed`
+(`upgrade_kyc_dirty.log`, `upgrade_aml_dirty.log`). This is not a
+pass. What actually happened, read from the logs and confirmed
+directly against the database afterward:
+
+```
+odoo.schema: could not create unique index "kyc_application_kyc_id_unique"
+DETAIL:  Key (kyc_id)=(KYC-PREMIG-DUP-001) is duplicated.
+
+odoo.schema: check constraint "aml_risk_factor_weight_positive" of relation
+"aml_risk_factor" is violated by some row
+odoo.schema: could not create unique index "aml_fatf_jurisdiction_country_uniq"
+DETAIL:  Key (country_id)=(3) is duplicated.
+odoo.schema: could not create unique index "aml_sanctions_list_name_source_uniq"
+DETAIL:  Key (listed_name, list_source)=(Wave4 Dup Sanction, un) is duplicated.
+```
+
+Odoo's `odoo.schema` logger logs these as `WARNING`, not `ERROR`,
+and `_add_sql_constraints()` does not raise, module loading
+continues, the transaction commits, and the CLI exits 0. Confirmed
+directly against Postgres after the "upgrade":
+
+```
+-- wave4_premig_kyc_dirty
+SELECT conname FROM pg_constraint WHERE conname='kyc_application_kyc_id_unique';
+ (0 rows)
+SELECT id, kyc_id FROM kyc_application WHERE kyc_id='KYC-PREMIG-DUP-001';
+ id | kyc_id
+  1 | KYC-PREMIG-DUP-001
+  2 | KYC-PREMIG-DUP-001
+SELECT name, state FROM ir_module_module WHERE name='kyc_management';
+ kyc_management | installed
+
+-- wave4_premig_aml_dirty
+SELECT conname FROM pg_constraint WHERE conname IN (
+  'aml_fatf_jurisdiction_country_uniq','aml_risk_factor_code_uniq',
+  'aml_risk_factor_weight_positive','aml_sanctions_list_name_source_uniq');
+ (0 rows)
+SELECT name, state FROM ir_module_module WHERE name='aml_compliance';
+ aml_compliance | installed
+```
+
+None of the five constraints (1 KYC + 4 AML) were created. The
+module is reported as successfully installed. The duplicate/invalid
+rows remain in the database, untouched. Both `kyc_application.py`
+and the three AML model files have no `@api.constrains` Python-level
+fallback for these fields (checked directly, only unrelated field
+validations exist: `date_of_birth`, passport dates, `email`,
+`annual_income`, `years_in_role` for KYC; none for the AML
+uniqueness/positivity rules). The database-level constraint is the
+only enforcement mechanism, and it silently does not attach when the
+table already contains the data it was meant to forbid.
+
+**Consequence:** if any real database accumulated duplicate KYC IDs
+or invalid/duplicate AML risk-and-sanctions data during the period
+before `f4f4a71` (when the old `_sql_constraints` declarations were
+genuinely inert, confirmed in §15.2), deploying this fix via a
+normal `-u` module update will report success while leaving that
+database permanently unprotected against the exact defects the fix
+was written to close, with no error, no non-zero exit code, and no
+signal outside the Odoo server log.
+
+This is a real defect in the migration path, not in the target
+schema definition (`models.Constraint`) or in the exit-gate test
+suite, both of which are correct and already proven in §15.3 and
+§14. It was not created by this closure pass; it is inherent to how
+Postgres index/constraint creation behaves inside Odoo's
+`_auto_init` when pre-existing data violates the new constraint,
+combined with Odoo 19 treating that as a recoverable warning rather
+than a fatal upgrade error.
+
+No remediation was applied. Deleting, merging, or otherwise altering
+existing KYC/AML records to force a clean constraint creation
+requires an explicit, approved data-remediation policy with an
+audit trail; that decision was not delegated to this pass, and
+inventing one unilaterally for compliance-record data would itself
+be a governance violation. The finding is reported as open, with
+full diagnostic detail: a clear controlled failure with actionable
+diagnostics is acceptable evidence when no cleanup policy is
+approved, but the operational migration requirement remains open.
+The one qualifier: this is not even a clean failure, it is a silent,
+exit-0 no-op on the constraint, which is arguably worse and is why
+it is called out at this level of detail rather than summarized
+away.
+
+What would close this, for a future pass, roughly in order of
+preference: (a) a pre-upgrade data-quality check (an extension to
+`tools/verify_wave4_claims.py` or a standalone script) that queries
+for duplicate `kyc_id` / duplicate FATF country / duplicate
+risk-factor code / negative weight / duplicate sanctions
+`(listed_name, list_source)` against the target database before
+`-u` runs, and refuses to proceed (or requires an explicit
+override) if any are found; (b) an approved, audited remediation
+migration script for any database where such rows are actually
+found; (c) at minimum, promoting Odoo's "could not create" schema
+warnings to a hard post-upgrade check (grep the upgrade log, fail
+the deploy pipeline if present) so the condition is visible before
+go-live rather than silently absent.
+
+---
+
+## 16. Secret scan (broadened) and credential status
+
+### 16.1 Scope and method
+
+Beyond the first session's narrow grep for the literal password
+string (§11.6), this pass ran a broader pattern scan for password,
+secret, api-key, token, private-key, and connection-string patterns
+over every new evidence log in `docs/WAVE_4_RUNTIME_LOGS/`, the
+current working-tree diff (`git status`/`git diff`, empty, tree is
+clean against `HEAD`), and the two runner helper scripts
+(`tools/_wave4_runner.py`, `tools/_closure_runner.py`).
+
+### 16.2 Result
+
+Every match is a benign Odoo view/model filename
+(`base/views/res_users_apikeys_views.xml`,
+`payment/views/payment_token_views.xml`, standard Odoo core view
+names, not secrets). A separate literal check for
+`--db_password=<value>` (excluding the `[REDACTED]` placeholder)
+returned zero matches across `docs/WAVE_4_RUNTIME_LOGS/*.log` and
+`tools/*.py`. Both runner scripts fetch `POSTGRES_PASSWORD` via
+`docker exec wave4_pg printenv POSTGRES_PASSWORD` into a Python
+variable and pass it only via the `-e PGPASSWORD=...` flag to the
+inner `docker exec ... odoo ...` call, never into argv text that
+gets logged, never printed to stdout/stderr, never written to a log
+file. Both scripts are gitignored (`.gitignore` updated this
+session) and are not part of any commit. Secret scan: PASS.
+
+### 16.3 Credential rotation
+
+Not performed in this pass. The password was never found in any
+committed file, staged diff, or evidence log across either session's
+scan (§11.6, §16.2), the exposure the first session flagged was
+scoped to interactive shell history, outside this repository's
+evidence chain and outside what a git-based scan can observe.
+Rotating a live `wave4_pg` container's `POSTGRES_PASSWORD` requires
+a container restart, judged out of scope for a documentation/
+evidence pass affecting shared runtime infrastructure without an
+explicit request to do so. Recorded as an open, low-urgency
+recommendation, not a blocker: rotate `POSTGRES_PASSWORD` before any
+production cutover, independent of this branch's merge state.
+
+### 16.4 Untracked working-tree items excluded from the evidence commit
+
+Unchanged from the first session's §7 item 8 / §6.4 classification,
+these remain untracked and excluded:
+
+- `2026-09-02-002311-see-the-working-of-previous-agent-and-continue-wh.txt`,
+  `session-ses_fa29.md`, transcript dumps.
+- `docs/WAVE_4_RUNTIME_LOGS/aml_smoke_run.log`,
+  `aml_compliance_6.x_summary.md`,
+  `kyc_management_reinstall_check.log`,
+  `kyc_management_upgrade_check.log`, earlier ad hoc/supplementary
+  runs, superseded by the `_v2`/`_v3` evidence and §15's dedicated
+  upgrade-safety run.
+- The un-suffixed `docs/WAVE_4_RUNTIME_LOGS/{aml_compliance,
+  kyc_management}_6.{1,2,3,4}_final.log` files, the very first,
+  dirty-tree run, superseded by `_v2` (committed in `68f38f4`) and
+  now `_v3` (§14, this session).
+- `.wave4_premigration/`, the pre-migration code snapshot and seed
+  scripts (gitignored). `tools/_wave4_runner.py`,
+  `tools/_closure_runner.py`, transient runner helpers (gitignored,
+  per the same rationale as the first session's `_closure_runner.py`).
+
+---
+
+## 17. Final verdict and what remains open
+
+Wave 4 is CONDITIONAL GREEN, not CLOSED. Per the governing
+protocol's own two-outcome rule (CLOSED requires both fresh-install
+and existing-database upgrade to be verified; otherwise CONDITIONAL
+GREEN with the unverified half named explicitly):
+
+- Fresh install: VERIFIED, §14, exact test-ID/count match to the
+  §10 manifest, against the exact committed HEAD, fresh databases.
+- Existing-database upgrade, clean data: VERIFIED, §15.3,
+  constraints created, data preserved, KYC routing behavior proven
+  against migrated data, idempotent re-update confirmed.
+- Existing-database upgrade, pre-existing dirty/duplicate data: NOT
+  VERIFIED, a real, reproducible gap found and documented, §15.4.
+  This is the qualifier the status line names explicitly, per
+  instruction not to weaken or bypass this distinction.
+
+Not pushed. `ba2d6b8` and `68f38f4` remain local-only (`git
+rev-list --left-right --count origin/wave3-runtime...HEAD` = `0 2`).
+The governing protocol's stop conditions include "an existing
+database cannot be upgraded safely" and instruct not to bypass a
+stop condition to meet a deadline; §15.4 is exactly that condition.
+This document, the SHA-256 manifest, and the evidence files
+described in §14-§16 are ready to be committed as a closure-pass
+evidence commit on top of `68f38f4` and pushed once a human has
+reviewed §15.4 and decided how to proceed (accept CONDITIONAL GREEN
+as the shipped state with the gap tracked as a follow-up, or invest
+in one of the §15.4 remediation options first). That decision was
+not made unilaterally by this pass.

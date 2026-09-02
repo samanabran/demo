@@ -1,0 +1,1073 @@
+
+2026-09-02 18:04:43,473 773 INFO ? odoo: Odoo version 19.0-20260817 
+2026-09-02 18:04:43,474 773 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf 
+2026-09-02 18:04:43,474 773 INFO ? odoo: addons paths: _NamespacePath(['/usr/lib/python3/dist-packages/odoo/addons', '/var/lib/odoo/addons/19.0', '/mnt/extra-addons/.wave4_premigration', '/mnt/extra-addons', '/usr/lib/python3/dist-packages/addons']) 
+2026-09-02 18:04:43,474 773 INFO ? odoo: database: odoo@wave4_pg:default 
+2026-09-02 18:04:43,996 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Initializing database wave4_premig_aml_dirty 
+2026-09-02 18:04:47,478 773 WARNING wave4_premig_aml_dirty odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 18:04:47,484 773 WARNING wave4_premig_aml_dirty odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 18:04:47,698 773 WARNING wave4_premig_aml_dirty odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 18:04:47,705 773 WARNING wave4_premig_aml_dirty odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 18:04:49,580 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading 1 modules... 
+2026-09-02 18:04:49,580 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module base (1/1) 
+2026-09-02 18:04:49,677 773 INFO wave4_premig_aml_dirty odoo.registry: module base: creating or updating database tables 
+2026-09-02 18:04:50,963 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.module.module.menus_by_module 
+2026-09-02 18:04:50,963 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.module.module.reports_by_module 
+2026-09-02 18:04:50,964 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.module.module.views_by_module 
+2026-09-02 18:04:51,347 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.user_id 
+2026-09-02 18:04:51,347 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.commercial_partner_id 
+2026-09-02 18:04:51,348 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.complete_name 
+2026-09-02 18:04:51,349 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.lang 
+2026-09-02 18:04:51,349 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.company_registry 
+2026-09-02 18:04:51,349 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.commercial_company_name 
+2026-09-02 18:04:51,349 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.properties 
+2026-09-02 18:04:51,349 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.partner_share 
+2026-09-02 18:04:51,455 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.currency.decimal_places 
+2026-09-02 18:04:51,538 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.company.uses_default_logo 
+2026-09-02 18:04:51,538 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.company.logo_web 
+2026-09-02 18:04:51,547 773 INFO wave4_premig_aml_dirty odoo.models: Computing parent_path for table res_company... 
+2026-09-02 18:04:51,650 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.users.signature 
+2026-09-02 18:04:51,650 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.users.share 
+2026-09-02 18:04:54,639 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/res_bank.xml 
+2026-09-02 18:04:54,646 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/res.lang.csv 
+2026-09-02 18:04:54,711 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/res_lang_data.xml 
+2026-09-02 18:04:54,762 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/res_partner_data.xml 
+2026-09-02 18:04:54,829 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/res_currency_data.xml 
+2026-09-02 18:04:55,571 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/res_company_data.xml 
+2026-09-02 18:04:55,583 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/res_users_data.xml 
+2026-09-02 18:04:56,786 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/report_paperformat_data.xml 
+2026-09-02 18:04:56,802 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/res_country_data.xml 
+2026-09-02 18:04:58,871 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/ir_demo_data.xml 
+2026-09-02 18:04:58,918 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/security/base_groups.xml 
+2026-09-02 18:04:59,897 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/security/base_security.xml 
+2026-09-02 18:05:00,881 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/wizard/wizard_ir_model_menu_create_views.xml 
+2026-09-02 18:05:00,919 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/base_menus.xml 
+2026-09-02 18:05:01,074 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/decimal_precision_views.xml 
+2026-09-02 18:05:01,109 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_config_views.xml 
+2026-09-02 18:05:01,119 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/res.country.state.csv 
+2026-09-02 18:05:02,370 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_actions_views.xml 
+2026-09-02 18:05:02,874 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_asset_views.xml 
+2026-09-02 18:05:02,938 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_config_parameter_views.xml 
+2026-09-02 18:05:02,991 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_cron_views.xml 
+2026-09-02 18:05:03,070 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_cron_trigger_views.xml 
+2026-09-02 18:05:03,127 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_filters_views.xml 
+2026-09-02 18:05:03,195 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_mail_server_views.xml 
+2026-09-02 18:05:03,271 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_model_views.xml 
+2026-09-02 18:05:03,861 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_attachment_views.xml 
+2026-09-02 18:05:03,971 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_rule_views.xml 
+2026-09-02 18:05:04,059 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_sequence_views.xml 
+2026-09-02 18:05:04,129 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_ui_menu_views.xml 
+2026-09-02 18:05:04,196 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_ui_view_views.xml 
+2026-09-02 18:05:04,356 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_default_views.xml 
+2026-09-02 18:05:04,420 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/ir_config_parameter_data.xml 
+2026-09-02 18:05:04,429 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/ir_cron_data.xml 
+2026-09-02 18:05:04,464 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/report/ir_model_report.xml 
+2026-09-02 18:05:04,475 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/report/ir_model_templates.xml 
+2026-09-02 18:05:04,508 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_logging_views.xml 
+2026-09-02 18:05:04,571 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_qweb_widget_templates.xml 
+2026-09-02 18:05:04,621 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_module_views.xml 
+2026-09-02 18:05:04,767 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/ir_module_category_data.xml 
+2026-09-02 18:05:04,949 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/ir_module_module.xml 
+2026-09-02 18:05:05,274 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/report/ir_module_reports.xml 
+2026-09-02 18:05:05,285 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/report/ir_module_report_templates.xml 
+2026-09-02 18:05:05,309 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/wizard/base_module_update_views.xml 
+2026-09-02 18:05:05,361 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/wizard/base_language_install_views.xml 
+2026-09-02 18:05:05,439 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/wizard/base_import_language_views.xml 
+2026-09-02 18:05:05,474 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/wizard/base_module_upgrade_views.xml 
+2026-09-02 18:05:05,527 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/wizard/base_module_uninstall_views.xml 
+2026-09-02 18:05:05,556 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/wizard/base_export_language_views.xml 
+2026-09-02 18:05:05,589 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/wizard/base_partner_merge_views.xml 
+2026-09-02 18:05:05,625 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/data/ir_demo_failure_data.xml 
+2026-09-02 18:05:05,685 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/ir_profile_views.xml 
+2026-09-02 18:05:05,741 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_company_views.xml 
+2026-09-02 18:05:05,793 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_lang_views.xml 
+2026-09-02 18:05:05,838 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_partner_views.xml 
+2026-09-02 18:05:06,018 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_bank_views.xml 
+2026-09-02 18:05:06,093 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_country_views.xml 
+2026-09-02 18:05:06,180 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_currency_views.xml 
+2026-09-02 18:05:06,251 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_groups_views.xml 
+2026-09-02 18:05:06,370 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_users_views.xml 
+2026-09-02 18:05:06,605 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_users_apikeys_views.xml 
+2026-09-02 18:05:06,626 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_device_views.xml 
+2026-09-02 18:05:06,694 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_users_identitycheck_views.xml 
+2026-09-02 18:05:06,715 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/res_config_settings_views.xml 
+2026-09-02 18:05:06,748 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/views/report_paperformat_views.xml 
+2026-09-02 18:05:06,822 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base/security/ir.model.access.csv 
+2026-09-02 18:05:07,174 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module base loaded in 17.59s, 8455 queries (+8455 other) 
+2026-09-02 18:05:07,174 773 INFO wave4_premig_aml_dirty odoo.modules.loading: 1 modules loaded in 17.59s, 8455 queries (+8455 extra) 
+2026-09-02 18:05:07,185 773 INFO wave4_premig_aml_dirty odoo.modules.loading: updating modules list 
+2026-09-02 18:05:07,188 773 INFO wave4_premig_aml_dirty odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-09-02 18:05:10,040 773 WARNING wave4_premig_aml_dirty odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 18:05:10,110 773 WARNING wave4_premig_aml_dirty odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 18:05:10,721 773 INFO wave4_premig_aml_dirty odoo.addons.base.models.ir_module: ALLOW access to module.button_install on ['AML Compliance & goAML'] to user __system__ #1 via n/a 
+2026-09-02 18:05:10,951 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading 69 modules... 
+2026-09-02 18:05:10,951 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module rpc (2/69) 
+2026-09-02 18:05:10,974 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module rpc loaded in 0.02s, 9 queries (+9 other) 
+2026-09-02 18:05:10,974 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module social_media (3/69) 
+2026-09-02 18:05:10,981 773 INFO wave4_premig_aml_dirty odoo.registry: module social_media: creating or updating database tables 
+2026-09-02 18:05:11,039 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading social_media/views/res_company_views.xml 
+2026-09-02 18:05:11,076 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module social_media loaded in 0.10s, 75 queries (+75 other) 
+2026-09-02 18:05:11,076 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module uom (4/69) 
+2026-09-02 18:05:11,081 773 INFO wave4_premig_aml_dirty odoo.registry: module uom: creating or updating database tables 
+2026-09-02 18:05:11,137 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading uom/data/uom_data.xml 
+2026-09-02 18:05:11,235 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading uom/security/uom_security.xml 
+2026-09-02 18:05:11,240 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading uom/security/ir.model.access.csv 
+2026-09-02 18:05:11,251 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading uom/views/uom_uom_views.xml 
+2026-09-02 18:05:11,294 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module uom loaded in 0.22s, 230 queries (+230 other) 
+2026-09-02 18:05:11,294 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module web (5/69) 
+2026-09-02 18:05:11,337 773 INFO wave4_premig_aml_dirty odoo.registry: module web: creating or updating database tables 
+2026-09-02 18:05:12,024 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/security/ir.model.access.csv 
+2026-09-02 18:05:12,036 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/security/web_security.xml 
+2026-09-02 18:05:12,055 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/views/webclient_templates.xml 
+2026-09-02 18:05:12,127 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/views/report_templates.xml 
+2026-09-02 18:05:12,263 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/views/base_document_layout_views.xml 
+2026-09-02 18:05:12,287 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/views/partner_view.xml 
+2026-09-02 18:05:12,301 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/views/speedscope_template.xml 
+2026-09-02 18:05:12,309 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/views/memory_template.xml 
+2026-09-02 18:05:12,318 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/views/speedscope_config_wizard.xml 
+2026-09-02 18:05:12,331 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/views/neutralize_views.xml 
+2026-09-02 18:05:12,345 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/views/ir_ui_view_views.xml 
+2026-09-02 18:05:12,360 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/data/ir_attachment.xml 
+2026-09-02 18:05:12,369 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web/data/report_layout.xml 
+2026-09-02 18:05:12,436 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module web loaded in 1.14s, 1239 queries (+1239 other) 
+2026-09-02 18:05:12,436 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module api_doc (6/69) 
+2026-09-02 18:05:12,445 773 INFO wave4_premig_aml_dirty odoo.registry: module api_doc: creating or updating database tables 
+2026-09-02 18:05:12,467 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading api_doc/security/res_groups.xml 
+2026-09-02 18:05:12,494 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading api_doc/views/docclient.xml 
+2026-09-02 18:05:12,523 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module api_doc loaded in 0.09s, 63 queries (+63 other) 
+2026-09-02 18:05:12,523 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module auth_totp (7/69) 
+2026-09-02 18:05:12,548 773 INFO wave4_premig_aml_dirty odoo.registry: module auth_totp: creating or updating database tables 
+2026-09-02 18:05:12,665 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp/security/security.xml 
+2026-09-02 18:05:12,699 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp/security/ir.model.access.csv 
+2026-09-02 18:05:12,719 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp/data/ir_action_data.xml 
+2026-09-02 18:05:12,730 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp/views/res_users_views.xml 
+2026-09-02 18:05:12,772 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp/views/templates.xml 
+2026-09-02 18:05:12,780 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp/wizard/auth_totp_wizard_views.xml 
+2026-09-02 18:05:12,813 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module auth_totp loaded in 0.29s, 218 queries (+218 other) 
+2026-09-02 18:05:12,814 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module base_import (8/69) 
+2026-09-02 18:05:12,863 773 INFO wave4_premig_aml_dirty odoo.registry: module base_import: creating or updating database tables 
+2026-09-02 18:05:13,509 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base_import/security/ir.model.access.csv 
+2026-09-02 18:05:13,534 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module base_import loaded in 0.72s, 966 queries (+966 other) 
+2026-09-02 18:05:13,534 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module base_import_module (9/69) 
+2026-09-02 18:05:13,546 773 INFO wave4_premig_aml_dirty odoo.registry: module base_import_module: creating or updating database tables 
+2026-09-02 18:05:13,628 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base_import_module/security/ir.model.access.csv 
+2026-09-02 18:05:13,637 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base_import_module/views/base_import_module_view.xml 
+2026-09-02 18:05:13,669 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base_import_module/views/ir_module_views.xml 
+2026-09-02 18:05:13,736 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module base_import_module loaded in 0.20s, 172 queries (+172 other) 
+2026-09-02 18:05:13,736 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module base_setup (10/69) 
+2026-09-02 18:05:13,749 773 INFO wave4_premig_aml_dirty odoo.registry: module base_setup: creating or updating database tables 
+2026-09-02 18:05:13,813 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base_setup/data/base_setup_data.xml 
+2026-09-02 18:05:13,820 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base_setup/views/res_config_settings_views.xml 
+2026-09-02 18:05:13,871 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base_setup/views/res_partner_views.xml 
+2026-09-02 18:05:13,897 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module base_setup loaded in 0.16s, 152 queries (+152 other) 
+2026-09-02 18:05:13,897 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module bus (11/69) 
+2026-09-02 18:05:13,932 773 INFO wave4_premig_aml_dirty odoo.registry: module bus: creating or updating database tables 
+2026-09-02 18:05:14,083 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading bus/security/ir.model.access.csv 
+2026-09-02 18:05:14,102 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module bus loaded in 0.21s, 159 queries (+159 other) 
+2026-09-02 18:05:14,103 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module http_routing (12/69) 
+2026-09-02 18:05:14,112 773 INFO wave4_premig_aml_dirty odoo.registry: module http_routing: creating or updating database tables 
+2026-09-02 18:05:14,140 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading http_routing/views/http_routing_template.xml 
+2026-09-02 18:05:14,197 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading http_routing/views/res_lang_views.xml 
+2026-09-02 18:05:14,236 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module http_routing loaded in 0.13s, 114 queries (+114 other) 
+2026-09-02 18:05:14,237 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module onboarding (13/69) 
+2026-09-02 18:05:14,245 773 INFO wave4_premig_aml_dirty odoo.registry: module onboarding: creating or updating database tables 
+2026-09-02 18:05:14,425 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading onboarding/views/onboarding_templates.xml 
+2026-09-02 18:05:14,446 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading onboarding/views/onboarding_views.xml 
+2026-09-02 18:05:14,485 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading onboarding/views/onboarding_menus.xml 
+2026-09-02 18:05:14,498 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading onboarding/security/ir.model.access.csv 
+2026-09-02 18:05:14,529 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module onboarding loaded in 0.29s, 246 queries (+246 other) 
+2026-09-02 18:05:14,529 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module resource (14/69) 
+2026-09-02 18:05:14,548 773 INFO wave4_premig_aml_dirty odoo.registry: module resource: creating or updating database tables 
+2026-09-02 18:05:14,793 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading resource/data/resource_data.xml 
+2026-09-02 18:05:14,817 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading resource/security/ir.model.access.csv 
+2026-09-02 18:05:14,832 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading resource/security/resource_security.xml 
+2026-09-02 18:05:14,866 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading resource/views/resource_resource_views.xml 
+2026-09-02 18:05:14,907 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading resource/views/resource_calendar_leaves_views.xml 
+2026-09-02 18:05:14,960 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading resource/views/resource_calendar_attendance_views.xml 
+2026-09-02 18:05:14,985 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading resource/views/resource_calendar_views.xml 
+2026-09-02 18:05:15,020 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading resource/views/menuitems.xml 
+2026-09-02 18:05:15,057 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module resource loaded in 0.53s, 414 queries (+414 other) 
+2026-09-02 18:05:15,057 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module utm (15/69) 
+2026-09-02 18:05:15,068 773 INFO wave4_premig_aml_dirty odoo.registry: module utm: creating or updating database tables 
+2026-09-02 18:05:15,249 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading utm/data/utm_medium_data.xml 
+2026-09-02 18:05:15,279 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading utm/data/utm_source_data.xml 
+2026-09-02 18:05:15,309 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading utm/data/utm_stage_data.xml 
+2026-09-02 18:05:15,315 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading utm/data/utm_tag_data.xml 
+2026-09-02 18:05:15,321 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading utm/views/utm_campaign_views.xml 
+2026-09-02 18:05:15,367 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading utm/views/utm_medium_views.xml 
+2026-09-02 18:05:15,391 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading utm/views/utm_source_views.xml 
+2026-09-02 18:05:15,409 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading utm/views/utm_stage_views.xml 
+2026-09-02 18:05:15,436 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading utm/views/utm_tag_views.xml 
+2026-09-02 18:05:15,454 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading utm/views/utm_menus.xml 
+2026-09-02 18:05:15,488 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading utm/security/ir.model.access.csv 
+2026-09-02 18:05:15,520 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module utm loaded in 0.46s, 410 queries (+410 other) 
+2026-09-02 18:05:15,520 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module web_tour (16/69) 
+2026-09-02 18:05:15,532 773 INFO wave4_premig_aml_dirty odoo.registry: module web_tour: creating or updating database tables 
+2026-09-02 18:05:15,541 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.users.tour_enabled 
+2026-09-02 18:05:15,668 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web_tour/security/ir.model.access.csv 
+2026-09-02 18:05:15,679 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web_tour/views/tour_views.xml 
+2026-09-02 18:05:15,748 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module web_tour loaded in 0.23s, 180 queries (+180 other) 
+2026-09-02 18:05:15,748 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module auth_passkey (17/69) 
+2026-09-02 18:05:15,797 773 INFO wave4_premig_aml_dirty odoo.registry: module auth_passkey: creating or updating database tables 
+2026-09-02 18:05:15,902 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_passkey/views/auth_passkey_key_views.xml 
+2026-09-02 18:05:15,940 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_passkey/views/auth_passkey_login_templates.xml 
+2026-09-02 18:05:15,957 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_passkey/views/res_users_identitycheck_views.xml 
+2026-09-02 18:05:15,972 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_passkey/views/res_users_views.xml 
+2026-09-02 18:05:16,000 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_passkey/security/ir.model.access.csv 
+2026-09-02 18:05:16,013 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_passkey/security/security.xml 
+2026-09-02 18:05:16,051 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module auth_passkey loaded in 0.30s, 218 queries (+218 other) 
+2026-09-02 18:05:16,051 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module google_recaptcha (18/69) 
+2026-09-02 18:05:16,060 773 INFO wave4_premig_aml_dirty odoo.registry: module google_recaptcha: creating or updating database tables 
+2026-09-02 18:05:16,094 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading google_recaptcha/views/res_config_settings_view.xml 
+2026-09-02 18:05:16,133 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module google_recaptcha loaded in 0.08s, 64 queries (+64 other) 
+2026-09-02 18:05:16,133 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module html_editor (19/69) 
+2026-09-02 18:05:16,374 773 INFO wave4_premig_aml_dirty odoo.registry: module html_editor: creating or updating database tables 
+2026-09-02 18:05:17,215 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading html_editor/security/ir.model.access.csv 
+2026-09-02 18:05:17,244 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module html_editor loaded in 1.11s, 1160 queries (+1160 other) 
+2026-09-02 18:05:17,244 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module iap (20/69) 
+2026-09-02 18:05:17,254 773 INFO wave4_premig_aml_dirty odoo.registry: module iap: creating or updating database tables 
+2026-09-02 18:05:17,389 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading iap/data/services.xml 
+2026-09-02 18:05:17,399 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading iap/security/ir.model.access.csv 
+2026-09-02 18:05:17,415 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading iap/security/ir_rule.xml 
+2026-09-02 18:05:17,428 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading iap/views/iap_views.xml 
+2026-09-02 18:05:17,482 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading iap/views/res_config_settings.xml 
+2026-09-02 18:05:17,541 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module iap loaded in 0.30s, 184 queries (+184 other) 
+2026-09-02 18:05:17,541 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module mail (21/69) 
+2026-09-02 18:05:17,662 773 INFO wave4_premig_aml_dirty odoo.registry: module mail: creating or updating database tables 
+2026-09-02 18:05:18,401 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.partner_ids 
+2026-09-02 18:05:18,402 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.activity_user_id 
+2026-09-02 18:05:18,402 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.activity_type_id 
+2026-09-02 18:05:18,402 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.template_id 
+2026-09-02 18:05:18,403 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.activity_date_deadline_range 
+2026-09-02 18:05:18,403 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.activity_summary 
+2026-09-02 18:05:18,403 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.followers_type 
+2026-09-02 18:05:18,403 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.followers_partner_field_name 
+2026-09-02 18:05:18,404 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.mail_post_method 
+2026-09-02 18:05:18,404 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.activity_date_deadline_range_type 
+2026-09-02 18:05:18,404 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.activity_user_type 
+2026-09-02 18:05:18,404 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.activity_user_field_name 
+2026-09-02 18:05:18,404 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.activity_note 
+2026-09-02 18:05:18,404 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.mail_post_autofollow 
+2026-09-02 18:05:18,551 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.users.notification_type 
+2026-09-02 18:05:18,706 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.email_normalized 
+<string>:38: (ERROR/3) Unexpected indentation.
+<string>:43: (WARNING/2) Block quote ends without a blank line; unexpected unindent.
+2026-09-02 18:05:21,990 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/mail_groups.xml 
+2026-09-02 18:05:22,062 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/wizard/mail_activity_schedule_views.xml 
+2026-09-02 18:05:22,105 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/wizard/mail_blacklist_remove_views.xml 
+2026-09-02 18:05:22,130 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/wizard/mail_compose_message_views.xml 
+2026-09-02 18:05:22,204 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/wizard/mail_template_preview_views.xml 
+2026-09-02 18:05:22,247 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/wizard/mail_followers_edit_views.xml 
+2026-09-02 18:05:22,301 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/wizard/mail_template_reset_views.xml 
+2026-09-02 18:05:22,345 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/fetchmail_views.xml 
+2026-09-02 18:05:22,432 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/ir_cron_views.xml 
+2026-09-02 18:05:22,493 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/ir_filters_views.xml 
+2026-09-02 18:05:22,607 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/ir_mail_server_views.xml 
+2026-09-02 18:05:22,649 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_message_subtype_views.xml 
+2026-09-02 18:05:22,724 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_tracking_value_views.xml 
+2026-09-02 18:05:22,795 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_notification_views.xml 
+2026-09-02 18:05:22,856 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_message_views.xml 
+2026-09-02 18:05:22,944 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_message_schedule_views.xml 
+2026-09-02 18:05:22,987 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_mail_views.xml 
+2026-09-02 18:05:23,063 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_followers_views.xml 
+2026-09-02 18:05:23,102 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_ice_server_views.xml 
+2026-09-02 18:05:23,154 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/discuss_channel_member_views.xml 
+2026-09-02 18:05:23,187 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/discuss_channel_rtc_session_views.xml 
+2026-09-02 18:05:23,226 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_link_preview_views.xml 
+2026-09-02 18:05:23,272 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/discuss/discuss_gif_favorite_views.xml 
+2026-09-02 18:05:23,306 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/discuss_channel_views.xml 
+2026-09-02 18:05:23,382 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_canned_response_views.xml 
+2026-09-02 18:05:23,441 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/res_role_views.xml 
+2026-09-02 18:05:23,486 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_activity_views.xml 
+2026-09-02 18:05:23,739 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_activity_plan_views.xml 
+2026-09-02 18:05:23,844 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_activity_plan_template_views.xml 
+2026-09-02 18:05:23,874 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/res_config_settings_views.xml 
+2026-09-02 18:05:23,956 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/ir_config_parameter_data.xml 
+2026-09-02 18:05:23,973 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/res_partner_data.xml 
+2026-09-02 18:05:24,216 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/mail_message_subtype_data.xml 
+2026-09-02 18:05:24,240 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/mail_templates_chatter.xml 
+2026-09-02 18:05:24,291 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/mail_templates_email_layouts.xml 
+2026-09-02 18:05:24,344 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/mail_templates_mailgateway.xml 
+2026-09-02 18:05:24,387 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/discuss_channel_data.xml 
+2026-09-02 18:05:24,482 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/mail_activity_type_data.xml 
+2026-09-02 18:05:24,522 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/security_notifications_templates.xml 
+2026-09-02 18:05:24,539 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/ir_cron_data.xml 
+2026-09-02 18:05:24,866 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/ir_actions_client.xml 
+2026-09-02 18:05:24,891 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/security/mail_security.xml 
+2026-09-02 18:05:25,392 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/security/ir.model.access.csv 
+2026-09-02 18:05:25,551 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/discuss_public_templates.xml 
+2026-09-02 18:05:25,564 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_alias_domain_views.xml 
+2026-09-02 18:05:25,631 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_alias_views.xml 
+2026-09-02 18:05:25,716 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_gateway_allowed_views.xml 
+2026-09-02 18:05:25,770 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_guest_views.xml 
+2026-09-02 18:05:25,821 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_message_reaction_views.xml 
+2026-09-02 18:05:25,866 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_templates_public.xml 
+2026-09-02 18:05:25,907 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/res_users_views.xml 
+2026-09-02 18:05:26,017 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/res_users_settings_views.xml 
+2026-09-02 18:05:26,077 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_template_views.xml 
+2026-09-02 18:05:26,175 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/ir_actions_server_views.xml 
+2026-09-02 18:05:26,248 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/ir_model_views.xml 
+2026-09-02 18:05:26,366 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/res_partner_views.xml 
+2026-09-02 18:05:26,530 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_blacklist_views.xml 
+2026-09-02 18:05:26,593 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_menus.xml 
+2026-09-02 18:05:27,104 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/discuss/discuss_menus.xml 
+2026-09-02 18:05:27,116 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/discuss/discuss_call_history_views.xml 
+2026-09-02 18:05:27,187 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/res_company_views.xml 
+2026-09-02 18:05:27,239 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/views/mail_scheduled_message_views.xml 
+2026-09-02 18:05:27,273 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/mail_canned_response_data.xml 
+2026-09-02 18:05:27,301 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/mail_templates_invite.xml 
+2026-09-02 18:05:27,357 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail/data/web_tour_tour.xml 
+2026-09-02 18:05:27,553 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module mail loaded in 10.01s, 5105 queries (+5106 other) 
+2026-09-02 18:05:27,553 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module web_unsplash (22/69) 
+2026-09-02 18:05:27,608 773 INFO wave4_premig_aml_dirty odoo.registry: module web_unsplash: creating or updating database tables 
+2026-09-02 18:05:27,841 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading web_unsplash/views/res_config_settings_view.xml 
+2026-09-02 18:05:28,022 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module web_unsplash loaded in 0.47s, 103 queries (+103 other) 
+2026-09-02 18:05:28,022 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module analytic (23/69) 
+2026-09-02 18:05:28,066 773 INFO wave4_premig_aml_dirty odoo.registry: module analytic: creating or updating database tables 
+2026-09-02 18:05:28,852 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading analytic/security/analytic_security.xml 
+2026-09-02 18:05:28,904 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading analytic/security/ir.model.access.csv 
+2026-09-02 18:05:28,942 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading analytic/views/analytic_line_views.xml 
+2026-09-02 18:05:29,053 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading analytic/views/analytic_account_views.xml 
+2026-09-02 18:05:29,134 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading analytic/views/analytic_plan_views.xml 
+2026-09-02 18:05:29,179 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading analytic/views/analytic_distribution_model_views.xml 
+2026-09-02 18:05:29,211 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading analytic/data/analytic_data.xml 
+2026-09-02 18:05:29,285 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module analytic loaded in 1.26s, 425 queries (+425 other) 
+2026-09-02 18:05:29,285 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module auth_signup (24/69) 
+2026-09-02 18:05:29,315 773 INFO wave4_premig_aml_dirty odoo.registry: module auth_signup: creating or updating database tables 
+2026-09-02 18:05:29,540 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_signup/data/ir_config_parameter_data.xml 
+2026-09-02 18:05:29,554 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_signup/data/ir_cron_data.xml 
+2026-09-02 18:05:29,614 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_signup/data/mail_template_data.xml 
+2026-09-02 18:05:29,779 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_signup/views/res_config_settings_views.xml 
+2026-09-02 18:05:29,822 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_signup/views/res_users_views.xml 
+2026-09-02 18:05:29,882 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_signup/views/auth_signup_login_templates.xml 
+2026-09-02 18:05:29,939 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_signup/views/auth_signup_templates_email.xml 
+2026-09-02 18:05:29,961 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_signup/views/webclient_templates.xml 
+2026-09-02 18:05:30,042 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module auth_signup loaded in 0.76s, 255 queries (+255 other) 
+2026-09-02 18:05:30,042 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module auth_totp_mail (25/69) 
+2026-09-02 18:05:30,083 773 INFO wave4_premig_aml_dirty odoo.registry: module auth_totp_mail: creating or updating database tables 
+2026-09-02 18:05:30,198 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp_mail/data/ir_action_data.xml 
+2026-09-02 18:05:30,262 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp_mail/data/mail_template_data.xml 
+2026-09-02 18:05:30,338 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp_mail/data/security_notifications_template.xml 
+2026-09-02 18:05:30,357 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp_mail/views/res_config_settings_views.xml 
+2026-09-02 18:05:30,396 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp_mail/views/res_users_views.xml 
+2026-09-02 18:05:30,438 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp_mail/views/templates.xml 
+2026-09-02 18:05:30,531 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module auth_totp_mail loaded in 0.49s, 189 queries (+189 other) 
+2026-09-02 18:05:30,531 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module base_install_request (26/69) 
+2026-09-02 18:05:30,548 773 INFO wave4_premig_aml_dirty odoo.registry: module base_install_request: creating or updating database tables 
+2026-09-02 18:05:30,660 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base_install_request/security/ir.model.access.csv 
+2026-09-02 18:05:30,683 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base_install_request/wizard/base_module_install_request_views.xml 
+2026-09-02 18:05:30,721 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base_install_request/data/mail_template_data.xml 
+2026-09-02 18:05:30,736 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base_install_request/data/mail_templates_module_install.xml 
+2026-09-02 18:05:30,748 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading base_install_request/views/ir_module_module_views.xml 
+2026-09-02 18:05:30,799 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module base_install_request loaded in 0.27s, 154 queries (+154 other) 
+2026-09-02 18:05:30,799 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module calendar (27/69) 
+2026-09-02 18:05:30,856 773 INFO wave4_premig_aml_dirty odoo.registry: module calendar: creating or updating database tables 
+2026-09-02 18:05:31,736 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/security/ir.model.access.csv 
+2026-09-02 18:05:31,773 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/security/calendar_security.xml 
+2026-09-02 18:05:31,827 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/data/calendar_cron.xml 
+2026-09-02 18:05:31,881 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/data/mail_template_data.xml 
+2026-09-02 18:05:31,954 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/data/calendar_data.xml 
+2026-09-02 18:05:31,997 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/data/mail_activity_type_data.xml 
+2026-09-02 18:05:32,004 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/data/mail_message_subtype_data.xml 
+2026-09-02 18:05:32,014 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/views/mail_activity_views.xml 
+2026-09-02 18:05:32,061 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/views/calendar_templates.xml 
+2026-09-02 18:05:32,079 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/views/calendar_views.xml 
+2026-09-02 18:05:32,394 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/views/res_config_settings_views.xml 
+2026-09-02 18:05:32,428 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/views/res_partner_views.xml 
+2026-09-02 18:05:32,463 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/views/res_users_views.xml 
+2026-09-02 18:05:32,503 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/wizard/calendar_provider_config.xml 
+2026-09-02 18:05:32,521 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/wizard/calendar_popover_delete_wizard.xml 
+2026-09-02 18:05:32,542 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar/wizard/mail_activity_schedule_views.xml 
+2026-09-02 18:05:32,606 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module calendar loaded in 1.81s, 883 queries (+883 other) 
+2026-09-02 18:05:32,606 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module contacts (28/69) 
+2026-09-02 18:05:32,635 773 INFO wave4_premig_aml_dirty odoo.registry: module contacts: creating or updating database tables 
+2026-09-02 18:05:32,734 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading contacts/views/contact_views.xml 
+2026-09-02 18:05:32,883 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module contacts loaded in 0.28s, 209 queries (+209 other) 
+2026-09-02 18:05:32,883 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module google_gmail (29/69) 
+2026-09-02 18:05:32,917 773 INFO wave4_premig_aml_dirty odoo.registry: module google_gmail: creating or updating database tables 
+2026-09-02 18:05:33,043 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading google_gmail/views/fetchmail_server_views.xml 
+2026-09-02 18:05:33,079 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading google_gmail/views/ir_mail_server_views.xml 
+2026-09-02 18:05:33,101 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading google_gmail/views/res_config_settings_views.xml 
+2026-09-02 18:05:33,150 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading google_gmail/views/templates.xml 
+2026-09-02 18:05:33,179 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module google_gmail loaded in 0.30s, 155 queries (+155 other) 
+2026-09-02 18:05:33,179 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module html_builder (30/69) 
+2026-09-02 18:05:33,267 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module html_builder loaded in 0.09s, 10 queries (+10 other) 
+2026-09-02 18:05:33,267 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module iap_mail (31/69) 
+2026-09-02 18:05:33,290 773 INFO wave4_premig_aml_dirty odoo.registry: module iap_mail: creating or updating database tables 
+2026-09-02 18:05:33,436 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading iap_mail/data/mail_templates.xml 
+2026-09-02 18:05:33,516 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading iap_mail/views/iap_views.xml 
+2026-09-02 18:05:33,606 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module iap_mail loaded in 0.34s, 70 queries (+70 other) 
+2026-09-02 18:05:33,606 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module mail_bot (32/69) 
+2026-09-02 18:05:33,678 773 INFO wave4_premig_aml_dirty odoo.registry: module mail_bot: creating or updating database tables 
+2026-09-02 18:05:33,928 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail_bot/views/res_users_views.xml 
+2026-09-02 18:05:34,023 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading mail_bot/data/mailbot_data.xml 
+2026-09-02 18:05:34,080 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module mail_bot loaded in 0.47s, 109 queries (+109 other) 
+2026-09-02 18:05:34,080 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module microsoft_outlook (33/69) 
+2026-09-02 18:05:34,162 773 INFO wave4_premig_aml_dirty odoo.registry: module microsoft_outlook: creating or updating database tables 
+2026-09-02 18:05:34,456 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading microsoft_outlook/views/fetchmail_server_views.xml 
+2026-09-02 18:05:34,509 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading microsoft_outlook/views/ir_mail_server_views.xml 
+2026-09-02 18:05:34,554 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading microsoft_outlook/views/res_config_settings_views.xml 
+2026-09-02 18:05:34,612 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading microsoft_outlook/views/templates.xml 
+2026-09-02 18:05:34,646 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module microsoft_outlook loaded in 0.57s, 158 queries (+158 other) 
+2026-09-02 18:05:34,646 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module phone_validation (34/69) 
+2026-09-02 18:05:35,092 773 INFO wave4_premig_aml_dirty odoo.registry: module phone_validation: creating or updating database tables 
+2026-09-02 18:05:35,221 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.phone_sanitized 
+2026-09-02 18:05:39,414 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading phone_validation/security/ir.model.access.csv 
+2026-09-02 18:05:39,460 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading phone_validation/views/phone_blacklist_views.xml 
+2026-09-02 18:05:39,602 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading phone_validation/views/res_partner_views.xml 
+2026-09-02 18:05:39,647 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading phone_validation/wizard/phone_blacklist_remove_view.xml 
+2026-09-02 18:05:39,720 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module phone_validation loaded in 5.07s, 1856 queries (+1856 other) 
+2026-09-02 18:05:39,720 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module privacy_lookup (35/69) 
+2026-09-02 18:05:39,798 773 INFO wave4_premig_aml_dirty odoo.registry: module privacy_lookup: creating or updating database tables 
+2026-09-02 18:05:40,364 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading privacy_lookup/wizard/privacy_lookup_wizard_views.xml 
+2026-09-02 18:05:40,609 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading privacy_lookup/views/privacy_log_views.xml 
+2026-09-02 18:05:40,699 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading privacy_lookup/security/ir.model.access.csv 
+2026-09-02 18:05:40,788 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading privacy_lookup/data/ir_actions_server_data.xml 
+2026-09-02 18:05:40,989 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module privacy_lookup loaded in 1.27s, 296 queries (+296 other) 
+2026-09-02 18:05:40,990 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module product (36/69) 
+2026-09-02 18:05:41,228 773 INFO wave4_premig_aml_dirty odoo.registry: module product: creating or updating database tables 
+2026-09-02 18:05:43,971 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/data/product_data.xml 
+2026-09-02 18:05:44,028 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/security/product_security.xml 
+2026-09-02 18:05:44,165 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/security/ir.model.access.csv 
+2026-09-02 18:05:44,217 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/wizard/product_label_layout_views.xml 
+2026-09-02 18:05:44,248 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/wizard/update_product_attribute_value_views.xml 
+2026-09-02 18:05:44,266 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/product_tag_views.xml 
+2026-09-02 18:05:44,301 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/product_views.xml 
+2026-09-02 18:05:44,542 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/res_config_settings_views.xml 
+2026-09-02 18:05:44,575 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/product_attribute_views.xml 
+2026-09-02 18:05:44,678 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/product_attribute_value_views.xml 
+2026-09-02 18:05:44,689 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/product_category_views.xml 
+2026-09-02 18:05:44,735 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/product_combo_views.xml 
+2026-09-02 18:05:44,776 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/product_document_views.xml 
+2026-09-02 18:05:44,833 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/product_pricelist_item_views.xml 
+2026-09-02 18:05:44,916 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/product_pricelist_views.xml 
+2026-09-02 18:05:44,988 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/product_supplierinfo_views.xml 
+2026-09-02 18:05:45,051 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/product_template_attribute_line_views.xml 
+2026-09-02 18:05:45,064 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/product_template_views.xml 
+2026-09-02 18:05:45,215 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/res_country_group_views.xml 
+2026-09-02 18:05:45,236 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/res_partner_views.xml 
+2026-09-02 18:05:45,277 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/views/uom_views.xml 
+2026-09-02 18:05:45,320 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/report/product_reports.xml 
+2026-09-02 18:05:45,382 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/report/product_product_templates.xml 
+2026-09-02 18:05:45,460 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/report/product_template_templates.xml 
+2026-09-02 18:05:45,515 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/report/product_packaging.xml 
+2026-09-02 18:05:45,532 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading product/report/product_pricelist_report_templates.xml 
+2026-09-02 18:05:45,634 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module product loaded in 4.64s, 1637 queries (+1637 other) 
+2026-09-02 18:05:45,635 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module resource_mail (37/69) 
+2026-09-02 18:05:45,657 773 INFO wave4_premig_aml_dirty odoo.registry: module resource_mail: creating or updating database tables 
+2026-09-02 18:05:45,753 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module resource_mail loaded in 0.12s, 36 queries (+36 other) 
+2026-09-02 18:05:45,753 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module sales_team (38/69) 
+2026-09-02 18:05:45,783 773 INFO wave4_premig_aml_dirty odoo.registry: module sales_team: creating or updating database tables 
+2026-09-02 18:05:45,873 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.users.sale_team_id 
+2026-09-02 18:05:46,113 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sales_team/security/sales_team_security.xml 
+2026-09-02 18:05:46,224 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sales_team/security/ir.model.access.csv 
+2026-09-02 18:05:46,250 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sales_team/data/crm_team_data.xml 
+2026-09-02 18:05:46,321 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sales_team/views/crm_tag_views.xml 
+2026-09-02 18:05:46,353 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sales_team/views/crm_team_views.xml 
+2026-09-02 18:05:46,435 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sales_team/views/crm_team_member_views.xml 
+2026-09-02 18:05:46,518 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sales_team/views/mail_activity_views.xml 
+2026-09-02 18:05:46,556 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module sales_team loaded in 0.80s, 365 queries (+365 other) 
+2026-09-02 18:05:46,556 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module partner_autocomplete (39/69) 
+2026-09-02 18:05:46,602 773 INFO wave4_premig_aml_dirty odoo.registry: module partner_autocomplete: creating or updating database tables 
+2026-09-02 18:05:46,739 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading partner_autocomplete/views/res_company_views.xml 
+2026-09-02 18:05:46,771 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading partner_autocomplete/views/res_config_settings_views.xml 
+2026-09-02 18:05:46,795 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading partner_autocomplete/data/iap_service_data.xml 
+2026-09-02 18:05:46,815 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module partner_autocomplete loaded in 0.26s, 144 queries (+144 other) 
+2026-09-02 18:05:46,815 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module portal (40/69) 
+2026-09-02 18:05:46,873 773 INFO wave4_premig_aml_dirty odoo.registry: module portal: creating or updating database tables 
+2026-09-02 18:05:47,298 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading portal/security/ir.model.access.csv 
+2026-09-02 18:05:47,312 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading portal/data/mail_templates.xml 
+2026-09-02 18:05:47,323 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading portal/views/address_templates.xml 
+2026-09-02 18:05:47,372 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading portal/views/mail_templates_public.xml 
+2026-09-02 18:05:47,386 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading portal/views/portal_templates.xml 
+2026-09-02 18:05:47,591 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading portal/views/res_config_settings_views.xml 
+2026-09-02 18:05:47,642 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading portal/wizard/portal_share_views.xml 
+2026-09-02 18:05:47,664 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading portal/wizard/portal_wizard_views.xml 
+2026-09-02 18:05:47,779 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module portal loaded in 0.96s, 625 queries (+625 other) 
+2026-09-02 18:05:47,779 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module sms (41/69) 
+2026-09-02 18:05:48,089 773 INFO wave4_premig_aml_dirty odoo.registry: module sms: creating or updating database tables 
+2026-09-02 18:05:48,133 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.sms_template_id 
+2026-09-02 18:05:48,143 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.actions.server.sms_method 
+2026-09-02 18:05:51,184 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/data/iap_service_data.xml 
+2026-09-02 18:05:51,194 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/data/ir_cron_data.xml 
+2026-09-02 18:05:51,252 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/wizard/sms_account_code_views.xml 
+2026-09-02 18:05:51,282 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/wizard/sms_account_phone_views.xml 
+2026-09-02 18:05:51,297 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/wizard/sms_account_sender_views.xml 
+2026-09-02 18:05:51,312 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/wizard/sms_composer_views.xml 
+2026-09-02 18:05:51,340 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/wizard/sms_template_preview_views.xml 
+2026-09-02 18:05:51,360 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/wizard/sms_template_reset_views.xml 
+2026-09-02 18:05:51,383 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/views/ir_actions_server_views.xml 
+2026-09-02 18:05:51,421 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/views/mail_notification_views.xml 
+2026-09-02 18:05:51,463 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/views/res_config_settings_views.xml 
+2026-09-02 18:05:51,500 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/views/res_partner_views.xml 
+2026-09-02 18:05:51,545 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/views/iap_account_views.xml 
+2026-09-02 18:05:51,572 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/views/sms_sms_views.xml 
+2026-09-02 18:05:51,640 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/views/sms_template_views.xml 
+2026-09-02 18:05:51,684 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/security/ir.model.access.csv 
+2026-09-02 18:05:51,742 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading sms/security/sms_security.xml 
+2026-09-02 18:05:51,795 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module sms loaded in 4.02s, 2488 queries (+2488 other) 
+2026-09-02 18:05:51,795 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module snailmail (42/69) 
+2026-09-02 18:05:52,017 773 INFO wave4_premig_aml_dirty odoo.registry: module snailmail: creating or updating database tables 
+2026-09-02 18:05:52,695 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading snailmail/data/iap_service_data.xml 
+2026-09-02 18:05:52,708 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading snailmail/data/snailmail_data.xml 
+2026-09-02 18:05:52,806 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading snailmail/views/report_assets.xml 
+2026-09-02 18:05:52,848 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading snailmail/views/snailmail_views.xml 
+2026-09-02 18:05:52,944 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading snailmail/security/ir.model.access.csv 
+2026-09-02 18:05:53,044 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module snailmail loaded in 1.25s, 491 queries (+491 other) 
+2026-09-02 18:05:53,044 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module auth_passkey_portal (43/69) 
+2026-09-02 18:05:53,095 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_passkey_portal/views/templates.xml 
+2026-09-02 18:05:53,239 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module auth_passkey_portal loaded in 0.19s, 22 queries (+22 other) 
+2026-09-02 18:05:53,239 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module auth_totp_portal (44/69) 
+2026-09-02 18:05:53,288 773 INFO wave4_premig_aml_dirty odoo.registry: module auth_totp_portal: creating or updating database tables 
+2026-09-02 18:05:53,409 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp_portal/security/security.xml 
+2026-09-02 18:05:53,472 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading auth_totp_portal/views/templates.xml 
+2026-09-02 18:05:53,532 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module auth_totp_portal loaded in 0.29s, 70 queries (+70 other) 
+2026-09-02 18:05:53,532 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module calendar_sms (45/69) 
+2026-09-02 18:05:53,557 773 INFO wave4_premig_aml_dirty odoo.registry: module calendar_sms: creating or updating database tables 
+2026-09-02 18:05:53,567 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of calendar.alarm.sms_template_id 
+2026-09-02 18:05:53,662 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar_sms/data/sms_data.xml 
+2026-09-02 18:05:53,675 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading calendar_sms/views/calendar_views.xml 
+2026-09-02 18:05:53,780 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module calendar_sms loaded in 0.25s, 106 queries (+106 other) 
+2026-09-02 18:05:53,780 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module digest (46/69) 
+2026-09-02 18:05:53,818 773 INFO wave4_premig_aml_dirty odoo.registry: module digest: creating or updating database tables 
+2026-09-02 18:05:54,053 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading digest/security/ir.model.access.csv 
+2026-09-02 18:05:54,071 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading digest/data/digest_data.xml 
+2026-09-02 18:05:54,112 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading digest/data/digest_tips_data.xml 
+2026-09-02 18:05:54,150 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading digest/data/ir_cron_data.xml 
+2026-09-02 18:05:54,201 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading digest/data/res_config_settings_data.xml 
+2026-09-02 18:05:54,213 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading digest/views/digest_views.xml 
+2026-09-02 18:05:54,348 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading digest/views/digest_templates.xml 
+2026-09-02 18:05:54,361 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading digest/views/res_config_settings_views.xml 
+2026-09-02 18:05:54,469 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module digest loaded in 0.69s, 326 queries (+326 other) 
+2026-09-02 18:05:54,469 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module payment (47/69) 
+2026-09-02 18:05:54,570 773 INFO wave4_premig_aml_dirty odoo.registry: module payment: creating or updating database tables 
+2026-09-02 18:05:55,514 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/data/ir_actions_server_data.xml 
+2026-09-02 18:05:55,580 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/data/payment_method_data.xml 
+2026-09-02 18:06:00,051 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/data/payment_provider_data.xml 
+2026-09-02 18:06:00,536 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/data/payment_cron.xml 
+2026-09-02 18:06:00,591 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/views/express_checkout_templates.xml 
+2026-09-02 18:06:00,625 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/views/payment_form_templates.xml 
+2026-09-02 18:06:00,770 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/views/portal_templates.xml 
+2026-09-02 18:06:00,919 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/views/payment_provider_views.xml 
+2026-09-02 18:06:01,037 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/views/payment_method_views.xml 
+2026-09-02 18:06:01,112 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/views/payment_transaction_views.xml 
+2026-09-02 18:06:01,246 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/views/payment_token_views.xml 
+2026-09-02 18:06:01,283 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/views/res_partner_views.xml 
+2026-09-02 18:06:01,315 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/security/ir.model.access.csv 
+2026-09-02 18:06:02,442 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/security/payment_security.xml 
+2026-09-02 18:06:02,506 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/wizards/payment_capture_wizard_views.xml 
+2026-09-02 18:06:02,549 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading payment/wizards/payment_link_wizard_views.xml 
+2026-09-02 18:06:02,678 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module payment loaded in 8.21s, 2517 queries (+2517 other) 
+2026-09-02 18:06:02,678 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module spreadsheet (48/69) 
+2026-09-02 18:06:02,725 773 INFO wave4_premig_aml_dirty odoo.registry: module spreadsheet: creating or updating database tables 
+2026-09-02 18:06:02,916 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading spreadsheet/views/public_readonly_spreadsheet_templates.xml 
+2026-09-02 18:06:02,968 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module spreadsheet loaded in 0.29s, 93 queries (+93 other) 
+2026-09-02 18:06:02,968 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module account (49/69) 
+2026-09-02 18:06:03,252 773 INFO wave4_premig_aml_dirty odoo.registry: module account: creating or updating database tables 
+2026-09-02 18:06:03,720 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.company.domestic_fiscal_position_id 
+2026-09-02 18:06:03,720 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.company.account_fiscal_country_id 
+2026-09-02 18:06:03,720 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.company.invoice_terms_html 
+2026-09-02 18:06:03,720 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.company.account_storno 
+2026-09-02 18:06:07,337 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/security/account_security.xml 
+2026-09-02 18:06:07,624 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/security/ir.model.access.csv 
+2026-09-02 18:06:07,696 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/data/account_data.xml 
+2026-09-02 18:06:07,829 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/data/digest_data.xml 
+2026-09-02 18:06:07,847 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_report.xml 
+2026-09-02 18:06:07,893 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/data/mail_template_data.xml 
+2026-09-02 18:06:08,001 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/data/onboarding_data.xml 
+2026-09-02 18:06:08,081 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/data/account_tour.xml 
+2026-09-02 18:06:08,095 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/data/ir_sequence.xml 
+2026-09-02 18:06:08,111 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/data/res_country_group.xml 
+2026-09-02 18:06:08,155 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_payment_view.xml 
+2026-09-02 18:06:08,265 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/account_automatic_entry_wizard_views.xml 
+2026-09-02 18:06:08,281 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/account_autopost_bills_wizard.xml 
+2026-09-02 18:06:08,294 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/account_unreconcile_view.xml 
+2026-09-02 18:06:08,310 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/account_move_reversal_view.xml 
+2026-09-02 18:06:08,329 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/account_resequence_views.xml 
+2026-09-02 18:06:08,346 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/account_payment_register_views.xml 
+2026-09-02 18:06:08,365 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_move_views.xml 
+2026-09-02 18:06:09,108 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/setup_wizards_view.xml 
+2026-09-02 18:06:09,149 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_account_views.xml 
+2026-09-02 18:06:09,219 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_group_views.xml 
+2026-09-02 18:06:09,240 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_journal_views.xml 
+2026-09-02 18:06:09,306 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_account_tag_views.xml 
+2026-09-02 18:06:09,328 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_bank_statement_views.xml 
+2026-09-02 18:06:09,369 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_reconcile_model_views.xml 
+2026-09-02 18:06:09,405 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_tax_views.xml 
+2026-09-02 18:06:09,505 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_full_reconcile_views.xml 
+2026-09-02 18:06:09,517 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_payment_term_views.xml 
+2026-09-02 18:06:09,555 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_payment_method.xml 
+2026-09-02 18:06:09,567 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/res_partner_bank_views.xml 
+2026-09-02 18:06:09,596 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/report_statement.xml 
+2026-09-02 18:06:09,616 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/terms_template.xml 
+2026-09-02 18:06:09,636 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/account_validate_move_view.xml 
+2026-09-02 18:06:09,667 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/res_company_views.xml 
+2026-09-02 18:06:09,705 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/product_view.xml 
+2026-09-02 18:06:09,793 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_analytic_plan_views.xml 
+2026-09-02 18:06:09,811 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_analytic_account_views.xml 
+2026-09-02 18:06:09,848 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_analytic_distribution_model_views.xml 
+2026-09-02 18:06:09,875 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_analytic_line_views.xml 
+2026-09-02 18:06:09,936 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/report_invoice.xml 
+2026-09-02 18:06:09,993 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/report/account_invoice_report_view.xml 
+2026-09-02 18:06:10,049 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_cash_rounding_view.xml 
+2026-09-02 18:06:10,076 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/ir_actions_views.xml 
+2026-09-02 18:06:10,089 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/ir_module_views.xml 
+2026-09-02 18:06:10,103 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/base_document_layout_views.xml 
+2026-09-02 18:06:10,119 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/res_config_settings_views.xml 
+2026-09-02 18:06:10,222 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/partner_view.xml 
+2026-09-02 18:06:10,332 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_journal_dashboard_view.xml 
+2026-09-02 18:06:10,363 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_portal_templates.xml 
+2026-09-02 18:06:10,434 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/report_payment_receipt_templates.xml 
+2026-09-02 18:06:10,453 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/data/service_cron.xml 
+2026-09-02 18:06:10,521 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_incoterms_view.xml 
+2026-09-02 18:06:10,562 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/data/account_incoterms_data.xml 
+2026-09-02 18:06:10,595 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/digest_views.xml 
+2026-09-02 18:06:10,624 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/account_move_send_wizard.xml 
+2026-09-02 18:06:10,644 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/account_move_send_batch_wizard.xml 
+2026-09-02 18:06:10,659 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/report/account_hash_integrity_templates.xml 
+2026-09-02 18:06:10,677 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/res_currency.xml 
+2026-09-02 18:06:10,709 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/res_country_group_view.xml 
+2026-09-02 18:06:10,740 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_menuitem.xml 
+2026-09-02 18:06:11,197 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/account_secure_entries_wizard.xml 
+2026-09-02 18:06:11,249 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/mail_message_views.xml 
+2026-09-02 18:06:11,299 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/accrued_orders.xml 
+2026-09-02 18:06:11,316 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/bill_preview_template.xml 
+2026-09-02 18:06:11,345 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/data/account_reports_data.xml 
+2026-09-02 18:06:11,436 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/uom_uom_views.xml 
+2026-09-02 18:06:11,464 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/product_views.xml 
+2026-09-02 18:06:11,505 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/tests_shared_js_python.xml 
+2026-09-02 18:06:11,515 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/account_lock_exception_views.xml 
+2026-09-02 18:06:11,540 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/views/report_templates.xml 
+2026-09-02 18:06:11,581 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/wizard/account_merge_wizard_views.xml 
+2026-09-02 18:06:11,614 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account/data/ir_config_parameter_data.xml 
+2026-09-02 18:06:11,872 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module account loaded in 8.90s, 5779 queries (+5779 other) 
+2026-09-02 18:06:11,873 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module crm (50/69) 
+2026-09-02 18:06:11,981 773 INFO wave4_premig_aml_dirty odoo.registry: module crm: creating or updating database tables 
+2026-09-02 18:06:12,767 773 INFO wave4_premig_aml_dirty odoo.addons.mail.models.mail_alias_mixin: Mail alias created for crm.team Sales (id 1) 
+2026-09-02 18:06:12,770 773 INFO wave4_premig_aml_dirty odoo.addons.mail.models.mail_alias_mixin: Mail alias created for crm.team Point of Sale (id 3) 
+2026-09-02 18:06:12,774 773 INFO wave4_premig_aml_dirty odoo.addons.mail.models.mail_alias_mixin: Mail alias created for crm.team Website (id 2) 
+2026-09-02 18:06:13,462 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/security/crm_security.xml 
+2026-09-02 18:06:13,590 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/security/ir.model.access.csv 
+2026-09-02 18:06:13,637 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/data/crm_lead_merge_template.xml 
+2026-09-02 18:06:13,660 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/data/crm_lead_prediction_data.xml 
+2026-09-02 18:06:13,851 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/data/crm_lost_reason_data.xml 
+2026-09-02 18:06:13,869 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/data/crm_stage_data.xml 
+2026-09-02 18:06:13,894 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/data/crm_team_data.xml 
+2026-09-02 18:06:13,959 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/data/digest_data.xml 
+2026-09-02 18:06:14,001 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/data/ir_action_data.xml 
+2026-09-02 18:06:14,051 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/data/ir_cron_data.xml 
+2026-09-02 18:06:14,085 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/data/mail_message_subtype_data.xml 
+2026-09-02 18:06:14,140 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/data/crm_recurring_plan_data.xml 
+2026-09-02 18:06:14,162 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/data/crm_tour.xml 
+2026-09-02 18:06:14,176 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/wizard/crm_lead_lost_views.xml 
+2026-09-02 18:06:14,200 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/wizard/crm_lead_to_opportunity_views.xml 
+2026-09-02 18:06:14,250 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/wizard/crm_lead_to_opportunity_mass_views.xml 
+2026-09-02 18:06:14,280 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/wizard/crm_merge_opportunities_views.xml 
+2026-09-02 18:06:14,307 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/wizard/crm_lead_pls_update_views.xml 
+2026-09-02 18:06:14,331 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/calendar_views.xml 
+2026-09-02 18:06:14,359 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/crm_recurring_plan_views.xml 
+2026-09-02 18:06:14,392 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/crm_lost_reason_views.xml 
+2026-09-02 18:06:14,448 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/crm_stage_views.xml 
+2026-09-02 18:06:14,542 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/crm_lead_views.xml 
+2026-09-02 18:06:15,270 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/crm_team_member_views.xml 
+2026-09-02 18:06:15,374 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/digest_views.xml 
+2026-09-02 18:06:15,419 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/mail_activity_plan_views.xml 
+2026-09-02 18:06:15,433 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/mail_activity_views.xml 
+2026-09-02 18:06:15,443 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/res_config_settings_views.xml 
+2026-09-02 18:06:15,520 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/res_partner_views.xml 
+2026-09-02 18:06:15,570 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/utm_campaign_views.xml 
+2026-09-02 18:06:15,626 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/report/crm_activity_report_views.xml 
+2026-09-02 18:06:15,689 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/report/crm_opportunity_report_views.xml 
+2026-09-02 18:06:15,846 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/crm_team_views.xml 
+2026-09-02 18:06:16,017 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/crm_menu_views.xml 
+2026-09-02 18:06:16,343 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm/views/crm_helper_templates.xml 
+2026-09-02 18:06:16,476 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module crm loaded in 4.60s, 1994 queries (+1994 other) 
+2026-09-02 18:06:16,476 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module spreadsheet_dashboard (51/69) 
+2026-09-02 18:06:16,514 773 INFO wave4_premig_aml_dirty odoo.registry: module spreadsheet_dashboard: creating or updating database tables 
+2026-09-02 18:06:16,896 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading spreadsheet_dashboard/security/security.xml 
+2026-09-02 18:06:17,022 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading spreadsheet_dashboard/security/ir.model.access.csv 
+2026-09-02 18:06:17,042 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading spreadsheet_dashboard/views/spreadsheet_dashboard_views.xml 
+2026-09-02 18:06:17,087 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading spreadsheet_dashboard/views/menu_views.xml 
+2026-09-02 18:06:17,132 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading spreadsheet_dashboard/data/dashboard.xml 
+2026-09-02 18:06:17,191 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module spreadsheet_dashboard loaded in 0.72s, 313 queries (+313 other) 
+2026-09-02 18:06:17,191 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module website (52/69) 
+2026-09-02 18:06:17,600 773 INFO wave4_premig_aml_dirty odoo.registry: module website: creating or updating database tables 
+2026-09-02 18:06:17,882 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of ir.ui.view.is_seo_optimized 
+2026-09-02 18:06:17,914 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.company.website_id 
+2026-09-02 18:06:22,690 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/security/website_security.xml 
+2026-09-02 18:06:22,916 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/security/ir.model.access.csv 
+2026-09-02 18:06:22,979 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/data/image_library.xml 
+2026-09-02 18:06:23,681 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/data/ir_asset.xml 
+2026-09-02 18:06:23,696 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/data/ir_cron_data.xml 
+2026-09-02 18:06:23,743 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/data/mail_mail_data.xml 
+2026-09-02 18:06:23,756 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/data/website_data.xml 
+2026-09-02 18:06:23,972 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/data/website_visitor_cron.xml 
+2026-09-02 18:06:23,995 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/data/digest_data.xml 
+2026-09-02 18:06:24,010 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/website_technical_views.xml 
+2026-09-02 18:06:24,026 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/website_templates.xml 
+2026-09-02 18:06:26,211 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/snippets.xml 
+2026-09-02 18:06:26,270 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_announcement_scroll.xml 
+2026-09-02 18:06:26,287 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_framed_intro.xml 
+2026-09-02 18:06:26,300 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_title.xml 
+2026-09-02 18:06:26,317 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_cover.xml 
+2026-09-02 18:06:26,330 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_text_cover.xml 
+2026-09-02 18:06:26,349 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_image_text_box.xml 
+2026-09-02 18:06:26,363 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_striped_top.xml 
+2026-09-02 18:06:26,379 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_text_image.xml 
+2026-09-02 18:06:26,397 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_image_text.xml 
+2026-09-02 18:06:26,417 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_mockup_image.xml 
+2026-09-02 18:06:26,434 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_instagram_page.xml 
+2026-09-02 18:06:26,447 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_image_text_overlap.xml 
+2026-09-02 18:06:26,465 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_banner.xml 
+2026-09-02 18:06:26,481 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_bento_block.xml 
+2026-09-02 18:06:26,498 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_snippet_group.xml 
+2026-09-02 18:06:26,510 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_text_block.xml 
+2026-09-02 18:06:26,524 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_features.xml 
+2026-09-02 18:06:26,544 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_features_wall.xml 
+2026-09-02 18:06:26,559 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_three_columns.xml 
+2026-09-02 18:06:26,580 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_key_benefits.xml 
+2026-09-02 18:06:26,594 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_picture.xml 
+2026-09-02 18:06:26,607 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_image_punchy.xml 
+2026-09-02 18:06:26,623 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_bento_grid.xml 
+2026-09-02 18:06:26,642 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_carousel.xml 
+2026-09-02 18:06:26,668 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_carousel_intro.xml 
+2026-09-02 18:06:26,692 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_carousel_cards.xml 
+2026-09-02 18:06:26,717 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_alert.xml 
+2026-09-02 18:06:26,737 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_motto.xml 
+2026-09-02 18:06:26,751 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_card.xml 
+2026-09-02 18:06:26,777 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_cards_grid.xml 
+2026-09-02 18:06:26,796 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_cards_soft.xml 
+2026-09-02 18:06:26,821 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_share.xml 
+2026-09-02 18:06:26,847 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_social_media.xml 
+2026-09-02 18:06:26,872 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_rating.xml 
+2026-09-02 18:06:26,919 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_hr.xml 
+2026-09-02 18:06:26,948 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_closer_look.xml 
+2026-09-02 18:06:26,971 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_facebook_page.xml 
+2026-09-02 18:06:26,991 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_image_gallery.xml 
+2026-09-02 18:06:27,081 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_countdown.xml 
+2026-09-02 18:06:27,121 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_product_catalog.xml 
+2026-09-02 18:06:27,179 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_comparisons.xml 
+2026-09-02 18:06:27,229 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_comparisons_horizontal.xml 
+2026-09-02 18:06:27,269 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_company_team.xml 
+2026-09-02 18:06:27,300 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_company_team_basic.xml 
+2026-09-02 18:06:27,330 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_company_team_shapes.xml 
+2026-09-02 18:06:27,359 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_company_team_detail.xml 
+2026-09-02 18:06:27,401 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_company_team_spotlight.xml 
+2026-09-02 18:06:27,428 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_company_team_grid.xml 
+2026-09-02 18:06:27,458 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_company_team_card.xml 
+2026-09-02 18:06:27,493 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_call_to_action.xml 
+2026-09-02 18:06:27,516 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_references.xml 
+2026-09-02 18:06:27,546 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_references_social.xml 
+2026-09-02 18:06:27,572 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_references_grid.xml 
+2026-09-02 18:06:27,593 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_popup.xml 
+2026-09-02 18:06:27,630 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_faq_list.xml 
+2026-09-02 18:06:27,659 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_faq_collapse.xml 
+2026-09-02 18:06:27,693 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_features_grid.xml 
+2026-09-02 18:06:27,737 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_features_wave.xml 
+2026-09-02 18:06:27,770 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_tabs.xml 
+2026-09-02 18:06:27,804 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_tabs_images.xml 
+2026-09-02 18:06:27,838 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_table_of_content.xml 
+2026-09-02 18:06:27,870 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_images_constellation.xml 
+2026-09-02 18:06:27,902 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_chart.xml 
+2026-09-02 18:06:27,917 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_parallax.xml 
+2026-09-02 18:06:27,941 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_quotes_carousel.xml 
+2026-09-02 18:06:27,989 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_numbers_grid.xml 
+2026-09-02 18:06:28,017 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_quotes_carousel_minimal.xml 
+2026-09-02 18:06:28,050 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_quotes_carousel_compact.xml 
+2026-09-02 18:06:28,073 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_numbers.xml 
+2026-09-02 18:06:28,106 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_contact_info.xml 
+2026-09-02 18:06:28,136 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_numbers_boxed.xml 
+2026-09-02 18:06:28,177 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_cta_box.xml 
+2026-09-02 18:06:28,204 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_numbers_framed.xml 
+2026-09-02 18:06:28,228 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_masonry_block.xml 
+2026-09-02 18:06:28,422 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_sidegrid.xml 
+2026-09-02 18:06:28,443 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_media_list.xml 
+2026-09-02 18:06:28,477 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_showcase.xml 
+2026-09-02 18:06:28,535 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_faq_horizontal.xml 
+2026-09-02 18:06:28,571 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_floating_blocks.xml 
+2026-09-02 18:06:28,603 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_opening_hours.xml 
+2026-09-02 18:06:28,625 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_timeline.xml 
+2026-09-02 18:06:28,703 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_timeline_images.xml 
+2026-09-02 18:06:28,732 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_timeline_list.xml 
+2026-09-02 18:06:28,762 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_process_steps.xml 
+2026-09-02 18:06:28,817 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_accordion.xml 
+2026-09-02 18:06:28,844 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_website_form_info.xml 
+2026-09-02 18:06:28,877 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_numbers_showcase.xml 
+2026-09-02 18:06:28,918 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_numbers_charts.xml 
+2026-09-02 18:06:28,950 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_accordion_image.xml 
+2026-09-02 18:06:28,968 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_pricelist_boxed.xml 
+2026-09-02 18:06:29,001 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_adventure.xml 
+2026-09-02 18:06:29,022 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_image_title.xml 
+2026-09-02 18:06:29,045 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_key_images.xml 
+2026-09-02 18:06:29,076 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_kickoff.xml 
+2026-09-02 18:06:29,093 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_discovery.xml 
+2026-09-02 18:06:29,110 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_bento_banner.xml 
+2026-09-02 18:06:29,129 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_striped.xml 
+2026-09-02 18:06:29,153 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_intro_pill.xml 
+2026-09-02 18:06:29,175 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_big_number.xml 
+2026-09-02 18:06:29,195 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_wavy_grid.xml 
+2026-09-02 18:06:29,219 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_images_mosaic.xml 
+2026-09-02 18:06:29,238 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_shape_image.xml 
+2026-09-02 18:06:29,260 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_empowerment.xml 
+2026-09-02 18:06:29,280 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_split_intro.xml 
+2026-09-02 18:06:29,298 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_text_highlight.xml 
+2026-09-02 18:06:29,321 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_pricelist_cafe.xml 
+2026-09-02 18:06:29,362 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_progress_bar.xml 
+2026-09-02 18:06:29,395 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_blockquote.xml 
+2026-09-02 18:06:29,426 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_badge.xml 
+2026-09-02 18:06:29,450 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_color_blocks_2.xml 
+2026-09-02 18:06:29,476 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_attributes_horizontal.xml 
+2026-09-02 18:06:29,508 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_attributes_vertical.xml 
+2026-09-02 18:06:29,549 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_product_list.xml 
+2026-09-02 18:06:29,608 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_mega_menu_multi_menus.xml 
+2026-09-02 18:06:29,635 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_mega_menu_menu_image_menu.xml 
+2026-09-02 18:06:29,659 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_mega_menu_thumbnails.xml 
+2026-09-02 18:06:29,707 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_mega_menu_little_icons.xml 
+2026-09-02 18:06:29,744 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_mega_menu_images_subtitles.xml 
+2026-09-02 18:06:29,792 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_mega_menu_menus_logos.xml 
+2026-09-02 18:06:29,827 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_mega_menu_odoo_menu.xml 
+2026-09-02 18:06:29,873 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_mega_menu_big_icons_subtitles.xml 
+2026-09-02 18:06:29,914 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_mega_menu_cards.xml 
+2026-09-02 18:06:29,963 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_google_map.xml 
+2026-09-02 18:06:29,992 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_cta_mockups.xml 
+2026-09-02 18:06:30,020 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_map.xml 
+2026-09-02 18:06:30,054 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_dynamic_snippet.xml 
+2026-09-02 18:06:30,095 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_dynamic_snippet_carousel.xml 
+2026-09-02 18:06:30,122 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_banner_product.xml 
+2026-09-02 18:06:30,146 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_embed_code.xml 
+2026-09-02 18:06:30,177 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_website_form.xml 
+2026-09-02 18:06:30,224 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_website_form_overlay.xml 
+2026-09-02 18:06:30,245 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_title_form.xml 
+2026-09-02 18:06:30,269 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_searchbar.xml 
+2026-09-02 18:06:30,329 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_inline_text.xml 
+2026-09-02 18:06:30,360 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_button.xml 
+2026-09-02 18:06:30,387 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_freegrid.xml 
+2026-09-02 18:06:30,413 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_card_offset.xml 
+2026-09-02 18:06:30,451 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_image.xml 
+2026-09-02 18:06:30,479 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_video.xml 
+2026-09-02 18:06:30,513 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_cta_badge.xml 
+2026-09-02 18:06:30,558 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_unveil.xml 
+2026-09-02 18:06:30,591 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_image_hexagonal.xml 
+2026-09-02 18:06:30,636 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_striped_center_top.xml 
+2026-09-02 18:06:30,672 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_numbers_list.xml 
+2026-09-02 18:06:30,704 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_quadrant.xml 
+2026-09-02 18:06:30,740 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_cta_card.xml 
+2026-09-02 18:06:30,768 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_image_frame.xml 
+2026-09-02 18:06:30,793 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_cta_mobile.xml 
+2026-09-02 18:06:30,828 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_reviews_wall.xml 
+2026-09-02 18:06:30,885 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_website_form_cover.xml 
+2026-09-02 18:06:30,927 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_form_aside.xml 
+2026-09-02 18:06:30,954 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_banner_connected.xml 
+2026-09-02 18:06:30,991 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_ecomm_categories_showcase.xml 
+2026-09-02 18:06:31,028 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/snippets/s_banner_categories.xml 
+2026-09-02 18:06:31,071 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/new_page_template_templates.xml 
+2026-09-02 18:06:34,440 773 INFO wave4_premig_aml_dirty odoo.addons.website.models.ir_module_module: Generated 227 primary snippet templates for 'website' 
+2026-09-02 18:06:34,559 773 INFO wave4_premig_aml_dirty odoo.addons.website.models.ir_module_module: Generated 39 primary page templates for 'website' 
+2026-09-02 18:06:34,559 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/website_views.xml 
+2026-09-02 18:06:34,948 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/website_pages_views.xml 
+2026-09-02 18:06:35,086 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/website_controller_pages_views.xml 
+2026-09-02 18:06:35,144 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/website_visitor_views.xml 
+2026-09-02 18:06:35,429 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/res_config_settings_views.xml 
+2026-09-02 18:06:35,694 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/website_rewrite.xml 
+2026-09-02 18:06:35,809 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/ir_actions_server_views.xml 
+2026-09-02 18:06:35,906 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/ir_asset_views.xml 
+2026-09-02 18:06:35,960 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/ir_attachment_views.xml 
+2026-09-02 18:06:36,012 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/ir_model_views.xml 
+2026-09-02 18:06:36,184 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/res_partner_views.xml 
+2026-09-02 18:06:36,268 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/neutralize_views.xml 
+2026-09-02 18:06:36,341 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/wizard/base_language_install_views.xml 
+2026-09-02 18:06:36,383 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/wizard/blocked_third_party_domains.xml 
+2026-09-02 18:06:36,426 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/wizard/website_robots.xml 
+2026-09-02 18:06:36,456 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/data/update_theme_images.xml 
+2026-09-02 18:06:36,762 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website/views/website_templates_svg.xml 
+2026-09-02 18:06:37,046 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module website loaded in 19.85s, 8700 queries (+8700 other) 
+2026-09-02 18:06:37,046 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module account_add_gln (53/69) 
+2026-09-02 18:06:37,118 773 INFO wave4_premig_aml_dirty odoo.registry: module account_add_gln: creating or updating database tables 
+2026-09-02 18:06:37,363 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_add_gln/views/res_partner_views.xml 
+2026-09-02 18:06:37,458 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module account_add_gln loaded in 0.41s, 109 queries (+109 other) 
+2026-09-02 18:06:37,458 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module account_edi_ubl_cii (54/69) 
+2026-09-02 18:06:37,551 773 INFO wave4_premig_aml_dirty odoo.registry: module account_edi_ubl_cii: creating or updating database tables 
+2026-09-02 18:06:37,628 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.peppol_endpoint 
+2026-09-02 18:06:37,628 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.peppol_eas 
+2026-09-02 18:06:38,074 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_edi_ubl_cii/data/cii_22_templates.xml 
+2026-09-02 18:06:38,200 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_edi_ubl_cii/data/ir_config_parameter_data.xml 
+2026-09-02 18:06:38,216 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_edi_ubl_cii/views/account_tax_views.xml 
+2026-09-02 18:06:38,289 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_edi_ubl_cii/views/account_move_views.xml 
+2026-09-02 18:06:38,356 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_edi_ubl_cii/views/res_partner_views.xml 
+2026-09-02 18:06:38,393 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_edi_ubl_cii/report/account_edi_ubl_cii_report_templates.xml 
+2026-09-02 18:06:38,536 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module account_edi_ubl_cii loaded in 1.08s, 383 queries (+383 other) 
+2026-09-02 18:06:38,536 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module account_payment (55/69) 
+2026-09-02 18:06:38,615 773 INFO wave4_premig_aml_dirty odoo.registry: module account_payment: creating or updating database tables 
+2026-09-02 18:06:39,203 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/data/ir_config_parameter.xml 
+2026-09-02 18:06:39,225 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/security/ir.model.access.csv 
+2026-09-02 18:06:39,245 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/security/ir_rules.xml 
+2026-09-02 18:06:39,263 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/views/account_payment_menus.xml 
+2026-09-02 18:06:39,326 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/views/account_portal_templates.xml 
+2026-09-02 18:06:39,530 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/views/account_move_views.xml 
+2026-09-02 18:06:39,589 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/views/account_journal_views.xml 
+2026-09-02 18:06:39,622 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/views/account_payment_views.xml 
+2026-09-02 18:06:39,651 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/views/payment_form_templates.xml 
+2026-09-02 18:06:39,673 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/views/payment_provider_views.xml 
+2026-09-02 18:06:39,699 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/views/payment_transaction_views.xml 
+2026-09-02 18:06:39,731 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/wizards/account_payment_register_views.xml 
+2026-09-02 18:06:39,757 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/wizards/payment_link_wizard_views.xml 
+2026-09-02 18:06:39,794 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/wizards/payment_refund_wizard_views.xml 
+2026-09-02 18:06:39,815 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading account_payment/wizards/res_config_settings_views.xml 
+2026-09-02 18:06:39,952 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module account_payment loaded in 1.42s, 584 queries (+584 other) 
+2026-09-02 18:06:39,953 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module crm_sms (56/69) 
+2026-09-02 18:06:39,991 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_sms/views/crm_lead_views.xml 
+2026-09-02 18:06:40,158 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_sms/security/ir.model.access.csv 
+2026-09-02 18:06:40,190 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_sms/security/sms_security.xml 
+2026-09-02 18:06:40,238 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module crm_sms loaded in 0.29s, 91 queries (+91 other) 
+2026-09-02 18:06:40,238 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module iap_crm (57/69) 
+2026-09-02 18:06:40,268 773 INFO wave4_premig_aml_dirty odoo.registry: module iap_crm: creating or updating database tables 
+2026-09-02 18:06:40,488 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module iap_crm loaded in 0.25s, 72 queries (+72 other) 
+2026-09-02 18:06:40,488 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module kyc_management (58/69) 
+2026-09-02 18:06:40,898 773 WARNING wave4_premig_aml_dirty odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-09-02 18:06:40,972 773 INFO wave4_premig_aml_dirty odoo.registry: module kyc_management: creating or updating database tables 
+2026-09-02 18:06:41,189 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.x_is_pep 
+2026-09-02 18:06:41,308 773 WARNING wave4_premig_aml_dirty odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.partner() have the same label: Currency. [Modules: kyc_management and account] 
+2026-09-02 18:06:41,308 773 WARNING wave4_premig_aml_dirty odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.users() have the same label: Currency. [Modules: None and None] 
+<string>:8: (WARNING/2) Line block ends without a blank line.
+<string>:8: (ERROR/3) Undefined substitution referenced: "-------".
+2026-09-02 18:06:42,050 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/security/groups.xml 
+2026-09-02 18:06:42,153 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/security/ir.model.access.csv 
+2026-09-02 18:06:42,224 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/security/ir_rules.xml 
+2026-09-02 18:06:42,268 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/data/legacy_security_compat.xml 
+2026-09-02 18:06:42,283 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/data/crm_data.xml 
+2026-09-02 18:06:42,316 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/reports/kyc_application_report.xml 
+2026-09-02 18:06:42,373 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/reports/kyc_approvals_summary_report.xml 
+2026-09-02 18:06:42,424 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/wizard/kyc_wizard_views.xml 
+2026-09-02 18:06:42,525 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/views/kyc_application_views.xml 
+2026-09-02 18:06:42,627 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/views/kyc_approval_views.xml 
+2026-09-02 18:06:42,723 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/views/kyc_notification_views.xml 
+2026-09-02 18:06:42,826 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/views/kyc_menu.xml 
+2026-09-02 18:06:43,084 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading kyc_management/views/portal_kyc_templates.xml 
+2026-09-02 18:06:43,338 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module kyc_management loaded in 2.85s, 997 queries (+997 other) 
+2026-09-02 18:06:43,338 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module snailmail_account (59/69) 
+2026-09-02 18:06:43,446 773 INFO wave4_premig_aml_dirty odoo.registry: module snailmail_account: creating or updating database tables 
+2026-09-02 18:06:43,573 773 WARNING wave4_premig_aml_dirty odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.partner() have the same label: Currency. [Modules: kyc_management and account] 
+2026-09-02 18:06:43,574 773 WARNING wave4_premig_aml_dirty odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.users() have the same label: Currency. [Modules: None and None] 
+2026-09-02 18:06:43,890 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading snailmail_account/views/res_config_settings_views.xml 
+2026-09-02 18:06:43,996 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module snailmail_account loaded in 0.66s, 199 queries (+199 other) 
+2026-09-02 18:06:43,996 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module spreadsheet_account (60/69) 
+2026-09-02 18:06:44,038 773 INFO wave4_premig_aml_dirty odoo.registry: module spreadsheet_account: creating or updating database tables 
+2026-09-02 18:06:44,264 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module spreadsheet_account loaded in 0.27s, 58 queries (+58 other) 
+2026-09-02 18:06:44,264 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module spreadsheet_dashboard_account (61/69) 
+2026-09-02 18:06:44,297 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading spreadsheet_dashboard_account/data/dashboards.xml 
+2026-09-02 18:06:44,394 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module spreadsheet_dashboard_account loaded in 0.13s, 29 queries (+29 other) 
+2026-09-02 18:06:44,394 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module website_crm (62/69) 
+2026-09-02 18:06:44,433 773 INFO wave4_premig_aml_dirty odoo.registry: module website_crm: creating or updating database tables 
+2026-09-02 18:06:44,653 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_crm/security/ir.model.access.csv 
+2026-09-02 18:06:44,674 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_crm/data/crm_lead_merge_template.xml 
+2026-09-02 18:06:44,702 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_crm/data/ir_actions_data.xml 
+2026-09-02 18:06:44,721 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_crm/data/ir_model_data.xml 
+2026-09-02 18:06:44,749 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_crm/views/crm_lead_views.xml 
+2026-09-02 18:06:44,788 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_crm/views/website_visitor_views.xml 
+2026-09-02 18:06:44,885 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_crm/views/website_templates_contactus.xml 
+2026-09-02 18:06:44,945 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module website_crm loaded in 0.55s, 232 queries (+232 other) 
+2026-09-02 18:06:44,946 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module website_mail (63/69) 
+2026-09-02 18:06:44,972 773 INFO wave4_premig_aml_dirty odoo.registry: module website_mail: creating or updating database tables 
+2026-09-02 18:06:45,004 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_mail/views/website_mail_templates.xml 
+2026-09-02 18:06:45,107 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module website_mail loaded in 0.16s, 35 queries (+35 other) 
+2026-09-02 18:06:45,107 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module website_sms (64/69) 
+2026-09-02 18:06:45,135 773 INFO wave4_premig_aml_dirty odoo.registry: module website_sms: creating or updating database tables 
+2026-09-02 18:06:45,193 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_sms/views/website_visitor_views.xml 
+2026-09-02 18:06:45,457 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module website_sms loaded in 0.35s, 80 queries (+80 other) 
+2026-09-02 18:06:45,457 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module aml_compliance (65/69) 
+2026-09-02 18:06:46,401 773 WARNING wave4_premig_aml_dirty odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-09-02 18:06:46,402 773 WARNING wave4_premig_aml_dirty odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-09-02 18:06:46,403 773 WARNING wave4_premig_aml_dirty odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-09-02 18:06:46,526 773 INFO wave4_premig_aml_dirty odoo.registry: module aml_compliance: creating or updating database tables 
+2026-09-02 18:06:46,629 773 INFO wave4_premig_aml_dirty odoo.models: Prepare computation of res.partner.aml_requires_edd 
+2026-09-02 18:06:46,941 773 WARNING wave4_premig_aml_dirty odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.partner() have the same label: Currency. [Modules: kyc_management and account] 
+2026-09-02 18:06:46,942 773 WARNING wave4_premig_aml_dirty odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.users() have the same label: Currency. [Modules: None and None] 
+2026-09-02 18:06:48,043 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/security/aml_groups.xml 
+2026-09-02 18:06:48,129 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/security/ir.model.access.csv 
+2026-09-02 18:06:48,191 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/security/security.xml 
+2026-09-02 18:06:48,261 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/data/sequence_data.xml 
+2026-09-02 18:06:48,281 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/data/sequence_phase2_data.xml 
+2026-09-02 18:06:48,298 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/data/edd_enquiry_data.xml 
+2026-09-02 18:06:48,318 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/data/risk_factor_data.xml 
+2026-09-02 18:06:48,346 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/data/fatf_jurisdiction_data.xml 
+2026-09-02 18:06:48,412 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/data/monitoring_rule_data.xml 
+2026-09-02 18:06:48,432 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/data/cron_data.xml 
+2026-09-02 18:06:48,591 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/reports/risk_assessment_report.xml 
+2026-09-02 18:06:48,612 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/reports/goaml_report_print.xml 
+2026-09-02 18:06:48,632 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/reports/screening_certificate.xml 
+2026-09-02 18:06:48,663 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/reports/consolidated_kyc_report.xml 
+2026-09-02 18:06:48,698 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/views/risk_assessment_views.xml 
+2026-09-02 18:06:48,763 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/views/risk_factor_views.xml 
+2026-09-02 18:06:48,820 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/views/goaml_report_views.xml 
+2026-09-02 18:06:48,877 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/views/transaction_monitoring_views.xml 
+2026-09-02 18:06:48,941 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/views/sanctions_screening_views.xml 
+2026-09-02 18:06:49,016 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/views/opensanctions_views.xml 
+2026-09-02 18:06:49,041 773 WARNING wave4_premig_aml_dirty odoo.addons.base.models.ir_ui_view: A <i> with fa class (fa fa-check-circle me-2) must have title in its tag, parents, descendants or have text
+View error context:
+{'file': '/mnt/extra-addons/.wave4_premigration/aml_compliance/views/opensanctions_views.xml',
+ 'line': 5,
+ 'name': 'aml.opensanctions.config.form',
+ 'view': ir.ui.view(1815,),
+ 'view.model': 'aml.opensanctions.config',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'view_opensanctions_config_form'} 
+2026-09-02 18:06:49,042 773 WARNING wave4_premig_aml_dirty odoo.addons.base.models.ir_ui_view: A <i> with fa class (fa fa-times-circle me-2) must have title in its tag, parents, descendants or have text
+View error context:
+{'file': '/mnt/extra-addons/.wave4_premigration/aml_compliance/views/opensanctions_views.xml',
+ 'line': 16,
+ 'name': 'aml.opensanctions.config.form',
+ 'view': ir.ui.view(1815,),
+ 'view.model': 'aml.opensanctions.config',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'view_opensanctions_config_form'} 
+2026-09-02 18:06:49,062 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/views/dashboard_views.xml 
+2026-09-02 18:06:49,270 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/views/kyc_application_views.xml 
+2026-09-02 18:06:49,300 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/views/res_partner_views.xml 
+2026-09-02 18:06:49,344 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/views/edd_workflow_views.xml 
+2026-09-02 18:06:49,401 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/views/investigation_case_views.xml 
+2026-09-02 18:06:49,450 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/views/aml_menu.xml 
+2026-09-02 18:06:49,645 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/wizard/risk_override_wizard_views.xml 
+2026-09-02 18:06:49,671 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading aml_compliance/wizard/goaml_filing_wizard_views.xml 
+2026-09-02 18:06:50,023 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module aml_compliance loaded in 4.57s, 1871 queries (+1871 other) 
+2026-09-02 18:06:50,023 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module crm_iap_enrich (66/69) 
+2026-09-02 18:06:50,062 773 INFO wave4_premig_aml_dirty odoo.registry: module crm_iap_enrich: creating or updating database tables 
+2026-09-02 18:06:50,228 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_enrich/data/ir_cron.xml 
+2026-09-02 18:06:50,324 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_enrich/data/ir_action.xml 
+2026-09-02 18:06:50,344 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_enrich/data/mail_templates.xml 
+2026-09-02 18:06:50,369 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_enrich/views/crm_lead_views.xml 
+2026-09-02 18:06:50,414 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_enrich/views/res_config_settings_view.xml 
+2026-09-02 18:06:50,495 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module crm_iap_enrich loaded in 0.47s, 174 queries (+174 other) 
+2026-09-02 18:06:50,495 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module crm_iap_mine (67/69) 
+2026-09-02 18:06:50,534 773 INFO wave4_premig_aml_dirty odoo.registry: module crm_iap_mine: creating or updating database tables 
+2026-09-02 18:06:51,022 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_mine/data/crm.iap.lead.industry.csv 
+2026-09-02 18:06:51,043 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_mine/data/crm.iap.lead.role.csv 
+2026-09-02 18:06:51,053 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_mine/data/crm.iap.lead.seniority.csv 
+2026-09-02 18:06:51,063 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_mine/data/mail_template_data.xml 
+2026-09-02 18:06:51,076 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_mine/data/ir_sequence_data.xml 
+2026-09-02 18:06:51,085 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_mine/security/ir.model.access.csv 
+2026-09-02 18:06:51,104 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_mine/views/crm_lead_views.xml 
+2026-09-02 18:06:51,211 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_mine/views/crm_iap_lead_mining_request_views.xml 
+2026-09-02 18:06:51,257 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_mine/views/res_config_settings_views.xml 
+2026-09-02 18:06:51,297 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_mine/views/mail_templates.xml 
+2026-09-02 18:06:51,323 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading crm_iap_mine/views/crm_menus.xml 
+2026-09-02 18:06:51,375 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module crm_iap_mine loaded in 0.88s, 430 queries (+430 other) 
+2026-09-02 18:06:51,375 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module website_crm_sms (68/69) 
+2026-09-02 18:06:51,406 773 INFO wave4_premig_aml_dirty odoo.registry: module website_crm_sms: creating or updating database tables 
+2026-09-02 18:06:51,510 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module website_crm_sms loaded in 0.13s, 35 queries (+35 other) 
+2026-09-02 18:06:51,510 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Loading module website_payment (69/69) 
+2026-09-02 18:06:51,555 773 INFO wave4_premig_aml_dirty odoo.registry: module website_payment: creating or updating database tables 
+2026-09-02 18:06:51,758 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_payment/data/mail_templates.xml 
+2026-09-02 18:06:51,779 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_payment/views/payment_form_templates.xml 
+2026-09-02 18:06:51,833 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_payment/views/payment_provider.xml 
+2026-09-02 18:06:51,868 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_payment/views/res_config_settings_views.xml 
+2026-09-02 18:06:51,915 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_payment/views/snippets/snippets.xml 
+2026-09-02 18:06:51,962 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_payment/views/snippets/s_donation.xml 
+2026-09-02 18:06:51,991 773 INFO wave4_premig_aml_dirty odoo.modules.loading: loading website_payment/views/snippets/s_supported_payment_methods.xml 
+2026-09-02 18:06:52,034 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Module website_payment loaded in 0.52s, 205 queries (+205 other) 
+2026-09-02 18:06:52,034 773 INFO wave4_premig_aml_dirty odoo.modules.loading: 69 modules loaded in 101.08s, 47540 queries (+47541 extra) 
+2026-09-02 18:06:53,546 773 INFO wave4_premig_aml_dirty odoo.modules.loading: Modules loaded. 
+2026-09-02 18:06:54,968 773 INFO wave4_premig_aml_dirty odoo.registry: Registry changed, signaling through the database 
+2026-09-02 18:06:54,971 773 INFO wave4_premig_aml_dirty odoo.registry: Registry loaded in 131.051s 
+2026-09-02 18:06:54,971 773 INFO wave4_premig_aml_dirty odoo.service.server: Initiating shutdown 
+2026-09-02 18:06:54,971 773 INFO wave4_premig_aml_dirty odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-09-02 18:06:54,972 773 INFO wave4_premig_aml_dirty odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  

@@ -1,0 +1,50 @@
+
+2026-09-02 18:13:48,002 885 INFO ? odoo: Odoo version 19.0-20260817 
+2026-09-02 18:13:48,002 885 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf 
+2026-09-02 18:13:48,003 885 INFO ? odoo: addons paths: _NamespacePath(['/usr/lib/python3/dist-packages/odoo/addons', '/var/lib/odoo/addons/19.0', '/mnt/extra-addons', '/usr/lib/python3/dist-packages/addons']) 
+2026-09-02 18:13:48,003 885 INFO ? odoo: database: odoo@wave4_pg:default 
+2026-09-02 18:13:49,465 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading 1 modules... 
+2026-09-02 18:13:49,474 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-09-02 18:13:49,564 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: updating modules list 
+2026-09-02 18:13:49,569 885 INFO wave4_premig_kyc_dirty odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-09-02 18:13:52,839 885 WARNING wave4_premig_kyc_dirty odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 18:13:52,845 885 WARNING wave4_premig_kyc_dirty odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 18:13:52,975 885 WARNING wave4_premig_kyc_dirty odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 18:13:52,980 885 WARNING wave4_premig_kyc_dirty odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 18:13:53,582 885 INFO wave4_premig_kyc_dirty odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['KYC Management'] to user __system__ #1 via n/a 
+2026-09-02 18:13:53,582 885 INFO wave4_premig_kyc_dirty odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['KYC Management'] to user __system__ #1 via n/a 
+2026-09-02 18:13:55,306 885 WARNING wave4_premig_kyc_dirty odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 18:13:55,408 885 WARNING wave4_premig_kyc_dirty odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 18:13:56,188 885 INFO wave4_premig_kyc_dirty odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-09-02 18:13:56,269 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading 53 modules... 
+2026-09-02 18:13:57,080 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: Loading module kyc_management (47/53) 
+2026-09-02 18:13:57,624 885 INFO wave4_premig_kyc_dirty odoo.registry: module kyc_management: creating or updating database tables 
+2026-09-02 18:13:57,653 885 INFO wave4_premig_kyc_dirty odoo.schema: could not create unique index "kyc_application_kyc_id_unique"
+DETAIL:  Key (kyc_id)=(KYC-PREMIG-DUP-001) is duplicated.
+ 
+<string>:8: (WARNING/2) Line block ends without a blank line.
+<string>:8: (ERROR/3) Undefined substitution referenced: "-------".
+2026-09-02 18:13:57,998 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/security/groups.xml 
+2026-09-02 18:13:58,084 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/security/ir.model.access.csv 
+2026-09-02 18:13:58,165 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/security/ir_rules.xml 
+2026-09-02 18:13:58,201 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/data/legacy_security_compat.xml 
+2026-09-02 18:13:58,208 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/data/crm_data.xml 
+2026-09-02 18:13:58,219 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/reports/kyc_application_report.xml 
+2026-09-02 18:13:58,272 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/reports/kyc_approvals_summary_report.xml 
+2026-09-02 18:13:58,325 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/wizard/kyc_wizard_views.xml 
+2026-09-02 18:13:58,484 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/views/kyc_application_views.xml 
+2026-09-02 18:13:58,698 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/views/kyc_approval_views.xml 
+2026-09-02 18:13:58,837 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/views/kyc_notification_views.xml 
+2026-09-02 18:13:58,975 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/views/kyc_menu.xml 
+2026-09-02 18:13:59,531 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: loading kyc_management/views/portal_kyc_templates.xml 
+2026-09-02 18:14:00,364 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: Module kyc_management loaded in 3.28s, 791 queries (+791 other) 
+2026-09-02 18:14:00,388 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: 53 modules loaded in 4.12s, 791 queries (+791 extra) 
+2026-09-02 18:14:00,602 885 WARNING wave4_premig_kyc_dirty odoo.schema: could not create unique index "kyc_application_kyc_id_unique"
+DETAIL:  Key (kyc_id)=(KYC-PREMIG-DUP-001) is duplicated.
+ 
+2026-09-02 18:14:01,686 885 INFO wave4_premig_kyc_dirty odoo.modules.loading: Modules loaded. 
+2026-09-02 18:14:01,711 885 INFO wave4_premig_kyc_dirty odoo.registry: Registry changed, signaling through the database 
+2026-09-02 18:14:01,715 885 INFO wave4_premig_kyc_dirty odoo.registry: Registry loaded in 12.349s 
+2026-09-02 18:14:01,715 885 INFO wave4_premig_kyc_dirty odoo.service.server: Initiating shutdown 
+2026-09-02 18:14:01,715 885 INFO wave4_premig_kyc_dirty odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-09-02 18:14:01,716 885 INFO wave4_premig_kyc_dirty odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  

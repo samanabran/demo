@@ -1,0 +1,6 @@
+SEED_OK aml_clean country=United States
+
+2026-09-02 18:11:35,207 838 WARNING wave4_premig_aml_clean odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-09-02 18:11:35,655 838 WARNING wave4_premig_aml_clean odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-09-02 18:11:35,656 838 WARNING wave4_premig_aml_clean odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-09-02 18:11:35,656 838 WARNING wave4_premig_aml_clean odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 

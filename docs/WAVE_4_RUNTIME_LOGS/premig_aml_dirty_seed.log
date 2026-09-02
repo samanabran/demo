@@ -1,0 +1,6 @@
+SEED_OK aml_dirty jurisdiction_dup=26->27 risk_code_dup=11->12 neg_weight=13 sanctions_dup=1->2
+
+2026-09-02 18:07:58,659 806 WARNING wave4_premig_aml_dirty odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-09-02 18:07:59,640 806 WARNING wave4_premig_aml_dirty odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-09-02 18:07:59,640 806 WARNING wave4_premig_aml_dirty odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-09-02 18:07:59,641 806 WARNING wave4_premig_aml_dirty odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
