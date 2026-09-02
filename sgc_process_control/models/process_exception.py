@@ -76,7 +76,7 @@ class ProcessException(models.Model):
     # --- Source / linkage ------------------------------------------------
 
     source_model = fields.Char(index=True)
-    source_id = fields.Many2one_reference(
+    source_id = fields.Many2oneReference(
         model_field="source_model",
         string="Source record",
         help="Polymorphic reference to the record that raised this exception.",

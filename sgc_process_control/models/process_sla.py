@@ -26,7 +26,7 @@ class ProcessSla(models.Model):
     # --- Linkage ---------------------------------------------------------
 
     source_model = fields.Char(index=True)
-    source_id = fields.Many2one_reference(model_field="source_model")
+    source_id = fields.Many2oneReference(model_field="source_model")
     rule_code = fields.Char(
         index=True,
         help="Identifier used by consumers to find their clock.",

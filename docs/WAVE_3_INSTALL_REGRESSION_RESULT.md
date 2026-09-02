@@ -5,8 +5,8 @@
 > **Verification tool:** `tools/verify_wave3_claims.py` — a plain Python script, no Odoo dependency, that recomputes every factual claim in this document (test class counts, exit-gate method list, R8 scan numbers, orphaned-invocation checks, `--test-tags` selector validity) directly from the tree. Run it, don't retype its output. See §16.
 > **Single verdict statement — the only one in this document. Every other mention of "verdict" below is a cross-reference back to this line, never a restatement.**
 
-> ## VERDICT: **BLOCK — runtime pending only; AGENTS.md Rule 1 in `tools/verify_wave3_claims.py` checked set.**
-> The four install commands (§2) cannot be executed in this environment because no Odoo runtime is available. That is now the *only* reason for BLOCK. Rounds 2 and 3 of remediation (this session) closed every false-green risk a reviewer could find by inspection alone, and round 3 additionally closed a substantive product defect (the e-invoicing revenue-band gap, §15) and addressed the root cause of round 2's own false positives by building a verification script rather than promising closer proofreading (§16). §18 added the AGENTS.md Rule 1 sync check (local / GitHub / live server HEAD) to the verifier's checked set, re-ran every numeric claim against the merged `wave3-runtime` tree, and confirmed the 4/4/8 class baselines and R8 = 75 = 57 + 18 denominator are unchanged on the tree that includes the 31 origin-only commits. Sections §12, §15, §16 and §18 below record exactly what changed, with commit SHAs and script output.
+> ## VERDICT: **BLOCK — real install-time defect in `sgc_process_control`; `team_id` references a nonexistent model, needs a product decision.**
+> §19 stood up a real Odoo 19 runtime (the first time in this programme's history that §6.1 was actually executed rather than statically reasoned about) and ran §6.1 twice. The first attempt found a genuine typo (`fields.Many2one_reference` — no such attribute on Odoo's `fields` module) in two files; that fix was unambiguous and is applied and committed. The second attempt found a second, non-typo defect: `process_exception.py`'s `team_id` field points at `comodel_name="res.teams"`, a model that does not exist anywhere in Odoo core or this repo. This is not a one-word correction — the right target model (`res.groups`? a new custom model? drop the field?) is a product decision, not something to guess. §6.2–§6.4 were not run; per the standing protocol, an install failure stops the run before the test-tag commands are attempted. Rounds 2 and 3 of remediation (prior sessions) and §18's merged-tree re-verification are unaffected — they cover static, tree-derived facts (test class counts, R8 scans) that this runtime finding does not change. See §19 for full evidence, logs, and the exact decision needed to unblock.
 
 ---
 
@@ -586,5 +586,118 @@ This restates the previous verdict's substance (runtime pending only) and adds t
 
 - No runtime-run output (§6.1–§6.4). The `postgres:16` + dated `odoo:19` container stand-up was the final step in the user's sequence and is recorded as Task #6 of the todo list, but the run was deferred to the next session because this session was constrained to verification and Rule 1 tooling.
 - No "Wave 3 stack is now ready for SHIP" claim. The verdict is BLOCK. The merged-tree baselines are unchanged; that is the entire finding of §18.3.
+
+---
+
+## 19. Wave 3 — first real runtime run: two install-time defects, one fixed, one blocking
+
+**Date:** 2026-09-02. **Authoring session:** the post-§18 runtime stand-up pass, continuing the task §18.6 named as deferred (`postgres:16` + dated `odoo:19` stand-up, §6.1 execution). **Status of this section:** the first time in this programme's history that §6.1 was actually executed against a live Odoo 19 process rather than reasoned about statically. It found two real defects. One is fixed and committed; the other is a product decision, not fixed, and is the current reason for BLOCK.
+
+### 19.1 Runtime stand-up
+
+Docker Desktop was already running locally with `postgres:16` and `odoo:19.0` images cached. Per §17.3/§18.6's instruction to use a *dated* Odoo tag rather than the floating `:19.0`, the locally cached image was retagged using its own build date (no registry pull was available/needed):
+
+```
+$ docker inspect odoo:19.0 --format='{{.Created}}'
+2026-08-18T19:27:31Z
+$ docker tag odoo:19.0 odoo:19.0-20260818
+```
+
+A dedicated network and containers were created — **not** reusing the stale `odoo19_module_eval` / `odoo19_module_eval_db` pair left over from an unrelated prior session (that pair mounts ~18 unrelated modules for a different evaluation task and was already dead with the known `POSTGRES_DB` misconfiguration documented in §17.3; it was left untouched):
+
+```
+$ docker network create wave3_net
+$ docker run -d --name wave3_pg --network wave3_net \
+    -e POSTGRES_USER=odoo -e POSTGRES_PASSWORD=odoo_wave3_pw -e POSTGRES_DB=postgres \
+    postgres:16
+$ docker run -d --name wave3_odoo --network wave3_net \
+    -e HOST=wave3_pg -e USER=odoo -e PASSWORD=odoo_wave3_pw \
+    -v "<repo>/sgc_regulatory_rules_pack:/mnt/extra-addons/sgc_regulatory_rules_pack:ro" \
+    -v "<repo>/sgc_process_control:/mnt/extra-addons/sgc_process_control:ro" \
+    -v "<repo>/sgc_tenant_readiness:/mnt/extra-addons/sgc_tenant_readiness:ro" \
+    odoo:19.0-20260818 sleep infinity
+```
+
+The three module directories were confirmed visible inside the container before running anything (`docker exec wave3_odoo ls /mnt/extra-addons/`). `sgc_install` database created via `createdb`.
+
+### 19.2 §6.1, attempt 1 — FAILED (typo, fixed)
+
+Command run exactly as specified in §2:
+
+```
+odoo -d sgc_install --db_host=wave3_pg --db_user=odoo --db_password=odoo_wave3_pw \
+  --addons-path=/mnt/extra-addons,/usr/lib/python3/dist-packages/odoo/addons \
+  -i sgc_regulatory_rules_pack,sgc_process_control,sgc_tenant_readiness \
+  --stop-after-init --log-level=info
+```
+
+Exit code 255. Full log: `docs/WAVE_3_RUNTIME_LOGS/6.1_install_attempt2.log` (attempt 1 log superseded; the failure signature is identical to attempt 1's log, `6.1_install.log`, both retained). Base, web, mail and 22 other core modules loaded cleanly (34.98s for `base`, 20.52s for `mail` — real work, not a stub). The failure was at module 25 of 30 (`sgc_process_control`):
+
+```
+File "/mnt/extra-addons/sgc_process_control/models/process_exception.py", line 79, in ProcessException
+    source_id = fields.Many2one_reference(
+                ^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'odoo.fields' has no attribute 'Many2one_reference'
+```
+
+**Diagnosis:** `Many2one_reference` is not, and has never been, a valid name on Odoo's `fields` module (confirmed by introspecting the running container: `dir(fields)` lists `Many2one` and `Many2oneReference`, not `Many2one_reference`). `git log --follow` on `process_exception.py` shows this line has read `Many2one_reference` since the field was first introduced (commit `4fe6eae`) — it was never correct, and because no runtime install had ever been executed before this session, no test or verifier caught it. A second occurrence of the identical typo was found by repo-wide grep in `sgc_process_control/models/process_sla.py:29`.
+
+**Fix applied (unambiguous — one correct spelling exists, confirmed against the live `odoo.fields` module):**
+
+```diff
+--- a/sgc_process_control/models/process_exception.py
+-    source_id = fields.Many2one_reference(
++    source_id = fields.Many2oneReference(
+--- a/sgc_process_control/models/process_sla.py
+-    source_id = fields.Many2one_reference(model_field="source_model")
++    source_id = fields.Many2oneReference(model_field="source_model")
+```
+
+This is a mechanical rename to the class's real name; `Many2oneReference.__init__` accepts `**kwargs` including `model_field`, so no other change was needed. Fixed in both files, `sgc_install` database dropped and recreated for a clean re-run.
+
+### 19.3 §6.1, attempt 2 — FAILED (missing model, NOT fixed — blocking)
+
+Same command, clean database. Exit code 255 again, further into the load (module loading itself succeeded this time; the failure moved to model setup, after `sgc_tenant_readiness`'s test modules had started importing). Full log: `docs/WAVE_3_RUNTIME_LOGS/6.1_install_attempt2.log`.
+
+```
+File "/usr/lib/python3/dist-packages/odoo/orm/fields_relational.py", line 93, in setup_nonrelated
+    assert self.comodel_name in model.pool, \
+AssertionError: Field process.exception.team_id with unknown comodel_name 'res.teams'
+```
+
+**Diagnosis:** `process_exception.py` line 106-109:
+
+```python
+team_id = fields.Many2one(
+    "res.teams", string="Team",
+    help="Routing target on auto-classified exceptions.",
+)
+```
+
+`res.teams` is not a model in Odoo core (`base` or `mail`), and is not defined anywhere in this repository (`grep -rn "res\.teams" --include="*.py" .` finds only this one reference; `grep -rln '_name = "res\.'` across the three Wave 3 modules finds no custom model that would supply it). This is not a spelling variant of an existing model the way `Many2one_reference` was a spelling variant of `Many2oneReference` — there is no `res.team` or `res.teams` model anywhere to typo *toward*. Candidate real fixes, none of them a safe unilateral choice:
+
+| Option | What it means | Why not applied without a decision |
+|---|---|---|
+| Point at `crm.team` (Odoo's generic "Sales Team" model, used by many non-CRM apps as a generic team/routing concept) | Closest semantic match to "routing target" | Requires adding `sales_team` (the module that actually defines `crm.team`) as a new dependency of `sgc_process_control` — a manifest/architecture change, not a typo fix |
+| Point at `res.groups` | Reuses an existing `base` model, no new dependency | Semantically a security group, not a "team" — likely wrong fit for "routing target" |
+| Drop the field | Removes the defect by removing the feature | Deletes a documented feature ("Routing target on auto-classified exceptions") without confirming it's unused/undesired |
+| Define a new `res.teams` (or similarly named) model in `sgc_process_control` | Preserves the exact intended semantics | New model + security/views/tests is real scope, not a hot-fix, and duplicates functionality Odoo already ships via `sales_team` |
+
+Per the standing protocol ("run 6.1 alone first — if it fails, stop and report before proceeding to 6.2-6.4") and the order's own philosophy from §17.1 ("a blocked run honestly recorded is the correct output; a fabricated green is not"), this session stopped here rather than guessing. **§6.2, §6.3, §6.4 were not run.**
+
+### 19.4 What is proven and what is not
+
+- **Proven:** the runtime environment (Docker, postgres:16, a dated `odoo:19.0-20260818`, the three modules mounted and importable) is real and working — `base`, `web`, `mail`, and 22 other core Odoo modules installed cleanly in both attempts, and the failure point advanced between attempt 1 and attempt 2, proving attempt 1's fix took effect and the run is making genuine progress, not stuck on an environment problem.
+- **Proven:** two real, previously-undetected code defects exist in `sgc_process_control`, both invisible to every prior static check in this document (§3–§18) because none of those checks import or instantiate the Odoo model classes — they only count test classes, scan for prose patterns, and diff trees. This is exactly the class of defect §2's "no Odoo runtime available" BLOCK was always flagging as a risk.
+- **Not proven:** whether §6.1 will pass once `team_id`'s comodel is resolved — there may be further defects behind this one, undiscovered because the register-time failure aborts before any test or business-logic code runs. The 4/4/8 test-class-count and R8 baselines in §3/§4/§6/§16/§18 are static-tree facts and remain correct as static facts; they say nothing about whether the modules actually *install*, which is precisely the gap this section closes.
+
+### 19.5 Runtime state left for the next session
+
+`wave3_pg` and `wave3_odoo` containers are left running (network `wave3_net`) so the next session can resume immediately without re-doing the stand-up: `sgc_install` database exists (post-attempt-2 state, registry load failed so no modules beyond the 24 core ones are marked installed). Re-running §6.1 after the `team_id` decision is made only requires: apply the chosen fix, `dropdb`/`createdb` (or `-u` upgrade, but `-i` install on a fresh db is what §6.1 specifies), re-run the same command in §19.2.
+
+### 19.6 Commits
+
+- Typo fix (`Many2one_reference` → `Many2oneReference`, 2 files): committed on `wave3-runtime` alongside this section, see `git log`.
+- No fix committed for the `team_id`/`res.teams` defect — it is intentionally left in the working tree unresolved, matching the "do not guess" principle above.
 
 ---
