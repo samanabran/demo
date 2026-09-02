@@ -61,10 +61,10 @@ class FATFJurisdiction(models.Model):
         help='Reason for listing, deficiencies identified by FATF',
     )
 
-    _sql_constraints = [
-        ('country_uniq', 'unique(country_id)',
-         'Each country can only appear once in the FATF jurisdiction list.'),
-    ]
+    _country_uniq = models.Constraint(
+        'unique(country_id)',
+        'Each country can only appear once in the FATF jurisdiction list.',
+    )
 
     @api.model
     def is_high_risk_country(self, country_id):

@@ -52,14 +52,14 @@ class SgcStrategyLayerPriority(models.Model):
         compute="_compute_display_name", store=True, readonly=True,
     )
 
-    _sql_constraints = [
-        ("sgc_strategy_layer_unique_per_tenant",
-         "unique(tenant_id, layer_id)",
-         "Each layer appears at most once per tenant."),
-        ("sgc_strategy_priority_unique_per_tenant",
-         "unique(tenant_id, priority)",
-         "Each priority value (1-7) appears at most once per tenant."),
-    ]
+    _sgc_strategy_layer_unique_per_tenant = models.Constraint(
+        "unique(tenant_id, layer_id)",
+        "Each layer appears at most once per tenant.",
+    )
+    _sgc_strategy_priority_unique_per_tenant = models.Constraint(
+        "unique(tenant_id, priority)",
+        "Each priority value (1-7) appears at most once per tenant.",
+    )
 
     @api.depends("layer_id", "priority")
     def _compute_display_name(self):

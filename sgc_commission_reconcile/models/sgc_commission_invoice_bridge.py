@@ -65,11 +65,10 @@ class SgcCommissionInvoiceBridge(models.Model):
     confirmed_received_date = fields.Date(tracking=True)
     notes = fields.Text()
 
-    _sql_constraints = [
-        ("sgc_commission_invoice_bridge_unique",
-         "unique(commission_line_id, invoice_id)",
-         "This invoice is already linked to this commission line."),
-    ]
+    _sgc_commission_invoice_bridge_unique = models.Constraint(
+        "unique(commission_line_id, invoice_id)",
+        "This invoice is already linked to this commission line.",
+    )
 
     @api.depends("commission_line_id", "invoice_id")
     def _compute_name(self):

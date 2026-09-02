@@ -70,10 +70,10 @@ class HrBranch(models.Model):
         string='Employees'
     )
     
-    _sql_constraints = [
-        ('code_unique', 'unique(code, company_id)', 
-         'Branch code must be unique per company!'),
-    ]
+    _code_unique = models.Constraint(
+        'unique(code, company_id)',
+        'Branch code must be unique per company!',
+    )
 
     @api.depends('department_ids')
     def _compute_employee_count(self):

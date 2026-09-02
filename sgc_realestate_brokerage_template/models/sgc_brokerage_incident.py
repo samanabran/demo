@@ -71,11 +71,10 @@ class SgcBrokerageIncident(models.Model):
         compute="_compute_is_resolved", store=True, readonly=True,
     )
 
-    _sql_constraints = [
-        ("sgc_brokerage_incident_chronicler",
-         "CHECK(recurrence_count >= 1)",
-         "recurrence_count must be >= 1."),
-    ]
+    _sgc_brokerage_incident_chronicler = models.Constraint(
+        "CHECK(recurrence_count >= 1)",
+        "recurrence_count must be >= 1.",
+    )
 
     @api.depends("resolved_at")
     def _compute_is_resolved(self):

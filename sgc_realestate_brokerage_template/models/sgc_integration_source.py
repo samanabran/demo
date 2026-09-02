@@ -60,9 +60,8 @@ class SgcIntegrationSource(models.Model):
     last_synced_at = fields.Datetime(readonly=True)
     notes = fields.Text()
 
-    _sql_constraints = [
-        ("sgc_integration_source_unique",
-         "unique(tenant_id, system, vendor_name)",
-         "Only one row per tenant per (system, vendor) — collapse "
-         "duplicate declarations."),
-    ]
+    _sgc_integration_source_unique = models.Constraint(
+        "unique(tenant_id, system, vendor_name)",
+        "Only one row per tenant per (system, vendor) — collapse "
+        "duplicate declarations.",
+    )

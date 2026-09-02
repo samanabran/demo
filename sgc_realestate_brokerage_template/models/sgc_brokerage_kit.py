@@ -42,10 +42,9 @@ class SgcBrokerageKit(models.Model):
         help="Pointer to the rollout playbook section this kit feeds.",
     )
 
-    _sql_constraints = [
-        ("sgc_brokerage_kit_code_unique", "unique(code)",
-         "Kit code must be unique."),
-    ]
+    _sgc_brokerage_kit_code_unique = models.Constraint(
+        "unique(code)", "Kit code must be unique.",
+    )
 
 
 class SgcBrokerageKitLine(models.Model):

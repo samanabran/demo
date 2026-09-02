@@ -77,12 +77,11 @@ class SgcWaLog(models.Model):
         compute="_compute_display_name", store=True, readonly=True,
     )
 
-    _sql_constraints = [
-        ("sgc_wa_log_external_id_unique",
-         "unique(tenant_id, bsp_provider, external_id)",
-         "Each BSP message identifier must be unique per (tenant, "
-         "provider) — protects against double-ingest."),
-    ]
+    _sgc_wa_log_external_id_unique = models.Constraint(
+        "unique(tenant_id, bsp_provider, external_id)",
+        "Each BSP message identifier must be unique per (tenant, "
+        "provider) — protects against double-ingest.",
+    )
 
     @api.depends("direction", "partner_id", "timestamp")
     def _compute_display_name(self):

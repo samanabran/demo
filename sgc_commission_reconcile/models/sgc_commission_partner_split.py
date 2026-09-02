@@ -113,12 +113,11 @@ class SgcCommissionPartnerSplit(models.Model):
     notes = fields.Text()
     active = fields.Boolean(default=True)
 
-    _sql_constraints = [
-        ("sgc_commission_partner_split_unique",
-         "unique(tenant_id, deal_ref, partner_agency_id)",
-         "A split for this partner agency on this deal already exists "
-         "for this tenant."),
-    ]
+    _sgc_commission_partner_split_unique = models.Constraint(
+        "unique(tenant_id, deal_ref, partner_agency_id)",
+        "A split for this partner agency on this deal already exists "
+        "for this tenant.",
+    )
 
     @api.depends("deal_ref", "partner_agency_id", "split_pct")
     def _compute_name(self):

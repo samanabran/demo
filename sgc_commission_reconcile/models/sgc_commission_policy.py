@@ -81,12 +81,11 @@ class SgcCommissionPolicy(models.Model):
     active = fields.Boolean(default=True)
     notes = fields.Text()
 
-    _sql_constraints = [
-        ("sgc_commission_policy_unique",
-         "unique(tenant_id, transaction_type, name)",
-         "A policy with this name already exists for this tenant and "
-         "transaction type."),
-    ]
+    _sgc_commission_policy_unique = models.Constraint(
+        "unique(tenant_id, transaction_type, name)",
+        "A policy with this name already exists for this tenant and "
+        "transaction type.",
+    )
 
     @api.constrains("co_broker_default_split_pct")
     def _check_co_broker_default_split_pct(self):

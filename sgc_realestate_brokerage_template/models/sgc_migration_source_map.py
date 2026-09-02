@@ -50,13 +50,12 @@ class SgcMigrationSourceMap(models.Model):
         help="Pointer to the most-recent `sgc.migration.run` for this map.",
     )
 
-    _sql_constraints = [
-        ("sgc_migration_source_map_unique",
-         "unique(tenant_id, integration_source_id, source_table)",
-         "Each (tenant, source-system, source-table) row is unique — "
-         "if you need to remap a table, supersede the existing rule "
-         "rather than adding a row."),
-    ]
+    _sgc_migration_source_map_unique = models.Constraint(
+        "unique(tenant_id, integration_source_id, source_table)",
+        "Each (tenant, source-system, source-table) row is unique — "
+        "if you need to remap a table, supersede the existing rule "
+        "rather than adding a row.",
+    )
 
 
 class SgcMigrationRun(models.Model):

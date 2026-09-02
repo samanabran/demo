@@ -82,12 +82,11 @@ class IrAttachmentReconcile(models.Model):
              "upload. Compute server-side at create time.",
     )
 
-    _sql_constraints = [
-        ("re_attachment_tenant_hash_unique",
-         "unique(document_hash, tenant_id)",
-         "Document hash must be unique per tenant — protects against "
-         "double-uploads of identical files."),
-    ]
+    _re_attachment_tenant_hash_unique = models.Constraint(
+        "unique(document_hash, tenant_id)",
+        "Document hash must be unique per tenant — protects against "
+        "double-uploads of identical files.",
+    )
 
     @api.constrains("expiry_date")
     def _check_expiry_in_past_warning(self):

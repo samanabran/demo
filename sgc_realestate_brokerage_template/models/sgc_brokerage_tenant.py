@@ -167,13 +167,14 @@ class SgcBrokerageTenant(models.Model):
 
     # --- SQL constraints ---------------------------------------------------
 
-    _sql_constraints = [
-        ("sgc_brokerage_tenant_code_unique", "unique(code)",
-         "Tenant code must be unique — codes feed container/host names."),
-        ("sgc_brokerage_tenant_name_unique_per_company",
-         "unique(name, company_id)",
-         "Tenant name must be unique per company."),
-    ]
+    _sgc_brokerage_tenant_code_unique = models.Constraint(
+        "unique(code)",
+        "Tenant code must be unique — codes feed container/host names.",
+    )
+    _sgc_brokerage_tenant_name_unique_per_company = models.Constraint(
+        "unique(name, company_id)",
+        "Tenant name must be unique per company.",
+    )
 
     # --- Onchange / compute -----------------------------------------------
 

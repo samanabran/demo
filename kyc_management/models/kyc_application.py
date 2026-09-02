@@ -41,9 +41,9 @@ class KYCApplication(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'create_date DESC'
 
-    _sql_constraints = [
-        ('kyc_id_unique', 'UNIQUE(kyc_id)', 'KYC ID must be unique.'),
-    ]
+    _kyc_id_unique = models.Constraint(
+        'UNIQUE(kyc_id)', 'KYC ID must be unique.',
+    )
     
     # ==================== BASIC INFORMATION ====================
     
@@ -1177,7 +1177,7 @@ class KYCApplication(models.Model):
             return
         
         officers = self.env['res.users'].sudo().search([
-            ('groups_id', 'in', [approver_group.id]),
+            ('group_ids', 'in', [approver_group.id]),
             ('active', '=', True),
         ], limit=5)
         

@@ -80,11 +80,10 @@ class SgcComplianceEvent(models.Model):
         compute="_compute_display_name", store=True, readonly=True,
     )
 
-    _sql_constraints = [
-        ("sgc_compliance_event_opened_required",
-         "CHECK(opened_at IS NOT NULL)",
-         "Every compliance event must have an open timestamp."),
-    ]
+    _sgc_compliance_event_opened_required = models.Constraint(
+        "CHECK(opened_at IS NOT NULL)",
+        "Every compliance event must have an open timestamp.",
+    )
 
     @api.depends("event_type", "opened_at", "transaction_ref")
     def _compute_display_name(self):
