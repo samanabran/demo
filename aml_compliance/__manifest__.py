@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'AML Compliance & goAML',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'category': 'Compliance/AML',
     'summary': 'UAE Anti-Money Laundering Compliance with goAML Export',
     'description': """

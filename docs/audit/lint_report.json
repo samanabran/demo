@@ -1,0 +1,26 @@
+{
+  "started_at": "2026-08-31T17:27:58.954111Z",
+  "finished_at": "2026-08-31T17:27:58.985366Z",
+  "file_count": 12,
+  "hard_count": 0,
+  "warning_count": 0,
+  "info_count": 2,
+  "findings": [
+    {
+      "severity": "info",
+      "rule": "tier1/email",
+      "message": "Hardcoded tenant email address (crm@sgctech.ai); replace with an `ir.config_parameter` lookup.  [suppressed inline \u2014 re-enable by removing the audit-lint disable annotation]",
+      "path": "C:\\demo_presentation\\tools\\audit_coupling_lint.py",
+      "line": 286,
+      "snippet": "  message=( \u23ce                 \"Hardcoded `crm@sgctech.ai` (M5 / 16h audit blocke"
+    },
+    {
+      "severity": "info",
+      "rule": "tier1/meeting_ai_workspace",
+      "message": "Hardcoded `crm@sgctech.ai` (M5 / 16h audit blocker); use `ir.config_parameter('sgc.meeting_ai.workspace_account')`.  [suppressed inline \u2014 re-enable by removing the audit-lint disable annotation]",
+      "path": "C:\\demo_presentation\\tools\\audit_coupling_lint.py",
+      "line": 286,
+      "snippet": "  message=( \u23ce                 \"Hardcoded `crm@sgctech.ai` (M5 / 16h audit blocke"
+    }
+  ]
+}

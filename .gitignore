@@ -1,3 +1,37 @@
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
+.pytest_cache/
+.tox/
+*.egg-info/
+
+# Odoo local artefacts
+*.sql
+*.dump
+*.backup
+filestore/
+/opt/
+/tmp/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local session artefacts
+.session/
+
+# OMC / oh-my-claudecode operational state (ignored by convention;
+# .omc/skills/** or .omo/skills/** would be the committable exception,
+# none present here)
+.omc/
+.omo/
+
+# Stray terminal scrollback captured by Claude Code sessions; not source.
+*-local-command-caveat*.txt
+.wave4_premigration/
+.wave4_regression_snapshot/
+tools/_wave4_runner.py
+tools/_closure_runner.py

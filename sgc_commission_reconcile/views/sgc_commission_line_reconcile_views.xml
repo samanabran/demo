@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SGC Commission Reconcile — extends the EXISTING commission.line form
+    view via xpath inheritance. Does NOT replace it.
+
+    Base view confirmed at generation time:
+        sgc_commission/views/commission_actions.xml
+        record id="view_commission_line_form"
+        <notebook> containing one <page string="Billing">.
+
+    We insert a second notebook page after "Billing", plus a smart
+    button in the header area (via the statusbar's sibling <field
+    name="state">, inserting before it) and a "Phase 9 — Not Yet
+    Active" button.
+-->
+<odoo>
+    <data>
+
+        <record id="view_commission_line_form_reconcile" model="ir.ui.view">
+            <field name="name">commission.line.form.reconcile</field>
+            <field name="model">commission.line</field>
+            <field name="inherit_id" ref="sgc_commission.view_commission_line_form"/>
+            <field name="arch" type="xml">
+
+                <!-- Add the Phase-9 stub button and a smart button for
+                     linked invoice bridges into the header. -->
+                <xpath expr="//header/field[@name='state']" position="before">
+                    <button name="trigger_payout_calculation" type="object"
+                            string="Phase 9 — Not Yet Active"
+                            help="Payout calculation is deferred to the future sgc_commission_payout addon. This button intentionally raises a UserError — see README.md."/>
+                </xpath>
+
+                <xpath expr="//div[hasclass('oe_title')]" position="before">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_sgc_commission_invoice_bridge)d"
+                                type="action"
+                                class="oe_stat_button"
+                                icon="fa-file-text-o"
+                                context="{'default_commission_line_id': id}">
+                            <field name="invoice_bridge_ids" widget="statinfo"
+                                   string="Invoice bridges"/>
+                        </button>
+                    </div>
+                </xpath>
+
+                <!-- Add the Analytics & Reconcile tab after Billing. -->
+                <xpath expr="//notebook/page[last()]" position="after">
+                    <page string="Analytics &amp; Reconcile" name="reconcile">
+                        <group>
+                            <group string="Tenant and Policy">
+                                <field name="tenant_id"/>
+                                <field name="policy_id"/>
+                            </group>
+                            <group string="Cycle-time (Brief §1.3)">
+                                <field name="lead_create_date"/>
+                                <field name="commission_received_date"/>
+                                <field name="cycle_days" readonly="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -78,10 +78,10 @@ class SanctionsList(models.Model):
     un_reference = fields.Char(string='UN Reference')
     notes = fields.Text(string='Notes')
 
-    _sql_constraints = [
-        ('name_source_uniq', 'UNIQUE(listed_name, list_source)',
-         'Duplicate entry for this name and list source.'),
-    ]
+    _name_source_uniq = models.Constraint(
+        'UNIQUE(listed_name, list_source)',
+        'Duplicate entry for this name and list source.',
+    )
 
 
 class ScreeningResult(models.Model):

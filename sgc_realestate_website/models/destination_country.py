@@ -124,9 +124,7 @@ class DestinationCountry(models.Model):
     # Constraints
     # ===========================
     
-    _sql_constraints = [
-        models.Constraint('UNIQUE(code)', 'Country code must be unique!'),
-    ]
+    _code_uniq = models.Constraint('UNIQUE(code)', 'Country code must be unique!')
     
     @api.constrains('code')
     def _check_code(self):

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tenant_readiness_state_tree" model="ir.ui.view">
+        <field name="name">tenant.readiness.state.list</field>
+        <field name="model">tenant.readiness.state</field>
+        <field name="arch" type="xml">
+            <list string="Readiness State"
+                  decoration-danger="state=='blocked'"
+                  decoration-warning="state=='in_progress'"
+                  decoration-success="state=='ready'">
+                <field name="tenant_company_id"/>
+                <field name="capability_id"/>
+                <field name="state" widget="badge"
+                       decoration-danger="state=='blocked'"
+                       decoration-warning="state=='in_progress'"
+                       decoration-success="state=='ready'"/>
+                <field name="gate_open" widget="boolean_toggle" readonly="1"/>
+                <field name="missing_keys" optional="show"/>
+                <field name="state_set_at"/>
+                <field name="state_set_by_id" widget="many2one_avatar_user"/>
+                <field name="state_reason" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tenant_readiness_state_form" model="ir.ui.view">
+        <field name="name">tenant.readiness.state.form</field>
+        <field name="model">tenant.readiness.state</field>
+        <field name="arch" type="xml">
+            <form string="Readiness State">
+                <header>
+                    <!--
+                        There is no "Mark ready" button. Readiness is
+                        computed from tenant.readiness.config.value, not
+                        granted by a click — see the model docstring
+                        (Wave 3 remediation round 2, defect 5).
+                    -->
+                    <button name="action_recompute" string="Recompute"
+                            type="object"
+                            invisible="state == 'blocked'"
+                            groups="sgc_tenant_readiness.group_tenant_readiness_user"/>
+                    <button name="action_mark_blocked" string="Block"
+                            type="object" class="btn-danger"
+                            invisible="state == 'blocked'"
+                            context="{'default_state_reason': 'Block reason'}"
+                            groups="sgc_tenant_readiness.group_tenant_readiness_admin"/>
+                    <button name="action_unblock" string="Unblock"
+                            type="object" class="btn-primary"
+                            invisible="state != 'blocked'"
+                            groups="sgc_tenant_readiness.group_tenant_readiness_admin"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="not_configured,in_progress,ready,blocked"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="tenant_company_id"/>
+                        <field name="capability_id"/>
+                        <field name="state"/>
+                        <field name="gate_open" widget="boolean_toggle" readonly="1"/>
+                        <field name="missing_keys" readonly="1"/>
+                        <field name="state_set_at"/>
+                        <field name="state_set_by_id" widget="many2one_avatar_user"/>
+                        <field name="state_reason"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tenant_readiness_state" model="ir.actions.act_window">
+        <field name="name">Readiness State</field>
+        <field name="res_model">tenant.readiness.state</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No readiness state recorded.
+            </p>
+            <p>
+                One row per capability per tenant. The gate is per
+                capability, never system-wide. A tenant missing Trakheesi
+                credentials must be unable to publish listings while
+                remaining fully able to run property management.
+            </p>
+        </field>
+    </record>
+</odoo>

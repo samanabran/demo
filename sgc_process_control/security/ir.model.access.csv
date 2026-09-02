@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_process_exception_user,process.exception.user,model_process_exception,sgc_process_control.group_process_user,1,0,0,0
+access_process_exception_officer,process.exception.officer,model_process_exception,sgc_process_control.group_process_officer,1,1,1,0
+access_process_exception_admin,process.exception.admin,model_process_exception,sgc_process_control.group_process_admin,1,1,1,1
+
+access_process_dlq_user,process.dlq.user,model_process_dlq,sgc_process_control.group_process_user,1,0,0,0
+access_process_dlq_officer,process.dlq.officer,model_process_dlq,sgc_process_control.group_process_officer,1,1,1,0
+access_process_dlq_admin,process.dlq.admin,model_process_dlq,sgc_process_control.group_process_admin,1,1,1,1
+
+access_process_idempotency_user,process.idempotency.user,model_process_idempotency,sgc_process_control.group_process_user,1,0,0,0
+access_process_idempotency_admin,process.idempotency.admin,model_process_idempotency,sgc_process_control.group_process_admin,1,1,1,1
+
+access_process_sla_user,process.sla.user,model_process_sla,sgc_process_control.group_process_user,1,0,0,0
+access_process_sla_officer,process.sla.officer,model_process_sla,sgc_process_control.group_process_officer,1,1,1,0
+access_process_sla_admin,process.sla.admin,model_process_sla,sgc_process_control.group_process_admin,1,1,1,1

@@ -1,0 +1,67 @@
+[
+  {
+    "id": "01-intro",
+    "path": "/tmp/narration_audio/01-intro.wav",
+    "duration_s": 13.025
+  },
+  {
+    "id": "02-unpublished",
+    "path": "/tmp/narration_audio/02-unpublished.wav",
+    "duration_s": 9.15
+  },
+  {
+    "id": "03-publish-click",
+    "path": "/tmp/narration_audio/03-publish-click.wav",
+    "duration_s": 7.225
+  },
+  {
+    "id": "04-published",
+    "path": "/tmp/narration_audio/04-published.wav",
+    "duration_s": 5.825
+  },
+  {
+    "id": "05-public-search",
+    "path": "/tmp/narration_audio/05-public-search.wav",
+    "duration_s": 7.525
+  },
+  {
+    "id": "06-detail-page",
+    "path": "/tmp/narration_audio/06-detail-page.wav",
+    "duration_s": 7.075
+  },
+  {
+    "id": "07-inquiry-open",
+    "path": "/tmp/narration_audio/07-inquiry-open.wav",
+    "duration_s": 6.2
+  },
+  {
+    "id": "08-inquiry-fill",
+    "path": "/tmp/narration_audio/08-inquiry-fill.wav",
+    "duration_s": 6.475
+  },
+  {
+    "id": "09-inquiry-submit",
+    "path": "/tmp/narration_audio/09-inquiry-submit.wav",
+    "duration_s": 6.95
+  },
+  {
+    "id": "10-gap-fix",
+    "path": "/tmp/narration_audio/10-gap-fix.wav",
+    "duration_s": 9.125
+  },
+  {
+    "id": "11-smart-button",
+    "path": "/tmp/narration_audio/11-smart-button.wav",
+    "duration_s": 9.475
+  },
+  {
+    "id": "12-proof",
+    "path": "/tmp/narration_audio/12-proof.wav",
+    "duration_s": 10.3
+  },
+  {
+    "id": "13-closing",
+    "path": "/tmp/narration_audio/13-closing.wav",
+    "duration_s": 8.7
+  }
+]

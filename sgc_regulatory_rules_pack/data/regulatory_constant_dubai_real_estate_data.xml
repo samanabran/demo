@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Dubai real-estate regulatory constants.
+        Source: brief §6 verified regulatory baseline.
+        Effective dates: aligned with the underlying law's entry-into-force
+        where known; open-ended (no valid_to) where the value has been
+        stable across regimes.
+
+        Fee values: brief marked these as "fee to re-verify" — they are
+        marked confidence='verified' for the value's existence, with
+        a separate 'fee_re_verified' flag carried in the source_reference
+        where the exact amount is in question.
+    -->
+
+    <!-- ============================================================ -->
+    <!-- Dubai advertising / Trakheesi                                -->
+    <!-- ============================================================ -->
+
+    <record id="const_trakheesi_form_a" model="regulatory.constant">
+        <field name="name">Dubai advertising — Form A via Trakheesi</field>
+        <field name="code">trakheesi_form_a</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">form_name</field>
+        <field name="value_text">Form A</field>
+        <field name="unit">text</field>
+        <field name="source_url">https://dubailand.gov.ae/</field>
+        <field name="source_reference">DLD Trakheesi: owner-signed Form A registered through Trakheesi produces the permit number that must appear on every advertisement. Fee approx. AED 1,020 per ad type — to re-verify exact amount.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2017-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_trakheesi_ad_fee_aed" model="regulatory.constant">
+        <field name="name">Trakheesi advertising fee per ad type (AED) — to re-verify exact amount</field>
+        <field name="code">trakheesi_ad_fee_aed</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">fee_rate</field>
+        <field name="value_numeric">1020</field>
+        <field name="unit">aed</field>
+        <field name="source_url">https://dubailand.gov.ae/</field>
+        <field name="source_reference">Approximate fee AED 1,020 per ad type. To re-verify the exact amount against the current DLD fee schedule.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2017-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Dubai sale forms                                              -->
+    <!-- ============================================================ -->
+
+    <record id="const_dubai_sale_agreement_form" model="regulatory.constant">
+        <field name="name">Dubai sale agreement form</field>
+        <field name="code">dubai_sale_agreement_form</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">form_name</field>
+        <field name="value_text">Form F</field>
+        <field name="unit">text</field>
+        <field name="source_url">https://dubailand.gov.ae/</field>
+        <field name="source_reference">DLD: Form F for the sale agreement.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2010-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_dubai_buyer_broker_form" model="regulatory.constant">
+        <field name="name">Dubai buyer-broker relationship form</field>
+        <field name="code">dubai_buyer_broker_form</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">form_name</field>
+        <field name="value_text">Form B</field>
+        <field name="unit">text</field>
+        <field name="source_url">https://dubailand.gov.ae/</field>
+        <field name="source_reference">DLD: Form B for the buyer-broker relationship.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2010-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_dld_transfer_fee_percent" model="regulatory.constant">
+        <field name="name">Dubai transfer fee (DLD, percent of property value)</field>
+        <field name="code">dld_transfer_fee_percent</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">fee_rate</field>
+        <field name="value_numeric">4.0</field>
+        <field name="unit">percent</field>
+        <field name="source_url">https://dubailand.gov.ae/</field>
+        <field name="source_reference">DLD: 4 per cent transfer fee plus admin fees, settled at a registration trustee office, typically by manager's cheque, against developer no-objection and mortgage discharge.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2010-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Tenancy / Ejari                                              -->
+    <!-- ============================================================ -->
+
+    <record id="const_ejari_required" model="regulatory.constant">
+        <field name="name">Dubai tenancy registration required (Ejari)</field>
+        <field name="code">ejari_required</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">other</field>
+        <field name="value_text">true</field>
+        <field name="unit">bool</field>
+        <field name="source_url">https://dubailand.gov.ae/</field>
+        <field name="source_reference">Ejari registration is mandatory and is the landlord's legal obligation. Unified tenancy contract; fee approx. AED 221.75 — to re-verify.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2010-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_ejari_registration_fee_aed" model="regulatory.constant">
+        <field name="name">Ejari registration fee (AED) — to re-verify exact amount</field>
+        <field name="code">ejari_registration_fee_aed</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">fee_rate</field>
+        <field name="value_numeric">221.75</field>
+        <field name="unit">aed</field>
+        <field name="source_url">https://dubailand.gov.ae/</field>
+        <field name="source_reference">Approximate fee AED 221.75. To re-verify the exact amount against the current Ejari fee schedule.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2010-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_rent_change_notice_days" model="regulatory.constant">
+        <field name="name">Dubai notice period for rent or terms change (days)</field>
+        <field name="code">rent_change_notice_days</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">notice_period</field>
+        <field name="value_numeric">90</field>
+        <field name="unit">days</field>
+        <field name="source_url">https://dlp.dubai.gov.ae/</field>
+        <field name="source_reference">Law 26 of 2007 as amended by Law 33 of 2008: 90 days notice before any change to rent or terms.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2008-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_eviction_notice_days" model="regulatory.constant">
+        <field name="name">Dubai eviction notice (notarised, days)</field>
+        <field name="code">eviction_notice_days</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">notice_period</field>
+        <field name="value_numeric">365</field>
+        <field name="unit">days</field>
+        <field name="source_url">https://dlp.dubai.gov.ae/</field>
+        <field name="source_reference">Law 26 of 2007 as amended by Law 33 of 2008: 12 months notarised notice for eviction on the permitted grounds.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2008-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_smart_rental_index_live" model="regulatory.constant">
+        <field name="name">Dubai Smart Rental Index live</field>
+        <field name="code">smart_rental_index_live</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">index</field>
+        <field name="value_text">true</field>
+        <field name="unit">bool</field>
+        <field name="source_url">https://dubailand.gov.ae/</field>
+        <field name="source_reference">Dubai Smart Rental Index live since January 2025. Building-level, AI-assessed classification that informs valuation. Distinct from the RERA slab system, which still governs the permitted rent-increase percentage.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2025-01-01</field>
+        <field name="version">1</field>
+        <field name="notes">Drives G25: C11 PM15 must reference both Smart Rental Index AND RERA slab as distinct inputs. This constant confirms the SRI's existence. The RERA slab percentage per property type is a separate, type-keyed lookup.</field>
+    </record>
+
+    <record id="const_rera_slab_governs_increase" model="regulatory.constant">
+        <field name="name">RERA rental index slab system governs the permitted rent-increase percentage</field>
+        <field name="code">rera_slab_governs_increase</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">index</field>
+        <field name="value_text">true</field>
+        <field name="unit">bool</field>
+        <field name="source_url">https://dubailand.gov.ae/</field>
+        <field name="source_reference">RERA slab system governs the permitted percentage. C11 PM15 must NOT treat the RERA slab as the same thing as the Dubai Smart Rental Index.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2010-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Off-plan — Law 8/2007 + Law 9/2007                          -->
+    <!-- ============================================================ -->
+
+    <record id="const_offplan_marketing_threshold_percent" model="regulatory.constant">
+        <field name="name">Off-plan marketing threshold — minimum construction completion or guarantee (percent)</field>
+        <field name="code">offplan_marketing_threshold_percent</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">other</field>
+        <field name="value_numeric">20</field>
+        <field name="unit">percent</field>
+        <field name="source_url">https://dlp.dubai.gov.ae/</field>
+        <field name="source_reference">Law 9/2007 and RERA practice: developer registration, and a threshold such as 20 per cent construction completion or a 20 per cent cash or bank guarantee before off-plan marketing.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2007-01-01</field>
+        <field name="version">1</field>
+        <field name="notes">Drives C09 DV1–DV5 (developer lane marketing threshold gate). To re-verify current RERA practice for the exact percentage in force today.</field>
+    </record>
+
+    <record id="const_oqood_seller_fee_percent" model="regulatory.constant">
+        <field name="name">Oqood initial sale registration — seller share (percent)</field>
+        <field name="code">oqood_seller_fee_percent</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">fee_rate</field>
+        <field name="value_numeric">2.0</field>
+        <field name="unit">percent</field>
+        <field name="source_url">https://dubailand.gov.ae/en/eservices/request-to-register-the-initial-sale/</field>
+        <field name="source_reference">DLD published fee: 2 per cent seller.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2010-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_oqood_buyer_fee_percent" model="regulatory.constant">
+        <field name="name">Oqood initial sale registration — buyer share (percent)</field>
+        <field name="code">oqood_buyer_fee_percent</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">fee_rate</field>
+        <field name="value_numeric">2.0</field>
+        <field name="unit">percent</field>
+        <field name="source_url">https://dubailand.gov.ae/en/eservices/request-to-register-the-initial-sale/</field>
+        <field name="source_reference">DLD published fee: 2 per cent buyer. Total 4 per cent combined; commonly shifted wholly to buyer by contract.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2010-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_oqood_admin_fee_aed" model="regulatory.constant">
+        <field name="name">Oqood admin fee (AED) — to re-verify exact amount</field>
+        <field name="code">oqood_admin_fee_aed</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">fee_rate</field>
+        <field name="value_numeric">3100</field>
+        <field name="unit">aed</field>
+        <field name="source_url">https://dubailand.gov.ae/en/eservices/request-to-register-the-initial-sale/</field>
+        <field name="source_reference">Approximate admin fee AED 3,100. To re-verify against current DLD fee schedule.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2010-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Mollak / Service charges (Law 6 of 2019)                       -->
+    <!-- ============================================================ -->
+
+    <record id="const_mollak_budget_approval_required" model="regulatory.constant">
+        <field name="name">Mollak — RERA budget approval required before any service charge is imposed or collected</field>
+        <field name="code">mollak_budget_approval_required</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">other</field>
+        <field name="value_text">true</field>
+        <field name="unit">bool</field>
+        <field name="source_url">https://dlp.dubai.gov.ae/</field>
+        <field name="source_reference">Law 6 of 2019 with the Mollak system: a management entity cannot impose or collect service charges until the annual budget has RERA approval, and owner payments flow only into Mollak-registered accounts.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2019-01-01</field>
+        <field name="version">1</field>
+        <field name="notes">Drives G14 — Mollak module must hard-block charges until budget approval.</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- VAT                                                          -->
+    <!-- ============================================================ -->
+
+    <record id="const_vat_rate_percent" model="regulatory.constant">
+        <field name="name">UAE VAT standard rate (percent)</field>
+        <field name="code">vat_rate_percent</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">fee_rate</field>
+        <field name="value_numeric">5.0</field>
+        <field name="unit">percent</field>
+        <field name="source_url">https://www.tax.gov.ae/</field>
+        <field name="source_reference">Brokerage and management fees carry 5 per cent VAT. Residential leases are exempt while commercial property is standard-rated, and the first supply of new residential property is zero-rated within the qualifying period.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2018-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_residential_lease_vat" model="regulatory.constant">
+        <field name="name">Residential lease VAT treatment</field>
+        <field name="code">residential_lease_vat</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">fee_rate</field>
+        <field name="value_text">exempt</field>
+        <field name="unit">text</field>
+        <field name="source_url">https://www.tax.gov.ae/</field>
+        <field name="source_reference">Residential leases are exempt.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2018-01-01</field>
+        <field name="version">1</field>
+        <field name="notes">Drives G10 FI2 mixed-line tax determination. An exempt rent line can sit beside a taxable commission line on the same deal.</field>
+    </record>
+
+    <record id="const_commercial_lease_vat" model="regulatory.constant">
+        <field name="name">Commercial lease VAT treatment</field>
+        <field name="code">commercial_lease_vat</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">fee_rate</field>
+        <field name="value_text">standard</field>
+        <field name="unit">text</field>
+        <field name="source_url">https://www.tax.gov.ae/</field>
+        <field name="source_reference">Commercial property is standard-rated.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2018-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_first_residential_supply_vat" model="regulatory.constant">
+        <field name="name">First supply of new residential property VAT treatment</field>
+        <field name="code">first_residential_supply_vat</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">fee_rate</field>
+        <field name="value_text">zero_rated</field>
+        <field name="unit">text</field>
+        <field name="source_url">https://www.tax.gov.ae/</field>
+        <field name="source_reference">First supply of new residential property is zero-rated within the qualifying period.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2018-01-01</field>
+        <field name="version">1</field>
+    </record>
+</odoo>

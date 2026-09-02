@@ -1,17 +1,27 @@
 # -*- coding: utf-8 -*-
+# Part of SGC UI Brand Palette (standalone, v19.0.2.0.0).
 from odoo import models
 
 
 class IrUiMenu(models.Model):
-    """Re-asserts SGC brand icons on every registry load.
+    """Best-effort SGC brand icons for known target-module menus.
 
-    XML data alone is fragile here: when a *target* module (crm, mail,
-    hr, ...) reloads on any future upgrade, its own noupdate="0" data
-    silently re-writes the default web_icon and clobbers this module's
-    override, regardless of load order. _register_hook runs on every
-    registry build (every restart, every upgrade of anything), so the
-    brand icon self-heals instead of depending on one-shot XML load
-    order between unrelated modules.
+    This module declares NO dependency on any of the target modules
+    named in `_SGC_BRAND_ICONS` below (crm, hr_payroll_community,
+    sgc_hr_memos, ...) — v1.x of this module required all of them as
+    hard `depends`, which pulled ~20 unrelated apps into any
+    installation. As of v2.0.0 this module is standalone
+    (`depends: ['base', 'web', 'base_setup']` only).
+
+    Every lookup below uses `raise_if_not_found=False`, so a menu from
+    a module that is not installed is silently skipped — no error, no
+    hard dependency. `_register_hook` runs on every registry build
+    (every restart, every install/upgrade of *anything*), so as soon as
+    a target module IS installed, its icon self-heals on the very next
+    registry rebuild without requiring this module to be reinstalled.
+
+    Add or remove entries in `_SGC_BRAND_ICONS` freely — no manifest
+    change needed, since this dict is the only place icons are wired.
     """
     _inherit = 'ir.ui.menu'
 

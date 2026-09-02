@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Capability catalogue seeded from amendment §6.
+
+        Each capability row lists the required TENANT_CONFIG and
+        TENANT_DECISION fields. Gate scope is per capability, never
+        system-wide.
+    -->
+    <data noupdate="1">
+
+        <record id="capability_goaml_filing" model="tenant.readiness.capability">
+            <field name="code">goaml_filing</field>
+            <field name="name">goAML filing (REAR / STR / SAR)</field>
+            <field name="description">Filing through the FIU's goAML portal. Required for the REAR (real estate) and STR/SAR (any activity) obligations under Decree-Law 10/2025 + Cabinet 134/2025.</field>
+            <field name="severity">critical</field>
+            <field name="sequence">10</field>
+            <field name="required_tenant_config">co_mlro_user_id, alternate_co_mlro_user_id, goaml_organisation_id, goaml_registration_status, rear_filing_deadline_days_with_source</field>
+            <field name="required_tenant_decision">rear_filing_deadline_acknowledgement, str_sar_filing_window_acknowledgement</field>
+            <field name="module_dependency">aml_compliance</field>
+        </record>
+
+        <record id="capability_screening" model="tenant.readiness.capability">
+            <field name="code">screening</field>
+            <field name="name">Screening (AML + TFS)</field>
+            <field name="description">Sanctions, PEP, adverse media, and TFS screening. Distinct from goAML filing. Required for any money-touching transition (G15) and for the freeze workflow (G30). The TFS portion of this capability is gated on EOCN Notification Alert System registration — a separate obligation from goAML registration that makes the 24-hour freeze clock achievable.</field>
+            <field name="severity">critical</field>
+            <field name="sequence">20</field>
+            <field name="required_tenant_config">screening_provider_name, screening_provider_contracted_fallback_name, screening_provider_credentials, screening_failover_documented, eocn_registration_reference, tfs_cross_border_safeguard, tfs_freeze_clock_acknowledgement</field>
+            <field name="required_tenant_decision">screening_provider_choice_acknowledgement, tfs_freeze_action_acknowledgement</field>
+            <field name="module_dependency">sgc_screening_adapter</field>
+        </record>
+
+        <record id="capability_listing_publication" model="tenant.readiness.capability">
+            <field name="code">listing_publication</field>
+            <field name="name">Listing publication (Trakheesi / Form A)</field>
+            <field name="description">Listing on Trakheesi, with the permit number on every advert. Required for any listing to be published.</field>
+            <field name="severity">high</field>
+            <field name="sequence">30</field>
+            <field name="required_tenant_config">trakheesi_credentials, broker_licence_number, broker_licence_expiry, dual_agency_disclosure_policy</field>
+            <field name="module_dependency">sgc_listing_compliance</field>
+        </record>
+
+        <record id="capability_tenancy_contract" model="tenant.readiness.capability">
+            <field name="code">tenancy_contract</field>
+            <field name="name">Tenancy contract issuance (Ejari)</field>
+            <field name="description">Statutory registration of tenancies through Ejari. Required for any lease to be valid in Dubai.</field>
+            <field name="severity">high</field>
+            <field name="sequence">40</field>
+            <field name="required_tenant_config">ejari_credentials, jurisdiction_activated, ejari_registration_fee_acknowledged</field>
+            <field name="module_dependency">sgc_transaction_conditions</field>
+        </record>
+
+        <record id="capability_offplan_sales" model="tenant.readiness.capability">
+            <field name="code">offplan_sales</field>
+            <field name="name">Off-plan sales (developer registration, escrow, sales permit)</field>
+            <field name="description">Project registration with the regulator, dedicated project escrow account, sales permit, Oqood interim registration. Required for any off-plan sale.</field>
+            <field name="severity">high</field>
+            <field name="sequence">50</field>
+            <field name="required_tenant_config">developer_registration_number, project_escrow_account_reference, sales_permit_reference, oqood_credentials</field>
+            <field name="module_dependency">sgc_developer_lane</field>
+        </record>
+
+        <record id="capability_service_charge" model="tenant.readiness.capability">
+            <field name="code">service_charge</field>
+            <field name="name">Service charge collection (Mollak)</field>
+            <field name="description">Mollak-registered accounts, RERA-approved budget, segregated funds. Required for any service-charge collection.</field>
+            <field name="severity">high</field>
+            <field name="sequence">60</field>
+            <field name="required_tenant_config">mollak_registration_number, mollak_account_references, approved_budget_reference, approved_budget_expiry</field>
+            <field name="module_dependency">sgc_jointly_owned_property</field>
+        </record>
+
+        <record id="capability_einvoicing" model="tenant.readiness.capability">
+            <field name="code">einvoicing</field>
+            <field name="name">E-invoicing (ASP + go-live)</field>
+            <field name="description">UAE e-invoicing has at least three distinct tracks with different deadlines, not one: Phase 1 (revenue ≥ AED 50m — ASP appointment by 30 October 2026, go-live 1 January 2027), Phase 2 (revenue below AED 50m — ASP appointment by 31 March 2027, go-live 1 July 2027, verified_secondary only), and a separate government-entity track whose go-live date is actively disputed between secondary sources (do not encode). Which deadline pair applies depends on the tenant's own revenue band — a fact this product cannot know unless the tenant declares it. Per Wave 3 remediation round 3: `einvoicing_revenue_band` is a required field precisely so the capability blocks until the tenant states which band they are in, rather than silently applying the Phase 1 deadline to a Phase 2 tenant.</field>
+            <field name="severity">high</field>
+            <field name="sequence">70</field>
+            <field name="required_tenant_config">einvoicing_revenue_band, asp_provider_name, asp_appointment_date</field>
+            <field name="required_tenant_decision">einvoicing_opt_in_decision, einvoicing_threshold_acknowledgement</field>
+            <field name="module_dependency">uae_einvoice_core</field>
+        </record>
+
+    </data>
+</odoo>

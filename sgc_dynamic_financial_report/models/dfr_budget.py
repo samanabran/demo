@@ -75,13 +75,10 @@ class SgcDfrBudget(models.Model):
         store=False,
     )
 
-    _sql_constraints = [
-        (
-            "sgc_dfr_budget_unique",
-            "UNIQUE (account_id, company_id, fiscal_year)",
-            "A budget already exists for this account, company and fiscal year.",
-        ),
-    ]
+    _sgc_dfr_budget_unique = models.Constraint(
+        "UNIQUE (account_id, company_id, fiscal_year)",
+        "A budget already exists for this account, company and fiscal year.",
+    )
 
 
 class SgcDfrBudgetLine(models.Model):

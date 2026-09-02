@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SGC Commission Reconcile — menus.
+
+    Extends the existing Real Estate menu root from
+    `sgc_realestate_brokerage_template` (menu id `menu_realestate_root`,
+    confirmed present in that module's template_menus.xml) with a
+    "Commission" submenu.
+-->
+<odoo>
+    <data>
+
+        <menuitem id="menu_realestate_commission_root"
+                  name="Commission"
+                  parent="sgc_realestate_brokerage_template.menu_realestate_root"
+                  groups="sgc_realestate_brokerage_template.group_realestate_brokerage_user"
+                  sequence="35"/>
+
+        <menuitem id="menu_sgc_commission_policy"
+                  name="Commission Policies"
+                  action="action_sgc_commission_policy"
+                  parent="menu_realestate_commission_root"
+                  groups="sgc_realestate_brokerage_template.group_realestate_brokerage_manager"
+                  sequence="10"/>
+
+        <menuitem id="menu_sgc_commission_partner_split"
+                  name="Co-Broker Splits"
+                  action="action_sgc_commission_partner_split"
+                  parent="menu_realestate_commission_root"
+                  groups="sgc_realestate_brokerage_template.group_realestate_brokerage_user"
+                  sequence="20"/>
+
+        <menuitem id="menu_sgc_commission_invoice_bridge"
+                  name="Invoice Bridges"
+                  action="action_sgc_commission_invoice_bridge"
+                  parent="menu_realestate_commission_root"
+                  groups="sgc_realestate_brokerage_template.group_realestate_brokerage_user"
+                  sequence="30"/>
+
+        <!-- Apply-policy wizard, launched as a transient act_window with
+             context; no persistent menu record needed beyond the action
+             itself (kept minimal per the wizard's TransientModel nature). -->
+        <record id="action_sgc_commission_policy_apply_wizard" model="ir.actions.act_window">
+            <field name="name">Apply Commission Policy</field>
+            <field name="res_model">sgc.commission.policy.apply.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_sgc_commission_policy_apply_wizard"
+                  name="Apply Policy to Lines"
+                  action="action_sgc_commission_policy_apply_wizard"
+                  parent="menu_realestate_commission_root"
+                  groups="sgc_realestate_brokerage_template.group_realestate_brokerage_manager"
+                  sequence="40"/>
+
+    </data>
+</odoo>

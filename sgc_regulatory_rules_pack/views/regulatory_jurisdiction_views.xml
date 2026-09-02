@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Jurisdiction catalogue views.
+        Compliance officers see the list and the form.
+        Admins see the same with quick-edit fields.
+    -->
+    <record id="view_regulatory_jurisdiction_search" model="ir.ui.view">
+        <field name="name">regulatory.jurisdiction.search</field>
+        <field name="model">regulatory.jurisdiction</field>
+        <field name="arch" type="xml">
+            <search string="Jurisdictions">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="primary_regulator"/>
+                <field name="population_status"/>
+                <filter name="filter_populated" string="Populated" domain="[('population_status','=','populated')]"/>
+                <filter name="filter_placeholder" string="Placeholder" domain="[('population_status','=','placeholder')]"/>
+                <filter name="filter_out_of_scope" string="Out of scope" domain="[('population_status','=','out_of_scope')]"/>
+                <group name="group_by">
+                    <filter name="group_by_regulator" string="Primary regulator" context="{'group_by':'primary_regulator'}"/>
+                    <filter name="group_by_population" string="Population status" context="{'group_by':'population_status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--
+        Tenant-side regulatory administrators see the list and the form.
+        (R8 — Representation boundary. "Compliance officer" is a role
+        the tenant organisation appoints. The product supports the
+        tenant's programme; it does not constitute it.)
+    -->
+
+    <record id="view_regulatory_jurisdiction_tree" model="ir.ui.view">
+        <field name="name">regulatory.jurisdiction.list</field>
+        <field name="model">regulatory.jurisdiction</field>
+        <field name="arch" type="xml">
+            <list string="Jurisdictions" decoration-muted="population_status=='placeholder'">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="primary_regulator"/>
+                <field name="population_status" widget="badge"
+                       decoration-success="population_status=='populated'"
+                       decoration-muted="population_status in ('placeholder','out_of_scope')"/>
+                <field name="constant_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_regulatory_jurisdiction_form" model="ir.ui.view">
+        <field name="name">regulatory.jurisdiction.form</field>
+        <field name="model">regulatory.jurisdiction</field>
+        <field name="arch" type="xml">
+            <form string="Jurisdiction">
+                <header>
+                    <field name="population_status" widget="statusbar"
+                           statusbar_visible="placeholder,populated,out_of_scope"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group name="identification" string="Identification">
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group name="regulator" string="Regulator">
+                            <field name="primary_regulator"/>
+                            <field name="constant_count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="notes" string="Notes">
+                            <field name="notes" placeholder="Population status, deferral rationale, regulator links…"/>
+                        </page>
+                        <page name="constants" string="Constants">
+                            <field name="constant_ids" readonly="1">
+                                <list decoration-danger="confidence=='unverified'" decoration-warning="confidence=='conflicting'">
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="category"/>
+                                    <field name="value_numeric"/>
+                                    <field name="value_text"/>
+                                    <field name="unit"/>
+                                    <field name="confidence" widget="badge"
+                                           decoration-success="confidence=='verified'"
+                                           decoration-warning="confidence=='unverified'"
+                                           decoration-danger="confidence=='conflicting'"/>
+                                    <field name="valid_from"/>
+                                    <field name="valid_to"/>
+                                    <field name="version"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_regulatory_jurisdiction" model="ir.actions.act_window">
+        <field name="name">Regulatory Jurisdictions</field>
+        <field name="res_model">regulatory.jurisdiction</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_regulatory_jurisdiction_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No jurisdictions yet.
+            </p>
+            <p>
+                Jurisdictions are the catalogue of regulatory regimes whose
+                constants live in this pack. Dubai is populated at Wave 1
+                exit per the Wave 0 rebaseline.
+            </p>
+        </field>
+    </record>
+</odoo>

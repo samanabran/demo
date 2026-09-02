@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_tenant_high_risk_override_tree" model="ir.ui.view">
+        <field name="name">tenant.high.risk.override.list</field>
+        <field name="model">tenant.high.risk.override</field>
+        <field name="arch" type="xml">
+            <list string="High-Risk Customer Overrides"
+                  decoration-warning="state=='awaiting_co_mlro' or state=='awaiting_management'">
+                <field name="decision_at"/>
+                <field name="subject_customer_id"/>
+                <field name="tenant_company_id"/>
+                <field name="risk_classification"/>
+                <field name="co_mlro_consulted_id" widget="many2one_avatar_user"/>
+                <field name="co_mlro_recommendation"/>
+                <field name="management_decision"/>
+                <field name="decided_by_id" widget="many2one_avatar_user"/>
+                <field name="state" widget="badge"
+                       decoration-warning="state in ('awaiting_co_mlro','awaiting_management')"
+                       decoration-success="state=='acknowledged'"
+                       decoration-danger="state=='rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_tenant_high_risk_override_form" model="ir.ui.view">
+        <field name="name">tenant.high.risk.override.form</field>
+        <field name="model">tenant.high.risk.override</field>
+        <field name="arch" type="xml">
+            <form string="High-Risk Customer Override">
+                <header>
+                    <button name="action_consult_co_mlro" string="Consult CO/MLRO"
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"
+                            groups="sgc_tenant_readiness.group_tenant_readiness_officer"/>
+                    <button name="action_record_co_mlro_recommendation" string="Record CO/MLRO recommendation"
+                            type="object" class="btn-primary"
+                            invisible="state != 'awaiting_co_mlro'"
+                            groups="sgc_tenant_readiness.group_tenant_readiness_officer"/>
+                    <button name="action_record_management_decision" string="Record management decision"
+                            type="object" class="btn-success"
+                            invisible="state != 'awaiting_management'"
+                            groups="sgc_tenant_readiness.group_tenant_readiness_admin"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,awaiting_co_mlro,awaiting_management,acknowledged"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="display_name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="subject" string="Subject">
+                            <field name="subject_customer_id"/>
+                            <field name="tenant_company_id"/>
+                            <field name="risk_classification"/>
+                            <field name="risk_classification_other" invisible="risk_classification != 'other'"/>
+                        </group>
+                        <group name="consultation" string="CO/MLRO consultation">
+                            <field name="co_mlro_consulted_id" widget="many2one_avatar_user"/>
+                            <field name="co_mlro_consultation_at"/>
+                            <field name="co_mlro_recommendation"/>
+                            <field name="co_mlro_recommendation_conditions"
+                                   invisible="co_mlro_recommendation not in ('proceed_with_conditions','defer')"/>
+                            <field name="co_mlro_recommendation_rationale"/>
+                        </group>
+                        <group name="decision" string="Senior management decision">
+                            <field name="management_decision"/>
+                            <field name="decision_at"/>
+                            <field name="decided_by_id" widget="many2one_avatar_user"/>
+                            <field name="override_rationale" required="1"/>
+                            <field name="mitigation" required="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="acknowledgement" string="Acknowledgement">
+                            <field name="acknowledgement_id" readonly="1"/>
+                        </page>
+                        <page name="chatter" string="Chatter">
+                            <chatter/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_tenant_high_risk_override" model="ir.actions.act_window">
+        <field name="name">High-Risk Customer Overrides</field>
+        <field name="res_model">tenant.high.risk.override</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SGC Process Control — tenant isolation.
+
+    Per Wave 3 protocol §10 and the G27 PDPL position item 5:
+    every model holding tenant-scoped or personal data must have a
+    per-tenant ir.rule with a ('company_id', 'in', company_ids) domain.
+    ACL groups alone do not prevent one tenant from seeing another's
+    records once multiple tenants share a company — these ir.rule
+    records are the actual isolation boundary.
+
+    Pattern: sgc_commission_reconcile/security/ir_rule_tenant_isolation.xml
+    Adapted for the four process_control models, which all carry the
+    new `company_id` field added in this remediation.
+-->
+<odoo>
+    <data noupdate="1">
+
+        <record id="rule_process_exception_tenant" model="ir.rule">
+            <field name="name">Process Exception: tenant-company isolation</field>
+            <field name="model_id" ref="model_process_exception"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="rule_process_dlq_tenant" model="ir.rule">
+            <field name="name">Process DLQ: tenant-company isolation</field>
+            <field name="model_id" ref="model_process_dlq"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="rule_process_idempotency_tenant" model="ir.rule">
+            <field name="name">Process Idempotency: tenant-company isolation</field>
+            <field name="model_id" ref="model_process_idempotency"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="rule_process_sla_tenant" model="ir.rule">
+            <field name="name">Process SLA: tenant-company isolation</field>
+            <field name="model_id" ref="model_process_sla"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+    </data>
+</odoo>

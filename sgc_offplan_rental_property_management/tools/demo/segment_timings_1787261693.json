@@ -1,0 +1,54 @@
+[
+  {
+    "id": "01-intro",
+    "duration_s": 26.34
+  },
+  {
+    "id": "02-unpublished",
+    "duration_s": 10.09
+  },
+  {
+    "id": "03-publish-click",
+    "duration_s": 8.1
+  },
+  {
+    "id": "04-published",
+    "duration_s": 6.58
+  },
+  {
+    "id": "05-public-search",
+    "duration_s": 19.12
+  },
+  {
+    "id": "06-detail-page",
+    "duration_s": 10.09
+  },
+  {
+    "id": "07-inquiry-open",
+    "duration_s": 9.31
+  },
+  {
+    "id": "08-inquiry-fill",
+    "duration_s": 10.99
+  },
+  {
+    "id": "09-inquiry-submit",
+    "duration_s": 9.91
+  },
+  {
+    "id": "10-gap-fix",
+    "duration_s": 10.05
+  },
+  {
+    "id": "11-smart-button",
+    "duration_s": 10.21
+  },
+  {
+    "id": "12-proof",
+    "duration_s": 11.2
+  },
+  {
+    "id": "13-closing",
+    "duration_s": 9.86
+  }
+]

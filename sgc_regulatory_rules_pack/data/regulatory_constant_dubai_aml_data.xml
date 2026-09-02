@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Dubai / UAE Federal AML constants — Wave 1 entry.
+        Migrated from aml_compliance/reports/goaml_report_print.xml
+        where the AED 55,000 REAR threshold was hard-coded.
+
+        Each record carries source_url, source_reference, verified_on,
+        and confidence. Records that are still UNVERIFIED per Q9 are
+        flagged explicitly.
+    -->
+
+    <!-- ============================================================ -->
+    <!-- AML regime — Federal                                         -->
+    <!-- ============================================================ -->
+
+    <record id="const_aml_governing_law" model="regulatory.constant">
+        <field name="name">AML governing law (Federal Decree-Law No. 10 of 2025)</field>
+        <field name="code">aml_governing_law</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">other</field>
+        <field name="value_text">Federal Decree-Law No. 10 of 2025</field>
+        <field name="unit">text</field>
+        <field name="source_url">https://www.moet.gov.ae/</field>
+        <field name="source_reference">Federal Decree-Law No. 10 of 2025, effective 14/10/2025 (repeals Decree-Law No. 20 of 2018)</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2025-10-14</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_aml_executive_regulations" model="regulatory.constant">
+        <field name="name">AML executive regulations (Cabinet Resolution No. 134 of 2025)</field>
+        <field name="code">aml_executive_regulations</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">other</field>
+        <field name="value_text">Cabinet Resolution No. 134 of 2025</field>
+        <field name="unit">text</field>
+        <field name="source_url">https://www.moet.gov.ae/</field>
+        <field name="source_reference">Cabinet Resolution No. 134 of 2025, in force 14/12/2025 (replaces Cabinet Resolution No. 10 of 2019)</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2025-12-14</field>
+        <field name="version">1</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- REAR threshold — the critical G4 / G15 enforcement value    -->
+    <!-- ============================================================ -->
+
+    <record id="const_rear_cash_threshold_aed" model="regulatory.constant">
+        <field name="name">REAR threshold — cash, single or multiple payments (AED)</field>
+        <field name="code">rear_cash_threshold_aed</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">aml_threshold</field>
+        <field name="value_numeric">55000</field>
+        <field name="unit">aed</field>
+        <field name="source_url">https://www.moet.gov.ae/en/-/ministry-of-economy-obligates-real-estate-brokers-agents-in-the-country-to-maintain-records-transactions-data-for-at-least-five-years</field>
+        <field name="source_reference">MoET directive: real estate brokers/agents must report where a transaction is settled in cash — single or multiple payments — at or above AED 55,000 of the property value or part of it; also covers virtual assets or funds converted from them.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2018-01-01</field>
+        <field name="version">1</field>
+        <field name="notes">Migrated from aml_compliance/reports/goaml_report_print.xml (was hard-coded as '55000'). The migrated-from file no longer carries the literal; consumers read through get_effective('rear_cash_threshold_aed', 'dubai', as_of=tx_date).</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- REAR filing deadline — UNVERIFIED per Q9 answer              -->
+    <!-- ============================================================ -->
+
+    <record id="const_rear_filing_deadline_days" model="regulatory.constant">
+        <field name="name">REAR filing deadline (days)</field>
+        <field name="code">rear_filing_deadline_days</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">filing_window</field>
+        <field name="value_text">UNVERIFIED — see notes</field>
+        <field name="unit">text</field>
+        <field name="source_url">https://www.moet.gov.ae/</field>
+        <field name="source_reference">Public sources conflict: one analysis states no prescribed timeline, another states 10 days. Direct MoET/FIU confirmation pending per Q9.</field>
+        <field name="confidence">unverified</field>
+        <field name="valid_from">2025-12-14</field>
+        <field name="version">1</field>
+        <field name="notes">Per Q9 answer: ship rules pack with null + UNVERIFIED flag. Consumers must surface this state. The technical auto-trigger fires on facts regardless of the deadline value; Wave 2 exit gate requires resolution before go-live.</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Cash commission receipt (UNVERIFIED)                          -->
+    <!-- ============================================================ -->
+
+    <record id="const_rear_cash_commission_triggers_rear" model="regulatory.constant">
+        <field name="name">Does brokerage commission received in cash ≥ AED 55k trigger REAR?</field>
+        <field name="code">rear_cash_commission_triggers_rear</field>
+        <field name="jurisdiction_id" ref="jurisdiction_dubai"/>
+        <field name="category">aml_threshold</field>
+        <field name="value_text">UNVERIFIED — one source says no</field>
+        <field name="unit">text</field>
+        <field name="source_url">https://www.moet.gov.ae/</field>
+        <field name="source_reference">Public source states brokerage commission received in cash ≥ AED 55k does not itself trigger REAR (the trigger is on the property value transaction, not on the commission). Direct MoET/FIU confirmation pending per Q9.</field>
+        <field name="confidence">unverified</field>
+        <field name="valid_from">2025-12-14</field>
+        <field name="version">1</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- Retention and penalties — Decree-Law 10/2025                  -->
+    <!-- ============================================================ -->
+
+    <record id="const_aml_retention_years" model="regulatory.constant">
+        <field name="name">AML record retention minimum (years)</field>
+        <field name="code">aml_retention_years</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">retention_clock</field>
+        <field name="value_numeric">5</field>
+        <field name="unit">years</field>
+        <field name="source_url">https://www.moet.gov.ae/en/-/ministry-of-economy-obligates-real-estate-brokers-agents-in-the-country-to-maintain-records-transactions-data-for-at-least-five-years</field>
+        <field name="source_reference">Records kept at least five years. Unchanged under Decree-Law 10/2025. Filing-window note: confirm current MoET and FIU guidance before go-live.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2018-01-01</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_aml_penalty_max_aed_legal_entity" model="regulatory.constant">
+        <field name="name">AML penalty ceiling for legal entities (AED)</field>
+        <field name="code">aml_penalty_max_aed_legal_entity</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">penalty</field>
+        <field name="value_numeric">100000000</field>
+        <field name="unit">aed</field>
+        <field name="source_url">https://www.moet.gov.ae/</field>
+        <field name="source_reference">Decree-Law 10/2025: legal entities up to AED 100 million.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2025-10-14</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_fiu_suspension_days" model="regulatory.constant">
+        <field name="name">FIU Head power — suspension period (days)</field>
+        <field name="code">fiu_suspension_days</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">filing_window</field>
+        <field name="value_numeric">10</field>
+        <field name="unit">days</field>
+        <field name="source_url">https://www.moet.gov.ae/</field>
+        <field name="source_reference">Decree-Law 10/2025: FIU Head may order a 10-day suspension.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2025-10-14</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_str_sar_filing_window" model="regulatory.constant">
+        <field name="name">STR/SAR filing window (post-suspicion)</field>
+        <field name="code">str_sar_filing_window</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">filing_window</field>
+        <field name="value_text">immediately, regardless of transaction value</field>
+        <field name="unit">text</field>
+        <field name="source_url">https://www.moet.gov.ae/</field>
+        <field name="source_reference">Decree-Law 10/2025: file with the FIU immediately, regardless of transaction value.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2025-10-14</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_bo_update_clock_working_days" model="regulatory.constant">
+        <field name="name">Beneficial-owner / nominee information update clock (working days)</field>
+        <field name="code">bo_update_clock_working_days</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">notice_period</field>
+        <field name="value_numeric">15</field>
+        <field name="unit">working_days</field>
+        <field name="source_url">https://www.moet.gov.ae/</field>
+        <field name="source_reference">Cabinet Resolution 134/2025: BO and nominee information must be updated within 15 working days of any identified change.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2025-12-14</field>
+        <field name="version">1</field>
+    </record>
+
+    <record id="const_pf_risk_required" model="regulatory.constant">
+        <field name="name">Proliferation Financing risk dimension required</field>
+        <field name="code">pf_risk_required</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">other</field>
+        <field name="value_text">true</field>
+        <field name="unit">bool</field>
+        <field name="source_url">https://www.moet.gov.ae/</field>
+        <field name="source_reference">Cabinet Resolution 134/2025: PF risk now mandatory across EWRA, internal policies, name screening, customer risk profiling, EDD.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2025-12-14</field>
+        <field name="version">1</field>
+        <field name="notes">This constant exists to drive the G21 schema change in aml_compliance (PF dimension across EWRA, policies, screening, risk profiling, EDD). Consumers check this flag before scoring/rating.</field>
+    </record>
+
+    <record id="const_nominee_not_ubo" model="regulatory.constant">
+        <field name="name">Nominee shareholders / directors cannot be deemed UBOs</field>
+        <field name="code">nominee_not_ubo</field>
+        <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+        <field name="category">other</field>
+        <field name="value_text">true</field>
+        <field name="unit">bool</field>
+        <field name="source_url">https://www.moet.gov.ae/</field>
+        <field name="source_reference">2025 Executive Regulations: nominee shareholders and nominee directors cannot be deemed UBOs.</field>
+        <field name="verified_on">2026-09-01</field>
+        <field name="confidence">verified</field>
+        <field name="valid_from">2025-12-14</field>
+        <field name="version">1</field>
+        <field name="notes">Drives G22 correction in res.partner / party model — nominees are flagged as such, not elevated to UBO.</field>
+    </record>
+</odoo>

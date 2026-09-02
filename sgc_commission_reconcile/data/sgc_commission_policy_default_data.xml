@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    SGC Commission Reconcile — default placeholder policies.
+
+    One placeholder policy per transaction_type (four total). Every
+    rate_pct, threshold, and co_broker_default_split_pct value is 0.0.
+    Every record ships with active="0" (False) — MANDATORY, not
+    optional, so that no zero-rate commission calculation can silently
+    run against a live deal before the tenant configures real numbers.
+
+    NOTE: these records have no `tenant_id` set (tenant_id is required
+    on sgc.commission.policy, so these placeholders cannot be loaded as
+    literal `sgc.commission.policy` records without a tenant). They are
+    therefore commented out below, pending either (a) a per-tenant data
+    hook at onboarding time, or (b) a demo-tenant fixture. Shipping
+    tenant-less required-field records would fail module installation.
+    See README.md open-notes for this exact trade-off.
+-->
+<odoo>
+    <data noupdate="1">
+
+        <!--
+        IMPORTANT: Placeholder record. Configure rate_pct, thresholds, and
+        co_broker_default_split_pct, then set active=True. No market-standard
+        rate is encoded here by design.
+
+        Commented out pending a tenant_id value — see docstring above.
+        Uncomment and set `tenant_id` via the onboarding flow, e.g.:
+
+        <record id="policy_default_sale_offplan" model="sgc.commission.policy">
+            <field name="name">Default Sale — Off-Plan Policy — CONFIGURE BEFORE USE</field>
+            <field name="tenant_id" ref="__REPLACE_WITH_TENANT_XMLID__"/>
+            <field name="transaction_type">sale_offplan</field>
+            <field name="calculation_basis">property_value</field>
+            <field name="co_broker_default_split_pct">0.0</field>
+            <field name="active" eval="False"/>
+        </record>
+        -->
+
+        <!--
+        IMPORTANT: Placeholder record. Configure rate_pct, thresholds, and
+        co_broker_default_split_pct, then set active=True. No market-standard
+        rate is encoded here by design.
+
+        <record id="policy_default_sale_secondary" model="sgc.commission.policy">
+            <field name="name">Default Sale — Secondary Policy — CONFIGURE BEFORE USE</field>
+            <field name="tenant_id" ref="__REPLACE_WITH_TENANT_XMLID__"/>
+            <field name="transaction_type">sale_secondary</field>
+            <field name="calculation_basis">property_value</field>
+            <field name="co_broker_default_split_pct">0.0</field>
+            <field name="active" eval="False"/>
+        </record>
+        -->
+
+        <!--
+        IMPORTANT: Placeholder record. Configure rate_pct, thresholds, and
+        co_broker_default_split_pct, then set active=True. No market-standard
+        rate is encoded here by design.
+
+        <record id="policy_default_leasing" model="sgc.commission.policy">
+            <field name="name">Default Leasing Policy — CONFIGURE BEFORE USE</field>
+            <field name="tenant_id" ref="__REPLACE_WITH_TENANT_XMLID__"/>
+            <field name="transaction_type">leasing</field>
+            <field name="calculation_basis">rent_value</field>
+            <field name="co_broker_default_split_pct">0.0</field>
+            <field name="active" eval="False"/>
+        </record>
+        -->
+
+        <!--
+        IMPORTANT: Placeholder record. Configure rate_pct, thresholds, and
+        co_broker_default_split_pct, then set active=True. No market-standard
+        rate is encoded here by design.
+
+        <record id="policy_default_pm_management" model="sgc.commission.policy">
+            <field name="name">Default Property Management Fee Policy — CONFIGURE BEFORE USE</field>
+            <field name="tenant_id" ref="__REPLACE_WITH_TENANT_XMLID__"/>
+            <field name="transaction_type">pm_management</field>
+            <field name="calculation_basis">fixed_aed</field>
+            <field name="co_broker_default_split_pct">0.0</field>
+            <field name="active" eval="False"/>
+        </record>
+        -->
+
+    </data>
+</odoo>

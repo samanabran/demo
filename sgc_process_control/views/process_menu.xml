@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_process_control_root"
+              name="Process Control"
+              parent="base.menu_administration"
+              sequence="51"
+              groups="sgc_process_control.group_process_user"/>
+
+    <menuitem id="menu_process_exception"
+              name="Exceptions"
+              parent="menu_process_control_root"
+              action="action_process_exception"
+              sequence="10"/>
+
+    <menuitem id="menu_process_dlq"
+              name="Dead-Letter Queue"
+              parent="menu_process_control_root"
+              action="action_process_dlq"
+              sequence="20"
+              groups="sgc_process_control.group_process_officer"/>
+
+    <menuitem id="menu_process_sla"
+              name="SLA Clocks"
+              parent="menu_process_control_root"
+              action="action_process_sla"
+              sequence="30"/>
+
+    <menuitem id="menu_process_idempotency"
+              name="Idempotency Keys"
+              parent="menu_process_control_root"
+              action="action_process_idempotency"
+              sequence="40"
+              groups="sgc_process_control.group_process_admin"/>
+</odoo>

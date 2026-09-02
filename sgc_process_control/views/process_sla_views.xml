@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_process_sla_tree" model="ir.ui.view">
+        <field name="name">process.sla.list</field>
+        <field name="model">process.sla</field>
+        <field name="arch" type="xml">
+            <list string="SLA Clocks"
+                  decoration-danger="exhausted == True"
+                  decoration-warning="breached == True and not exhausted">
+                <field name="name"/>
+                <field name="rule_code"/>
+                <field name="started_at"/>
+                <field name="due_at"/>
+                <field name="paused"/>
+                <field name="breached"/>
+                <field name="exhausted"/>
+                <field name="attempt_count"/>
+                <field name="max_attempts"/>
+                <field name="escalation_level"/>
+                <field name="resolved_at" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_process_sla_form" model="ir.ui.view">
+        <field name="name">process.sla.form</field>
+        <field name="model">process.sla</field>
+        <field name="arch" type="xml">
+            <form string="SLA Clock">
+                <header>
+                    <button name="action_pause" string="Pause" type="object"
+                            class="btn-warning"
+                            invisible="paused or resolved_at != False"/>
+                    <button name="action_resume" string="Resume" type="object"
+                            class="btn-primary"
+                            invisible="not paused"/>
+                    <button name="action_record_attempt" string="Record attempt"
+                            type="object"
+                            invisible="exhausted or resolved_at != False"
+                            groups="sgc_process_control.group_process_officer"/>
+                    <button name="action_resolve" string="Resolve" type="object"
+                            class="btn-success"
+                            invisible="resolved_at != False"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group name="id" string="Identification">
+                            <field name="name"/>
+                            <field name="rule_code"/>
+                            <field name="source_model"/>
+                            <field name="source_id"/>
+                        </group>
+                        <group name="timing" string="Timing">
+                            <field name="started_at"/>
+                            <field name="due_at"/>
+                            <field name="paused_at"/>
+                            <field name="paused_total_seconds"/>
+                            <field name="paused"/>
+                            <field name="breached"/>
+                            <field name="resolved_at"/>
+                        </group>
+                        <group name="attempts" string="Attempts (G6)">
+                            <field name="attempt_count"/>
+                            <field name="max_attempts"/>
+                            <field name="exhausted"/>
+                            <field name="exhausted_at"/>
+                        </group>
+                        <group name="escalation" string="Escalation">
+                            <field name="escalation_level"/>
+                            <field name="next_escalation_at"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_process_sla" model="ir.actions.act_window">
+        <field name="name">SLA Clocks</field>
+        <field name="res_model">process.sla</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

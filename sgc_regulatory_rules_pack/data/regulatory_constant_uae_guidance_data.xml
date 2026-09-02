@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Primary-source guidance references — UAE government publications
+        that the rules pack depends on for the G28 onboarding schema and
+        the G29 (bi-annual CO/MLRO report) and G30 (TFS freeze) work.
+
+        These are NOT regulatory constants with values. They are
+        guidance references — pointers to primary sources. The values
+        the rules pack uses come from these sources, but the
+        constants are stored in their category-specific data files
+        (regulatory_constant_dubai_aml_data.xml, etc.).
+
+        Per amendment §10 outstanding item 4: MoJ Notice 247/2026 +
+        MoET DNFBP Guidelines March 2026 must be in the rules pack.
+    -->
+    <data noupdate="1">
+
+        <record id="uae_moj_notice_247_2026" model="regulatory.constant">
+            <field name="name">UAE MoJ Notice 247/2026 — joint guidance on the AML/CFT/CPF Compliance Officer</field>
+            <field name="code">uae_moj_notice_247_2026</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">other</field>
+            <field name="value_text">MoJ Notice 247/2026 (primary source)</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.moj.gov.ae/</field>
+            <field name="source_reference">Joint MoJ / MoET / Central Bank / SCA guidance on the AML/CFT/CPF Compliance Officer, referencing Article 22 of Cabinet Resolution 134/2025. Section 4.2: the CO/MLRO role and the entire compliance function must not be outsourced under any circumstances. Specific tasks may be outsourced only after obtaining a Letter of No Objection (LNOO) from the supervisory authority. "System Support" is listed among the examples of an outsourced task. An Alternate CO/MLRO is required. Both officers pass a fit-and-proper test on integrity, qualifications, experience, skills, and a documented professional path. Where CO/MLRO duties sit with someone holding other responsibilities, that person must not have day-to-day responsibility for sales or customer relationship management.</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified</field>
+            <field name="valid_from">2026-01-01</field>
+            <field name="version">1</field>
+            <field name="notes">Primary source. Used by: sgc_tenant_readiness (CO/MLRO + Alternate + fit-and-proper + LNOO field + segregation mixin).</field>
+        </record>
+
+        <record id="uae_moet_dnfbp_guidelines_march_2026" model="regulatory.constant">
+            <field name="name">UAE MoET DNFBP Guidelines, March 2026 — Real estate DNFBP companion guidance</field>
+            <field name="code">uae_moet_dnfbp_guidelines_march_2026</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">other</field>
+            <field name="value_text">MoET DNFBP Guidelines, March 2026 (primary source)</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.moet.gov.ae/</field>
+            <field name="source_reference">Real-estate-specific companion to MoJ Notice 247/2026. Records of qualification assessments and background verification must be maintained. The CO/MLRO appointment is notified to the supervisory authority. The fit-and-proper test includes integrity attestation (no criminal record, no regulatory action, no disqualification).</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified</field>
+            <field name="valid_from">2026-03-01</field>
+            <field name="version">1</field>
+            <field name="notes">Primary source. Used by: sgc_tenant_readiness (appointment notification field, fit-and-proper integrity attestation).</field>
+        </record>
+
+        <record id="uae_cabinet_134_2025_article_22" model="regulatory.constant">
+            <field name="name">Cabinet Resolution 134/2025, Article 22 — CO/MLRO report cycle</field>
+            <field name="code">uae_cabinet_134_2025_article_22</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">filing_window</field>
+            <field name="value_text">At least once every six months, to senior management and to the supervisory authority upon request</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.moet.gov.ae/</field>
+            <field name="source_reference">The CO/MLRO must submit a report on the adequacy and effectiveness of the AML/CFT/CPF programme to senior management at least once every six months, and to the supervisory authority upon request. Used by: sgc_tenant_readiness → G29 (bi-annual CO/MLRO report, Wave 3).</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified</field>
+            <field name="valid_from">2025-12-14</field>
+            <field name="version">1</field>
+        </record>
+
+        <record id="uae_cabinet_74_2020_article_21" model="regulatory.constant">
+            <field name="name">Cabinet Decision 74/2020, Article 21 — Sanctions Compliance Program</field>
+            <field name="code">uae_cabinet_74_2020_article_21</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">other</field>
+            <field name="value_text">Cabinet Decision 74/2020, Article 21 (primary source)</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.uaelegislation.gov.ae/</field>
+            <field name="source_reference">Sanctions Compliance Program obligation. Distinct from AML screening. Targeted Financial Sanctions (TFS) list must be checked; freeze / unfreeze orders from the supervisory authority must be implemented. The supervisory authority's Appendix-1 deficiency list flags "no or limited oversight over the implementation of search and freeze/unfreeze orders received from the FIU." Used by: Wave 2 item 5 extension → G30 (TFS freeze workflow).</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified</field>
+            <field name="valid_from">2020-01-01</field>
+            <field name="version">1</field>
+        </record>
+
+        <record id="uae_federal_decree_law_45_2021_pdpl" model="regulatory.constant">
+            <field name="name">UAE Federal Decree-Law No. 45 of 2021 — Personal Data Protection (PDPL)</field>
+            <field name="code">uae_federal_decree_law_45_2021_pdpl</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">other</field>
+            <field name="value_text">Federal Decree-Law No. 45 of 2021 (primary source)</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.uaelegislation.gov.ae/</field>
+            <field name="source_reference">Personal Data Protection Law. Establishes controller / processor distinction. In a multi-tenant deployment, the tenant is the controller; we are the processor. Processor duties attach to our architecture, not to tenant conduct. Used by: sgc_tenant_readiness (G27 PDPL processor obligations).</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified</field>
+            <field name="valid_from">2021-09-01</field>
+            <field name="version">1</field>
+        </record>
+
+    </data>
+</odoo>

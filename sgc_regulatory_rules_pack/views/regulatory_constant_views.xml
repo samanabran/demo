@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Regulatory constant views.
+        Values are read-only for editors; admins can edit.
+        Verified / unverified state is surfaced prominently because
+        consumers downstream must not silently consume UNVERIFIED values.
+        (R8 — "compliance" replaced with "editors" in user-visible
+        strings. The product supports the tenant's programme; the
+        tenant's appointed Compliance Officer makes regulatory calls.)
+    -->
+    <record id="view_regulatory_constant_search" model="ir.ui.view">
+        <field name="name">regulatory.constant.search</field>
+        <field name="model">regulatory.constant</field>
+        <field name="arch" type="xml">
+            <search string="Regulatory Constants">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="jurisdiction_id"/>
+                <field name="category"/>
+                <field name="confidence"/>
+                <separator/>
+                <filter name="filter_verified" string="Verified" domain="[('confidence','=','verified')]"/>
+                <filter name="filter_unverified" string="UNVERIFIED" domain="[('confidence','=','unverified')]"/>
+                <filter name="filter_conflicting" string="Conflicting" domain="[('confidence','=','conflicting')]"/>
+                <separator/>
+                <filter name="filter_currently_effective" string="Currently effective"
+                        domain="['&amp;',('valid_from','&lt;=',context_today()),'|',('valid_to','=',False),('valid_to','&gt;=',context_today())]"/>
+                <group name="group_by">
+                    <filter name="group_by_jurisdiction" string="Jurisdiction" context="{'group_by':'jurisdiction_id'}"/>
+                    <filter name="group_by_category" string="Category" context="{'group_by':'category'}"/>
+                    <filter name="group_by_confidence" string="Confidence" context="{'group_by':'confidence'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_regulatory_constant_tree" model="ir.ui.view">
+        <field name="name">regulatory.constant.list</field>
+        <field name="model">regulatory.constant</field>
+        <field name="arch" type="xml">
+            <list string="Regulatory Constants"
+                  decoration-danger="confidence=='unverified'"
+                  decoration-warning="confidence=='conflicting'"
+                  decoration-muted="valid_to and valid_to &lt; context_today()">
+                <field name="jurisdiction_id"/>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="category" widget="badge"/>
+                <field name="unit"/>
+                <field name="value_numeric" string="Numeric"/>
+                <field name="value_text" string="Text"/>
+                <field name="confidence" widget="badge"
+                       decoration-success="confidence=='verified'"
+                       decoration-warning="confidence=='unverified'"
+                       decoration-danger="confidence=='conflicting'"/>
+                <field name="valid_from"/>
+                <field name="valid_to" optional="show"/>
+                <field name="version" optional="show"/>
+                <field name="verified_on" optional="hide"/>
+                <field name="source_reference" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_regulatory_constant_form" model="ir.ui.view">
+        <field name="name">regulatory.constant.form</field>
+        <field name="model">regulatory.constant</field>
+        <field name="arch" type="xml">
+            <form string="Regulatory Constant">
+                <header>
+                    <field name="confidence" widget="statusbar"
+                           statusbar_visible="verified,unverified,conflicting"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. REAR cash threshold (AED)"/>
+                        </h1>
+                        <h3>
+                            <field name="code" placeholder="machine_readable_key"
+                                   style="font-family: monospace;"/>
+                        </h3>
+                    </div>
+                    <group>
+                        <group name="scope" string="Scope">
+                            <field name="jurisdiction_id" options="{'no_create_edit': True}"/>
+                            <field name="category"/>
+                            <field name="unit"/>
+                        </group>
+                        <group name="value" string="Value">
+                            <field name="value_numeric" invisible="unit in ('text','bool')"/>
+                            <field name="value_text" invisible="unit not in ('text','bool')"/>
+                            <field name="version"/>
+                        </group>
+                        <group name="effective" string="Effective period">
+                            <field name="valid_from"/>
+                            <field name="valid_to"/>
+                        </group>
+                        <group name="provenance" string="Provenance">
+                            <field name="source_url" widget="url" placeholder="https://…"/>
+                            <field name="source_reference"/>
+                            <field name="verified_on"/>
+                            <field name="verified_by"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="description" string="Description">
+                            <field name="description" placeholder="What this constant means and how it is used."/>
+                        </page>
+                        <page name="notes" string="Notes">
+                            <field name="notes" placeholder="Migration provenance, deferral rationale, cross-references…"/>
+                        </page>
+                        <page name="chatter" string="Chatter">
+                            <chatter/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_regulatory_constant" model="ir.actions.act_window">
+        <field name="name">Regulatory Constants</field>
+        <field name="res_model">regulatory.constant</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_regulatory_constant_search"/>
+        <field name="context">{'search_default_filter_currently_effective': 1, 'search_default_group_by_jurisdiction': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No regulatory constants yet.
+            </p>
+            <p>
+                Constants are effective-dated, jurisdiction-scoped values.
+                Hard-coding a regulatory constant in any consumer module is
+                a gap — add it here and migrate the consumer to call
+                <code>get_effective(code, jurisdiction_code, as_of)</code>.
+            </p>
+        </field>
+    </record>
+</odoo>

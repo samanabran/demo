@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Readiness dashboard — a QWeb template that renders the per-capability
+        state for the current user's tenant. A tenant missing Trakheesi
+        credentials must see only the property-management capabilities as
+        ready; the listing capability shows "not configured" with a clear
+        reason and the missing field.
+    -->
+    <template id="tenant_readiness_dashboard" name="Tenant Readiness Dashboard">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="container mt-3">
+                    <h1>Tenant Readiness</h1>
+                    <p class="text-muted">
+                        Per-capability gate. A capability is "ready" when
+                        the required tenant fields are populated and any
+                        required tenant decisions are acknowledged.
+                    </p>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Capability</th>
+                                <th>Severity</th>
+                                <th>State</th>
+                                <th>Gate open</th>
+                                <th>Reason</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="capabilities" t-as="cap">
+                                <tr>
+                                    <td>
+                                        <t t-esc="cap['name']"/>
+                                        <small class="text-muted d-block">
+                                            <t t-esc="cap['code']"/>
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <t t-esc="cap['severity']"/>
+                                    </td>
+                                    <td>
+                                        <span t-attf-class="badge badge-{{cap['state_class']}}">
+                                            <t t-esc="cap['state']"/>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <t t-if="cap['gate_open']">
+                                            <span class="badge badge-success">Open</span>
+                                        </t>
+                                        <t t-else="">
+                                            <span class="badge badge-secondary">Closed</span>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-esc="cap['reason'] or ''"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,111 @@
+
+2026-09-02 16:35:15,588 580 INFO ? odoo: Odoo version 19.0-20260817 
+2026-09-02 16:35:15,588 580 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf 
+2026-09-02 16:35:15,588 580 INFO ? odoo: addons paths: _NamespacePath(['/usr/lib/python3/dist-packages/odoo/addons', '/var/lib/odoo/addons/19.0', '/mnt/extra-addons', '/usr/lib/python3/dist-packages/addons']) 
+2026-09-02 16:35:15,589 580 INFO ? odoo: database: odoo@wave4_pg:default 
+2026-09-02 16:35:16,200 580 INFO ? odoo.service.server: HTTP service (werkzeug) running on 2b431b2d5de1:8069 
+2026-09-02 16:35:16,224 580 INFO wave4_aml_p62 odoo.tests.common: Importing test framework 
+2026-09-02 16:35:16,273 580 INFO wave4_aml_p62 odoo.modules.loading: loading 1 modules... 
+2026-09-02 16:35:16,279 580 INFO wave4_aml_p62 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-09-02 16:35:16,317 580 INFO wave4_aml_p62 odoo.modules.loading: updating modules list 
+2026-09-02 16:35:16,321 580 INFO wave4_aml_p62 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-09-02 16:35:19,424 580 WARNING wave4_aml_p62 odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 16:35:19,429 580 WARNING wave4_aml_p62 odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 16:35:19,717 580 WARNING wave4_aml_p62 odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 16:35:19,722 580 WARNING wave4_aml_p62 odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 16:35:20,455 580 INFO wave4_aml_p62 odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['AML Compliance & goAML'] to user __system__ #1 via n/a 
+2026-09-02 16:35:20,455 580 INFO wave4_aml_p62 odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['AML Compliance & goAML'] to user __system__ #1 via n/a 
+2026-09-02 16:35:24,215 580 WARNING wave4_aml_p62 odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 16:35:24,350 580 WARNING wave4_aml_p62 odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 16:35:24,843 580 INFO wave4_aml_p62 odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-09-02 16:35:24,914 580 INFO wave4_aml_p62 odoo.modules.loading: loading 69 modules... 
+2026-09-02 16:35:26,564 580 INFO wave4_aml_p62 odoo.modules.loading: Loading module aml_compliance (65/69) 
+2026-09-02 16:35:27,405 580 INFO wave4_aml_p62 odoo.registry: module aml_compliance: creating or updating database tables 
+2026-09-02 16:35:27,611 580 WARNING wave4_aml_p62 odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.partner() have the same label: Currency. [Modules: kyc_management and account] 
+2026-09-02 16:35:27,613 580 WARNING wave4_aml_p62 odoo.addons.base.models.ir_model: Two fields (x_currency_id, currency_id) of res.users() have the same label: Currency. [Modules: None and None] 
+2026-09-02 16:35:27,937 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/security/aml_groups.xml 
+2026-09-02 16:35:27,951 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/security/ir.model.access.csv 
+2026-09-02 16:35:28,035 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/security/security.xml 
+2026-09-02 16:35:28,052 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/sequence_data.xml 
+2026-09-02 16:35:28,069 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/sequence_phase2_data.xml 
+2026-09-02 16:35:28,086 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/edd_enquiry_data.xml 
+2026-09-02 16:35:28,107 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/risk_factor_data.xml 
+2026-09-02 16:35:28,127 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/fatf_jurisdiction_data.xml 
+2026-09-02 16:35:28,168 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/monitoring_rule_data.xml 
+2026-09-02 16:35:28,203 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/data/cron_data.xml 
+2026-09-02 16:35:28,236 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/reports/risk_assessment_report.xml 
+2026-09-02 16:35:28,278 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/reports/goaml_report_print.xml 
+2026-09-02 16:35:28,303 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/reports/screening_certificate.xml 
+2026-09-02 16:35:28,339 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/reports/consolidated_kyc_report.xml 
+2026-09-02 16:35:28,379 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/risk_assessment_views.xml 
+2026-09-02 16:35:28,490 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/risk_factor_views.xml 
+2026-09-02 16:35:28,608 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/goaml_report_views.xml 
+2026-09-02 16:35:28,686 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/transaction_monitoring_views.xml 
+2026-09-02 16:35:28,812 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/sanctions_screening_views.xml 
+2026-09-02 16:35:28,975 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/opensanctions_views.xml 
+2026-09-02 16:35:29,011 580 WARNING wave4_aml_p62 odoo.addons.base.models.ir_ui_view: A <i> with fa class (fa fa-check-circle me-2) must have title in its tag, parents, descendants or have text
+View error context:
+{'file': '/mnt/extra-addons/aml_compliance/views/opensanctions_views.xml',
+ 'line': 6,
+ 'name': 'aml.opensanctions.config.form',
+ 'view': ir.ui.view(1815,),
+ 'view.model': 'aml.opensanctions.config',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'view_opensanctions_config_form'} 
+2026-09-02 16:35:29,012 580 WARNING wave4_aml_p62 odoo.addons.base.models.ir_ui_view: A <i> with fa class (fa fa-times-circle me-2) must have title in its tag, parents, descendants or have text
+View error context:
+{'file': '/mnt/extra-addons/aml_compliance/views/opensanctions_views.xml',
+ 'line': 17,
+ 'name': 'aml.opensanctions.config.form',
+ 'view': ir.ui.view(1815,),
+ 'view.model': 'aml.opensanctions.config',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'view_opensanctions_config_form'} 
+2026-09-02 16:35:29,044 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/dashboard_views.xml 
+2026-09-02 16:35:29,260 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/kyc_application_views.xml 
+2026-09-02 16:35:29,305 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/res_partner_views.xml 
+2026-09-02 16:35:29,396 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/edd_workflow_views.xml 
+2026-09-02 16:35:29,471 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/investigation_case_views.xml 
+2026-09-02 16:35:29,529 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/views/aml_menu.xml 
+2026-09-02 16:35:29,715 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/wizard/risk_override_wizard_views.xml 
+2026-09-02 16:35:29,749 580 INFO wave4_aml_p62 odoo.modules.loading: loading aml_compliance/wizard/goaml_filing_wizard_views.xml 
+2026-09-02 16:35:30,212 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.tests.test_exit_gate: Starting TestExitGate.test_alert_state_machine_only_via_authorized_actions ... 
+2026-09-02 16:35:30,584 580 INFO wave4_aml_p62 odoo.addons.auth_signup.models.res_users: Signup email sent for user <wave4_no_aml> to <wave4_no_aml@example.com> 
+2026-09-02 16:35:30,626 580 INFO wave4_aml_p62 odoo.addons.base.models.ir_model: Access Denied by ACLs for operation: read, uid: 7, model: aml.transaction.alert 
+2026-09-02 16:35:30,641 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.tests.test_exit_gate: Starting TestExitGate.test_alert_with_missing_partner_fails_closed ... 
+2026-09-02 16:35:30,756 580 ERROR wave4_aml_p62 odoo.sql_db: bad query: b'INSERT INTO "aml_transaction_alert" ("alert_date", "company_id", "create_date", "create_uid", "currency_id", "name", "rule_id", "state", "transaction_amount", "write_date", "write_uid") VALUES (\'2026-09-02T16:35:30\'::timestamp, 1, \'2026-09-02T16:35:30.213379\'::timestamp, 1, 1, \'ALT/2026/00028\', 26, \'new\', \'100.00\', \'2026-09-02T16:35:30.213379\'::timestamp, 1) RETURNING "id"'
+ERROR: null value in column "partner_id" of relation "aml_transaction_alert" violates not-null constraint
+DETAIL:  Failing row contains (28, 26, null, 1, null, null, null, null, 1, null, 1, 1, ALT/2026/00028, new, null, null, null, null, 100.00, 2026-09-02 16:35:30, null, 2026-09-02 16:35:30.213379, 2026-09-02 16:35:30.213379).
+ 
+2026-09-02 16:35:30,762 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.tests.test_exit_gate: Starting TestExitGate.test_exact_threshold_boundary_is_deterministic ... 
+2026-09-02 16:35:31,859 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.account_move: Real-time monitoring: 2 alert(s) generated for 1 invoice(s). 
+2026-09-02 16:35:31,860 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.transaction_monitoring: AML Transaction Monitoring: starting scan... 
+2026-09-02 16:35:31,866 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.transaction_monitoring: AML Transaction Monitoring: 0 alerts generated. 
+2026-09-02 16:35:31,867 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.transaction_monitoring: AML Transaction Monitoring: starting scan... 
+2026-09-02 16:35:31,873 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.transaction_monitoring: AML Transaction Monitoring: 0 alerts generated. 
+2026-09-02 16:35:31,877 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.tests.test_exit_gate: Starting TestExitGate.test_idempotent_threshold_check_no_duplicate_alerts ... 
+2026-09-02 16:35:32,263 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.account_move: Real-time monitoring: 2 alert(s) generated for 1 invoice(s). 
+2026-09-02 16:35:32,265 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.transaction_monitoring: AML Transaction Monitoring: starting scan... 
+2026-09-02 16:35:32,275 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.transaction_monitoring: AML Transaction Monitoring: 0 alerts generated. 
+2026-09-02 16:35:32,275 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.transaction_monitoring: AML Transaction Monitoring: starting scan... 
+2026-09-02 16:35:32,284 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.transaction_monitoring: AML Transaction Monitoring: 0 alerts generated. 
+2026-09-02 16:35:32,288 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.tests.test_exit_gate: Starting TestExitGate.test_subthreshold_transaction_creates_no_alert ... 
+2026-09-02 16:35:32,773 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.transaction_monitoring: AML Transaction Monitoring: starting scan... 
+2026-09-02 16:35:32,779 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.transaction_monitoring: AML Transaction Monitoring: 0 alerts generated. 
+2026-09-02 16:35:32,783 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.tests.test_exit_gate: Starting TestExitGate.test_threshold_breach_creates_alert_with_correct_severity ... 
+2026-09-02 16:35:33,160 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.account_move: Real-time monitoring: 2 alert(s) generated for 1 invoice(s). 
+2026-09-02 16:35:33,162 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.transaction_monitoring: AML Transaction Monitoring: starting scan... 
+2026-09-02 16:35:33,170 580 INFO wave4_aml_p62 odoo.addons.aml_compliance.models.transaction_monitoring: AML Transaction Monitoring: 0 alerts generated. 
+2026-09-02 16:35:33,402 580 INFO wave4_aml_p62 odoo.addons.base.models.ir_attachment: filestore gc 1 checked, 1 removed 
+2026-09-02 16:35:33,404 580 INFO wave4_aml_p62 odoo.modules.loading: Module aml_compliance loaded in 6.84s (incl. 3.21s test), 1396 queries (+1069 test, +1396 other) 
+2026-09-02 16:35:33,415 580 INFO wave4_aml_p62 odoo.modules.loading: 69 modules loaded in 8.50s, 1396 queries (+2465 extra) 
+2026-09-02 16:35:36,008 580 INFO wave4_aml_p62 odoo.modules.loading: Modules loaded. 
+2026-09-02 16:35:36,074 580 INFO wave4_aml_p62 odoo.registry: Registry changed, signaling through the database 
+2026-09-02 16:35:36,090 580 INFO wave4_aml_p62 odoo.registry: Registry loaded in 19.888s 
+2026-09-02 16:35:36,091 580 INFO wave4_aml_p62 odoo.service.server: Starting post tests 
+2026-09-02 16:35:36,099 580 INFO wave4_aml_p62 odoo.service.server: 0 post-tests in 0.01s, 0 queries 
+2026-09-02 16:35:36,100 580 INFO wave4_aml_p62 odoo.tests.stats: aml_compliance: 8 tests 3.21s 1069 queries 
+2026-09-02 16:35:36,100 580 INFO wave4_aml_p62 odoo.tests.result: 0 failed, 0 error(s) of 6 tests when loading database 'wave4_aml_p62' 
+2026-09-02 16:35:36,100 580 INFO wave4_aml_p62 odoo.service.server: Initiating shutdown 
+2026-09-02 16:35:36,100 580 INFO wave4_aml_p62 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-09-02 16:35:36,254 580 INFO wave4_aml_p62 odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 2 connections  

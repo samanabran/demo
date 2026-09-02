@@ -49,12 +49,12 @@ class RiskFactor(models.Model):
     active = fields.Boolean(default=True)
     description = fields.Text(string='Description')
 
-    _sql_constraints = [
-        ('code_uniq', 'unique(code)',
-         'Risk factor code must be unique.'),
-        ('weight_positive', 'CHECK(weight >= 0)',
-         'Weight must be non-negative.'),
-    ]
+    _code_uniq = models.Constraint(
+        'unique(code)', 'Risk factor code must be unique.',
+    )
+    _weight_positive = models.Constraint(
+        'CHECK(weight >= 0)', 'Weight must be non-negative.',
+    )
 
 
 class RiskFactorScore(models.Model):

@@ -5,6 +5,9 @@ from odoo.exceptions import UserError
 class TestRiskAssessment(TransactionCase):
     def setUp(self):
         super().setUp()
+        self.env.user.write({
+            'group_ids': [(4, self.env.ref('aml_compliance.group_aml_manager').id)],
+        })
         self.partner = self.env['res.partner'].create({
             'name': 'Test Customer',
             'email': 'test@example.com',

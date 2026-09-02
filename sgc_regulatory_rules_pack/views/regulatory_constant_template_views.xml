@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Convenience template view: a "Lookup" wizard that wraps
+        get_effective_value() so compliance officers and developers can
+        test a code + jurisdiction + date triple from the UI.
+
+        This is a QWeb template view — no model behind it — so it is a
+        pure lookup form. For programmatic access, callers should use
+        self.env['regulatory.constant'].get_effective(...) in Python.
+    -->
+    <template id="template_lookup_console" name="Regulatory Constants — Lookup Console">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="container mt-3">
+                    <h1>Regulatory Constants — Lookup</h1>
+                    <p class="text-muted">
+                        Test the rules-pack lookup before writing any
+                        consumer code. The form below calls
+                        <code>regulatory.constant.get_effective_value()</code>.
+                        (R8 — supports the tenant's programme; does not
+                        constitute one.)
+                    </p>
+                    <form action="" method="post" class="oe_regulatory_lookup">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Code</label>
+                                <input name="code" class="form-control" placeholder="rear_cash_threshold_aed"/>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Jurisdiction</label>
+                                <select name="jurisdiction_code" class="form-select">
+                                    <option value="dubai">Dubai</option>
+                                    <option value="uae_federal">UAE Federal</option>
+                                    <option value="abu_dhabi">Abu Dhabi (placeholder)</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">As of</label>
+                                <input type="date" name="as_of" class="form-control"/>
+                            </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary">Lookup</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

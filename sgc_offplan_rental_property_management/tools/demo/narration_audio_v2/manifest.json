@@ -1,0 +1,112 @@
+[
+  {
+    "id": "01-intro",
+    "path": "narration_audio_v2/01-intro.mp3",
+    "duration_s": 18.144
+  },
+  {
+    "id": "02-rapidapi-intro",
+    "path": "narration_audio_v2/02-rapidapi-intro.mp3",
+    "duration_s": 12.024
+  },
+  {
+    "id": "03-rapidapi-bayut",
+    "path": "narration_audio_v2/03-rapidapi-bayut.mp3",
+    "duration_s": 7.416
+  },
+  {
+    "id": "04-rapidapi-pf",
+    "path": "narration_audio_v2/04-rapidapi-pf.mp3",
+    "duration_s": 4.728
+  },
+  {
+    "id": "05-rapidapi-dubizzle",
+    "path": "narration_audio_v2/05-rapidapi-dubizzle.mp3",
+    "duration_s": 7.248
+  },
+  {
+    "id": "06-rapidapi-note",
+    "path": "narration_audio_v2/06-rapidapi-note.mp3",
+    "duration_s": 10.008
+  },
+  {
+    "id": "07-publish-unpublished",
+    "path": "narration_audio_v2/07-publish-unpublished.mp3",
+    "duration_s": 8.808
+  },
+  {
+    "id": "08-publish-click",
+    "path": "narration_audio_v2/08-publish-click.mp3",
+    "duration_s": 4.008
+  },
+  {
+    "id": "09-publish-confirm",
+    "path": "narration_audio_v2/09-publish-confirm.mp3",
+    "duration_s": 4.704
+  },
+  {
+    "id": "10-public-search",
+    "path": "narration_audio_v2/10-public-search.mp3",
+    "duration_s": 6.984
+  },
+  {
+    "id": "11-public-detail",
+    "path": "narration_audio_v2/11-public-detail.mp3",
+    "duration_s": 6.264
+  },
+  {
+    "id": "12-inquiry-open",
+    "path": "narration_audio_v2/12-inquiry-open.mp3",
+    "duration_s": 5.856
+  },
+  {
+    "id": "13-inquiry-fill",
+    "path": "narration_audio_v2/13-inquiry-fill.mp3",
+    "duration_s": 5.256
+  },
+  {
+    "id": "14-inquiry-submit",
+    "path": "narration_audio_v2/14-inquiry-submit.mp3",
+    "duration_s": 6.168
+  },
+  {
+    "id": "15-gap-fix-intro",
+    "path": "narration_audio_v2/15-gap-fix-intro.mp3",
+    "duration_s": 8.088
+  },
+  {
+    "id": "16-smart-button-click",
+    "path": "narration_audio_v2/16-smart-button-click.mp3",
+    "duration_s": 9.336
+  },
+  {
+    "id": "17-smart-button-proof",
+    "path": "narration_audio_v2/17-smart-button-proof.mp3",
+    "duration_s": 5.904
+  },
+  {
+    "id": "18-feed-intro",
+    "path": "narration_audio_v2/18-feed-intro.mp3",
+    "duration_s": 9.384
+  },
+  {
+    "id": "19-feed-config",
+    "path": "narration_audio_v2/19-feed-config.mp3",
+    "duration_s": 9.456
+  },
+  {
+    "id": "20-feed-run",
+    "path": "narration_audio_v2/20-feed-run.mp3",
+    "duration_s": 7.728
+  },
+  {
+    "id": "21-feed-result",
+    "path": "narration_audio_v2/21-feed-result.mp3",
+    "duration_s": 6.936
+  },
+  {
+    "id": "22-closing",
+    "path": "narration_audio_v2/22-closing.mp3",
+    "duration_s": 10.728
+  }
+]

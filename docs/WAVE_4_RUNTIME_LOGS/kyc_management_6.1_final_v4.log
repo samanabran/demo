@@ -1,0 +1,797 @@
+
+2026-09-02 19:44:37,555 1772 INFO ? odoo: Odoo version 19.0-20260817 
+2026-09-02 19:44:37,556 1772 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf 
+2026-09-02 19:44:37,556 1772 INFO ? odoo: addons paths: _NamespacePath(['/usr/lib/python3/dist-packages/odoo/addons', '/var/lib/odoo/addons/19.0', '/mnt/extra-addons', '/usr/lib/python3/dist-packages/addons']) 
+2026-09-02 19:44:37,556 1772 INFO ? odoo: database: odoo@wave4_pg:default 
+2026-09-02 19:44:38,041 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Initializing database wave4_kyc_v4_final 
+2026-09-02 19:44:40,483 1772 WARNING wave4_kyc_v4_final odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 19:44:40,494 1772 WARNING wave4_kyc_v4_final odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 19:44:40,742 1772 WARNING wave4_kyc_v4_final odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 19:44:40,747 1772 WARNING wave4_kyc_v4_final odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 19:44:41,734 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading 1 modules... 
+2026-09-02 19:44:41,734 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module base (1/1) 
+2026-09-02 19:44:41,783 1772 INFO wave4_kyc_v4_final odoo.registry: module base: creating or updating database tables 
+2026-09-02 19:44:42,746 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.module.module.menus_by_module 
+2026-09-02 19:44:42,747 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.module.module.reports_by_module 
+2026-09-02 19:44:42,747 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.module.module.views_by_module 
+2026-09-02 19:44:43,062 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.partner.user_id 
+2026-09-02 19:44:43,063 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.partner.commercial_partner_id 
+2026-09-02 19:44:43,063 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.partner.complete_name 
+2026-09-02 19:44:43,063 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.partner.lang 
+2026-09-02 19:44:43,063 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.partner.company_registry 
+2026-09-02 19:44:43,063 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.partner.commercial_company_name 
+2026-09-02 19:44:43,064 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.partner.properties 
+2026-09-02 19:44:43,064 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.partner.partner_share 
+2026-09-02 19:44:43,149 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.currency.decimal_places 
+2026-09-02 19:44:43,218 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.company.uses_default_logo 
+2026-09-02 19:44:43,219 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.company.logo_web 
+2026-09-02 19:44:43,225 1772 INFO wave4_kyc_v4_final odoo.models: Computing parent_path for table res_company... 
+2026-09-02 19:44:43,313 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.users.signature 
+2026-09-02 19:44:43,313 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.users.share 
+2026-09-02 19:44:45,667 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/res_bank.xml 
+2026-09-02 19:44:45,674 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/res.lang.csv 
+2026-09-02 19:44:45,724 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/res_lang_data.xml 
+2026-09-02 19:44:45,804 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/res_partner_data.xml 
+2026-09-02 19:44:45,877 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/res_currency_data.xml 
+2026-09-02 19:44:46,641 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/res_company_data.xml 
+2026-09-02 19:44:46,653 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/res_users_data.xml 
+2026-09-02 19:44:47,925 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/report_paperformat_data.xml 
+2026-09-02 19:44:47,945 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/res_country_data.xml 
+2026-09-02 19:44:48,822 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/ir_demo_data.xml 
+2026-09-02 19:44:48,843 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/security/base_groups.xml 
+2026-09-02 19:44:49,172 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/security/base_security.xml 
+2026-09-02 19:44:49,451 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/wizard/wizard_ir_model_menu_create_views.xml 
+2026-09-02 19:44:49,471 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/base_menus.xml 
+2026-09-02 19:44:49,581 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/decimal_precision_views.xml 
+2026-09-02 19:44:49,602 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_config_views.xml 
+2026-09-02 19:44:49,611 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/res.country.state.csv 
+2026-09-02 19:44:50,149 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_actions_views.xml 
+2026-09-02 19:44:50,514 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_asset_views.xml 
+2026-09-02 19:44:50,549 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_config_parameter_views.xml 
+2026-09-02 19:44:50,589 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_cron_views.xml 
+2026-09-02 19:44:50,638 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_cron_trigger_views.xml 
+2026-09-02 19:44:50,665 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_filters_views.xml 
+2026-09-02 19:44:50,698 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_mail_server_views.xml 
+2026-09-02 19:44:50,735 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_model_views.xml 
+2026-09-02 19:44:50,950 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_attachment_views.xml 
+2026-09-02 19:44:50,991 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_rule_views.xml 
+2026-09-02 19:44:51,019 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_sequence_views.xml 
+2026-09-02 19:44:51,054 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_ui_menu_views.xml 
+2026-09-02 19:44:51,091 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_ui_view_views.xml 
+2026-09-02 19:44:51,184 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_default_views.xml 
+2026-09-02 19:44:51,220 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/ir_config_parameter_data.xml 
+2026-09-02 19:44:51,226 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/ir_cron_data.xml 
+2026-09-02 19:44:51,244 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/report/ir_model_report.xml 
+2026-09-02 19:44:51,251 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/report/ir_model_templates.xml 
+2026-09-02 19:44:51,264 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_logging_views.xml 
+2026-09-02 19:44:51,298 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_qweb_widget_templates.xml 
+2026-09-02 19:44:51,319 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_module_views.xml 
+2026-09-02 19:44:51,407 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/ir_module_category_data.xml 
+2026-09-02 19:44:51,508 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/ir_module_module.xml 
+2026-09-02 19:44:51,630 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/report/ir_module_reports.xml 
+2026-09-02 19:44:51,638 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/report/ir_module_report_templates.xml 
+2026-09-02 19:44:51,656 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/wizard/base_module_update_views.xml 
+2026-09-02 19:44:51,672 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/wizard/base_language_install_views.xml 
+2026-09-02 19:44:51,694 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/wizard/base_import_language_views.xml 
+2026-09-02 19:44:51,711 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/wizard/base_module_upgrade_views.xml 
+2026-09-02 19:44:51,741 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/wizard/base_module_uninstall_views.xml 
+2026-09-02 19:44:51,754 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/wizard/base_export_language_views.xml 
+2026-09-02 19:44:51,771 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/wizard/base_partner_merge_views.xml 
+2026-09-02 19:44:51,795 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/data/ir_demo_failure_data.xml 
+2026-09-02 19:44:51,823 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/ir_profile_views.xml 
+2026-09-02 19:44:51,853 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_company_views.xml 
+2026-09-02 19:44:51,890 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_lang_views.xml 
+2026-09-02 19:44:51,917 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_partner_views.xml 
+2026-09-02 19:44:52,070 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_bank_views.xml 
+2026-09-02 19:44:52,122 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_country_views.xml 
+2026-09-02 19:44:52,220 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_currency_views.xml 
+2026-09-02 19:44:52,277 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_groups_views.xml 
+2026-09-02 19:44:52,344 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_users_views.xml 
+2026-09-02 19:44:52,545 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_users_apikeys_views.xml 
+2026-09-02 19:44:52,555 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_device_views.xml 
+2026-09-02 19:44:52,592 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_users_identitycheck_views.xml 
+2026-09-02 19:44:52,603 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/res_config_settings_views.xml 
+2026-09-02 19:44:52,613 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/views/report_paperformat_views.xml 
+2026-09-02 19:44:52,655 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base/security/ir.model.access.csv 
+2026-09-02 19:44:52,838 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module base loaded in 11.10s, 8455 queries (+8455 other) 
+2026-09-02 19:44:52,838 1772 INFO wave4_kyc_v4_final odoo.modules.loading: 1 modules loaded in 11.10s, 8455 queries (+8455 extra) 
+2026-09-02 19:44:52,846 1772 INFO wave4_kyc_v4_final odoo.modules.loading: updating modules list 
+2026-09-02 19:44:52,849 1772 INFO wave4_kyc_v4_final odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-09-02 19:44:54,451 1772 WARNING wave4_kyc_v4_final odoo.modules.module: Missing `author` key in manifest for 'sgc_brochure_leadcapture', defaulting to '' 
+2026-09-02 19:44:54,509 1772 WARNING wave4_kyc_v4_final odoo.modules.module: Missing `author` key in manifest for 'sgc_llm_router', defaulting to '' 
+2026-09-02 19:44:54,811 1772 INFO wave4_kyc_v4_final odoo.addons.base.models.ir_module: ALLOW access to module.button_install on ['KYC Management'] to user __system__ #1 via n/a 
+2026-09-02 19:44:54,959 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading 53 modules... 
+2026-09-02 19:44:54,959 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module rpc (2/53) 
+2026-09-02 19:44:54,991 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module rpc loaded in 0.03s, 9 queries (+9 other) 
+2026-09-02 19:44:54,991 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module social_media (3/53) 
+2026-09-02 19:44:54,999 1772 INFO wave4_kyc_v4_final odoo.registry: module social_media: creating or updating database tables 
+2026-09-02 19:44:55,046 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading social_media/views/res_company_views.xml 
+2026-09-02 19:44:55,078 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module social_media loaded in 0.09s, 75 queries (+75 other) 
+2026-09-02 19:44:55,078 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module web (4/53) 
+2026-09-02 19:44:55,121 1772 INFO wave4_kyc_v4_final odoo.registry: module web: creating or updating database tables 
+2026-09-02 19:44:55,859 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/security/ir.model.access.csv 
+2026-09-02 19:44:55,870 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/security/web_security.xml 
+2026-09-02 19:44:55,887 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/views/webclient_templates.xml 
+2026-09-02 19:44:55,980 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/views/report_templates.xml 
+2026-09-02 19:44:56,113 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/views/base_document_layout_views.xml 
+2026-09-02 19:44:56,132 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/views/partner_view.xml 
+2026-09-02 19:44:56,143 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/views/speedscope_template.xml 
+2026-09-02 19:44:56,154 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/views/memory_template.xml 
+2026-09-02 19:44:56,163 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/views/speedscope_config_wizard.xml 
+2026-09-02 19:44:56,177 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/views/neutralize_views.xml 
+2026-09-02 19:44:56,192 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/views/ir_ui_view_views.xml 
+2026-09-02 19:44:56,210 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/data/ir_attachment.xml 
+2026-09-02 19:44:56,216 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web/data/report_layout.xml 
+2026-09-02 19:44:56,285 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module web loaded in 1.21s, 1229 queries (+1229 other) 
+2026-09-02 19:44:56,285 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module api_doc (5/53) 
+2026-09-02 19:44:56,293 1772 INFO wave4_kyc_v4_final odoo.registry: module api_doc: creating or updating database tables 
+2026-09-02 19:44:56,321 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading api_doc/security/res_groups.xml 
+2026-09-02 19:44:56,350 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading api_doc/views/docclient.xml 
+2026-09-02 19:44:56,376 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module api_doc loaded in 0.09s, 63 queries (+63 other) 
+2026-09-02 19:44:56,377 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module auth_totp (6/53) 
+2026-09-02 19:44:56,406 1772 INFO wave4_kyc_v4_final odoo.registry: module auth_totp: creating or updating database tables 
+2026-09-02 19:44:56,581 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp/security/security.xml 
+2026-09-02 19:44:56,616 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp/security/ir.model.access.csv 
+2026-09-02 19:44:56,640 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp/data/ir_action_data.xml 
+2026-09-02 19:44:56,650 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp/views/res_users_views.xml 
+2026-09-02 19:44:56,695 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp/views/templates.xml 
+2026-09-02 19:44:56,701 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp/wizard/auth_totp_wizard_views.xml 
+2026-09-02 19:44:56,725 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module auth_totp loaded in 0.35s, 218 queries (+218 other) 
+2026-09-02 19:44:56,725 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module base_import (7/53) 
+2026-09-02 19:44:56,774 1772 INFO wave4_kyc_v4_final odoo.registry: module base_import: creating or updating database tables 
+2026-09-02 19:44:57,436 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base_import/security/ir.model.access.csv 
+2026-09-02 19:44:57,472 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module base_import loaded in 0.75s, 956 queries (+956 other) 
+2026-09-02 19:44:57,472 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module base_import_module (8/53) 
+2026-09-02 19:44:57,483 1772 INFO wave4_kyc_v4_final odoo.registry: module base_import_module: creating or updating database tables 
+2026-09-02 19:44:57,613 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base_import_module/security/ir.model.access.csv 
+2026-09-02 19:44:57,625 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base_import_module/views/base_import_module_view.xml 
+2026-09-02 19:44:57,650 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base_import_module/views/ir_module_views.xml 
+2026-09-02 19:44:57,714 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module base_import_module loaded in 0.24s, 172 queries (+172 other) 
+2026-09-02 19:44:57,714 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module base_setup (9/53) 
+2026-09-02 19:44:57,726 1772 INFO wave4_kyc_v4_final odoo.registry: module base_setup: creating or updating database tables 
+2026-09-02 19:44:57,790 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base_setup/data/base_setup_data.xml 
+2026-09-02 19:44:57,799 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base_setup/views/res_config_settings_views.xml 
+2026-09-02 19:44:57,851 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base_setup/views/res_partner_views.xml 
+2026-09-02 19:44:57,883 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module base_setup loaded in 0.17s, 152 queries (+152 other) 
+2026-09-02 19:44:57,883 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module bus (10/53) 
+2026-09-02 19:44:57,904 1772 INFO wave4_kyc_v4_final odoo.registry: module bus: creating or updating database tables 
+2026-09-02 19:44:58,040 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading bus/security/ir.model.access.csv 
+2026-09-02 19:44:58,057 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module bus loaded in 0.17s, 159 queries (+159 other) 
+2026-09-02 19:44:58,058 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module http_routing (11/53) 
+2026-09-02 19:44:58,067 1772 INFO wave4_kyc_v4_final odoo.registry: module http_routing: creating or updating database tables 
+2026-09-02 19:44:58,099 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading http_routing/views/http_routing_template.xml 
+2026-09-02 19:44:58,160 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading http_routing/views/res_lang_views.xml 
+2026-09-02 19:44:58,196 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module http_routing loaded in 0.14s, 114 queries (+114 other) 
+2026-09-02 19:44:58,196 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module resource (12/53) 
+2026-09-02 19:44:58,222 1772 INFO wave4_kyc_v4_final odoo.registry: module resource: creating or updating database tables 
+2026-09-02 19:44:58,457 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading resource/data/resource_data.xml 
+2026-09-02 19:44:58,483 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading resource/security/ir.model.access.csv 
+2026-09-02 19:44:58,498 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading resource/security/resource_security.xml 
+2026-09-02 19:44:58,533 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading resource/views/resource_resource_views.xml 
+2026-09-02 19:44:58,569 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading resource/views/resource_calendar_leaves_views.xml 
+2026-09-02 19:44:58,610 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading resource/views/resource_calendar_attendance_views.xml 
+2026-09-02 19:44:58,642 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading resource/views/resource_calendar_views.xml 
+2026-09-02 19:44:58,690 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading resource/views/menuitems.xml 
+2026-09-02 19:44:58,727 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module resource loaded in 0.53s, 414 queries (+414 other) 
+2026-09-02 19:44:58,727 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module utm (13/53) 
+2026-09-02 19:44:58,737 1772 INFO wave4_kyc_v4_final odoo.registry: module utm: creating or updating database tables 
+2026-09-02 19:44:58,923 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading utm/data/utm_medium_data.xml 
+2026-09-02 19:44:59,006 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading utm/data/utm_source_data.xml 
+2026-09-02 19:44:59,051 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading utm/data/utm_stage_data.xml 
+2026-09-02 19:44:59,057 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading utm/data/utm_tag_data.xml 
+2026-09-02 19:44:59,064 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading utm/views/utm_campaign_views.xml 
+2026-09-02 19:44:59,108 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading utm/views/utm_medium_views.xml 
+2026-09-02 19:44:59,133 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading utm/views/utm_source_views.xml 
+2026-09-02 19:44:59,156 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading utm/views/utm_stage_views.xml 
+2026-09-02 19:44:59,175 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading utm/views/utm_tag_views.xml 
+2026-09-02 19:44:59,187 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading utm/views/utm_menus.xml 
+2026-09-02 19:44:59,228 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading utm/security/ir.model.access.csv 
+2026-09-02 19:44:59,259 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module utm loaded in 0.53s, 410 queries (+410 other) 
+2026-09-02 19:44:59,260 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module web_tour (14/53) 
+2026-09-02 19:44:59,273 1772 INFO wave4_kyc_v4_final odoo.registry: module web_tour: creating or updating database tables 
+2026-09-02 19:44:59,280 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.users.tour_enabled 
+2026-09-02 19:44:59,422 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web_tour/security/ir.model.access.csv 
+2026-09-02 19:44:59,434 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web_tour/views/tour_views.xml 
+2026-09-02 19:44:59,499 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module web_tour loaded in 0.24s, 180 queries (+180 other) 
+2026-09-02 19:44:59,499 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module auth_passkey (15/53) 
+2026-09-02 19:44:59,554 1772 INFO wave4_kyc_v4_final odoo.registry: module auth_passkey: creating or updating database tables 
+2026-09-02 19:44:59,663 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_passkey/views/auth_passkey_key_views.xml 
+2026-09-02 19:44:59,711 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_passkey/views/auth_passkey_login_templates.xml 
+2026-09-02 19:44:59,737 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_passkey/views/res_users_identitycheck_views.xml 
+2026-09-02 19:44:59,760 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_passkey/views/res_users_views.xml 
+2026-09-02 19:44:59,784 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_passkey/security/ir.model.access.csv 
+2026-09-02 19:44:59,795 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_passkey/security/security.xml 
+2026-09-02 19:44:59,839 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module auth_passkey loaded in 0.34s, 218 queries (+218 other) 
+2026-09-02 19:44:59,839 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module google_recaptcha (16/53) 
+2026-09-02 19:44:59,846 1772 INFO wave4_kyc_v4_final odoo.registry: module google_recaptcha: creating or updating database tables 
+2026-09-02 19:44:59,873 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading google_recaptcha/views/res_config_settings_view.xml 
+2026-09-02 19:44:59,919 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module google_recaptcha loaded in 0.08s, 64 queries (+64 other) 
+2026-09-02 19:44:59,919 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module html_editor (17/53) 
+2026-09-02 19:45:00,201 1772 INFO wave4_kyc_v4_final odoo.registry: module html_editor: creating or updating database tables 
+2026-09-02 19:45:01,203 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading html_editor/security/ir.model.access.csv 
+2026-09-02 19:45:01,229 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module html_editor loaded in 1.31s, 1110 queries (+1110 other) 
+2026-09-02 19:45:01,230 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module iap (18/53) 
+2026-09-02 19:45:01,241 1772 INFO wave4_kyc_v4_final odoo.registry: module iap: creating or updating database tables 
+2026-09-02 19:45:01,353 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading iap/data/services.xml 
+2026-09-02 19:45:01,366 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading iap/security/ir.model.access.csv 
+2026-09-02 19:45:01,378 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading iap/security/ir_rule.xml 
+2026-09-02 19:45:01,387 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading iap/views/iap_views.xml 
+2026-09-02 19:45:01,429 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading iap/views/res_config_settings.xml 
+2026-09-02 19:45:01,477 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module iap loaded in 0.25s, 184 queries (+184 other) 
+2026-09-02 19:45:01,477 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module mail (19/53) 
+2026-09-02 19:45:01,561 1772 INFO wave4_kyc_v4_final odoo.registry: module mail: creating or updating database tables 
+2026-09-02 19:45:02,194 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.partner_ids 
+2026-09-02 19:45:02,195 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.activity_user_id 
+2026-09-02 19:45:02,195 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.activity_type_id 
+2026-09-02 19:45:02,195 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.template_id 
+2026-09-02 19:45:02,195 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.activity_date_deadline_range 
+2026-09-02 19:45:02,195 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.activity_summary 
+2026-09-02 19:45:02,196 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.followers_type 
+2026-09-02 19:45:02,196 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.followers_partner_field_name 
+2026-09-02 19:45:02,196 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.mail_post_method 
+2026-09-02 19:45:02,196 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.activity_date_deadline_range_type 
+2026-09-02 19:45:02,196 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.activity_user_type 
+2026-09-02 19:45:02,196 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.activity_user_field_name 
+2026-09-02 19:45:02,196 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.activity_note 
+2026-09-02 19:45:02,197 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.mail_post_autofollow 
+2026-09-02 19:45:02,303 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.users.notification_type 
+2026-09-02 19:45:02,503 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.partner.email_normalized 
+<string>:38: (ERROR/3) Unexpected indentation.
+<string>:43: (WARNING/2) Block quote ends without a blank line; unexpected unindent.
+2026-09-02 19:45:04,826 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/mail_groups.xml 
+2026-09-02 19:45:04,857 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/wizard/mail_activity_schedule_views.xml 
+2026-09-02 19:45:04,874 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/wizard/mail_blacklist_remove_views.xml 
+2026-09-02 19:45:04,890 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/wizard/mail_compose_message_views.xml 
+2026-09-02 19:45:04,913 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/wizard/mail_template_preview_views.xml 
+2026-09-02 19:45:04,931 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/wizard/mail_followers_edit_views.xml 
+2026-09-02 19:45:04,952 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/wizard/mail_template_reset_views.xml 
+2026-09-02 19:45:04,969 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/fetchmail_views.xml 
+2026-09-02 19:45:04,992 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/ir_cron_views.xml 
+2026-09-02 19:45:05,010 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/ir_filters_views.xml 
+2026-09-02 19:45:05,053 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/ir_mail_server_views.xml 
+2026-09-02 19:45:05,076 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_message_subtype_views.xml 
+2026-09-02 19:45:05,106 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_tracking_value_views.xml 
+2026-09-02 19:45:05,129 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_notification_views.xml 
+2026-09-02 19:45:05,147 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_message_views.xml 
+2026-09-02 19:45:05,196 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_message_schedule_views.xml 
+2026-09-02 19:45:05,216 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_mail_views.xml 
+2026-09-02 19:45:05,256 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_followers_views.xml 
+2026-09-02 19:45:05,281 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_ice_server_views.xml 
+2026-09-02 19:45:05,317 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/discuss_channel_member_views.xml 
+2026-09-02 19:45:05,342 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/discuss_channel_rtc_session_views.xml 
+2026-09-02 19:45:05,363 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_link_preview_views.xml 
+2026-09-02 19:45:05,393 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/discuss/discuss_gif_favorite_views.xml 
+2026-09-02 19:45:05,420 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/discuss_channel_views.xml 
+2026-09-02 19:45:05,462 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_canned_response_views.xml 
+2026-09-02 19:45:05,505 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/res_role_views.xml 
+2026-09-02 19:45:05,534 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_activity_views.xml 
+2026-09-02 19:45:05,686 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_activity_plan_views.xml 
+2026-09-02 19:45:05,753 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_activity_plan_template_views.xml 
+2026-09-02 19:45:05,768 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/res_config_settings_views.xml 
+2026-09-02 19:45:05,809 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/ir_config_parameter_data.xml 
+2026-09-02 19:45:05,818 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/res_partner_data.xml 
+2026-09-02 19:45:05,912 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/mail_message_subtype_data.xml 
+2026-09-02 19:45:05,923 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/mail_templates_chatter.xml 
+2026-09-02 19:45:05,959 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/mail_templates_email_layouts.xml 
+2026-09-02 19:45:05,986 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/mail_templates_mailgateway.xml 
+2026-09-02 19:45:06,026 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/discuss_channel_data.xml 
+2026-09-02 19:45:06,080 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/mail_activity_type_data.xml 
+2026-09-02 19:45:06,109 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/security_notifications_templates.xml 
+2026-09-02 19:45:06,120 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/ir_cron_data.xml 
+2026-09-02 19:45:06,300 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/ir_actions_client.xml 
+2026-09-02 19:45:06,307 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/security/mail_security.xml 
+2026-09-02 19:45:06,534 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/security/ir.model.access.csv 
+2026-09-02 19:45:06,595 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/discuss_public_templates.xml 
+2026-09-02 19:45:06,604 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_alias_domain_views.xml 
+2026-09-02 19:45:06,628 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_alias_views.xml 
+2026-09-02 19:45:06,670 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_gateway_allowed_views.xml 
+2026-09-02 19:45:06,693 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_guest_views.xml 
+2026-09-02 19:45:06,713 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_message_reaction_views.xml 
+2026-09-02 19:45:06,737 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_templates_public.xml 
+2026-09-02 19:45:06,749 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/res_users_views.xml 
+2026-09-02 19:45:06,785 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/res_users_settings_views.xml 
+2026-09-02 19:45:06,820 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_template_views.xml 
+2026-09-02 19:45:06,853 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/ir_actions_server_views.xml 
+2026-09-02 19:45:06,880 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/ir_model_views.xml 
+2026-09-02 19:45:06,930 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/res_partner_views.xml 
+2026-09-02 19:45:07,008 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_blacklist_views.xml 
+2026-09-02 19:45:07,035 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_menus.xml 
+2026-09-02 19:45:07,267 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/discuss/discuss_menus.xml 
+2026-09-02 19:45:07,277 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/discuss/discuss_call_history_views.xml 
+2026-09-02 19:45:07,301 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/res_company_views.xml 
+2026-09-02 19:45:07,317 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/views/mail_scheduled_message_views.xml 
+2026-09-02 19:45:07,331 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/mail_canned_response_data.xml 
+2026-09-02 19:45:07,345 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/mail_templates_invite.xml 
+2026-09-02 19:45:07,369 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail/data/web_tour_tour.xml 
+2026-09-02 19:45:07,443 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module mail loaded in 5.97s, 5055 queries (+5056 other) 
+2026-09-02 19:45:07,443 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module web_unsplash (20/53) 
+2026-09-02 19:45:07,467 1772 INFO wave4_kyc_v4_final odoo.registry: module web_unsplash: creating or updating database tables 
+2026-09-02 19:45:07,535 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading web_unsplash/views/res_config_settings_view.xml 
+2026-09-02 19:45:07,606 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module web_unsplash loaded in 0.16s, 103 queries (+103 other) 
+2026-09-02 19:45:07,606 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module auth_signup (21/53) 
+2026-09-02 19:45:07,632 1772 INFO wave4_kyc_v4_final odoo.registry: module auth_signup: creating or updating database tables 
+2026-09-02 19:45:07,742 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_signup/data/ir_config_parameter_data.xml 
+2026-09-02 19:45:07,749 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_signup/data/ir_cron_data.xml 
+2026-09-02 19:45:07,791 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_signup/data/mail_template_data.xml 
+2026-09-02 19:45:07,907 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_signup/views/res_config_settings_views.xml 
+2026-09-02 19:45:07,930 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_signup/views/res_users_views.xml 
+2026-09-02 19:45:07,994 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_signup/views/auth_signup_login_templates.xml 
+2026-09-02 19:45:08,034 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_signup/views/auth_signup_templates_email.xml 
+2026-09-02 19:45:08,045 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_signup/views/webclient_templates.xml 
+2026-09-02 19:45:08,107 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module auth_signup loaded in 0.50s, 255 queries (+255 other) 
+2026-09-02 19:45:08,108 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module auth_totp_mail (22/53) 
+2026-09-02 19:45:08,146 1772 INFO wave4_kyc_v4_final odoo.registry: module auth_totp_mail: creating or updating database tables 
+2026-09-02 19:45:08,220 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp_mail/data/ir_action_data.xml 
+2026-09-02 19:45:08,294 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp_mail/data/mail_template_data.xml 
+2026-09-02 19:45:08,355 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp_mail/data/security_notifications_template.xml 
+2026-09-02 19:45:08,371 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp_mail/views/res_config_settings_views.xml 
+2026-09-02 19:45:08,400 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp_mail/views/res_users_views.xml 
+2026-09-02 19:45:08,447 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp_mail/views/templates.xml 
+2026-09-02 19:45:08,482 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module auth_totp_mail loaded in 0.37s, 189 queries (+189 other) 
+2026-09-02 19:45:08,482 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module base_install_request (23/53) 
+2026-09-02 19:45:08,494 1772 INFO wave4_kyc_v4_final odoo.registry: module base_install_request: creating or updating database tables 
+2026-09-02 19:45:08,591 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base_install_request/security/ir.model.access.csv 
+2026-09-02 19:45:08,605 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base_install_request/wizard/base_module_install_request_views.xml 
+2026-09-02 19:45:08,631 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base_install_request/data/mail_template_data.xml 
+2026-09-02 19:45:08,640 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base_install_request/data/mail_templates_module_install.xml 
+2026-09-02 19:45:08,648 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading base_install_request/views/ir_module_module_views.xml 
+2026-09-02 19:45:08,688 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module base_install_request loaded in 0.21s, 154 queries (+154 other) 
+2026-09-02 19:45:08,688 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module calendar (24/53) 
+2026-09-02 19:45:08,733 1772 INFO wave4_kyc_v4_final odoo.registry: module calendar: creating or updating database tables 
+2026-09-02 19:45:09,357 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/security/ir.model.access.csv 
+2026-09-02 19:45:09,380 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/security/calendar_security.xml 
+2026-09-02 19:45:09,417 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/data/calendar_cron.xml 
+2026-09-02 19:45:09,448 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/data/mail_template_data.xml 
+2026-09-02 19:45:09,481 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/data/calendar_data.xml 
+2026-09-02 19:45:09,508 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/data/mail_activity_type_data.xml 
+2026-09-02 19:45:09,515 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/data/mail_message_subtype_data.xml 
+2026-09-02 19:45:09,525 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/views/mail_activity_views.xml 
+2026-09-02 19:45:09,554 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/views/calendar_templates.xml 
+2026-09-02 19:45:09,566 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/views/calendar_views.xml 
+2026-09-02 19:45:09,772 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/views/res_config_settings_views.xml 
+2026-09-02 19:45:09,800 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/views/res_partner_views.xml 
+2026-09-02 19:45:09,839 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/views/res_users_views.xml 
+2026-09-02 19:45:09,878 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/wizard/calendar_provider_config.xml 
+2026-09-02 19:45:09,892 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/wizard/calendar_popover_delete_wizard.xml 
+2026-09-02 19:45:09,911 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar/wizard/mail_activity_schedule_views.xml 
+2026-09-02 19:45:09,985 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module calendar loaded in 1.30s, 883 queries (+883 other) 
+2026-09-02 19:45:09,985 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module contacts (25/53) 
+2026-09-02 19:45:10,013 1772 INFO wave4_kyc_v4_final odoo.registry: module contacts: creating or updating database tables 
+2026-09-02 19:45:10,073 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading contacts/views/contact_views.xml 
+2026-09-02 19:45:10,218 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module contacts loaded in 0.23s, 209 queries (+209 other) 
+2026-09-02 19:45:10,218 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module google_gmail (26/53) 
+2026-09-02 19:45:10,238 1772 INFO wave4_kyc_v4_final odoo.registry: module google_gmail: creating or updating database tables 
+2026-09-02 19:45:10,433 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading google_gmail/views/fetchmail_server_views.xml 
+2026-09-02 19:45:10,497 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading google_gmail/views/ir_mail_server_views.xml 
+2026-09-02 19:45:10,518 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading google_gmail/views/res_config_settings_views.xml 
+2026-09-02 19:45:10,558 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading google_gmail/views/templates.xml 
+2026-09-02 19:45:10,578 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module google_gmail loaded in 0.36s, 155 queries (+155 other) 
+2026-09-02 19:45:10,578 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module html_builder (27/53) 
+2026-09-02 19:45:10,627 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module html_builder loaded in 0.05s, 10 queries (+10 other) 
+2026-09-02 19:45:10,627 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module iap_mail (28/53) 
+2026-09-02 19:45:10,638 1772 INFO wave4_kyc_v4_final odoo.registry: module iap_mail: creating or updating database tables 
+2026-09-02 19:45:10,680 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading iap_mail/data/mail_templates.xml 
+2026-09-02 19:45:10,714 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading iap_mail/views/iap_views.xml 
+2026-09-02 19:45:10,748 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module iap_mail loaded in 0.12s, 70 queries (+70 other) 
+2026-09-02 19:45:10,748 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module mail_bot (29/53) 
+2026-09-02 19:45:10,769 1772 INFO wave4_kyc_v4_final odoo.registry: module mail_bot: creating or updating database tables 
+2026-09-02 19:45:10,847 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail_bot/views/res_users_views.xml 
+2026-09-02 19:45:10,877 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading mail_bot/data/mailbot_data.xml 
+2026-09-02 19:45:10,898 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module mail_bot loaded in 0.15s, 109 queries (+109 other) 
+2026-09-02 19:45:10,898 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module microsoft_outlook (30/53) 
+2026-09-02 19:45:10,918 1772 INFO wave4_kyc_v4_final odoo.registry: module microsoft_outlook: creating or updating database tables 
+2026-09-02 19:45:11,041 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading microsoft_outlook/views/fetchmail_server_views.xml 
+2026-09-02 19:45:11,065 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading microsoft_outlook/views/ir_mail_server_views.xml 
+2026-09-02 19:45:11,082 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading microsoft_outlook/views/res_config_settings_views.xml 
+2026-09-02 19:45:11,126 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading microsoft_outlook/views/templates.xml 
+2026-09-02 19:45:11,146 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module microsoft_outlook loaded in 0.25s, 158 queries (+158 other) 
+2026-09-02 19:45:11,146 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module phone_validation (31/53) 
+2026-09-02 19:45:11,271 1772 INFO wave4_kyc_v4_final odoo.registry: module phone_validation: creating or updating database tables 
+2026-09-02 19:45:11,298 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.partner.phone_sanitized 
+2026-09-02 19:45:12,750 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading phone_validation/security/ir.model.access.csv 
+2026-09-02 19:45:12,764 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading phone_validation/views/phone_blacklist_views.xml 
+2026-09-02 19:45:12,809 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading phone_validation/views/res_partner_views.xml 
+2026-09-02 19:45:12,824 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading phone_validation/wizard/phone_blacklist_remove_view.xml 
+2026-09-02 19:45:12,848 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module phone_validation loaded in 1.70s, 1769 queries (+1769 other) 
+2026-09-02 19:45:12,849 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module privacy_lookup (32/53) 
+2026-09-02 19:45:12,886 1772 INFO wave4_kyc_v4_final odoo.registry: module privacy_lookup: creating or updating database tables 
+2026-09-02 19:45:13,070 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading privacy_lookup/wizard/privacy_lookup_wizard_views.xml 
+2026-09-02 19:45:13,147 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading privacy_lookup/views/privacy_log_views.xml 
+2026-09-02 19:45:13,178 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading privacy_lookup/security/ir.model.access.csv 
+2026-09-02 19:45:13,202 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading privacy_lookup/data/ir_actions_server_data.xml 
+2026-09-02 19:45:13,265 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module privacy_lookup loaded in 0.42s, 296 queries (+296 other) 
+2026-09-02 19:45:13,265 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module resource_mail (33/53) 
+2026-09-02 19:45:13,276 1772 INFO wave4_kyc_v4_final odoo.registry: module resource_mail: creating or updating database tables 
+2026-09-02 19:45:13,327 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module resource_mail loaded in 0.06s, 36 queries (+36 other) 
+2026-09-02 19:45:13,328 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module sales_team (34/53) 
+2026-09-02 19:45:13,349 1772 INFO wave4_kyc_v4_final odoo.registry: module sales_team: creating or updating database tables 
+2026-09-02 19:45:13,415 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.users.sale_team_id 
+2026-09-02 19:45:13,582 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sales_team/security/sales_team_security.xml 
+2026-09-02 19:45:13,665 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sales_team/security/ir.model.access.csv 
+2026-09-02 19:45:13,686 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sales_team/data/crm_team_data.xml 
+2026-09-02 19:45:13,739 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sales_team/views/crm_tag_views.xml 
+2026-09-02 19:45:13,756 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sales_team/views/crm_team_views.xml 
+2026-09-02 19:45:13,810 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sales_team/views/crm_team_member_views.xml 
+2026-09-02 19:45:13,858 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sales_team/views/mail_activity_views.xml 
+2026-09-02 19:45:13,882 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module sales_team loaded in 0.55s, 365 queries (+365 other) 
+2026-09-02 19:45:13,882 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module partner_autocomplete (35/53) 
+2026-09-02 19:45:13,910 1772 INFO wave4_kyc_v4_final odoo.registry: module partner_autocomplete: creating or updating database tables 
+2026-09-02 19:45:14,038 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading partner_autocomplete/views/res_company_views.xml 
+2026-09-02 19:45:14,060 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading partner_autocomplete/views/res_config_settings_views.xml 
+2026-09-02 19:45:14,087 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading partner_autocomplete/data/iap_service_data.xml 
+2026-09-02 19:45:14,110 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module partner_autocomplete loaded in 0.23s, 144 queries (+144 other) 
+2026-09-02 19:45:14,110 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module portal (36/53) 
+2026-09-02 19:45:14,154 1772 INFO wave4_kyc_v4_final odoo.registry: module portal: creating or updating database tables 
+2026-09-02 19:45:14,501 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading portal/security/ir.model.access.csv 
+2026-09-02 19:45:14,514 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading portal/data/mail_templates.xml 
+2026-09-02 19:45:14,523 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading portal/views/address_templates.xml 
+2026-09-02 19:45:14,574 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading portal/views/mail_templates_public.xml 
+2026-09-02 19:45:14,584 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading portal/views/portal_templates.xml 
+2026-09-02 19:45:14,763 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading portal/views/res_config_settings_views.xml 
+2026-09-02 19:45:14,801 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading portal/wizard/portal_share_views.xml 
+2026-09-02 19:45:14,814 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading portal/wizard/portal_wizard_views.xml 
+2026-09-02 19:45:14,888 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module portal loaded in 0.78s, 573 queries (+573 other) 
+2026-09-02 19:45:14,889 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module sms (37/53) 
+2026-09-02 19:45:15,007 1772 INFO wave4_kyc_v4_final odoo.registry: module sms: creating or updating database tables 
+2026-09-02 19:45:15,020 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.sms_template_id 
+2026-09-02 19:45:15,020 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.actions.server.sms_method 
+2026-09-02 19:45:16,569 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/data/iap_service_data.xml 
+2026-09-02 19:45:16,576 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/data/ir_cron_data.xml 
+2026-09-02 19:45:16,614 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/wizard/sms_account_code_views.xml 
+2026-09-02 19:45:16,633 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/wizard/sms_account_phone_views.xml 
+2026-09-02 19:45:16,641 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/wizard/sms_account_sender_views.xml 
+2026-09-02 19:45:16,649 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/wizard/sms_composer_views.xml 
+2026-09-02 19:45:16,665 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/wizard/sms_template_preview_views.xml 
+2026-09-02 19:45:16,679 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/wizard/sms_template_reset_views.xml 
+2026-09-02 19:45:16,700 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/views/ir_actions_server_views.xml 
+2026-09-02 19:45:16,721 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/views/mail_notification_views.xml 
+2026-09-02 19:45:16,741 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/views/res_config_settings_views.xml 
+2026-09-02 19:45:16,778 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/views/res_partner_views.xml 
+2026-09-02 19:45:16,806 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/views/iap_account_views.xml 
+2026-09-02 19:45:16,829 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/views/sms_sms_views.xml 
+2026-09-02 19:45:16,894 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/views/sms_template_views.xml 
+2026-09-02 19:45:16,937 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/security/ir.model.access.csv 
+2026-09-02 19:45:16,969 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading sms/security/sms_security.xml 
+2026-09-02 19:45:17,015 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module sms loaded in 2.13s, 2222 queries (+2222 other) 
+2026-09-02 19:45:17,015 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module snailmail (38/53) 
+2026-09-02 19:45:17,159 1772 INFO wave4_kyc_v4_final odoo.registry: module snailmail: creating or updating database tables 
+2026-09-02 19:45:17,556 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading snailmail/data/iap_service_data.xml 
+2026-09-02 19:45:17,564 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading snailmail/data/snailmail_data.xml 
+2026-09-02 19:45:17,602 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading snailmail/views/report_assets.xml 
+2026-09-02 19:45:17,623 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading snailmail/views/snailmail_views.xml 
+2026-09-02 19:45:17,653 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading snailmail/security/ir.model.access.csv 
+2026-09-02 19:45:17,696 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module snailmail loaded in 0.68s, 439 queries (+439 other) 
+2026-09-02 19:45:17,696 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module auth_passkey_portal (39/53) 
+2026-09-02 19:45:17,710 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_passkey_portal/views/templates.xml 
+2026-09-02 19:45:17,748 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module auth_passkey_portal loaded in 0.05s, 22 queries (+22 other) 
+2026-09-02 19:45:17,748 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module auth_totp_portal (40/53) 
+2026-09-02 19:45:17,772 1772 INFO wave4_kyc_v4_final odoo.registry: module auth_totp_portal: creating or updating database tables 
+2026-09-02 19:45:17,819 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp_portal/security/security.xml 
+2026-09-02 19:45:17,862 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading auth_totp_portal/views/templates.xml 
+2026-09-02 19:45:17,892 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module auth_totp_portal loaded in 0.14s, 70 queries (+70 other) 
+2026-09-02 19:45:17,892 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module calendar_sms (41/53) 
+2026-09-02 19:45:17,915 1772 INFO wave4_kyc_v4_final odoo.registry: module calendar_sms: creating or updating database tables 
+2026-09-02 19:45:17,925 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of calendar.alarm.sms_template_id 
+2026-09-02 19:45:18,043 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar_sms/data/sms_data.xml 
+2026-09-02 19:45:18,059 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading calendar_sms/views/calendar_views.xml 
+2026-09-02 19:45:18,128 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module calendar_sms loaded in 0.24s, 106 queries (+106 other) 
+2026-09-02 19:45:18,128 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module digest (42/53) 
+2026-09-02 19:45:18,163 1772 INFO wave4_kyc_v4_final odoo.registry: module digest: creating or updating database tables 
+2026-09-02 19:45:18,326 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading digest/security/ir.model.access.csv 
+2026-09-02 19:45:18,338 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading digest/data/digest_data.xml 
+2026-09-02 19:45:18,378 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading digest/data/digest_tips_data.xml 
+2026-09-02 19:45:18,421 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading digest/data/ir_cron_data.xml 
+2026-09-02 19:45:18,468 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading digest/data/res_config_settings_data.xml 
+2026-09-02 19:45:18,480 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading digest/views/digest_views.xml 
+2026-09-02 19:45:18,555 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading digest/views/digest_templates.xml 
+2026-09-02 19:45:18,563 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading digest/views/res_config_settings_views.xml 
+2026-09-02 19:45:18,617 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module digest loaded in 0.49s, 326 queries (+326 other) 
+2026-09-02 19:45:18,617 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module crm (43/53) 
+2026-09-02 19:45:18,669 1772 INFO wave4_kyc_v4_final odoo.registry: module crm: creating or updating database tables 
+2026-09-02 19:45:19,168 1772 INFO wave4_kyc_v4_final odoo.addons.mail.models.mail_alias_mixin: Mail alias created for crm.team Sales (id 1) 
+2026-09-02 19:45:19,170 1772 INFO wave4_kyc_v4_final odoo.addons.mail.models.mail_alias_mixin: Mail alias created for crm.team Point of Sale (id 3) 
+2026-09-02 19:45:19,172 1772 INFO wave4_kyc_v4_final odoo.addons.mail.models.mail_alias_mixin: Mail alias created for crm.team Website (id 2) 
+2026-09-02 19:45:19,716 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/security/crm_security.xml 
+2026-09-02 19:45:19,893 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/security/ir.model.access.csv 
+2026-09-02 19:45:19,980 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/data/crm_lead_merge_template.xml 
+2026-09-02 19:45:20,010 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/data/crm_lead_prediction_data.xml 
+2026-09-02 19:45:20,344 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/data/crm_lost_reason_data.xml 
+2026-09-02 19:45:20,391 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/data/crm_stage_data.xml 
+2026-09-02 19:45:20,431 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/data/crm_team_data.xml 
+2026-09-02 19:45:20,538 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/data/digest_data.xml 
+2026-09-02 19:45:20,718 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/data/ir_action_data.xml 
+2026-09-02 19:45:20,805 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/data/ir_cron_data.xml 
+2026-09-02 19:45:20,881 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/data/mail_message_subtype_data.xml 
+2026-09-02 19:45:20,975 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/data/crm_recurring_plan_data.xml 
+2026-09-02 19:45:21,017 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/data/crm_tour.xml 
+2026-09-02 19:45:21,044 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/wizard/crm_lead_lost_views.xml 
+2026-09-02 19:45:21,101 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/wizard/crm_lead_to_opportunity_views.xml 
+2026-09-02 19:45:21,177 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/wizard/crm_lead_to_opportunity_mass_views.xml 
+2026-09-02 19:45:21,244 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/wizard/crm_merge_opportunities_views.xml 
+2026-09-02 19:45:21,325 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/wizard/crm_lead_pls_update_views.xml 
+2026-09-02 19:45:21,389 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/calendar_views.xml 
+2026-09-02 19:45:21,424 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/crm_recurring_plan_views.xml 
+2026-09-02 19:45:21,496 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/crm_lost_reason_views.xml 
+2026-09-02 19:45:21,594 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/crm_stage_views.xml 
+2026-09-02 19:45:21,686 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/crm_lead_views.xml 
+2026-09-02 19:45:22,344 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/crm_team_member_views.xml 
+2026-09-02 19:45:22,400 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/digest_views.xml 
+2026-09-02 19:45:22,421 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/mail_activity_plan_views.xml 
+2026-09-02 19:45:22,431 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/mail_activity_views.xml 
+2026-09-02 19:45:22,435 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/res_config_settings_views.xml 
+2026-09-02 19:45:22,465 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/res_partner_views.xml 
+2026-09-02 19:45:22,483 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/utm_campaign_views.xml 
+2026-09-02 19:45:22,523 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/report/crm_activity_report_views.xml 
+2026-09-02 19:45:22,558 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/report/crm_opportunity_report_views.xml 
+2026-09-02 19:45:22,630 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/crm_team_views.xml 
+2026-09-02 19:45:22,723 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/crm_menu_views.xml 
+2026-09-02 19:45:22,870 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm/views/crm_helper_templates.xml 
+2026-09-02 19:45:22,934 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module crm loaded in 4.32s, 1989 queries (+1989 other) 
+2026-09-02 19:45:22,935 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module website (44/53) 
+2026-09-02 19:45:23,181 1772 INFO wave4_kyc_v4_final odoo.registry: module website: creating or updating database tables 
+2026-09-02 19:45:23,371 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of ir.ui.view.is_seo_optimized 
+2026-09-02 19:45:23,381 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.company.website_id 
+2026-09-02 19:45:25,885 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/security/website_security.xml 
+2026-09-02 19:45:26,052 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/security/ir.model.access.csv 
+2026-09-02 19:45:26,087 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/data/image_library.xml 
+2026-09-02 19:45:26,611 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/data/ir_asset.xml 
+2026-09-02 19:45:26,624 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/data/ir_cron_data.xml 
+2026-09-02 19:45:26,673 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/data/mail_mail_data.xml 
+2026-09-02 19:45:26,682 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/data/website_data.xml 
+2026-09-02 19:45:26,880 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/data/website_visitor_cron.xml 
+2026-09-02 19:45:26,905 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/data/digest_data.xml 
+2026-09-02 19:45:26,919 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/website_technical_views.xml 
+2026-09-02 19:45:26,935 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/website_templates.xml 
+2026-09-02 19:45:28,651 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/snippets.xml 
+2026-09-02 19:45:28,703 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_announcement_scroll.xml 
+2026-09-02 19:45:28,713 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_framed_intro.xml 
+2026-09-02 19:45:28,722 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_title.xml 
+2026-09-02 19:45:28,732 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_cover.xml 
+2026-09-02 19:45:28,741 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_text_cover.xml 
+2026-09-02 19:45:28,752 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_image_text_box.xml 
+2026-09-02 19:45:28,762 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_striped_top.xml 
+2026-09-02 19:45:28,778 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_text_image.xml 
+2026-09-02 19:45:28,788 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_image_text.xml 
+2026-09-02 19:45:28,796 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_mockup_image.xml 
+2026-09-02 19:45:28,806 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_instagram_page.xml 
+2026-09-02 19:45:28,817 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_image_text_overlap.xml 
+2026-09-02 19:45:28,826 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_banner.xml 
+2026-09-02 19:45:28,837 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_bento_block.xml 
+2026-09-02 19:45:28,852 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_snippet_group.xml 
+2026-09-02 19:45:28,862 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_text_block.xml 
+2026-09-02 19:45:28,870 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_features.xml 
+2026-09-02 19:45:28,882 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_features_wall.xml 
+2026-09-02 19:45:28,892 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_three_columns.xml 
+2026-09-02 19:45:28,911 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_key_benefits.xml 
+2026-09-02 19:45:28,923 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_picture.xml 
+2026-09-02 19:45:28,933 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_image_punchy.xml 
+2026-09-02 19:45:28,941 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_bento_grid.xml 
+2026-09-02 19:45:28,958 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_carousel.xml 
+2026-09-02 19:45:28,979 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_carousel_intro.xml 
+2026-09-02 19:45:28,998 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_carousel_cards.xml 
+2026-09-02 19:45:29,010 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_alert.xml 
+2026-09-02 19:45:29,024 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_motto.xml 
+2026-09-02 19:45:29,035 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_card.xml 
+2026-09-02 19:45:29,047 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_cards_grid.xml 
+2026-09-02 19:45:29,059 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_cards_soft.xml 
+2026-09-02 19:45:29,075 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_share.xml 
+2026-09-02 19:45:29,087 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_social_media.xml 
+2026-09-02 19:45:29,097 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_rating.xml 
+2026-09-02 19:45:29,121 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_hr.xml 
+2026-09-02 19:45:29,141 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_closer_look.xml 
+2026-09-02 19:45:29,159 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_facebook_page.xml 
+2026-09-02 19:45:29,169 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_image_gallery.xml 
+2026-09-02 19:45:29,203 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_countdown.xml 
+2026-09-02 19:45:29,224 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_product_catalog.xml 
+2026-09-02 19:45:29,246 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_comparisons.xml 
+2026-09-02 19:45:29,260 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_comparisons_horizontal.xml 
+2026-09-02 19:45:29,271 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_company_team.xml 
+2026-09-02 19:45:29,286 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_company_team_basic.xml 
+2026-09-02 19:45:29,302 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_company_team_shapes.xml 
+2026-09-02 19:45:29,313 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_company_team_detail.xml 
+2026-09-02 19:45:29,335 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_company_team_spotlight.xml 
+2026-09-02 19:45:29,351 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_company_team_grid.xml 
+2026-09-02 19:45:29,381 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_company_team_card.xml 
+2026-09-02 19:45:29,398 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_call_to_action.xml 
+2026-09-02 19:45:29,409 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_references.xml 
+2026-09-02 19:45:29,421 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_references_social.xml 
+2026-09-02 19:45:29,434 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_references_grid.xml 
+2026-09-02 19:45:29,449 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_popup.xml 
+2026-09-02 19:45:29,472 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_faq_list.xml 
+2026-09-02 19:45:29,481 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_faq_collapse.xml 
+2026-09-02 19:45:29,492 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_features_grid.xml 
+2026-09-02 19:45:29,510 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_features_wave.xml 
+2026-09-02 19:45:29,531 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_tabs.xml 
+2026-09-02 19:45:29,549 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_tabs_images.xml 
+2026-09-02 19:45:29,562 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_table_of_content.xml 
+2026-09-02 19:45:29,576 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_images_constellation.xml 
+2026-09-02 19:45:29,586 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_chart.xml 
+2026-09-02 19:45:29,600 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_parallax.xml 
+2026-09-02 19:45:29,616 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_quotes_carousel.xml 
+2026-09-02 19:45:29,635 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_numbers_grid.xml 
+2026-09-02 19:45:29,646 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_quotes_carousel_minimal.xml 
+2026-09-02 19:45:29,665 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_quotes_carousel_compact.xml 
+2026-09-02 19:45:29,686 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_numbers.xml 
+2026-09-02 19:45:29,702 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_contact_info.xml 
+2026-09-02 19:45:29,710 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_numbers_boxed.xml 
+2026-09-02 19:45:29,720 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_cta_box.xml 
+2026-09-02 19:45:29,730 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_numbers_framed.xml 
+2026-09-02 19:45:29,740 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_masonry_block.xml 
+2026-09-02 19:45:29,797 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_sidegrid.xml 
+2026-09-02 19:45:29,804 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_media_list.xml 
+2026-09-02 19:45:29,817 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_showcase.xml 
+2026-09-02 19:45:29,849 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_faq_horizontal.xml 
+2026-09-02 19:45:29,861 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_floating_blocks.xml 
+2026-09-02 19:45:29,871 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_opening_hours.xml 
+2026-09-02 19:45:29,880 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_timeline.xml 
+2026-09-02 19:45:29,901 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_timeline_images.xml 
+2026-09-02 19:45:29,916 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_timeline_list.xml 
+2026-09-02 19:45:29,929 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_process_steps.xml 
+2026-09-02 19:45:29,946 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_accordion.xml 
+2026-09-02 19:45:29,958 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_website_form_info.xml 
+2026-09-02 19:45:29,967 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_numbers_showcase.xml 
+2026-09-02 19:45:29,975 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_numbers_charts.xml 
+2026-09-02 19:45:29,989 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_accordion_image.xml 
+2026-09-02 19:45:30,002 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_pricelist_boxed.xml 
+2026-09-02 19:45:30,017 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_adventure.xml 
+2026-09-02 19:45:30,026 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_image_title.xml 
+2026-09-02 19:45:30,034 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_key_images.xml 
+2026-09-02 19:45:30,045 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_kickoff.xml 
+2026-09-02 19:45:30,057 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_discovery.xml 
+2026-09-02 19:45:30,073 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_bento_banner.xml 
+2026-09-02 19:45:30,082 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_striped.xml 
+2026-09-02 19:45:30,090 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_intro_pill.xml 
+2026-09-02 19:45:30,100 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_big_number.xml 
+2026-09-02 19:45:30,109 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_wavy_grid.xml 
+2026-09-02 19:45:30,119 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_images_mosaic.xml 
+2026-09-02 19:45:30,132 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_shape_image.xml 
+2026-09-02 19:45:30,150 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_empowerment.xml 
+2026-09-02 19:45:30,163 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_split_intro.xml 
+2026-09-02 19:45:30,176 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_text_highlight.xml 
+2026-09-02 19:45:30,200 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_pricelist_cafe.xml 
+2026-09-02 19:45:30,235 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_progress_bar.xml 
+2026-09-02 19:45:30,248 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_blockquote.xml 
+2026-09-02 19:45:30,264 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_badge.xml 
+2026-09-02 19:45:30,296 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_color_blocks_2.xml 
+2026-09-02 19:45:30,315 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_attributes_horizontal.xml 
+2026-09-02 19:45:30,340 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_attributes_vertical.xml 
+2026-09-02 19:45:30,368 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_product_list.xml 
+2026-09-02 19:45:30,401 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_mega_menu_multi_menus.xml 
+2026-09-02 19:45:30,421 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_mega_menu_menu_image_menu.xml 
+2026-09-02 19:45:30,450 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_mega_menu_thumbnails.xml 
+2026-09-02 19:45:30,485 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_mega_menu_little_icons.xml 
+2026-09-02 19:45:30,515 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_mega_menu_images_subtitles.xml 
+2026-09-02 19:45:30,546 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_mega_menu_menus_logos.xml 
+2026-09-02 19:45:30,562 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_mega_menu_odoo_menu.xml 
+2026-09-02 19:45:30,579 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_mega_menu_big_icons_subtitles.xml 
+2026-09-02 19:45:30,606 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_mega_menu_cards.xml 
+2026-09-02 19:45:30,625 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_google_map.xml 
+2026-09-02 19:45:30,637 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_cta_mockups.xml 
+2026-09-02 19:45:30,653 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_map.xml 
+2026-09-02 19:45:30,676 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_dynamic_snippet.xml 
+2026-09-02 19:45:30,706 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_dynamic_snippet_carousel.xml 
+2026-09-02 19:45:30,721 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_banner_product.xml 
+2026-09-02 19:45:30,731 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_embed_code.xml 
+2026-09-02 19:45:30,744 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_website_form.xml 
+2026-09-02 19:45:30,768 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_website_form_overlay.xml 
+2026-09-02 19:45:30,776 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_title_form.xml 
+2026-09-02 19:45:30,785 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_searchbar.xml 
+2026-09-02 19:45:30,804 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_inline_text.xml 
+2026-09-02 19:45:30,814 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_button.xml 
+2026-09-02 19:45:30,826 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_freegrid.xml 
+2026-09-02 19:45:30,839 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_card_offset.xml 
+2026-09-02 19:45:30,849 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_image.xml 
+2026-09-02 19:45:30,856 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_video.xml 
+2026-09-02 19:45:30,865 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_cta_badge.xml 
+2026-09-02 19:45:30,874 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_unveil.xml 
+2026-09-02 19:45:30,885 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_image_hexagonal.xml 
+2026-09-02 19:45:30,897 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_striped_center_top.xml 
+2026-09-02 19:45:30,912 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_numbers_list.xml 
+2026-09-02 19:45:30,923 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_quadrant.xml 
+2026-09-02 19:45:30,937 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_cta_card.xml 
+2026-09-02 19:45:30,947 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_image_frame.xml 
+2026-09-02 19:45:30,957 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_cta_mobile.xml 
+2026-09-02 19:45:30,969 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_reviews_wall.xml 
+2026-09-02 19:45:30,990 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_website_form_cover.xml 
+2026-09-02 19:45:31,001 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_form_aside.xml 
+2026-09-02 19:45:31,010 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_banner_connected.xml 
+2026-09-02 19:45:31,021 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_ecomm_categories_showcase.xml 
+2026-09-02 19:45:31,036 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/snippets/s_banner_categories.xml 
+2026-09-02 19:45:31,056 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/new_page_template_templates.xml 
+2026-09-02 19:45:33,097 1772 INFO wave4_kyc_v4_final odoo.addons.website.models.ir_module_module: Generated 227 primary snippet templates for 'website' 
+2026-09-02 19:45:33,181 1772 INFO wave4_kyc_v4_final odoo.addons.website.models.ir_module_module: Generated 39 primary page templates for 'website' 
+2026-09-02 19:45:33,181 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/website_views.xml 
+2026-09-02 19:45:33,460 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/website_pages_views.xml 
+2026-09-02 19:45:33,557 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/website_controller_pages_views.xml 
+2026-09-02 19:45:33,604 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/website_visitor_views.xml 
+2026-09-02 19:45:33,733 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/res_config_settings_views.xml 
+2026-09-02 19:45:33,838 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/website_rewrite.xml 
+2026-09-02 19:45:33,873 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/ir_actions_server_views.xml 
+2026-09-02 19:45:33,916 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/ir_asset_views.xml 
+2026-09-02 19:45:33,945 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/ir_attachment_views.xml 
+2026-09-02 19:45:33,981 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/ir_model_views.xml 
+2026-09-02 19:45:34,021 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/res_partner_views.xml 
+2026-09-02 19:45:34,048 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/neutralize_views.xml 
+2026-09-02 19:45:34,064 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/wizard/base_language_install_views.xml 
+2026-09-02 19:45:34,081 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/wizard/blocked_third_party_domains.xml 
+2026-09-02 19:45:34,094 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/wizard/website_robots.xml 
+2026-09-02 19:45:34,110 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/data/update_theme_images.xml 
+2026-09-02 19:45:34,177 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website/views/website_templates_svg.xml 
+2026-09-02 19:45:34,347 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module website loaded in 11.41s, 7869 queries (+7869 other) 
+2026-09-02 19:45:34,347 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module crm_sms (45/53) 
+2026-09-02 19:45:34,371 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_sms/views/crm_lead_views.xml 
+2026-09-02 19:45:34,483 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_sms/security/ir.model.access.csv 
+2026-09-02 19:45:34,500 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_sms/security/sms_security.xml 
+2026-09-02 19:45:34,525 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module crm_sms loaded in 0.18s, 87 queries (+87 other) 
+2026-09-02 19:45:34,525 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module iap_crm (46/53) 
+2026-09-02 19:45:34,539 1772 INFO wave4_kyc_v4_final odoo.registry: module iap_crm: creating or updating database tables 
+2026-09-02 19:45:34,624 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module iap_crm loaded in 0.10s, 68 queries (+68 other) 
+2026-09-02 19:45:34,624 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module kyc_management (47/53) 
+2026-09-02 19:45:34,864 1772 INFO wave4_kyc_v4_final odoo.registry: module kyc_management: creating or updating database tables 
+2026-09-02 19:45:35,006 1772 INFO wave4_kyc_v4_final odoo.models: Prepare computation of res.partner.x_is_pep 
+<string>:8: (WARNING/2) Line block ends without a blank line.
+<string>:8: (ERROR/3) Undefined substitution referenced: "-------".
+2026-09-02 19:45:35,606 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/security/groups.xml 
+2026-09-02 19:45:35,657 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/security/ir.model.access.csv 
+2026-09-02 19:45:35,682 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/security/ir_rules.xml 
+2026-09-02 19:45:35,709 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/data/legacy_security_compat.xml 
+2026-09-02 19:45:35,715 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/data/crm_data.xml 
+2026-09-02 19:45:35,730 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/reports/kyc_application_report.xml 
+2026-09-02 19:45:35,758 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/reports/kyc_approvals_summary_report.xml 
+2026-09-02 19:45:35,794 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/wizard/kyc_wizard_views.xml 
+2026-09-02 19:45:35,852 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/views/kyc_application_views.xml 
+2026-09-02 19:45:35,913 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/views/kyc_approval_views.xml 
+2026-09-02 19:45:35,979 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/views/kyc_notification_views.xml 
+2026-09-02 19:45:36,045 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/views/kyc_menu.xml 
+2026-09-02 19:45:36,207 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading kyc_management/views/portal_kyc_templates.xml 
+2026-09-02 19:45:36,366 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module kyc_management loaded in 1.74s, 1001 queries (+1001 other) 
+2026-09-02 19:45:36,366 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module website_crm (48/53) 
+2026-09-02 19:45:36,387 1772 INFO wave4_kyc_v4_final odoo.registry: module website_crm: creating or updating database tables 
+2026-09-02 19:45:36,503 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website_crm/security/ir.model.access.csv 
+2026-09-02 19:45:36,514 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website_crm/data/crm_lead_merge_template.xml 
+2026-09-02 19:45:36,527 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website_crm/data/ir_actions_data.xml 
+2026-09-02 19:45:36,537 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website_crm/data/ir_model_data.xml 
+2026-09-02 19:45:36,553 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website_crm/views/crm_lead_views.xml 
+2026-09-02 19:45:36,582 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website_crm/views/website_visitor_views.xml 
+2026-09-02 19:45:36,648 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website_crm/views/website_templates_contactus.xml 
+2026-09-02 19:45:36,676 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module website_crm loaded in 0.31s, 228 queries (+228 other) 
+2026-09-02 19:45:36,676 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module website_mail (49/53) 
+2026-09-02 19:45:36,687 1772 INFO wave4_kyc_v4_final odoo.registry: module website_mail: creating or updating database tables 
+2026-09-02 19:45:36,706 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website_mail/views/website_mail_templates.xml 
+2026-09-02 19:45:36,753 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module website_mail loaded in 0.08s, 31 queries (+31 other) 
+2026-09-02 19:45:36,754 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module website_sms (50/53) 
+2026-09-02 19:45:36,765 1772 INFO wave4_kyc_v4_final odoo.registry: module website_sms: creating or updating database tables 
+2026-09-02 19:45:36,797 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading website_sms/views/website_visitor_views.xml 
+2026-09-02 19:45:36,887 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module website_sms loaded in 0.13s, 76 queries (+76 other) 
+2026-09-02 19:45:36,887 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module crm_iap_enrich (51/53) 
+2026-09-02 19:45:36,903 1772 INFO wave4_kyc_v4_final odoo.registry: module crm_iap_enrich: creating or updating database tables 
+2026-09-02 19:45:36,976 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_enrich/data/ir_cron.xml 
+2026-09-02 19:45:37,037 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_enrich/data/ir_action.xml 
+2026-09-02 19:45:37,050 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_enrich/data/mail_templates.xml 
+2026-09-02 19:45:37,065 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_enrich/views/crm_lead_views.xml 
+2026-09-02 19:45:37,095 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_enrich/views/res_config_settings_view.xml 
+2026-09-02 19:45:37,166 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module crm_iap_enrich loaded in 0.28s, 171 queries (+171 other) 
+2026-09-02 19:45:37,166 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module crm_iap_mine (52/53) 
+2026-09-02 19:45:37,187 1772 INFO wave4_kyc_v4_final odoo.registry: module crm_iap_mine: creating or updating database tables 
+2026-09-02 19:45:37,530 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_mine/data/crm.iap.lead.industry.csv 
+2026-09-02 19:45:37,543 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_mine/data/crm.iap.lead.role.csv 
+2026-09-02 19:45:37,554 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_mine/data/crm.iap.lead.seniority.csv 
+2026-09-02 19:45:37,564 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_mine/data/mail_template_data.xml 
+2026-09-02 19:45:37,582 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_mine/data/ir_sequence_data.xml 
+2026-09-02 19:45:37,590 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_mine/security/ir.model.access.csv 
+2026-09-02 19:45:37,603 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_mine/views/crm_lead_views.xml 
+2026-09-02 19:45:37,688 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_mine/views/crm_iap_lead_mining_request_views.xml 
+2026-09-02 19:45:37,734 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_mine/views/res_config_settings_views.xml 
+2026-09-02 19:45:37,758 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_mine/views/mail_templates.xml 
+2026-09-02 19:45:37,773 1772 INFO wave4_kyc_v4_final odoo.modules.loading: loading crm_iap_mine/views/crm_menus.xml 
+2026-09-02 19:45:37,807 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module crm_iap_mine loaded in 0.64s, 426 queries (+426 other) 
+2026-09-02 19:45:37,807 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Loading module website_crm_sms (53/53) 
+2026-09-02 19:45:37,819 1772 INFO wave4_kyc_v4_final odoo.registry: module website_crm_sms: creating or updating database tables 
+2026-09-02 19:45:37,885 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Module website_crm_sms loaded in 0.08s, 31 queries (+31 other) 
+2026-09-02 19:45:37,885 1772 INFO wave4_kyc_v4_final odoo.modules.loading: 53 modules loaded in 42.93s, 31422 queries (+31423 extra) 
+2026-09-02 19:45:38,676 1772 INFO wave4_kyc_v4_final odoo.modules.loading: Modules loaded. 
+2026-09-02 19:45:38,693 1772 INFO wave4_kyc_v4_final odoo.registry: Registry changed, signaling through the database 
+2026-09-02 19:45:38,696 1772 INFO wave4_kyc_v4_final odoo.registry: Registry loaded in 60.724s 
+2026-09-02 19:45:38,696 1772 INFO wave4_kyc_v4_final odoo.service.server: Initiating shutdown 
+2026-09-02 19:45:38,697 1772 INFO wave4_kyc_v4_final odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-09-02 19:45:38,697 1772 INFO wave4_kyc_v4_final odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  

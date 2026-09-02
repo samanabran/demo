@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        UAE e-invoicing constants.
+        Per amendment 001 §10.5: ASP appointment extended to 30 October 2026;
+        go-live remains 1 January 2027. The extension covers appointment
+        only.
+
+        Class: these constants are TENANT_CONFIG (per amendment 001 §4
+        table). Whether a given tenant triggers mandatory e-invoicing
+        depends on its annual revenue relative to AED 50m — a fact
+        the tenant owns, not us. The product gates the capability on
+        the tenant's own revenue attestation and ASP appointment.
+
+        Wave 3 remediation round 2 correction: the ASP-appointment-date
+        constant was previously marked confidence='verified' — an
+        overclaim. It has not been directly checked against the primary
+        decision text (the amendment to Ministerial Decision 244/2025).
+        It IS corroborated by multiple independent secondary sources
+        (advisory-firm bulletins, press coverage, and an MoF
+        communication referenced by the CEO's own re-verification pass,
+        2026-09-01) — that is 'verified_secondary', a real step above
+        UNVERIFIED but short of a primary citation. The go-live date and
+        the revenue threshold are unchanged by that amendment and are
+        left at 'verified' pending the same primary-text check.
+    -->
+    <data noupdate="1">
+
+        <record id="const_einvoicing_asp_appointment_due" model="regulatory.constant">
+            <field name="name">E-invoicing — ASP appointment due date (revenue ≥ AED 50m)</field>
+            <field name="code">einvoicing_asp_appointment_due</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">filing_window</field>
+            <field name="value_text">2026-10-30</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.tax.gov.ae/</field>
+            <field name="source_reference">UAE e-invoicing Phase 1 ASP appointment deadline extended from 31 July 2026 to 30 October 2026, by amendment to Ministerial Decision 244/2025. Go-live 1 January 2027 and the AED 50m revenue threshold are unchanged. Corroborated by multiple independent advisory sources and an MoF communication; the primary amendment decision text has not itself been directly cited yet. TENANT_CONFIG: whether a given tenant triggers mandatory e-invoicing depends on tenant revenue, which the tenant attests.</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified_secondary</field>
+            <field name="valid_from">2026-07-01</field>
+            <field name="version">1</field>
+            <field name="notes">Amendment 001 §10.5: extension covers appointment only. Corrected from an overclaimed 'verified' to 'verified_secondary' in Wave 3 remediation round 2 — the date was never directly checked against the primary Ministerial Decision 244/2025 amendment text, only against secondary corroboration. Primary-text citation is a named pre-go-live task, not a test.</field>
+        </record>
+
+        <record id="const_einvoicing_go_live" model="regulatory.constant">
+            <field name="name">E-invoicing — mandatory go-live (revenue ≥ AED 50m)</field>
+            <field name="code">einvoicing_go_live</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">filing_window</field>
+            <field name="value_text">2027-01-01</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.tax.gov.ae/</field>
+            <field name="source_reference">UAE e-invoicing: go-live 1 January 2027 for revenue ≥ AED 50m. TENANT_CONFIG: trigger depends on tenant revenue, which the tenant attests.</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified</field>
+            <field name="valid_from">2026-07-01</field>
+            <field name="version">1</field>
+        </record>
+
+        <record id="const_einvoicing_voluntary_phase_start" model="regulatory.constant">
+            <field name="name">E-invoicing — voluntary phase start</field>
+            <field name="code">einvoicing_voluntary_phase_start</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">filing_window</field>
+            <field name="value_text">2026-07-01</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.tax.gov.ae/</field>
+            <field name="source_reference">UAE e-invoicing: voluntary phase opened 1 July 2026. TENANT_CONFIG: opting in is the tenant's decision.</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified</field>
+            <field name="valid_from">2026-07-01</field>
+            <field name="version">1</field>
+        </record>
+
+        <!-- ============================================================ -->
+        <!-- Phase 2 — revenue below AED 50m. Wave 3 remediation round 3:  -->
+        <!-- this band was entirely missing from the rules pack, and the  -->
+        <!-- e-invoicing readiness gate would have applied the Phase 1     -->
+        <!-- deadline pair to every tenant regardless of revenue — the    -->
+        <!-- majority of brokerage tenants sit below AED 50m and would    -->
+        <!-- have been given the wrong deadline. Sources are secondary    -->
+        <!-- advisory only; confidence is capped at verified_secondary.   -->
+        <!-- ============================================================ -->
+
+        <record id="const_einvoicing_phase2_asp_appointment_due" model="regulatory.constant">
+            <field name="name">E-invoicing Phase 2 — ASP appointment due date (revenue below AED 50m)</field>
+            <field name="code">einvoicing_phase2_asp_appointment_due</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">filing_window</field>
+            <field name="value_text">2027-03-31</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.tax.gov.ae/</field>
+            <field name="source_reference">Secondary advisory sources place Phase 2 (revenue below AED 50m) ASP appointment at 31 March 2027. Not yet checked against the primary MD 244/2025 amendment text — verified_secondary, not verified. Distinct from the Phase 1 constant (const_einvoicing_asp_appointment_due), which applies only to revenue ≥ AED 50m.</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified_secondary</field>
+            <field name="valid_from">2026-07-01</field>
+            <field name="version">1</field>
+            <field name="notes">Added in Wave 3 remediation round 3. Before this record existed, the rules pack had no Phase 2 band at all — a tenant below AED 50m would have had no correct constant to read, and a naive implementation reading only the Phase 1 constant would have given the wrong deadline to most tenants.</field>
+        </record>
+
+        <record id="const_einvoicing_phase2_go_live" model="regulatory.constant">
+            <field name="name">E-invoicing Phase 2 — mandatory go-live (revenue below AED 50m)</field>
+            <field name="code">einvoicing_phase2_go_live</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">filing_window</field>
+            <field name="value_text">2027-07-01</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.tax.gov.ae/</field>
+            <field name="source_reference">Secondary advisory sources place Phase 2 go-live at 1 July 2027. Not yet checked against the primary MD 244/2025 amendment text — verified_secondary, not verified.</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified_secondary</field>
+            <field name="valid_from">2026-07-01</field>
+            <field name="version">1</field>
+        </record>
+
+        <record id="const_einvoicing_government_entity_separate_track" model="regulatory.constant">
+            <field name="name">E-invoicing — government entities are on a separate track</field>
+            <field name="code">einvoicing_government_entity_separate_track</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">other</field>
+            <field name="value_text">true</field>
+            <field name="unit">bool</field>
+            <field name="source_url">https://www.tax.gov.ae/</field>
+            <field name="source_reference">Government entities are confirmed to sit on a separate e-invoicing track from Phase 1 / Phase 2 private-sector revenue bands. This structural fact is corroborated across secondary sources.</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">verified_secondary</field>
+            <field name="valid_from">2026-07-01</field>
+            <field name="version">1</field>
+        </record>
+
+        <record id="const_einvoicing_government_entity_go_live" model="regulatory.constant">
+            <field name="name">E-invoicing — government entity go-live date</field>
+            <field name="code">einvoicing_government_entity_go_live</field>
+            <field name="jurisdiction_id" ref="jurisdiction_uae_federal"/>
+            <field name="category">filing_window</field>
+            <field name="value_text">CONFLICTING — secondary sources disagree on the specific government-entity go-live date. Do not encode a single date. Verify against the MD 244/2025 amendment text or a direct FTA/MoF communication before any tenant on the government track is gated on a date.</field>
+            <field name="unit">text</field>
+            <field name="source_url">https://www.tax.gov.ae/</field>
+            <field name="source_reference">Multiple secondary advisory sources give different go-live dates for the government-entity e-invoicing track. Unlike the Phase 2 private-sector dates above (which are consistent across sources and only lack a primary citation), this date is actively disputed between sources — a materially weaker position than verified_secondary.</field>
+            <field name="verified_on">2026-09-01</field>
+            <field name="confidence">conflicting</field>
+            <field name="valid_from">2026-07-01</field>
+            <field name="version">1</field>
+            <field name="notes">First use of the 'conflicting' confidence tier in this rules pack. A capability must never be gated on a 'conflicting' constant's value_text as if it were a date — the value_text here is deliberately not parseable as a date, to make a careless read-and-use fail loudly rather than silently applying a wrong date.</field>
+        </record>
+
+    </data>
+</odoo>

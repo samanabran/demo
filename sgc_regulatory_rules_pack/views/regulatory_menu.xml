@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Menu wiring. Kept under Settings / Technical / Regulatory so the
+        rules pack does not create a top-level menu (this is a foundational
+        module, not an application).
+    -->
+    <menuitem id="menu_regulatory_root"
+              name="Regulatory Rules"
+              parent="base.menu_administration"
+              sequence="50"
+              groups="sgc_regulatory_rules_pack.group_compliance"/>
+
+    <menuitem id="menu_regulatory_jurisdiction"
+              name="Jurisdictions"
+              parent="menu_regulatory_root"
+              action="action_regulatory_jurisdiction"
+              sequence="10"/>
+
+    <menuitem id="menu_regulatory_constant"
+              name="Constants"
+              parent="menu_regulatory_root"
+              action="action_regulatory_constant"
+              sequence="20"/>
+</odoo>

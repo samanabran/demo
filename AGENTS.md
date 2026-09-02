@@ -6,7 +6,9 @@ same git commit at all times**:
 | Copy | Location | How to check HEAD |
 |---|---|---|
 | Local | `C:\Users\USER\vps-root-planning` | `git log -1 --oneline` |
-| GitHub | `https://github.com/samanabran/demo.git` (`origin`) | `git ls-remote origin main` |
+| GitHub | `https://github.com/Rams-Lab-01/demo.git` (`origin`) | `git ls-remote origin main` |
+
+> **Note on redirects:** `https://github.com/samanabran/demo.git` redirects to the URL above and continues to work for clone/fetch/push as long as no new repository is created at the old path. Use the URL above as canonical. The redirect should not be relied on as the documented location.
 | Live server | `vps-root:/opt/odoo/demo_presentation/addons` | `ssh vps-root "cd /opt/odoo/demo_presentation/addons && git log -1 --oneline"` |
 
 This is not optional and not a "nice to have." Every incident that has cost

@@ -1,0 +1,50 @@
+======================================================================
+WAVE 4 CLAIM VERIFICATION -- ground truth computed from disk
+======================================================================
+
+-- kyc_management --
+  §6.2 actual=10 expected=10 [OK]
+      TestExitGate: 5
+      TestKycOfficerRouting: 3
+      TestPostInstall: 2
+  §6.3 actual=5 [OK] (post_install classes: ['TestKycOfficerRouting', 'TestPostInstall'])
+  §6.4 actual=5 min=5 [OK] (path: C:\demo_presentation\kyc_management\tests\test_exit_gate.py)
+      test_authorized_officer_in_group_gets_approval_record
+      test_duplicate_kyc_id_blocked_by_constraint
+      test_empty_approver_group_creates_no_approval
+      test_inactive_user_excluded_from_routing
+      test_unrelated_user_gets_no_approval
+
+-- aml_compliance --
+  §6.2 actual=22 expected=22 [OK]
+      TestExitGate: 6
+      TestGoAMLReportValidation: 4
+      TestMigratedConstraints: 4
+      TestPostInstall: 2
+      TestRiskAssessment: 3
+      TestTransactionAlert: 3
+  §6.3 actual=2 [OK] (post_install classes: ['TestPostInstall'])
+  §6.4 actual=6 min=6 [OK] (path: C:\demo_presentation\aml_compliance\tests\test_exit_gate.py)
+      test_alert_state_machine_only_via_authorized_actions
+      test_alert_with_missing_partner_fails_closed
+      test_exact_threshold_boundary_is_deterministic
+      test_idempotent_threshold_check_no_duplicate_alerts
+      test_subthreshold_transaction_creates_no_alert
+      test_threshold_breach_creates_alert_with_correct_severity
+
+-- Manifest failures --
+  none
+
+-- Stale --test-tags selectors (class not found in named module) --
+  none
+
+-- AGENTS.md Rule 1 sync check (delegated to verify_wave3_claims) --
+  local: 68f38f40fe84 [branch: wave3-runtime]
+  upstream: origin/wave3-runtime = f24dc979a99e
+  origin/main: 67c28bcccc6b
+  live server: 67c28bcccc6b
+  STATUS: MISMATCH -- Rule 1 VIOLATED
+
+======================================================================
+FAILURES ABOVE. Do not write a result document from prose
+until these are resolved.

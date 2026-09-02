@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_process_dlq_search" model="ir.ui.view">
+        <field name="name">process.dlq.search</field>
+        <field name="model">process.dlq</field>
+        <field name="arch" type="xml">
+            <search string="Dead-Letter Queue">
+                <field name="summary"/>
+                <field name="target_system"/>
+                <field name="operation"/>
+                <field name="idempotency_key"/>
+                <filter name="filter_parked" string="Parked" domain="[('status','=','parked')]"/>
+                <filter name="filter_replayed" string="Replayed" domain="[('status','=','replayed')]"/>
+                <group name="group_by">
+                    <filter name="group_by_dlq_target" string="Target system" context="{'group_by':'target_system'}"/>
+                    <filter name="group_by_dlq_status" string="Status" context="{'group_by':'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_process_dlq_tree" model="ir.ui.view">
+        <field name="name">process.dlq.list</field>
+        <field name="model">process.dlq</field>
+        <field name="arch" type="xml">
+            <list string="Dead-Letter Queue"
+                  decoration-danger="status=='parked'"
+                  decoration-success="status in ('resolved','abandoned')">
+                <field name="occurred_at"/>
+                <field name="summary"/>
+                <field name="target_system"/>
+                <field name="operation"/>
+                <field name="idempotency_key"/>
+                <field name="attempt_count"/>
+                <field name="status" widget="badge"
+                       decoration-danger="status=='parked'"
+                       decoration-warning="status=='replayed'"
+                       decoration-success="status in ('resolved','abandoned')"/>
+                <field name="exception_id"/>
+                <field name="replay_by_id" widget="many2one_avatar_user"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_process_dlq_form" model="ir.ui.view">
+        <field name="name">process.dlq.form</field>
+        <field name="model">process.dlq</field>
+        <field name="arch" type="xml">
+            <form string="Dead-Letter Entry">
+                <header>
+                    <button name="action_mark_replayed" string="Mark replayed"
+                            type="object" class="btn-primary"
+                            invisible="status != 'parked'"
+                            groups="sgc_process_control.group_process_officer"/>
+                    <button name="action_resolve" string="Resolve"
+                            type="object" class="btn-success"
+                            invisible="status not in ('parked','replayed')"
+                            groups="sgc_process_control.group_process_officer"/>
+                    <button name="action_abandon" string="Abandon"
+                            type="object"
+                            invisible="status in ('resolved','abandoned')"
+                            groups="sgc_process_control.group_process_admin"/>
+                    <field name="status" widget="statusbar"
+                           statusbar_visible="parked,replayed,resolved,abandoned"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="summary" placeholder="What failed."/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="target" string="Target">
+                            <field name="target_system"/>
+                            <field name="operation"/>
+                            <field name="idempotency_key"/>
+                            <field name="exception_id"/>
+                        </group>
+                        <group name="attempts" string="Attempts">
+                            <field name="attempt_count"/>
+                            <field name="first_attempt_at"/>
+                            <field name="last_attempt_at"/>
+                            <field name="occurred_at"/>
+                        </group>
+                        <group name="replay" string="Replay">
+                            <field name="replay_at"/>
+                            <field name="replay_by_id"/>
+                            <field name="resolution_note"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="request" string="Request payload">
+                            <field name="request_payload"/>
+                        </page>
+                        <page name="response" string="Response payload">
+                            <field name="response_payload"/>
+                        </page>
+                        <page name="chatter" string="Chatter">
+                            <chatter/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_process_dlq" model="ir.actions.act_window">
+        <field name="name">Dead-Letter Queue</field>
+        <field name="res_model">process.dlq</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_process_dlq_search"/>
+        <field name="context">{'search_default_filter_parked': 1, 'search_default_group_by_dlq_target': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No dead-letter entries — every integration call has either
+                succeeded or been retried to exhaustion and resolved.
+            </p>
+            <p>
+                Anything here has already been retried the maximum number of
+                times. A consumer treating a DLQ entry as a clear result is
+                a regulatory defect.
+            </p>
+        </field>
+    </record>
+</odoo>

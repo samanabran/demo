@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_regulatory_jurisdiction_user,regulatory.jurisdiction.user,model_regulatory_jurisdiction,base.group_user,1,0,0,0
+access_regulatory_jurisdiction_compliance,regulatory.jurisdiction.compliance,model_regulatory_jurisdiction,sgc_regulatory_rules_pack.group_compliance,1,1,1,1
+access_regulatory_jurisdiction_admin,regulatory.jurisdiction.admin,model_regulatory_jurisdiction,sgc_regulatory_rules_pack.group_regulatory_admin,1,1,1,1
+access_regulatory_constant_user,regulatory.constant.user,model_regulatory_constant,base.group_user,1,0,0,0
+access_regulatory_constant_compliance,regulatory.constant.compliance,model_regulatory_constant,sgc_regulatory_rules_pack.group_compliance,1,1,1,0
+access_regulatory_constant_admin,regulatory.constant.admin,model_regulatory_constant,sgc_regulatory_rules_pack.group_regulatory_admin,1,1,1,1

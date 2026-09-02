@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_tenant_readiness_root"
+              name="Tenant Readiness"
+              parent="base.menu_administration"
+              sequence="52"
+              groups="sgc_tenant_readiness.group_tenant_readiness_user"/>
+
+    <menuitem id="menu_tenant_compliance_officer"
+              name="Compliance Officers"
+              parent="menu_tenant_readiness_root"
+              action="action_tenant_compliance_officer"
+              sequence="10"/>
+
+    <menuitem id="menu_tenant_readiness_state"
+              name="Readiness State"
+              parent="menu_tenant_readiness_root"
+              action="action_tenant_readiness_state"
+              sequence="20"/>
+
+    <menuitem id="menu_tenant_high_risk_override"
+              name="High-Risk Overrides"
+              parent="menu_tenant_readiness_root"
+              action="action_tenant_high_risk_override"
+              sequence="30"
+              groups="sgc_tenant_readiness.group_tenant_readiness_admin"/>
+</odoo>
