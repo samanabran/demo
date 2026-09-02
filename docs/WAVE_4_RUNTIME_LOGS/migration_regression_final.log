@@ -1,0 +1,57 @@
+Building pre-migration snapshot at bcefd39 ...
+[PASS] KYC clean: pre-migration install exits 0 -- rc=0
+[PASS] KYC clean: seed succeeds -- SEED_OK app=1 officer=5
+
+2026-09-02 19:32:26,508 1603 WARNING wave4_migreg_kyc_clean odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+
+[PASS] KYC clean: upgrade exits 0
+[PASS] KYC clean: constraint present after upgrade -- {'kyc_application_kyc_id_unique'}
+[PASS] KYC clean: historical row preserved
+[PASS] KYC clean: officer routing works post-upgrade -- ROUTING_CHECK before=0 after=1 routed_to_officer=True
+
+2026-09-02 19:32:41,080 1619 WARNING wave4_migreg_kyc_clean odoo.addons.base.models.ir_actions_report: wkhtmltopdf: Exit with code 1 due to network error: ConnectionRefusedError
+ 
+
+[PASS] KYC clean: second update is idempotent (exit 0)
+[PASS] KYC dirty: pre-migration install exits 0 -- rc=0
+[PASS] KYC dirty: seed succeeds (dead constraint allows duplicate) -- SEED_OK a1=1 a2=2
+
+2026-09-02 19:34:01,242 1650 WARNING wave4_migreg_kyc_dirty odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+
+[PASS] KYC dirty: guarded upgrade is BLOCKED (non-zero exit) -- rc=255
+[PASS] KYC dirty: blocking message matches required shape -- _id groups=1; affected rows=2; no records modified; run the approved KYC data-remediation process before retrying.
+2026-09-02 19:34:08,871 1658 INFO wave4_migreg_kyc_dirty odoo.service.server: Initiating shutdown 
+2026-09-02 19:34:08,871 1658 INFO wave4_migreg_kyc_dirty odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-09-02 19:34:08,872 1658 INFO wave4_migreg_kyc_dirty odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  
+
+[PASS] KYC dirty: no records modified
+[PASS] KYC dirty: module version did not advance -- 19.0.1.0.1 -> 19.0.1.0.1
+[PASS] KYC dirty: no partial constraint state committed -- set()
+[PASS] KYC dirty: corrected-data retry succeeds
+[PASS] KYC dirty: constraint attached after retry -- {'kyc_application_kyc_id_unique'}
+[PASS] AML clean: pre-migration install exits 0 -- rc=0
+[PASS] AML clean: seed succeeds -- oo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-09-02 19:36:07,585 1682 WARNING wave4_migreg_aml_clean odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+
+[PASS] AML clean: upgrade exits 0
+[PASS] AML clean: all 4 constraints present after upgrade -- {'aml_risk_factor_weight_positive', 'aml_sanctions_list_name_source_uniq', 'aml_fatf_jurisdiction_country_uniq', 'aml_risk_factor_code_uniq'}
+[PASS] AML clean: second update is idempotent (exit 0)
+[PASS] AML dirty: pre-migration install exits 0 -- rc=0
+[PASS] AML dirty: seed succeeds (dead constraints allow conflicts) -- oo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+2026-09-02 19:39:00,889 1714 WARNING wave4_migreg_aml_dirty odoo.registry: Model attribute '_sql_constraints' is no longer supported, please define models.Constraint on the model. 
+
+[PASS] AML dirty: guarded upgrade is BLOCKED (non-zero exit) -- rc=255
+[PASS] AML dirty: blocking message names all 4 conflict categories -- E_BLOCKED: duplicate FATF countries=1; duplicate risk-factor codes=1; negative risk-factor weights=1; duplicate sanctions name/source groups=1; no records modified; approved remediation is required before retrying.
+2026-09-02 19:39:12,503 1722 INFO wave4_migreg_aml_dirty odoo.service.server: Initiating shutdown 
+2026-09-02 19:39:12,504 1722 INFO wave4_migreg_aml_dirty odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-09-02 19:39:12,505 1722 INFO wave4_migreg_aml_dirty odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  
+
+[PASS] AML dirty: no records modified -- (27, 13, 2) -> (27, 13, 2)
+[PASS] AML dirty: module version did not advance -- 19.0.1.0.0 -> 19.0.1.0.0
+[PASS] AML dirty: no partial constraint state committed -- set()
+[PASS] AML dirty: corrected-data retry succeeds
+[PASS] AML dirty: all 4 constraints attached after retry -- {'aml_risk_factor_weight_positive', 'aml_sanctions_list_name_source_uniq', 'aml_fatf_jurisdiction_country_uniq', 'aml_risk_factor_code_uniq'}
+
+30 checks, 30 passed, 0 failed
+
+WAVE4_MIGRATION_REGRESSION: PASS
