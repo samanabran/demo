@@ -1,0 +1,81 @@
+2026-09-02 12:10:26,061 580 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-09-02 12:10:26,062 580 INFO ? odoo: Odoo version 19.0-20260817 
+2026-09-02 12:10:26,062 580 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf 
+2026-09-02 12:10:26,062 580 INFO ? odoo: addons paths: _NamespacePath(['/usr/lib/python3/dist-packages/odoo/addons', '/var/lib/odoo/addons/19.0', '/mnt/extra-addons', '/usr/lib/python3/dist-packages/addons']) 
+2026-09-02 12:10:26,063 580 INFO ? odoo: database: odoo@wave3_pg:default 
+2026-09-02 12:10:26,453 580 INFO ? odoo.service.server: HTTP service (werkzeug) running on 27fc9d999889:8069 
+2026-09-02 12:10:26,474 580 INFO sgc_install odoo.tests.common: Importing test framework 
+2026-09-02 12:10:26,501 580 INFO sgc_install odoo.modules.loading: loading 1 modules... 
+2026-09-02 12:10:26,959 580 INFO sgc_install odoo.modules.loading: 1 modules loaded in 0.46s, 0 queries (+0 extra) 
+2026-09-02 12:10:26,975 580 INFO sgc_install odoo.modules.loading: loading 30 modules... 
+2026-09-02 12:10:27,843 580 INFO sgc_install odoo.modules.loading: 30 modules loaded in 0.87s, 0 queries (+0 extra) 
+2026-09-02 12:10:27,927 580 WARNING sgc_install odoo.fields: Field tenant.readiness.capability.code: unknown parameter 'unique', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:10:27,928 580 WARNING sgc_install odoo.fields: Field tenant.readiness.state.state_set_by_id: unknown parameter 'tracking', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:10:27,976 580 INFO sgc_install odoo.modules.loading: Modules loaded. 
+2026-09-02 12:10:28,066 580 INFO sgc_install odoo.registry: Registry loaded in 1.611s 
+2026-09-02 12:10:28,066 580 INFO sgc_install odoo.service.server: Starting post tests 
+2026-09-02 12:10:28,110 580 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_01_failed_screening_park_in_dlq_not_clear ... 
+2026-09-02 12:10:28,181 580 WARNING sgc_install py.warnings: /usr/lib/python3/dist-packages/odoo/orm/fields.py:832: UserWarning: Field regulatory.constant.superseded_by_id should be declared with recursive=True
+  File "/usr/bin/odoo", line 6, in <module>
+    odoo.cli.main()
+  File "/usr/lib/python3/dist-packages/odoo/cli/command.py", line 133, in main
+    command().run(args)
+  File "/usr/lib/python3/dist-packages/odoo/cli/server.py", line 127, in run
+    main(args)
+  File "/usr/lib/python3/dist-packages/odoo/cli/server.py", line 118, in main
+    rc = server.start(preload=config['db_name'], stop=stop)
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 1671, in start
+    rc = server.run(preload, stop)
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 708, in run
+    rc = preload_registries(preload)
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 1601, in preload_registries
+    result = loader.run_suite(post_install_suite, global_report=registry._assertion_report)
+  File "/usr/lib/python3/dist-packages/odoo/tests/loader.py", line 116, in run_suite
+    suite(results)
+  File "/usr/lib/python3.12/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+  File "/usr/lib/python3/dist-packages/odoo/tests/suite.py", line 79, in run
+    test(result)
+  File "/usr/lib/python3.12/unittest/case.py", line 690, in __call__
+    return self.run(*args, **kwds)
+  File "/usr/lib/python3/dist-packages/odoo/tests/case.py", line 216, in run
+    self._callTestMethod(testMethod)
+  File "/usr/lib/python3/dist-packages/odoo/tests/case.py", line 184, in _callTestMethod
+    method()
+  File "/mnt/extra-addons/sgc_process_control/tests/test_exit_gate.py", line 73, in test_exit_gate_01_failed_screening_park_in_dlq_not_clear
+    idem, _ = self.Idem.get_or_create(
+  File "/mnt/extra-addons/sgc_process_control/models/process_idempotency.py", line 89, in get_or_create
+    rec = self.create({
+  File "/usr/lib/python3/dist-packages/odoo/orm/decorators.py", line 369, in create
+    return method(self, vals_list)
+  File "/usr/lib/python3/dist-packages/odoo/orm/models.py", line 4711, in create
+    records = self._create(data_list)
+  File "/usr/lib/python3/dist-packages/odoo/orm/models.py", line 4933, in _create
+    records.modified(self._fields, create=True)
+  File "/usr/lib/python3/dist-packages/odoo/orm/models.py", line 6804, in modified
+    todo = [self._modified([self._fields[fname] for fname in fnames], create)]
+  File "/usr/lib/python3/dist-packages/odoo/orm/models.py", line 6856, in _modified
+    tree = self.pool.get_trigger_tree(fields, select=select)
+  File "/usr/lib/python3/dist-packages/odoo/orm/registry.py", line 590, in get_trigger_tree
+    if field in self._field_triggers
+  File "/usr/lib/python3.12/functools.py", line 995, in __get__
+    val = self.func(instance)
+  File "/usr/lib/python3/dist-packages/odoo/orm/registry.py", line 685, in _field_triggers
+    dependencies = list(field.resolve_depends(self))
+  File "/usr/lib/python3/dist-packages/odoo/orm/fields.py", line 832, in resolve_depends
+    warnings.warn(f"Field {self} should be declared with recursive=True", stacklevel=1)
+ 
+2026-09-02 12:10:28,239 580 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_02_cleared_call_path_works ... 
+2026-09-02 12:10:28,254 580 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_03_fail_closed_mixin_raises_on_missing_case ... 
+2026-09-02 12:10:28,286 580 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_04_fail_closed_mixin_blocks_on_unknown_case_id ... 
+2026-09-02 12:10:28,309 580 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_05_fail_closed_mixin_blocks_on_pending_case ... 
+2026-09-02 12:10:28,310 580 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: skipped TestExitGate.test_exit_gate_05_fail_closed_mixin_blocks_on_pending_case : kyc_management not installed in this test DB 
+2026-09-02 12:10:28,312 580 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_06_fail_closed_mixin_raises_when_compliance_case_model_unset ... 
+2026-09-02 12:10:28,344 580 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_07_fail_closed_mixin_raises_when_compliance_case_model_not_installed ... 
+2026-09-02 12:10:28,375 580 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-09-02 12:10:28,376 580 INFO sgc_install odoo.service.server: 7 post-tests in 0.31s, 122 queries 
+2026-09-02 12:10:28,376 580 INFO sgc_install odoo.tests.stats: sgc_process_control: 9 tests 0.27s 122 queries 
+2026-09-02 12:10:28,377 580 INFO sgc_install odoo.tests.result: 0 failed, 0 error(s) of 7 tests when loading database 'sgc_install' 
+2026-09-02 12:10:28,377 580 INFO sgc_install odoo.service.server: Initiating shutdown 
+2026-09-02 12:10:28,378 580 INFO sgc_install odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-09-02 12:10:28,469 580 INFO sgc_install odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  

@@ -104,7 +104,7 @@ class ProcessException(models.Model):
         "res.users", string="Owner", tracking=True, index=True,
     )
     team_id = fields.Many2one(
-        "res.teams", string="Team",
+        "res.groups", string="Team",
         help="Routing target on auto-classified exceptions.",
     )
 

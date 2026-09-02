@@ -18,7 +18,7 @@
                 <filter name="filter_critical" string="Critical" domain="[('severity','=','critical')]"/>
                 <separator/>
                 <filter name="filter_alerting" string="Alerting" domain="[('alert','=',True)]"/>
-                <group expand="0" string="Group By">
+                <group name="group_by">
                     <filter name="group_by_classification" string="Classification" context="{'group_by':'classification'}"/>
                     <filter name="group_by_severity" string="Severity" context="{'group_by':'severity'}"/>
                     <filter name="group_by_status" string="Status" context="{'group_by':'status'}"/>

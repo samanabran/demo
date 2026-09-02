@@ -59,14 +59,16 @@ class TestIsolationDirectSearch(TransactionCase):
             "login": "test_isolation_tenant_a_user",
             "email": "iso_a@example.com",
             "company_id": cls.tenant_a.id,
-            "groups_id": [(4, cls.env.ref("base.group_user").id)],
+            "company_ids": [(4, cls.tenant_a.id)],
+            "group_ids": [(4, cls.env.ref("base.group_user").id)],
         })
         cls.user_b = cls.env["res.users"].create({
             "name": "Tenant B User",
             "login": "test_isolation_tenant_b_user",
             "email": "iso_b@example.com",
             "company_id": cls.tenant_b.id,
-            "groups_id": [(4, cls.env.ref("base.group_user").id)],
+            "company_ids": [(4, cls.tenant_b.id)],
+            "group_ids": [(4, cls.env.ref("base.group_user").id)],
         })
 
     def _seed_tenant_a_record(self, model_name):

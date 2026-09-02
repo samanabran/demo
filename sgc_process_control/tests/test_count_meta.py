@@ -20,6 +20,18 @@ import unittest
 from odoo.tests import TransactionCase, tagged
 
 
+def _discover_test_classes(test_pkg):
+    """Classes live on the submodules ``tests/__init__.py`` imports, not
+    directly on the ``tests`` package object — ``inspect.getmembers`` on
+    the package alone finds nothing.
+    """
+    discovered = []
+    for _, submodule in inspect.getmembers(test_pkg, inspect.ismodule):
+        for _, obj in inspect.getmembers(submodule, inspect.isclass):
+            discovered.append(obj)
+    return discovered
+
+
 @tagged("post_install", "-at_install", "sgc_install", "sgc_process_control")
 class TestCountMeta(TransactionCase):
     # Ground truth as of this commit: TestCountMeta (this class),
@@ -29,13 +41,13 @@ class TestCountMeta(TransactionCase):
     EXPECTED_EXIT_GATE_CLASS_NAME = "TestExitGate"
 
     def test_count_classes_in_module(self):
-        from sgc_process_control import tests as test_pkg
+        from odoo.addons.sgc_process_control import tests as test_pkg
 
-        discovered = []
-        for _, obj in inspect.getmembers(test_pkg, inspect.isclass):
-            if obj.__module__.startswith("sgc_process_control.tests"):
-                if issubclass(obj, unittest.TestCase):
-                    discovered.append(obj.__name__)
+        discovered = [
+            obj.__name__ for obj in _discover_test_classes(test_pkg)
+            if obj.__module__.startswith("odoo.addons.sgc_process_control.tests")
+            and issubclass(obj, unittest.TestCase)
+        ]
         self.assertEqual(
             len(discovered), self.EXPECTED_CLASS_COUNT,
             f"Expected {self.EXPECTED_CLASS_COUNT} test class(es) "
@@ -51,10 +63,10 @@ class TestCountMeta(TransactionCase):
         zero, and the run is recorded green with zero exit-gate coverage.
         This assertion catches that drift.
         """
-        from sgc_process_control import tests as test_pkg
+        from odoo.addons.sgc_process_control import tests as test_pkg
 
         cls = None
-        for _, obj in inspect.getmembers(test_pkg, inspect.isclass):
+        for obj in _discover_test_classes(test_pkg):
             if obj.__name__ == self.EXPECTED_EXIT_GATE_CLASS_NAME:
                 if issubclass(obj, unittest.TestCase):
                     cls = obj
@@ -70,10 +82,10 @@ class TestCountMeta(TransactionCase):
         """Exactly seven test methods. Any drift is a regression — the
         brief §6.4 says the exit-gate must show 7 cases, not 5.
         """
-        from sgc_process_control import tests as test_pkg
+        from odoo.addons.sgc_process_control import tests as test_pkg
 
         cls = None
-        for _, obj in inspect.getmembers(test_pkg, inspect.isclass):
+        for obj in _discover_test_classes(test_pkg):
             if obj.__name__ == self.EXPECTED_EXIT_GATE_CLASS_NAME:
                 cls = obj
                 break

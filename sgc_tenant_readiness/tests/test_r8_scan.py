@@ -69,7 +69,7 @@ class TestR8MechanicalScan(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        import sgc_tenant_readiness
+        from odoo.addons import sgc_tenant_readiness
         cls.MODULE_DIR = os.path.dirname(sgc_tenant_readiness.__file__)
 
     def _walk_module_files(self):

@@ -113,15 +113,17 @@ class TenantHighRiskOverride(models.Model):
         required=True,
     )
     override_rationale = fields.Text(
-        required=True,
         help="Where the management decision differs from the CO/MLRO's "
              "recommendation, record the rationale here. Required per "
-             "amendment §10.4 — this is the recording of the override.",
+             "amendment §10.4 once a management decision is recorded — "
+             "see _check_override_text_present — not required earlier in "
+             "the workflow (draft / awaiting consultation).",
     )
     mitigation = fields.Text(
-        required=True,
         help="Mitigation measures attached to the override. Required per "
-             "amendment §10.4.",
+             "amendment §10.4 once a management decision is recorded — "
+             "see _check_override_text_present — not required earlier in "
+             "the workflow (draft / awaiting consultation).",
     )
     decision_at = fields.Datetime(
         required=True, default=fields.Datetime.now,

@@ -60,11 +60,10 @@ class ProcessIdempotency(models.Model):
     expires_at = fields.Datetime(required=True)
     completed_at = fields.Datetime()
 
-    _sql_constraints = [
-        ("key_target_op_uniq",
-         "UNIQUE(key, target_system, operation)",
-         "Idempotency key must be unique per (target_system, operation)."),
-    ]
+    _key_target_op_uniq = models.Constraint(
+        "UNIQUE(key, target_system, operation)",
+        "Idempotency key must be unique per (target_system, operation).",
+    )
 
     # --- API -------------------------------------------------------------
 

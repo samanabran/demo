@@ -11,7 +11,7 @@
                 <field name="idempotency_key"/>
                 <filter name="filter_parked" string="Parked" domain="[('status','=','parked')]"/>
                 <filter name="filter_replayed" string="Replayed" domain="[('status','=','replayed')]"/>
-                <group expand="0" string="Group By">
+                <group name="group_by">
                     <filter name="group_by_dlq_target" string="Target system" context="{'group_by':'target_system'}"/>
                     <filter name="group_by_dlq_status" string="Status" context="{'group_by':'status'}"/>
                 </group>

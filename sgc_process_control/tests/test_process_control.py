@@ -60,9 +60,8 @@ class TestProcessControl(TransactionCase):
             classification="integration",
             max_retries=2,
         )
-        exc.write({"retry_count": 5})
         with self.assertRaises(ValidationError):
-            exc._check_retry_count_within_max()
+            exc.write({"retry_count": 5})
 
     def test_04_retry_count_can_exceed_max_on_dead_letter(self):
         exc = self.Exception.raise_exception(

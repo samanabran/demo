@@ -250,7 +250,6 @@ class TestRegulatoryIntegrity(TransactionCase):
         with self.assertRaises(ValueError):
             datetime.strptime(rec.value_text, "%Y-%m-%d")
         # ISO calendar-date parsing must also raise.
-        from datetime import date
         with self.assertRaises(ValueError):
             date.fromisoformat(rec.value_text)
 

@@ -1,0 +1,221 @@
+2026-09-02 12:09:57,677 571 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-09-02 12:09:57,678 571 INFO ? odoo: Odoo version 19.0-20260817 
+2026-09-02 12:09:57,678 571 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf 
+2026-09-02 12:09:57,678 571 INFO ? odoo: addons paths: _NamespacePath(['/usr/lib/python3/dist-packages/odoo/addons', '/var/lib/odoo/addons/19.0', '/mnt/extra-addons', '/usr/lib/python3/dist-packages/addons']) 
+2026-09-02 12:09:57,678 571 INFO ? odoo: database: odoo@wave3_pg:default 
+2026-09-02 12:09:58,079 571 INFO ? odoo.service.server: HTTP service (werkzeug) running on 27fc9d999889:8069 
+2026-09-02 12:09:58,099 571 INFO sgc_install odoo.tests.common: Importing test framework 
+2026-09-02 12:09:58,137 571 INFO sgc_install odoo.modules.loading: loading 1 modules... 
+2026-09-02 12:09:58,142 571 INFO sgc_install odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries (+0 extra) 
+2026-09-02 12:09:58,186 571 INFO sgc_install odoo.modules.loading: updating modules list 
+2026-09-02 12:09:58,189 571 INFO sgc_install odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-09-02 12:09:59,559 571 INFO sgc_install odoo.addons.base.models.ir_module: ALLOW access to module.button_upgrade on ['SGC Regulatory Rules Pack', 'SGC Process Control', 'SGC Tenant Readiness'] to user __system__ #1 via n/a 
+2026-09-02 12:09:59,559 571 INFO sgc_install odoo.addons.base.models.ir_module: ALLOW access to module.update_list on ['SGC Regulatory Rules Pack', 'SGC Process Control', 'SGC Tenant Readiness'] to user __system__ #1 via n/a 
+2026-09-02 12:10:01,360 571 INFO sgc_install odoo.addons.base.models.ir_module: ALLOW access to module.button_install on [] to user __system__ #1 via n/a 
+2026-09-02 12:10:01,423 571 INFO sgc_install odoo.modules.loading: loading 30 modules... 
+2026-09-02 12:10:01,885 571 INFO sgc_install odoo.modules.loading: Loading module sgc_process_control (25/30) 
+2026-09-02 12:10:02,175 571 INFO sgc_install odoo.registry: module sgc_process_control: creating or updating database tables 
+2026-09-02 12:10:02,237 571 WARNING sgc_install odoo.schema: Index attribute on 'process.exception.summary' ignored, only trigram index is supported for translated fields 
+<string>:33: (ERROR/3) Unexpected indentation.
+2026-09-02 12:10:02,339 571 INFO sgc_install odoo.modules.loading: loading sgc_process_control/security/security.xml 
+2026-09-02 12:10:02,375 571 INFO sgc_install odoo.modules.loading: loading sgc_process_control/security/ir.model.access.csv 
+2026-09-02 12:10:02,430 571 INFO sgc_install odoo.modules.loading: loading sgc_process_control/security/ir_rule_tenant_isolation.xml 
+2026-09-02 12:10:02,440 571 INFO sgc_install odoo.modules.loading: loading sgc_process_control/data/process_classification_data.xml 
+2026-09-02 12:10:02,449 571 INFO sgc_install odoo.modules.loading: loading sgc_process_control/views/process_exception_views.xml 
+2026-09-02 12:10:02,516 571 INFO sgc_install odoo.modules.loading: loading sgc_process_control/views/process_dlq_views.xml 
+2026-09-02 12:10:02,560 571 INFO sgc_install odoo.modules.loading: loading sgc_process_control/views/process_idempotency_views.xml 
+2026-09-02 12:10:02,590 571 INFO sgc_install odoo.modules.loading: loading sgc_process_control/views/process_sla_views.xml 
+2026-09-02 12:10:02,621 571 INFO sgc_install odoo.modules.loading: loading sgc_process_control/views/process_menu.xml 
+2026-09-02 12:10:02,722 571 INFO sgc_install odoo.modules.loading: Module sgc_process_control loaded in 0.84s, 259 queries (+259 other) 
+2026-09-02 12:10:02,722 571 INFO sgc_install odoo.modules.loading: Loading module sgc_regulatory_rules_pack (26/30) 
+2026-09-02 12:10:02,845 571 INFO sgc_install odoo.registry: module sgc_regulatory_rules_pack: creating or updating database tables 
+2026-09-02 12:10:02,857 571 WARNING sgc_install odoo.addons.base.models.ir_model: Two fields (jurisdiction_code, code) of regulatory.constant() have the same label: Code. [Modules: sgc_regulatory_rules_pack and sgc_regulatory_rules_pack] 
+2026-09-02 12:10:02,873 571 WARNING sgc_install odoo.schema: Index attribute on 'regulatory.jurisdiction.name' ignored, only trigram index is supported for translated fields 
+2026-09-02 12:10:02,873 571 WARNING sgc_install odoo.schema: Index attribute on 'regulatory.constant.name' ignored, only trigram index is supported for translated fields 
+<string>:3: (WARNING/2) Title underline too short.
+
+SGC Regulatory Rules Pack
+========================
+2026-09-02 12:10:02,915 571 WARNING sgc_install py.warnings: /usr/lib/python3/dist-packages/odoo/orm/fields.py:832: UserWarning: Field regulatory.constant.superseded_by_id should be declared with recursive=True
+  File "/usr/bin/odoo", line 6, in <module>
+    odoo.cli.main()
+  File "/usr/lib/python3/dist-packages/odoo/cli/command.py", line 133, in main
+    command().run(args)
+  File "/usr/lib/python3/dist-packages/odoo/cli/server.py", line 127, in run
+    main(args)
+  File "/usr/lib/python3/dist-packages/odoo/cli/server.py", line 118, in main
+    rc = server.start(preload=config['db_name'], stop=stop)
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 1671, in start
+    rc = server.run(preload, stop)
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 708, in run
+    rc = preload_registries(preload)
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 1585, in preload_registries
+    registry = Registry.new(dbname, update_module=update_module, install_modules=config['init'], upgrade_modules=config['update'], reinit_modules=config['reinit'])
+  File "/usr/lib/python3/dist-packages/odoo/tools/func.py", line 88, in locked
+    return func(inst, *args, **kwargs)
+  File "/usr/lib/python3/dist-packages/odoo/orm/registry.py", line 189, in new
+    load_modules(
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 464, in load_modules
+    load_module_graph(
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 222, in load_module_graph
+    module.write(module.get_values_from_terp(package.manifest))
+  File "/usr/lib/python3/dist-packages/odoo/orm/models.py", line 4417, in write
+    if self.pool.is_modifying_relations(field):
+  File "/usr/lib/python3/dist-packages/odoo/orm/registry.py", line 704, in is_modifying_relations
+    result = field in self._field_triggers and bool(
+  File "/usr/lib/python3.12/functools.py", line 995, in __get__
+    val = self.func(instance)
+  File "/usr/lib/python3/dist-packages/odoo/orm/registry.py", line 685, in _field_triggers
+    dependencies = list(field.resolve_depends(self))
+  File "/usr/lib/python3/dist-packages/odoo/orm/fields.py", line 832, in resolve_depends
+    warnings.warn(f"Field {self} should be declared with recursive=True", stacklevel=1)
+ 
+2026-09-02 12:10:02,915 571 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/security/security.xml 
+2026-09-02 12:10:02,923 571 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/security/ir.model.access.csv 
+2026-09-02 12:10:02,937 571 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/data/regulatory_jurisdiction_data.xml 
+2026-09-02 12:10:02,956 571 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/data/regulatory_constant_dubai_aml_data.xml 
+2026-09-02 12:10:02,991 571 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/data/regulatory_constant_dubai_real_estate_data.xml 
+2026-09-02 12:10:03,042 571 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/data/regulatory_constant_einvoicing_data.xml 
+2026-09-02 12:10:03,063 571 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/data/regulatory_constant_uae_guidance_data.xml 
+2026-09-02 12:10:03,086 571 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/views/regulatory_jurisdiction_views.xml 
+2026-09-02 12:10:03,172 571 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/views/regulatory_constant_views.xml 
+2026-09-02 12:10:03,207 571 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/views/regulatory_constant_template_views.xml 
+2026-09-02 12:10:03,219 571 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/views/regulatory_menu.xml 
+2026-09-02 12:10:03,308 571 INFO sgc_install odoo.modules.loading: Module sgc_regulatory_rules_pack loaded in 0.59s, 334 queries (+334 other) 
+2026-09-02 12:10:03,317 571 INFO sgc_install odoo.modules.loading: Loading module sgc_tenant_readiness (28/30) 
+2026-09-02 12:10:03,529 571 WARNING sgc_install odoo.fields: Field tenant.readiness.capability.code: unknown parameter 'unique', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:10:03,529 571 WARNING sgc_install odoo.fields: Field tenant.readiness.state.state_set_by_id: unknown parameter 'tracking', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:10:03,531 571 INFO sgc_install odoo.registry: module sgc_tenant_readiness: creating or updating database tables 
+2026-09-02 12:10:03,625 571 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/security/security.xml 
+2026-09-02 12:10:03,635 571 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/security/ir.model.access.csv 
+2026-09-02 12:10:03,674 571 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/security/ir_rule_tenant_isolation.xml 
+2026-09-02 12:10:03,682 571 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/data/tenant_readiness_capability_data.xml 
+2026-09-02 12:10:03,695 571 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/views/tenant_compliance_officer_views.xml 
+2026-09-02 12:10:03,734 571 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/views/tenant_readiness_state_views.xml 
+2026-09-02 12:10:03,752 571 WARNING sgc_install odoo.addons.base.models.ir_ui_view: action_mark_blocked on tenant.readiness.state has parameters and cannot be called from a button
+View error context:
+{'file': '/mnt/extra-addons/sgc_tenant_readiness/views/tenant_readiness_state_views.xml',
+ 'line': 11,
+ 'name': 'tenant.readiness.state.form',
+ 'view': ir.ui.view(452,),
+ 'view.model': 'tenant.readiness.state',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'view_tenant_readiness_state_form'} 
+2026-09-02 12:10:03,759 571 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/views/tenant_high_risk_override_views.xml 
+2026-09-02 12:10:03,784 571 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/views/tenant_readiness_dashboard_views.xml 
+2026-09-02 12:10:03,799 571 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/views/tenant_menu.xml 
+2026-09-02 12:10:03,867 571 INFO sgc_install odoo.modules.loading: Module sgc_tenant_readiness loaded in 0.55s, 310 queries (+310 other) 
+2026-09-02 12:10:03,966 571 INFO sgc_install odoo.modules.loading: 30 modules loaded in 2.54s, 903 queries (+903 extra) 
+2026-09-02 12:10:04,088 571 WARNING sgc_install odoo.fields: Field tenant.readiness.capability.code: unknown parameter 'unique', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:10:04,088 571 WARNING sgc_install odoo.fields: Field tenant.readiness.state.state_set_by_id: unknown parameter 'tracking', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:10:04,159 571 WARNING sgc_install odoo.fields: Field tenant.readiness.capability.code: unknown parameter 'unique', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:10:04,159 571 WARNING sgc_install odoo.fields: Field tenant.readiness.state.state_set_by_id: unknown parameter 'tracking', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:10:04,286 571 INFO sgc_install odoo.registry: verifying fields for every extended model 
+2026-09-02 12:10:04,338 571 WARNING sgc_install odoo.addons.base.models.ir_model: Two fields (jurisdiction_code, code) of regulatory.constant() have the same label: Code. [Modules: sgc_regulatory_rules_pack and sgc_regulatory_rules_pack] 
+2026-09-02 12:10:04,375 571 WARNING sgc_install odoo.schema: Index attribute on 'process.exception.summary' ignored, only trigram index is supported for translated fields 
+2026-09-02 12:10:04,375 571 WARNING sgc_install odoo.schema: Index attribute on 'regulatory.jurisdiction.name' ignored, only trigram index is supported for translated fields 
+2026-09-02 12:10:04,375 571 WARNING sgc_install odoo.schema: Index attribute on 'regulatory.constant.name' ignored, only trigram index is supported for translated fields 
+2026-09-02 12:10:04,675 571 INFO sgc_install odoo.modules.loading: Modules loaded. 
+2026-09-02 12:10:04,690 571 INFO sgc_install odoo.registry: Registry changed, signaling through the database 
+2026-09-02 12:10:04,692 571 INFO sgc_install odoo.registry: Registry loaded in 6.612s 
+2026-09-02 12:10:04,693 571 INFO sgc_install odoo.service.server: Starting post tests 
+2026-09-02 12:10:04,698 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_count_meta: Starting TestCountMeta.test_count_classes_in_module ... 
+2026-09-02 12:10:04,699 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_count_meta: Starting TestCountMeta.test_exit_gate_class_exists_with_expected_name ... 
+2026-09-02 12:10:04,700 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_count_meta: Starting TestCountMeta.test_exit_gate_class_has_expected_test_count ... 
+2026-09-02 12:10:04,703 571 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-09-02 12:10:04,705 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_01_failed_screening_park_in_dlq_not_clear ... 
+2026-09-02 12:10:04,737 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_02_cleared_call_path_works ... 
+2026-09-02 12:10:04,742 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_03_fail_closed_mixin_raises_on_missing_case ... 
+2026-09-02 12:10:04,757 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_04_fail_closed_mixin_blocks_on_unknown_case_id ... 
+2026-09-02 12:10:04,772 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_05_fail_closed_mixin_blocks_on_pending_case ... 
+2026-09-02 12:10:04,773 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: skipped TestExitGate.test_exit_gate_05_fail_closed_mixin_blocks_on_pending_case : kyc_management not installed in this test DB 
+2026-09-02 12:10:04,773 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_06_fail_closed_mixin_raises_when_compliance_case_model_unset ... 
+2026-09-02 12:10:04,790 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_exit_gate: Starting TestExitGate.test_exit_gate_07_fail_closed_mixin_raises_when_compliance_case_model_not_installed ... 
+2026-09-02 12:10:04,809 571 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-09-02 12:10:04,810 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_process_control: Starting TestProcessControl.test_01_exception_create_minimal ... 
+2026-09-02 12:10:04,825 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_process_control: Starting TestProcessControl.test_02_exception_lifecycle ... 
+2026-09-02 12:10:04,841 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_process_control: Starting TestProcessControl.test_03_retry_count_within_max_required_for_open ... 
+2026-09-02 12:10:04,856 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_process_control: Starting TestProcessControl.test_04_retry_count_can_exceed_max_on_dead_letter ... 
+2026-09-02 12:10:04,870 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_process_control: Starting TestProcessControl.test_05_dlq_park_creates_linked_exception ... 
+2026-09-02 12:10:04,890 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_process_control: Starting TestProcessControl.test_06_idempotency_get_or_create ... 
+2026-09-02 12:10:04,898 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_process_control: Starting TestProcessControl.test_07_idempotency_different_op_same_key ... 
+2026-09-02 12:10:04,904 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_process_control: Starting TestProcessControl.test_08_sla_attempt_exhaustion_raises_exception ... 
+2026-09-02 12:10:04,922 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_process_control: Starting TestProcessControl.test_09_sla_pause_resume ... 
+2026-09-02 12:10:04,930 571 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-09-02 12:10:04,932 571 INFO sgc_install odoo.addons.sgc_process_control.tests.test_upgrade_migrations: Starting TestUpgradeMigrations.test_01_anchor_migration_no_creation_derived_expiry ... 
+2026-09-02 12:10:04,935 571 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-09-02 12:10:04,936 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_count_meta: Starting TestCountMeta.test_count_classes_in_module ... 
+2026-09-02 12:10:04,938 571 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-09-02 12:10:04,941 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlocking.test_01_empty_tenant_blocks_goaml_filing ... 
+2026-09-02 12:10:04,948 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlocking.test_02_empty_tenant_blocks_screening ... 
+2026-09-02 12:10:04,953 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlocking.test_03_empty_tenant_blocks_listing_publication ... 
+2026-09-02 12:10:04,958 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlocking.test_04_empty_tenant_blocks_tenancy_contract ... 
+2026-09-02 12:10:04,964 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlocking.test_05_empty_tenant_blocks_offplan_sales ... 
+2026-09-02 12:10:04,971 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlocking.test_06_empty_tenant_blocks_service_charge ... 
+2026-09-02 12:10:04,978 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlocking.test_07_empty_tenant_blocks_einvoicing ... 
+2026-09-02 12:10:04,983 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlocking.test_08_no_capability_passes_while_unconfigured ... 
+2026-09-02 12:10:04,998 571 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-09-02 12:10:05,000 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlockingConfigured.test_configured_einvoicing_blocks_without_revenue_band ... 
+2026-09-02 12:10:05,130 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlockingConfigured.test_configured_einvoicing_unblocks_with_complete_set ... 
+2026-09-02 12:10:05,276 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlockingConfigured.test_configured_goaml_filing_unblocks_with_complete_set ... 
+2026-09-02 12:10:06,552 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlockingConfigured.test_configured_listing_publication_unblocks_with_complete_set ... 
+2026-09-02 12:10:06,659 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlockingConfigured.test_configured_manual_block_survives_full_configuration ... 
+2026-09-02 12:10:08,511 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlockingConfigured.test_configured_offplan_sales_unblocks_with_complete_set ... 
+2026-09-02 12:10:08,632 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlockingConfigured.test_configured_partial_config_still_blocks_every_capability ... 
+2026-09-02 12:10:09,451 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlockingConfigured.test_configured_screening_unblocks_with_complete_set ... 
+2026-09-02 12:10:09,711 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlockingConfigured.test_configured_service_charge_unblocks_with_complete_set ... 
+2026-09-02 12:10:09,828 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlockingConfigured.test_configured_tenancy_contract_unblocks_with_complete_set ... 
+2026-09-02 12:10:09,918 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_fresh_tenant_blocking: Starting TestFreshTenantBlockingConfigured.test_configured_unblock_reverts_to_computed_not_to_ready ... 
+2026-09-02 12:10:09,925 571 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-09-02 12:10:10,296 571 INFO sgc_install odoo.addons.auth_signup.models.res_users: Signup email sent for user <test_isolation_tenant_a_user> to <iso_a@example.com> 
+2026-09-02 12:10:10,429 571 INFO sgc_install odoo.addons.auth_signup.models.res_users: Signup email sent for user <test_isolation_tenant_b_user> to <iso_b@example.com> 
+2026-09-02 12:10:10,432 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_isolation: Starting TestIsolationDirectSearch.test_01_every_scoped_model_has_ir_rule_coverage ... 
+2026-09-02 12:10:10,449 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_isolation: Starting TestIsolationDirectSearch.test_02_tenant_b_direct_search_cannot_read_tenant_a_exception ... 
+2026-09-02 12:10:10,485 571 INFO sgc_install odoo.addons.base.models.ir_model: Access Denied by ACLs for operation: read, uid: 14, model: process.exception 
+2026-09-02 12:10:10,497 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_isolation: Starting TestIsolationDirectSearch.test_03_tenant_b_direct_search_cannot_read_tenant_a_officer ... 
+2026-09-02 12:10:10,588 571 INFO sgc_install odoo.addons.base.models.ir_model: Access Denied by ACLs for operation: read, uid: 14, model: tenant.compliance.officer 
+2026-09-02 12:10:10,593 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_isolation: Starting TestIsolationDirectSearch.test_04_tenant_b_direct_search_cannot_read_tenant_a_state ... 
+2026-09-02 12:10:10,603 571 INFO sgc_install odoo.addons.base.models.ir_model: Access Denied by ACLs for operation: read, uid: 14, model: tenant.readiness.state 
+2026-09-02 12:10:10,609 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_isolation: Starting TestIsolationDirectSearch.test_05_tenant_b_direct_search_cannot_read_tenant_a_override ... 
+2026-09-02 12:10:10,638 571 INFO sgc_install odoo.addons.base.models.ir_model: Access Denied by ACLs for operation: read, uid: 14, model: tenant.high.risk.override 
+2026-09-02 12:10:10,643 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_isolation: Starting TestIsolationDirectSearch.test_06_configuring_tenant_a_leaves_tenant_b_fully_blocked ... 
+2026-09-02 12:10:10,651 571 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 2 checked, 2 removed 
+2026-09-02 12:10:10,652 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_r8_scan: Starting TestR8MechanicalScan.test_no_prohibited_compliance_claims_in_source ... 
+2026-09-02 12:10:10,723 571 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 0 checked, 0 removed 
+2026-09-02 12:10:10,876 571 INFO sgc_install odoo.addons.auth_signup.models.res_users: Signup email sent for user <test_compliance_officer_segregation> to <compliance_officer_segregation@example.com> 
+2026-09-02 12:10:11,007 571 INFO sgc_install odoo.addons.auth_signup.models.res_users: Signup email sent for user <test_normal_agent_segregation> to <normal_agent_segregation@example.com> 
+2026-09-02 12:10:11,096 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_segregation: Starting TestMlroSegregation.test_01_compliance_user_blocked_from_deal_assignment ... 
+2026-09-02 12:10:11,102 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_segregation: Starting TestMlroSegregation.test_02_normal_user_allowed ... 
+2026-09-02 12:10:11,104 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_segregation: Starting TestMlroSegregation.test_03_override_with_rationale_allows ... 
+2026-09-02 12:10:11,106 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_segregation: Starting TestMlroSegregation.test_04_override_without_rationale_blocked ... 
+2026-09-02 12:10:11,118 571 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 2 checked, 2 removed 
+2026-09-02 12:10:11,279 571 INFO sgc_install odoo.addons.auth_signup.models.res_users: Signup email sent for user <test_primary_compliance_officer> to <primary@example.com> 
+2026-09-02 12:10:11,414 571 INFO sgc_install odoo.addons.auth_signup.models.res_users: Signup email sent for user <test_alternate_compliance_officer> to <alternate@example.com> 
+2026-09-02 12:10:11,579 571 INFO sgc_install odoo.addons.auth_signup.models.res_users: Signup email sent for user <test_senior_manager> to <manager@example.com> 
+2026-09-02 12:10:11,594 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_tenant_readiness: Starting TestTenantReadiness.test_01_one_primary_one_alternate_per_company ... 
+2026-09-02 12:10:11,692 571 ERROR sgc_install odoo.sql_db: bad query: b'INSERT INTO "tenant_compliance_officer" ("create_date", "create_uid", "role", "state", "tenant_company_id", "user_id", "write_date", "write_uid") VALUES (\'2026-09-02T12:10:11.119821\'::timestamp, 1, \'primary\', \'draft\', 1, 19, \'2026-09-02T12:10:11.119821\'::timestamp, 1) RETURNING "id"'
+ERROR: duplicate key value violates unique constraint "tenant_compliance_officer_role_per_company_uniq"
+DETAIL:  Key (role, tenant_company_id)=(primary, 1) already exists.
+ 
+2026-09-02 12:10:11,695 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_tenant_readiness: Starting TestTenantReadiness.test_02_activation_requires_fit_and_proper ... 
+2026-09-02 12:10:11,789 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_tenant_readiness: Starting TestTenantReadiness.test_03_passing_assessment_requires_attestations ... 
+2026-09-02 12:10:11,803 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_tenant_readiness: Starting TestTenantReadiness.test_04_full_pass_lifecycle ... 
+2026-09-02 12:10:11,899 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_tenant_readiness: Starting TestTenantReadiness.test_05_high_risk_override_segregation_enforced ... 
+2026-09-02 12:10:11,910 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_tenant_readiness: Starting TestTenantReadiness.test_06_high_risk_override_requires_rationale_when_differing ... 
+2026-09-02 12:10:11,936 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_tenant_readiness: Starting TestTenantReadiness.test_07_high_risk_override_full_lifecycle_with_ack ... 
+2026-09-02 12:10:11,972 571 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 3 checked, 3 removed 
+2026-09-02 12:10:11,974 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_upgrade_migrations: Starting TestTenantReadinessUpgradeMigrations.test_01_residency_field_exists_and_defaults_to_uae_mainland ... 
+2026-09-02 12:10:12,147 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_upgrade_migrations: Starting TestTenantReadinessUpgradeMigrations.test_02_residency_field_rejects_invalid_value ... 
+2026-09-02 12:10:12,150 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_upgrade_migrations: Starting TestTenantReadinessUpgradeMigrations.test_03_residency_migration_no_silent_default_to_uae_mainland ... 
+2026-09-02 12:10:12,274 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_upgrade_migrations: Starting TestTenantReadinessUpgradeMigrations.test_04_legal_regime_ref_resolved_by_lookup_not_hardcoded ... 
+2026-09-02 12:10:12,437 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_upgrade_migrations: Starting TestTenantReadinessUpgradeMigrations.test_05_disclosure_accepted_has_no_default ... 
+2026-09-02 12:10:12,547 571 INFO sgc_install odoo.addons.sgc_tenant_readiness.tests.test_upgrade_migrations: Starting TestTenantReadinessUpgradeMigrations.test_06_tenant_decision_field_survives_upgrade ... 
+2026-09-02 12:10:12,689 571 INFO sgc_install odoo.addons.auth_signup.models.res_users: Signup email sent for user <test_wave3_upgrade_officer> to <wave3_upgrade_officer@example.com> 
+2026-09-02 12:10:12,763 571 INFO sgc_install odoo.addons.base.models.ir_attachment: filestore gc 1 checked, 1 removed 
+2026-09-02 12:10:12,764 571 INFO sgc_install odoo.service.server: 64 post-tests in 8.07s, 5193 queries 
+2026-09-02 12:10:12,764 571 INFO sgc_install odoo.tests.stats: sgc_process_control: 28 tests 0.24s 273 queries 
+2026-09-02 12:10:12,764 571 INFO sgc_install odoo.tests.stats: sgc_tenant_readiness: 60 tests 7.82s 4920 queries 
+2026-09-02 12:10:12,764 571 INFO sgc_install odoo.tests.result: 0 failed, 0 error(s) of 64 tests when loading database 'sgc_install' 
+2026-09-02 12:10:12,764 571 INFO sgc_install odoo.service.server: Initiating shutdown 
+2026-09-02 12:10:12,764 571 INFO sgc_install odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-09-02 12:10:12,880 571 INFO sgc_install odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  

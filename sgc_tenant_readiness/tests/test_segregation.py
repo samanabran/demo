@@ -36,14 +36,14 @@ class TestMlroSegregation(TransactionCase):
             "login": "test_compliance_officer_segregation",
             "email": "compliance_officer_segregation@example.com",
             "company_id": cls.company.id,
-            "groups_id": [(4, cls.env.ref("base.group_user").id)],
+            "group_ids": [(4, cls.env.ref("base.group_user").id)],
         })
         cls.normal_user = cls.env["res.users"].create({
             "name": "Normal Agent Test",
             "login": "test_normal_agent_segregation",
             "email": "normal_agent_segregation@example.com",
             "company_id": cls.company.id,
-            "groups_id": [(4, cls.env.ref("base.group_user").id)],
+            "group_ids": [(4, cls.env.ref("base.group_user").id)],
         })
         fap = cls.FitAndProper.create({
             "subject_user_id": cls.compliance_user.id,
@@ -52,13 +52,14 @@ class TestMlroSegregation(TransactionCase):
             "skills_attested": True,
             "professional_path_attested": True,
         })
-        cls.Officer.create({
+        officer = cls.Officer.create({
             "role": "primary",
             "user_id": cls.compliance_user.id,
             "tenant_company_id": cls.company.id,
             "fit_and_proper_id": fap.id,
             "appointment_date": "2026-09-01",
         })
+        officer.action_activate()
 
     def test_01_compliance_user_blocked_from_deal_assignment(self):
         Deal = self.env["test.deal"]

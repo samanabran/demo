@@ -258,18 +258,11 @@ class TestRegulatoryRulesPack(TransactionCase):
     # ------------------------------------------------------------------ #
 
     def test_15_every_seeded_constant_resolves(self):
-        seeded_codes = self.Constant.search([]).mapped("code")
-        for code in seeded_codes:
-            rec = self.Constant.get_effective(code, rec_jurisdiction_for(code))
-            self.assertIsNotNone(rec, f"{code} did not resolve")
+        for seed in self.Constant.search([]):
+            rec = self.Constant.get_effective(seed.code, seed.jurisdiction_id.code)
+            self.assertIsNotNone(rec, f"{seed.code} did not resolve")
             if rec.unit == "text":
-                self.assertTrue(rec.value_text, f"{code} has empty value_text")
+                self.assertTrue(rec.value_text, f"{seed.code} has empty value_text")
             elif rec.unit != "bool":
                 self.assertNotEqual(rec.value_numeric, 0.0,
-                                    f"{code} has zero value_numeric")
-
-
-def rec_jurisdiction_for(code):
-    """Helper for the round-trip test."""
-    return "dubai"  # All seeded codes resolve against Dubai or uae_federal;
-    # the test is generous — it only requires the lookup to not raise.
+                                    f"{seed.code} has zero value_numeric")

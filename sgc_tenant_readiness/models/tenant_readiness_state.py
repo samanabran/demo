@@ -75,11 +75,10 @@ class TenantReadinessState(models.Model):
         for rec in self:
             rec.gate_open = rec.state == "ready"
 
-    _sql_constraints = [
-        ("capability_per_company_uniq",
-         "UNIQUE(tenant_company_id, capability_id)",
-         "Each tenant company may have only one state per capability."),
-    ]
+    _capability_per_company_uniq = models.Constraint(
+        "UNIQUE(tenant_company_id, capability_id)",
+        "Each tenant company may have only one state per capability.",
+    )
 
     # --- Completeness computation -----------------------------------------
 

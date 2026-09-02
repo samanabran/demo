@@ -106,11 +106,10 @@ class TenantComplianceOfficer(models.Model):
 
     # --- Constraints -----------------------------------------------------
 
-    _sql_constraints = [
-        ("role_per_company_uniq",
-         "UNIQUE(role, tenant_company_id)",
-         "Each tenant company may have only one Primary and one Alternate."),
-    ]
+    _role_per_company_uniq = models.Constraint(
+        "UNIQUE(role, tenant_company_id)",
+        "Each tenant company may have only one Primary and one Alternate.",
+    )
 
     @api.constrains("user_id", "tenant_company_id", "role")
     def _check_user_belongs_to_tenant(self):

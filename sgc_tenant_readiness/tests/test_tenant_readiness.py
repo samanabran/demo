@@ -35,7 +35,7 @@ class TestTenantReadiness(TransactionCase):
             "login": "test_primary_compliance_officer",
             "email": "primary@example.com",
             "company_id": cls.company.id,
-            "groups_id": [
+            "group_ids": [
                 (4, cls.env.ref("base.group_user").id),
             ],
         })
@@ -44,7 +44,7 @@ class TestTenantReadiness(TransactionCase):
             "login": "test_alternate_compliance_officer",
             "email": "alternate@example.com",
             "company_id": cls.company.id,
-            "groups_id": [
+            "group_ids": [
                 (4, cls.env.ref("base.group_user").id),
             ],
         })
@@ -53,7 +53,7 @@ class TestTenantReadiness(TransactionCase):
             "login": "test_senior_manager",
             "email": "manager@example.com",
             "company_id": cls.company.id,
-            "groups_id": [
+            "group_ids": [
                 (4, cls.env.ref("base.group_user").id),
             ],
         })
@@ -133,23 +133,27 @@ class TestTenantReadiness(TransactionCase):
     # ---- High-risk override segregation ---------------------------------
 
     def test_05_high_risk_override_segregation_enforced(self):
-        """The CO/MLRO and the deciding manager must be different people."""
-        rec = self.Override.create({
-            "subject_customer_id": self.customer_partner.id,
-            "tenant_company_id": self.company.id,
-            "risk_classification": "high",
-            "co_mlro_consulted_id": self.primary_user.id,
-            "co_mlro_consultation_at": "2026-09-01 10:00:00",
-            "co_mlro_recommendation": "decline",
-            "co_mlro_recommendation_rationale": "Insufficient source of funds.",
-            "management_decision": "proceed",
-            "decided_by_id": self.primary_user.id,  # same person!
-            "override_rationale": "Commercial value justifies the risk.",
-            "mitigation": "Enhanced monitoring, monthly reviews.",
-            "decision_at": "2026-09-01 11:00:00",
-        })
+        """The CO/MLRO and the deciding manager must be different people.
+
+        _check_segregation is a standing @api.constrains — it fires as
+        soon as both fields are set, at create() itself. It is a data
+        integrity invariant, not a stage-gated business rule.
+        """
         with self.assertRaises(ValidationError):
-            rec.action_record_management_decision()
+            self.Override.create({
+                "subject_customer_id": self.customer_partner.id,
+                "tenant_company_id": self.company.id,
+                "risk_classification": "high",
+                "co_mlro_consulted_id": self.primary_user.id,
+                "co_mlro_consultation_at": "2026-09-01 10:00:00",
+                "co_mlro_recommendation": "decline",
+                "co_mlro_recommendation_rationale": "Insufficient source of funds.",
+                "management_decision": "proceed",
+                "decided_by_id": self.primary_user.id,  # same person!
+                "override_rationale": "Commercial value justifies the risk.",
+                "mitigation": "Enhanced monitoring, monthly reviews.",
+                "decision_at": "2026-09-01 11:00:00",
+            })
 
     def test_06_high_risk_override_requires_rationale_when_differing(self):
         """When management's decision differs from CO/MLRO's, rationale + mitigation are required."""

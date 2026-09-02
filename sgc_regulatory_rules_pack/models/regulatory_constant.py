@@ -53,6 +53,9 @@ class RegulatoryConstant(models.Model):
         ),
     )
     description = fields.Text(translate=True)
+    notes = fields.Text(
+        help="Migration provenance, deferral rationale, cross-references.",
+    )
 
     # --- Scope -----------------------------------------------------------
 
@@ -213,13 +216,20 @@ class RegulatoryConstant(models.Model):
                         "require verified_on."
                     ) % (rec.code, rec.confidence))
 
-    _sql_constraints = [
-        (
-            "code_version_uniq",
-            "UNIQUE(code, version)",
-            "Constant code + version must be unique.",
-        ),
-    ]
+    _code_version_uniq = models.Constraint(
+        "UNIQUE(code, version)",
+        "Constant code + version must be unique.",
+    )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        # Odoo only re-validates @api.constrains fields that were present
+        # in vals on create; a record created with neither value_numeric
+        # nor value_text in vals (both left at their field defaults) would
+        # otherwise pass silently. Force the check explicitly.
+        records._check_value_xor()
+        return records
 
     # --- API -------------------------------------------------------------
 
@@ -249,7 +259,6 @@ class RegulatoryConstant(models.Model):
             ("valid_from", "<=", as_of),
             "|",
             ("valid_to", "=", False),
-            ("valid_to", "=", None),
             ("valid_to", ">=", as_of),
         ]
         candidates = self.search(domain)

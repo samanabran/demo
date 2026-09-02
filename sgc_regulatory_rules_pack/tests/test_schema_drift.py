@@ -28,7 +28,7 @@ class TestSchemaDrift(TransactionCase):
     def setUpClass(cls):
         super().setUpClass()
         # Place the baseline next to the tests folder.
-        import sgc_regulatory_rules_pack
+        from odoo.addons import sgc_regulatory_rules_pack
         cls.BASELINE_PATH = os.path.join(
             os.path.dirname(sgc_regulatory_rules_pack.__file__),
             "tests", "schema_baseline.json",
@@ -36,15 +36,20 @@ class TestSchemaDrift(TransactionCase):
 
     def _snapshot(self):
         snap = {"models": {}, "rules": [], "groups": []}
-        IrModel = self.env["ir.model"]
+        IrModelData = self.env["ir.model.data"]
         IrRule = self.env["ir.rule"]
-        for module in self.MODULES:
-            models = IrModel.search([("module", "=", module)])
-            for m in models:
-                snap["models"][m.model] = {
-                    "name": m.name,
-                    "fields": sorted([f.name for f in m.field_id]),
-                }
+        # ir.model has no searchable `module` field (only the computed,
+        # comma-joined `modules` display string) — go via ir.model.data,
+        # which records which module defined each ir.model record.
+        model_ids = IrModelData.search([
+            ("module", "in", self.MODULES),
+            ("model", "=", "ir.model"),
+        ]).mapped("res_id")
+        for m in self.env["ir.model"].browse(model_ids).exists():
+            snap["models"][m.model] = {
+                "name": m.name,
+                "fields": sorted([f.name for f in m.field_id]),
+            }
         for r in IrRule.search([("model_id.model", "in", [
             "process.exception", "process.dlq", "process.idempotency",
             "process.sla", "tenant.compliance.officer", "tenant.fit.and.proper",

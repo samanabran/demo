@@ -1,0 +1,553 @@
+2026-09-02 12:08:43,612 554 WARNING ? odoo.tools.config: missing --http-interface/http_interface, using 0.0.0.0 by default, will change to 127.0.0.1 in 20.0 
+2026-09-02 12:08:43,613 554 INFO ? odoo: Odoo version 19.0-20260817 
+2026-09-02 12:08:43,613 554 INFO ? odoo: Using configuration file at /etc/odoo/odoo.conf 
+2026-09-02 12:08:43,613 554 INFO ? odoo: addons paths: _NamespacePath(['/usr/lib/python3/dist-packages/odoo/addons', '/var/lib/odoo/addons/19.0', '/mnt/extra-addons', '/usr/lib/python3/dist-packages/addons']) 
+2026-09-02 12:08:43,613 554 INFO ? odoo: database: odoo@wave3_pg:default 
+2026-09-02 12:08:44,055 554 INFO sgc_install odoo.modules.loading: Initializing database sgc_install 
+2026-09-02 12:08:45,946 554 INFO sgc_install odoo.modules.loading: loading 1 modules... 
+2026-09-02 12:08:45,946 554 INFO sgc_install odoo.modules.loading: Loading module base (1/1) 
+2026-09-02 12:08:45,996 554 INFO sgc_install odoo.registry: module base: creating or updating database tables 
+2026-09-02 12:08:46,841 554 INFO sgc_install odoo.models: Prepare computation of ir.module.module.menus_by_module 
+2026-09-02 12:08:46,842 554 INFO sgc_install odoo.models: Prepare computation of ir.module.module.reports_by_module 
+2026-09-02 12:08:46,842 554 INFO sgc_install odoo.models: Prepare computation of ir.module.module.views_by_module 
+2026-09-02 12:08:47,162 554 INFO sgc_install odoo.models: Prepare computation of res.partner.user_id 
+2026-09-02 12:08:47,163 554 INFO sgc_install odoo.models: Prepare computation of res.partner.commercial_partner_id 
+2026-09-02 12:08:47,163 554 INFO sgc_install odoo.models: Prepare computation of res.partner.complete_name 
+2026-09-02 12:08:47,163 554 INFO sgc_install odoo.models: Prepare computation of res.partner.lang 
+2026-09-02 12:08:47,163 554 INFO sgc_install odoo.models: Prepare computation of res.partner.company_registry 
+2026-09-02 12:08:47,163 554 INFO sgc_install odoo.models: Prepare computation of res.partner.commercial_company_name 
+2026-09-02 12:08:47,163 554 INFO sgc_install odoo.models: Prepare computation of res.partner.properties 
+2026-09-02 12:08:47,164 554 INFO sgc_install odoo.models: Prepare computation of res.partner.partner_share 
+2026-09-02 12:08:47,265 554 INFO sgc_install odoo.models: Prepare computation of res.currency.decimal_places 
+2026-09-02 12:08:47,323 554 INFO sgc_install odoo.models: Prepare computation of res.company.uses_default_logo 
+2026-09-02 12:08:47,323 554 INFO sgc_install odoo.models: Prepare computation of res.company.logo_web 
+2026-09-02 12:08:47,341 554 INFO sgc_install odoo.models: Computing parent_path for table res_company... 
+2026-09-02 12:08:47,407 554 INFO sgc_install odoo.models: Prepare computation of res.users.signature 
+2026-09-02 12:08:47,407 554 INFO sgc_install odoo.models: Prepare computation of res.users.share 
+2026-09-02 12:08:49,819 554 INFO sgc_install odoo.modules.loading: loading base/data/res_bank.xml 
+2026-09-02 12:08:49,825 554 INFO sgc_install odoo.modules.loading: loading base/data/res.lang.csv 
+2026-09-02 12:08:49,877 554 INFO sgc_install odoo.modules.loading: loading base/data/res_lang_data.xml 
+2026-09-02 12:08:49,925 554 INFO sgc_install odoo.modules.loading: loading base/data/res_partner_data.xml 
+2026-09-02 12:08:50,014 554 INFO sgc_install odoo.modules.loading: loading base/data/res_currency_data.xml 
+2026-09-02 12:08:50,775 554 INFO sgc_install odoo.modules.loading: loading base/data/res_company_data.xml 
+2026-09-02 12:08:50,785 554 INFO sgc_install odoo.modules.loading: loading base/data/res_users_data.xml 
+2026-09-02 12:08:51,896 554 INFO sgc_install odoo.modules.loading: loading base/data/report_paperformat_data.xml 
+2026-09-02 12:08:51,907 554 INFO sgc_install odoo.modules.loading: loading base/data/res_country_data.xml 
+2026-09-02 12:08:52,830 554 INFO sgc_install odoo.modules.loading: loading base/data/ir_demo_data.xml 
+2026-09-02 12:08:52,851 554 INFO sgc_install odoo.modules.loading: loading base/security/base_groups.xml 
+2026-09-02 12:08:53,121 554 INFO sgc_install odoo.modules.loading: loading base/security/base_security.xml 
+2026-09-02 12:08:53,469 554 INFO sgc_install odoo.modules.loading: loading base/wizard/wizard_ir_model_menu_create_views.xml 
+2026-09-02 12:08:53,487 554 INFO sgc_install odoo.modules.loading: loading base/views/base_menus.xml 
+2026-09-02 12:08:53,569 554 INFO sgc_install odoo.modules.loading: loading base/views/decimal_precision_views.xml 
+2026-09-02 12:08:53,590 554 INFO sgc_install odoo.modules.loading: loading base/views/res_config_views.xml 
+2026-09-02 12:08:53,598 554 INFO sgc_install odoo.modules.loading: loading base/data/res.country.state.csv 
+2026-09-02 12:08:54,038 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_actions_views.xml 
+2026-09-02 12:08:54,233 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_asset_views.xml 
+2026-09-02 12:08:54,257 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_config_parameter_views.xml 
+2026-09-02 12:08:54,285 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_cron_views.xml 
+2026-09-02 12:08:54,323 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_cron_trigger_views.xml 
+2026-09-02 12:08:54,347 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_filters_views.xml 
+2026-09-02 12:08:54,381 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_mail_server_views.xml 
+2026-09-02 12:08:54,417 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_model_views.xml 
+2026-09-02 12:08:54,605 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_attachment_views.xml 
+2026-09-02 12:08:54,635 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_rule_views.xml 
+2026-09-02 12:08:54,663 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_sequence_views.xml 
+2026-09-02 12:08:54,696 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_ui_menu_views.xml 
+2026-09-02 12:08:54,725 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_ui_view_views.xml 
+2026-09-02 12:08:54,793 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_default_views.xml 
+2026-09-02 12:08:54,819 554 INFO sgc_install odoo.modules.loading: loading base/data/ir_config_parameter_data.xml 
+2026-09-02 12:08:54,823 554 INFO sgc_install odoo.modules.loading: loading base/data/ir_cron_data.xml 
+2026-09-02 12:08:54,842 554 INFO sgc_install odoo.modules.loading: loading base/report/ir_model_report.xml 
+2026-09-02 12:08:54,848 554 INFO sgc_install odoo.modules.loading: loading base/report/ir_model_templates.xml 
+2026-09-02 12:08:54,861 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_logging_views.xml 
+2026-09-02 12:08:54,889 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_qweb_widget_templates.xml 
+2026-09-02 12:08:54,907 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_module_views.xml 
+2026-09-02 12:08:54,979 554 INFO sgc_install odoo.modules.loading: loading base/data/ir_module_category_data.xml 
+2026-09-02 12:08:55,034 554 INFO sgc_install odoo.modules.loading: loading base/data/ir_module_module.xml 
+2026-09-02 12:08:55,151 554 INFO sgc_install odoo.modules.loading: loading base/report/ir_module_reports.xml 
+2026-09-02 12:08:55,157 554 INFO sgc_install odoo.modules.loading: loading base/report/ir_module_report_templates.xml 
+2026-09-02 12:08:55,168 554 INFO sgc_install odoo.modules.loading: loading base/wizard/base_module_update_views.xml 
+2026-09-02 12:08:55,185 554 INFO sgc_install odoo.modules.loading: loading base/wizard/base_language_install_views.xml 
+2026-09-02 12:08:55,204 554 INFO sgc_install odoo.modules.loading: loading base/wizard/base_import_language_views.xml 
+2026-09-02 12:08:55,220 554 INFO sgc_install odoo.modules.loading: loading base/wizard/base_module_upgrade_views.xml 
+2026-09-02 12:08:55,241 554 INFO sgc_install odoo.modules.loading: loading base/wizard/base_module_uninstall_views.xml 
+2026-09-02 12:08:55,254 554 INFO sgc_install odoo.modules.loading: loading base/wizard/base_export_language_views.xml 
+2026-09-02 12:08:55,272 554 INFO sgc_install odoo.modules.loading: loading base/wizard/base_partner_merge_views.xml 
+2026-09-02 12:08:55,291 554 INFO sgc_install odoo.modules.loading: loading base/data/ir_demo_failure_data.xml 
+2026-09-02 12:08:55,312 554 INFO sgc_install odoo.modules.loading: loading base/views/ir_profile_views.xml 
+2026-09-02 12:08:55,339 554 INFO sgc_install odoo.modules.loading: loading base/views/res_company_views.xml 
+2026-09-02 12:08:55,367 554 INFO sgc_install odoo.modules.loading: loading base/views/res_lang_views.xml 
+2026-09-02 12:08:55,393 554 INFO sgc_install odoo.modules.loading: loading base/views/res_partner_views.xml 
+2026-09-02 12:08:55,509 554 INFO sgc_install odoo.modules.loading: loading base/views/res_bank_views.xml 
+2026-09-02 12:08:55,554 554 INFO sgc_install odoo.modules.loading: loading base/views/res_country_views.xml 
+2026-09-02 12:08:55,611 554 INFO sgc_install odoo.modules.loading: loading base/views/res_currency_views.xml 
+2026-09-02 12:08:55,665 554 INFO sgc_install odoo.modules.loading: loading base/views/res_groups_views.xml 
+2026-09-02 12:08:55,720 554 INFO sgc_install odoo.modules.loading: loading base/views/res_users_views.xml 
+2026-09-02 12:08:55,835 554 INFO sgc_install odoo.modules.loading: loading base/views/res_users_apikeys_views.xml 
+2026-09-02 12:08:55,855 554 INFO sgc_install odoo.modules.loading: loading base/views/res_device_views.xml 
+2026-09-02 12:08:55,895 554 INFO sgc_install odoo.modules.loading: loading base/views/res_users_identitycheck_views.xml 
+2026-09-02 12:08:55,905 554 INFO sgc_install odoo.modules.loading: loading base/views/res_config_settings_views.xml 
+2026-09-02 12:08:55,919 554 INFO sgc_install odoo.modules.loading: loading base/views/report_paperformat_views.xml 
+2026-09-02 12:08:55,950 554 INFO sgc_install odoo.modules.loading: loading base/security/ir.model.access.csv 
+2026-09-02 12:08:56,116 554 INFO sgc_install odoo.modules.loading: Module base loaded in 10.17s, 8454 queries (+8454 other) 
+2026-09-02 12:08:56,117 554 INFO sgc_install odoo.modules.loading: 1 modules loaded in 10.17s, 8454 queries (+8454 extra) 
+2026-09-02 12:08:56,124 554 INFO sgc_install odoo.modules.loading: updating modules list 
+2026-09-02 12:08:56,127 554 INFO sgc_install odoo.addons.base.models.ir_module: ALLOW access to module.update_list on [] to user __system__ #1 via n/a 
+2026-09-02 12:08:57,382 554 INFO sgc_install odoo.addons.base.models.ir_module: ALLOW access to module.button_install on ['SGC Regulatory Rules Pack', 'SGC Process Control', 'SGC Tenant Readiness'] to user __system__ #1 via n/a 
+2026-09-02 12:08:57,477 554 INFO sgc_install odoo.modules.loading: loading 30 modules... 
+2026-09-02 12:08:57,477 554 INFO sgc_install odoo.modules.loading: Loading module rpc (2/30) 
+2026-09-02 12:08:57,501 554 INFO sgc_install odoo.modules.loading: Module rpc loaded in 0.02s, 9 queries (+9 other) 
+2026-09-02 12:08:57,502 554 INFO sgc_install odoo.modules.loading: Loading module web (3/30) 
+2026-09-02 12:08:57,540 554 INFO sgc_install odoo.registry: module web: creating or updating database tables 
+2026-09-02 12:08:58,256 554 INFO sgc_install odoo.modules.loading: loading web/security/ir.model.access.csv 
+2026-09-02 12:08:58,265 554 INFO sgc_install odoo.modules.loading: loading web/security/web_security.xml 
+2026-09-02 12:08:58,280 554 INFO sgc_install odoo.modules.loading: loading web/views/webclient_templates.xml 
+2026-09-02 12:08:58,359 554 INFO sgc_install odoo.modules.loading: loading web/views/report_templates.xml 
+2026-09-02 12:08:58,473 554 INFO sgc_install odoo.modules.loading: loading web/views/base_document_layout_views.xml 
+2026-09-02 12:08:58,497 554 INFO sgc_install odoo.modules.loading: loading web/views/partner_view.xml 
+2026-09-02 12:08:58,507 554 INFO sgc_install odoo.modules.loading: loading web/views/speedscope_template.xml 
+2026-09-02 12:08:58,515 554 INFO sgc_install odoo.modules.loading: loading web/views/memory_template.xml 
+2026-09-02 12:08:58,523 554 INFO sgc_install odoo.modules.loading: loading web/views/speedscope_config_wizard.xml 
+2026-09-02 12:08:58,540 554 INFO sgc_install odoo.modules.loading: loading web/views/neutralize_views.xml 
+2026-09-02 12:08:58,559 554 INFO sgc_install odoo.modules.loading: loading web/views/ir_ui_view_views.xml 
+2026-09-02 12:08:58,578 554 INFO sgc_install odoo.modules.loading: loading web/data/ir_attachment.xml 
+2026-09-02 12:08:58,587 554 INFO sgc_install odoo.modules.loading: loading web/data/report_layout.xml 
+2026-09-02 12:08:58,656 554 INFO sgc_install odoo.modules.loading: Module web loaded in 1.15s, 1232 queries (+1232 other) 
+2026-09-02 12:08:58,656 554 INFO sgc_install odoo.modules.loading: Loading module api_doc (4/30) 
+2026-09-02 12:08:58,670 554 INFO sgc_install odoo.registry: module api_doc: creating or updating database tables 
+2026-09-02 12:08:58,704 554 INFO sgc_install odoo.modules.loading: loading api_doc/security/res_groups.xml 
+2026-09-02 12:08:58,748 554 INFO sgc_install odoo.modules.loading: loading api_doc/views/docclient.xml 
+2026-09-02 12:08:58,785 554 INFO sgc_install odoo.modules.loading: Module api_doc loaded in 0.13s, 63 queries (+63 other) 
+2026-09-02 12:08:58,785 554 INFO sgc_install odoo.modules.loading: Loading module auth_totp (5/30) 
+2026-09-02 12:08:58,822 554 INFO sgc_install odoo.registry: module auth_totp: creating or updating database tables 
+2026-09-02 12:08:59,094 554 INFO sgc_install odoo.modules.loading: loading auth_totp/security/security.xml 
+2026-09-02 12:08:59,149 554 INFO sgc_install odoo.modules.loading: loading auth_totp/security/ir.model.access.csv 
+2026-09-02 12:08:59,172 554 INFO sgc_install odoo.modules.loading: loading auth_totp/data/ir_action_data.xml 
+2026-09-02 12:08:59,225 554 INFO sgc_install odoo.modules.loading: loading auth_totp/views/res_users_views.xml 
+2026-09-02 12:08:59,348 554 INFO sgc_install odoo.modules.loading: loading auth_totp/views/templates.xml 
+2026-09-02 12:08:59,389 554 INFO sgc_install odoo.modules.loading: loading auth_totp/wizard/auth_totp_wizard_views.xml 
+2026-09-02 12:08:59,439 554 INFO sgc_install odoo.modules.loading: Module auth_totp loaded in 0.65s, 218 queries (+218 other) 
+2026-09-02 12:08:59,440 554 INFO sgc_install odoo.modules.loading: Loading module base_import (6/30) 
+2026-09-02 12:08:59,535 554 INFO sgc_install odoo.registry: module base_import: creating or updating database tables 
+2026-09-02 12:09:03,213 554 INFO sgc_install odoo.modules.loading: loading base_import/security/ir.model.access.csv 
+2026-09-02 12:09:03,232 554 INFO sgc_install odoo.modules.loading: Module base_import loaded in 3.79s, 956 queries (+956 other) 
+2026-09-02 12:09:03,232 554 INFO sgc_install odoo.modules.loading: Loading module base_import_module (7/30) 
+2026-09-02 12:09:03,242 554 INFO sgc_install odoo.registry: module base_import_module: creating or updating database tables 
+2026-09-02 12:09:03,314 554 INFO sgc_install odoo.modules.loading: loading base_import_module/security/ir.model.access.csv 
+2026-09-02 12:09:03,323 554 INFO sgc_install odoo.modules.loading: loading base_import_module/views/base_import_module_view.xml 
+2026-09-02 12:09:03,349 554 INFO sgc_install odoo.modules.loading: loading base_import_module/views/ir_module_views.xml 
+2026-09-02 12:09:03,406 554 INFO sgc_install odoo.modules.loading: Module base_import_module loaded in 0.17s, 172 queries (+172 other) 
+2026-09-02 12:09:03,406 554 INFO sgc_install odoo.modules.loading: Loading module base_setup (8/30) 
+2026-09-02 12:09:03,418 554 INFO sgc_install odoo.registry: module base_setup: creating or updating database tables 
+2026-09-02 12:09:03,475 554 INFO sgc_install odoo.modules.loading: loading base_setup/data/base_setup_data.xml 
+2026-09-02 12:09:03,482 554 INFO sgc_install odoo.modules.loading: loading base_setup/views/res_config_settings_views.xml 
+2026-09-02 12:09:03,522 554 INFO sgc_install odoo.modules.loading: loading base_setup/views/res_partner_views.xml 
+2026-09-02 12:09:03,581 554 INFO sgc_install odoo.modules.loading: Module base_setup loaded in 0.17s, 152 queries (+152 other) 
+2026-09-02 12:09:03,581 554 INFO sgc_install odoo.modules.loading: Loading module bus (9/30) 
+2026-09-02 12:09:03,607 554 INFO sgc_install odoo.registry: module bus: creating or updating database tables 
+2026-09-02 12:09:03,749 554 INFO sgc_install odoo.modules.loading: loading bus/security/ir.model.access.csv 
+2026-09-02 12:09:03,767 554 INFO sgc_install odoo.modules.loading: Module bus loaded in 0.19s, 159 queries (+159 other) 
+2026-09-02 12:09:03,767 554 INFO sgc_install odoo.modules.loading: Loading module web_tour (10/30) 
+2026-09-02 12:09:03,777 554 INFO sgc_install odoo.registry: module web_tour: creating or updating database tables 
+2026-09-02 12:09:03,784 554 INFO sgc_install odoo.models: Prepare computation of res.users.tour_enabled 
+2026-09-02 12:09:03,956 554 INFO sgc_install odoo.modules.loading: loading web_tour/security/ir.model.access.csv 
+2026-09-02 12:09:03,966 554 INFO sgc_install odoo.modules.loading: loading web_tour/views/tour_views.xml 
+2026-09-02 12:09:04,023 554 INFO sgc_install odoo.modules.loading: Module web_tour loaded in 0.26s, 180 queries (+180 other) 
+2026-09-02 12:09:04,023 554 INFO sgc_install odoo.modules.loading: Loading module auth_passkey (11/30) 
+2026-09-02 12:09:04,067 554 INFO sgc_install odoo.registry: module auth_passkey: creating or updating database tables 
+2026-09-02 12:09:04,188 554 INFO sgc_install odoo.modules.loading: loading auth_passkey/views/auth_passkey_key_views.xml 
+2026-09-02 12:09:04,216 554 INFO sgc_install odoo.modules.loading: loading auth_passkey/views/auth_passkey_login_templates.xml 
+2026-09-02 12:09:04,233 554 INFO sgc_install odoo.modules.loading: loading auth_passkey/views/res_users_identitycheck_views.xml 
+2026-09-02 12:09:04,246 554 INFO sgc_install odoo.modules.loading: loading auth_passkey/views/res_users_views.xml 
+2026-09-02 12:09:04,270 554 INFO sgc_install odoo.modules.loading: loading auth_passkey/security/ir.model.access.csv 
+2026-09-02 12:09:04,281 554 INFO sgc_install odoo.modules.loading: loading auth_passkey/security/security.xml 
+2026-09-02 12:09:04,318 554 INFO sgc_install odoo.modules.loading: Module auth_passkey loaded in 0.29s, 218 queries (+218 other) 
+2026-09-02 12:09:04,318 554 INFO sgc_install odoo.modules.loading: Loading module html_editor (12/30) 
+2026-09-02 12:09:04,523 554 INFO sgc_install odoo.registry: module html_editor: creating or updating database tables 
+2026-09-02 12:09:05,202 554 INFO sgc_install odoo.modules.loading: loading html_editor/security/ir.model.access.csv 
+2026-09-02 12:09:05,226 554 INFO sgc_install odoo.modules.loading: Module html_editor loaded in 0.91s, 1034 queries (+1034 other) 
+2026-09-02 12:09:05,227 554 INFO sgc_install odoo.modules.loading: Loading module iap (13/30) 
+2026-09-02 12:09:05,234 554 INFO sgc_install odoo.registry: module iap: creating or updating database tables 
+2026-09-02 12:09:05,343 554 INFO sgc_install odoo.modules.loading: loading iap/data/services.xml 
+2026-09-02 12:09:05,350 554 INFO sgc_install odoo.modules.loading: loading iap/security/ir.model.access.csv 
+2026-09-02 12:09:05,361 554 INFO sgc_install odoo.modules.loading: loading iap/security/ir_rule.xml 
+2026-09-02 12:09:05,373 554 INFO sgc_install odoo.modules.loading: loading iap/views/iap_views.xml 
+2026-09-02 12:09:05,407 554 INFO sgc_install odoo.modules.loading: loading iap/views/res_config_settings.xml 
+2026-09-02 12:09:05,437 554 INFO sgc_install odoo.modules.loading: Module iap loaded in 0.21s, 182 queries (+182 other) 
+2026-09-02 12:09:05,438 554 INFO sgc_install odoo.modules.loading: Loading module mail (14/30) 
+2026-09-02 12:09:05,514 554 INFO sgc_install odoo.registry: module mail: creating or updating database tables 
+2026-09-02 12:09:06,143 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.partner_ids 
+2026-09-02 12:09:06,144 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.activity_user_id 
+2026-09-02 12:09:06,144 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.activity_type_id 
+2026-09-02 12:09:06,144 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.template_id 
+2026-09-02 12:09:06,144 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.activity_date_deadline_range 
+2026-09-02 12:09:06,144 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.activity_summary 
+2026-09-02 12:09:06,145 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.followers_type 
+2026-09-02 12:09:06,145 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.followers_partner_field_name 
+2026-09-02 12:09:06,145 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.mail_post_method 
+2026-09-02 12:09:06,145 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.activity_date_deadline_range_type 
+2026-09-02 12:09:06,145 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.activity_user_type 
+2026-09-02 12:09:06,145 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.activity_user_field_name 
+2026-09-02 12:09:06,145 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.activity_note 
+2026-09-02 12:09:06,145 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.mail_post_autofollow 
+2026-09-02 12:09:06,258 554 INFO sgc_install odoo.models: Prepare computation of res.users.notification_type 
+2026-09-02 12:09:06,417 554 INFO sgc_install odoo.models: Prepare computation of res.partner.email_normalized 
+<string>:38: (ERROR/3) Unexpected indentation.
+<string>:43: (WARNING/2) Block quote ends without a blank line; unexpected unindent.
+2026-09-02 12:09:08,569 554 INFO sgc_install odoo.modules.loading: loading mail/data/mail_groups.xml 
+2026-09-02 12:09:08,602 554 INFO sgc_install odoo.modules.loading: loading mail/wizard/mail_activity_schedule_views.xml 
+2026-09-02 12:09:08,622 554 INFO sgc_install odoo.modules.loading: loading mail/wizard/mail_blacklist_remove_views.xml 
+2026-09-02 12:09:08,635 554 INFO sgc_install odoo.modules.loading: loading mail/wizard/mail_compose_message_views.xml 
+2026-09-02 12:09:08,663 554 INFO sgc_install odoo.modules.loading: loading mail/wizard/mail_template_preview_views.xml 
+2026-09-02 12:09:08,678 554 INFO sgc_install odoo.modules.loading: loading mail/wizard/mail_followers_edit_views.xml 
+2026-09-02 12:09:08,693 554 INFO sgc_install odoo.modules.loading: loading mail/wizard/mail_template_reset_views.xml 
+2026-09-02 12:09:08,707 554 INFO sgc_install odoo.modules.loading: loading mail/views/fetchmail_views.xml 
+2026-09-02 12:09:08,731 554 INFO sgc_install odoo.modules.loading: loading mail/views/ir_cron_views.xml 
+2026-09-02 12:09:08,750 554 INFO sgc_install odoo.modules.loading: loading mail/views/ir_filters_views.xml 
+2026-09-02 12:09:08,776 554 INFO sgc_install odoo.modules.loading: loading mail/views/ir_mail_server_views.xml 
+2026-09-02 12:09:08,792 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_message_subtype_views.xml 
+2026-09-02 12:09:08,813 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_tracking_value_views.xml 
+2026-09-02 12:09:08,831 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_notification_views.xml 
+2026-09-02 12:09:08,850 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_message_views.xml 
+2026-09-02 12:09:08,903 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_message_schedule_views.xml 
+2026-09-02 12:09:08,930 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_mail_views.xml 
+2026-09-02 12:09:08,970 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_followers_views.xml 
+2026-09-02 12:09:08,996 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_ice_server_views.xml 
+2026-09-02 12:09:09,051 554 INFO sgc_install odoo.modules.loading: loading mail/views/discuss_channel_member_views.xml 
+2026-09-02 12:09:09,083 554 INFO sgc_install odoo.modules.loading: loading mail/views/discuss_channel_rtc_session_views.xml 
+2026-09-02 12:09:09,112 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_link_preview_views.xml 
+2026-09-02 12:09:09,152 554 INFO sgc_install odoo.modules.loading: loading mail/views/discuss/discuss_gif_favorite_views.xml 
+2026-09-02 12:09:09,177 554 INFO sgc_install odoo.modules.loading: loading mail/views/discuss_channel_views.xml 
+2026-09-02 12:09:09,226 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_canned_response_views.xml 
+2026-09-02 12:09:09,261 554 INFO sgc_install odoo.modules.loading: loading mail/views/res_role_views.xml 
+2026-09-02 12:09:09,289 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_activity_views.xml 
+2026-09-02 12:09:09,432 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_activity_plan_views.xml 
+2026-09-02 12:09:09,493 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_activity_plan_template_views.xml 
+2026-09-02 12:09:09,510 554 INFO sgc_install odoo.modules.loading: loading mail/views/res_config_settings_views.xml 
+2026-09-02 12:09:09,544 554 INFO sgc_install odoo.modules.loading: loading mail/data/ir_config_parameter_data.xml 
+2026-09-02 12:09:09,555 554 INFO sgc_install odoo.modules.loading: loading mail/data/res_partner_data.xml 
+2026-09-02 12:09:09,642 554 INFO sgc_install odoo.modules.loading: loading mail/data/mail_message_subtype_data.xml 
+2026-09-02 12:09:09,652 554 INFO sgc_install odoo.modules.loading: loading mail/data/mail_templates_chatter.xml 
+2026-09-02 12:09:09,677 554 INFO sgc_install odoo.modules.loading: loading mail/data/mail_templates_email_layouts.xml 
+2026-09-02 12:09:09,700 554 INFO sgc_install odoo.modules.loading: loading mail/data/mail_templates_mailgateway.xml 
+2026-09-02 12:09:09,724 554 INFO sgc_install odoo.modules.loading: loading mail/data/discuss_channel_data.xml 
+2026-09-02 12:09:09,770 554 INFO sgc_install odoo.modules.loading: loading mail/data/mail_activity_type_data.xml 
+2026-09-02 12:09:09,786 554 INFO sgc_install odoo.modules.loading: loading mail/data/security_notifications_templates.xml 
+2026-09-02 12:09:09,793 554 INFO sgc_install odoo.modules.loading: loading mail/data/ir_cron_data.xml 
+2026-09-02 12:09:09,940 554 INFO sgc_install odoo.modules.loading: loading mail/data/ir_actions_client.xml 
+2026-09-02 12:09:09,949 554 INFO sgc_install odoo.modules.loading: loading mail/security/mail_security.xml 
+2026-09-02 12:09:10,160 554 INFO sgc_install odoo.modules.loading: loading mail/security/ir.model.access.csv 
+2026-09-02 12:09:10,231 554 INFO sgc_install odoo.modules.loading: loading mail/views/discuss_public_templates.xml 
+2026-09-02 12:09:10,240 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_alias_domain_views.xml 
+2026-09-02 12:09:10,265 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_alias_views.xml 
+2026-09-02 12:09:10,303 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_gateway_allowed_views.xml 
+2026-09-02 12:09:10,331 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_guest_views.xml 
+2026-09-02 12:09:10,354 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_message_reaction_views.xml 
+2026-09-02 12:09:10,379 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_templates_public.xml 
+2026-09-02 12:09:10,395 554 INFO sgc_install odoo.modules.loading: loading mail/views/res_users_views.xml 
+2026-09-02 12:09:10,440 554 INFO sgc_install odoo.modules.loading: loading mail/views/res_users_settings_views.xml 
+2026-09-02 12:09:10,463 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_template_views.xml 
+2026-09-02 12:09:10,495 554 INFO sgc_install odoo.modules.loading: loading mail/views/ir_actions_server_views.xml 
+2026-09-02 12:09:10,521 554 INFO sgc_install odoo.modules.loading: loading mail/views/ir_model_views.xml 
+2026-09-02 12:09:10,572 554 INFO sgc_install odoo.modules.loading: loading mail/views/res_partner_views.xml 
+2026-09-02 12:09:10,637 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_blacklist_views.xml 
+2026-09-02 12:09:10,663 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_menus.xml 
+2026-09-02 12:09:10,945 554 INFO sgc_install odoo.modules.loading: loading mail/views/discuss/discuss_menus.xml 
+2026-09-02 12:09:10,954 554 INFO sgc_install odoo.modules.loading: loading mail/views/discuss/discuss_call_history_views.xml 
+2026-09-02 12:09:10,983 554 INFO sgc_install odoo.modules.loading: loading mail/views/res_company_views.xml 
+2026-09-02 12:09:10,998 554 INFO sgc_install odoo.modules.loading: loading mail/views/mail_scheduled_message_views.xml 
+2026-09-02 12:09:11,011 554 INFO sgc_install odoo.modules.loading: loading mail/data/mail_canned_response_data.xml 
+2026-09-02 12:09:11,023 554 INFO sgc_install odoo.modules.loading: loading mail/data/mail_templates_invite.xml 
+2026-09-02 12:09:11,043 554 INFO sgc_install odoo.modules.loading: loading mail/data/web_tour_tour.xml 
+2026-09-02 12:09:11,120 554 INFO sgc_install odoo.modules.loading: Module mail loaded in 5.68s, 4977 queries (+4978 other) 
+2026-09-02 12:09:11,120 554 INFO sgc_install odoo.modules.loading: Loading module web_unsplash (15/30) 
+2026-09-02 12:09:11,138 554 INFO sgc_install odoo.registry: module web_unsplash: creating or updating database tables 
+2026-09-02 12:09:11,200 554 INFO sgc_install odoo.modules.loading: loading web_unsplash/views/res_config_settings_view.xml 
+2026-09-02 12:09:11,268 554 INFO sgc_install odoo.modules.loading: Module web_unsplash loaded in 0.15s, 103 queries (+103 other) 
+2026-09-02 12:09:11,268 554 INFO sgc_install odoo.modules.loading: Loading module auth_signup (16/30) 
+2026-09-02 12:09:11,291 554 INFO sgc_install odoo.registry: module auth_signup: creating or updating database tables 
+2026-09-02 12:09:11,399 554 INFO sgc_install odoo.modules.loading: loading auth_signup/data/ir_config_parameter_data.xml 
+2026-09-02 12:09:11,406 554 INFO sgc_install odoo.modules.loading: loading auth_signup/data/ir_cron_data.xml 
+2026-09-02 12:09:11,444 554 INFO sgc_install odoo.modules.loading: loading auth_signup/data/mail_template_data.xml 
+2026-09-02 12:09:11,572 554 INFO sgc_install odoo.modules.loading: loading auth_signup/views/res_config_settings_views.xml 
+2026-09-02 12:09:11,607 554 INFO sgc_install odoo.modules.loading: loading auth_signup/views/res_users_views.xml 
+2026-09-02 12:09:11,680 554 INFO sgc_install odoo.modules.loading: loading auth_signup/views/auth_signup_login_templates.xml 
+2026-09-02 12:09:11,725 554 INFO sgc_install odoo.modules.loading: loading auth_signup/views/auth_signup_templates_email.xml 
+2026-09-02 12:09:11,739 554 INFO sgc_install odoo.modules.loading: loading auth_signup/views/webclient_templates.xml 
+2026-09-02 12:09:11,782 554 INFO sgc_install odoo.modules.loading: Module auth_signup loaded in 0.51s, 255 queries (+255 other) 
+2026-09-02 12:09:11,782 554 INFO sgc_install odoo.modules.loading: Loading module auth_totp_mail (17/30) 
+2026-09-02 12:09:11,800 554 INFO sgc_install odoo.registry: module auth_totp_mail: creating or updating database tables 
+2026-09-02 12:09:11,858 554 INFO sgc_install odoo.modules.loading: loading auth_totp_mail/data/ir_action_data.xml 
+2026-09-02 12:09:11,892 554 INFO sgc_install odoo.modules.loading: loading auth_totp_mail/data/mail_template_data.xml 
+2026-09-02 12:09:11,939 554 INFO sgc_install odoo.modules.loading: loading auth_totp_mail/data/security_notifications_template.xml 
+2026-09-02 12:09:11,952 554 INFO sgc_install odoo.modules.loading: loading auth_totp_mail/views/res_config_settings_views.xml 
+2026-09-02 12:09:11,974 554 INFO sgc_install odoo.modules.loading: loading auth_totp_mail/views/res_users_views.xml 
+2026-09-02 12:09:12,004 554 INFO sgc_install odoo.modules.loading: loading auth_totp_mail/views/templates.xml 
+2026-09-02 12:09:12,042 554 INFO sgc_install odoo.modules.loading: Module auth_totp_mail loaded in 0.26s, 189 queries (+189 other) 
+2026-09-02 12:09:12,042 554 INFO sgc_install odoo.modules.loading: Loading module base_install_request (18/30) 
+2026-09-02 12:09:12,050 554 INFO sgc_install odoo.registry: module base_install_request: creating or updating database tables 
+2026-09-02 12:09:12,138 554 INFO sgc_install odoo.modules.loading: loading base_install_request/security/ir.model.access.csv 
+2026-09-02 12:09:12,152 554 INFO sgc_install odoo.modules.loading: loading base_install_request/wizard/base_module_install_request_views.xml 
+2026-09-02 12:09:12,178 554 INFO sgc_install odoo.modules.loading: loading base_install_request/data/mail_template_data.xml 
+2026-09-02 12:09:12,189 554 INFO sgc_install odoo.modules.loading: loading base_install_request/data/mail_templates_module_install.xml 
+2026-09-02 12:09:12,198 554 INFO sgc_install odoo.modules.loading: loading base_install_request/views/ir_module_module_views.xml 
+2026-09-02 12:09:12,239 554 INFO sgc_install odoo.modules.loading: Module base_install_request loaded in 0.20s, 154 queries (+154 other) 
+2026-09-02 12:09:12,239 554 INFO sgc_install odoo.modules.loading: Loading module google_gmail (19/30) 
+2026-09-02 12:09:12,260 554 INFO sgc_install odoo.registry: module google_gmail: creating or updating database tables 
+2026-09-02 12:09:12,355 554 INFO sgc_install odoo.modules.loading: loading google_gmail/views/fetchmail_server_views.xml 
+2026-09-02 12:09:12,380 554 INFO sgc_install odoo.modules.loading: loading google_gmail/views/ir_mail_server_views.xml 
+2026-09-02 12:09:12,395 554 INFO sgc_install odoo.modules.loading: loading google_gmail/views/res_config_settings_views.xml 
+2026-09-02 12:09:12,423 554 INFO sgc_install odoo.modules.loading: loading google_gmail/views/templates.xml 
+2026-09-02 12:09:12,441 554 INFO sgc_install odoo.modules.loading: Module google_gmail loaded in 0.20s, 155 queries (+155 other) 
+2026-09-02 12:09:12,441 554 INFO sgc_install odoo.modules.loading: Loading module iap_mail (20/30) 
+2026-09-02 12:09:12,449 554 INFO sgc_install odoo.registry: module iap_mail: creating or updating database tables 
+2026-09-02 12:09:12,493 554 INFO sgc_install odoo.modules.loading: loading iap_mail/data/mail_templates.xml 
+2026-09-02 12:09:12,510 554 INFO sgc_install odoo.modules.loading: loading iap_mail/views/iap_views.xml 
+2026-09-02 12:09:12,537 554 INFO sgc_install odoo.modules.loading: Module iap_mail loaded in 0.10s, 70 queries (+70 other) 
+2026-09-02 12:09:12,538 554 INFO sgc_install odoo.modules.loading: Loading module mail_bot (21/30) 
+2026-09-02 12:09:12,551 554 INFO sgc_install odoo.registry: module mail_bot: creating or updating database tables 
+2026-09-02 12:09:12,615 554 INFO sgc_install odoo.modules.loading: loading mail_bot/views/res_users_views.xml 
+2026-09-02 12:09:12,642 554 INFO sgc_install odoo.modules.loading: loading mail_bot/data/mailbot_data.xml 
+2026-09-02 12:09:12,663 554 INFO sgc_install odoo.modules.loading: Module mail_bot loaded in 0.13s, 109 queries (+109 other) 
+2026-09-02 12:09:12,663 554 INFO sgc_install odoo.modules.loading: Loading module microsoft_outlook (22/30) 
+2026-09-02 12:09:12,686 554 INFO sgc_install odoo.registry: module microsoft_outlook: creating or updating database tables 
+2026-09-02 12:09:12,782 554 INFO sgc_install odoo.modules.loading: loading microsoft_outlook/views/fetchmail_server_views.xml 
+2026-09-02 12:09:12,803 554 INFO sgc_install odoo.modules.loading: loading microsoft_outlook/views/ir_mail_server_views.xml 
+2026-09-02 12:09:12,817 554 INFO sgc_install odoo.modules.loading: loading microsoft_outlook/views/res_config_settings_views.xml 
+2026-09-02 12:09:12,845 554 INFO sgc_install odoo.modules.loading: loading microsoft_outlook/views/templates.xml 
+2026-09-02 12:09:12,862 554 INFO sgc_install odoo.modules.loading: Module microsoft_outlook loaded in 0.20s, 158 queries (+158 other) 
+2026-09-02 12:09:12,862 554 INFO sgc_install odoo.modules.loading: Loading module phone_validation (23/30) 
+2026-09-02 12:09:13,025 554 INFO sgc_install odoo.registry: module phone_validation: creating or updating database tables 
+2026-09-02 12:09:13,049 554 INFO sgc_install odoo.models: Prepare computation of res.partner.phone_sanitized 
+2026-09-02 12:09:14,185 554 INFO sgc_install odoo.modules.loading: loading phone_validation/security/ir.model.access.csv 
+2026-09-02 12:09:14,197 554 INFO sgc_install odoo.modules.loading: loading phone_validation/views/phone_blacklist_views.xml 
+2026-09-02 12:09:14,257 554 INFO sgc_install odoo.modules.loading: loading phone_validation/views/res_partner_views.xml 
+2026-09-02 12:09:14,284 554 INFO sgc_install odoo.modules.loading: loading phone_validation/wizard/phone_blacklist_remove_view.xml 
+2026-09-02 12:09:14,328 554 INFO sgc_install odoo.modules.loading: Module phone_validation loaded in 1.47s, 1629 queries (+1629 other) 
+2026-09-02 12:09:14,328 554 INFO sgc_install odoo.modules.loading: Loading module privacy_lookup (24/30) 
+2026-09-02 12:09:14,355 554 INFO sgc_install odoo.registry: module privacy_lookup: creating or updating database tables 
+2026-09-02 12:09:14,522 554 INFO sgc_install odoo.modules.loading: loading privacy_lookup/wizard/privacy_lookup_wizard_views.xml 
+2026-09-02 12:09:14,597 554 INFO sgc_install odoo.modules.loading: loading privacy_lookup/views/privacy_log_views.xml 
+2026-09-02 12:09:14,623 554 INFO sgc_install odoo.modules.loading: loading privacy_lookup/security/ir.model.access.csv 
+2026-09-02 12:09:14,647 554 INFO sgc_install odoo.modules.loading: loading privacy_lookup/data/ir_actions_server_data.xml 
+2026-09-02 12:09:14,699 554 INFO sgc_install odoo.modules.loading: Module privacy_lookup loaded in 0.37s, 294 queries (+294 other) 
+2026-09-02 12:09:14,699 554 INFO sgc_install odoo.modules.loading: Loading module sgc_process_control (25/30) 
+2026-09-02 12:09:14,817 554 ERROR sgc_install odoo.tests.common: Importing test framework, avoid importing from business modules and when not running in test mode 
+Stack (most recent call last):
+  File "/usr/bin/odoo", line 6, in <module>
+    odoo.cli.main()
+  File "/usr/lib/python3/dist-packages/odoo/cli/command.py", line 133, in main
+    command().run(args)
+  File "/usr/lib/python3/dist-packages/odoo/cli/server.py", line 127, in run
+    main(args)
+  File "/usr/lib/python3/dist-packages/odoo/cli/server.py", line 118, in main
+    rc = server.start(preload=config['db_name'], stop=stop)
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 1671, in start
+    rc = server.run(preload, stop)
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 708, in run
+    rc = preload_registries(preload)
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 1585, in preload_registries
+    registry = Registry.new(dbname, update_module=update_module, install_modules=config['init'], upgrade_modules=config['update'], reinit_modules=config['reinit'])
+  File "/usr/lib/python3/dist-packages/odoo/tools/func.py", line 88, in locked
+    return func(inst, *args, **kwargs)
+  File "/usr/lib/python3/dist-packages/odoo/orm/registry.py", line 189, in new
+    load_modules(
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 464, in load_modules
+    load_module_graph(
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 178, in load_module_graph
+    load_openerp_module(package.name)
+  File "/usr/lib/python3/dist-packages/odoo/modules/module.py", line 506, in load_openerp_module
+    __import__(qualname)
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/mnt/extra-addons/sgc_process_control/__init__.py", line 2, in <module>
+    from . import tests  # noqa: F401 — register test module
+  File "<frozen importlib._bootstrap>", line 1415, in _handle_fromlist
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/mnt/extra-addons/sgc_process_control/tests/__init__.py", line 1, in <module>
+    from . import test_process_control
+  File "<frozen importlib._bootstrap>", line 1415, in _handle_fromlist
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/mnt/extra-addons/sgc_process_control/tests/test_process_control.py", line 8, in <module>
+    from odoo.tests import TransactionCase, tagged
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/usr/lib/python3/dist-packages/odoo/tests/__init__.py", line 8, in <module>
+    from . import common
+  File "<frozen importlib._bootstrap>", line 1415, in _handle_fromlist
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/usr/lib/python3/dist-packages/odoo/tests/common.py", line 83, in <module>
+    _logger.error(
+2026-09-02 12:09:14,859 554 INFO sgc_install odoo.registry: module sgc_process_control: creating or updating database tables 
+2026-09-02 12:09:14,962 554 WARNING sgc_install odoo.schema: Index attribute on 'process.exception.summary' ignored, only trigram index is supported for translated fields 
+<string>:33: (ERROR/3) Unexpected indentation.
+2026-09-02 12:09:15,187 554 INFO sgc_install odoo.modules.loading: loading sgc_process_control/security/security.xml 
+2026-09-02 12:09:15,224 554 INFO sgc_install odoo.modules.loading: loading sgc_process_control/security/ir.model.access.csv 
+2026-09-02 12:09:15,245 554 INFO sgc_install odoo.modules.loading: loading sgc_process_control/security/ir_rule_tenant_isolation.xml 
+2026-09-02 12:09:15,288 554 INFO sgc_install odoo.modules.loading: loading sgc_process_control/data/process_classification_data.xml 
+2026-09-02 12:09:15,298 554 INFO sgc_install odoo.modules.loading: loading sgc_process_control/views/process_exception_views.xml 
+2026-09-02 12:09:15,341 554 INFO sgc_install odoo.modules.loading: loading sgc_process_control/views/process_dlq_views.xml 
+2026-09-02 12:09:15,375 554 INFO sgc_install odoo.modules.loading: loading sgc_process_control/views/process_idempotency_views.xml 
+2026-09-02 12:09:15,393 554 INFO sgc_install odoo.modules.loading: loading sgc_process_control/views/process_sla_views.xml 
+2026-09-02 12:09:15,413 554 INFO sgc_install odoo.modules.loading: loading sgc_process_control/views/process_menu.xml 
+2026-09-02 12:09:15,483 554 INFO sgc_install odoo.modules.loading: Module sgc_process_control loaded in 0.78s, 456 queries (+456 other) 
+2026-09-02 12:09:15,483 554 INFO sgc_install odoo.modules.loading: Loading module sgc_regulatory_rules_pack (26/30) 
+2026-09-02 12:09:15,615 554 INFO sgc_install odoo.registry: module sgc_regulatory_rules_pack: creating or updating database tables 
+2026-09-02 12:09:15,664 554 WARNING sgc_install odoo.addons.base.models.ir_model: Two fields (jurisdiction_code, code) of regulatory.constant() have the same label: Code. [Modules: sgc_regulatory_rules_pack and sgc_regulatory_rules_pack] 
+2026-09-02 12:09:15,700 554 WARNING sgc_install py.warnings: /usr/lib/python3/dist-packages/odoo/orm/fields.py:832: UserWarning: Field regulatory.constant.superseded_by_id should be declared with recursive=True
+  File "/usr/bin/odoo", line 6, in <module>
+    odoo.cli.main()
+  File "/usr/lib/python3/dist-packages/odoo/cli/command.py", line 133, in main
+    command().run(args)
+  File "/usr/lib/python3/dist-packages/odoo/cli/server.py", line 127, in run
+    main(args)
+  File "/usr/lib/python3/dist-packages/odoo/cli/server.py", line 118, in main
+    rc = server.start(preload=config['db_name'], stop=stop)
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 1671, in start
+    rc = server.run(preload, stop)
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 708, in run
+    rc = preload_registries(preload)
+  File "/usr/lib/python3/dist-packages/odoo/service/server.py", line 1585, in preload_registries
+    registry = Registry.new(dbname, update_module=update_module, install_modules=config['init'], upgrade_modules=config['update'], reinit_modules=config['reinit'])
+  File "/usr/lib/python3/dist-packages/odoo/tools/func.py", line 88, in locked
+    return func(inst, *args, **kwargs)
+  File "/usr/lib/python3/dist-packages/odoo/orm/registry.py", line 189, in new
+    load_modules(
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 464, in load_modules
+    load_module_graph(
+  File "/usr/lib/python3/dist-packages/odoo/modules/loading.py", line 194, in load_module_graph
+    registry.init_models(env.cr, model_names, {'module': package.name}, update_operation == 'install')
+  File "/usr/lib/python3/dist-packages/odoo/orm/registry.py", line 791, in init_models
+    func()
+  File "/usr/lib/python3/dist-packages/odoo/addons/base/models/ir_model.py", line 60, in mark_modified
+    records.modified(fnames)
+  File "/usr/lib/python3/dist-packages/odoo/orm/models.py", line 6804, in modified
+    todo = [self._modified([self._fields[fname] for fname in fnames], create)]
+  File "/usr/lib/python3/dist-packages/odoo/orm/models.py", line 6856, in _modified
+    tree = self.pool.get_trigger_tree(fields, select=select)
+  File "/usr/lib/python3/dist-packages/odoo/orm/registry.py", line 590, in get_trigger_tree
+    if field in self._field_triggers
+  File "/usr/lib/python3.12/functools.py", line 995, in __get__
+    val = self.func(instance)
+  File "/usr/lib/python3/dist-packages/odoo/orm/registry.py", line 685, in _field_triggers
+    dependencies = list(field.resolve_depends(self))
+  File "/usr/lib/python3/dist-packages/odoo/orm/fields.py", line 832, in resolve_depends
+    warnings.warn(f"Field {self} should be declared with recursive=True", stacklevel=1)
+ 
+2026-09-02 12:09:15,702 554 WARNING sgc_install odoo.schema: Index attribute on 'regulatory.jurisdiction.name' ignored, only trigram index is supported for translated fields 
+2026-09-02 12:09:15,709 554 WARNING sgc_install odoo.schema: Index attribute on 'regulatory.constant.name' ignored, only trigram index is supported for translated fields 
+<string>:3: (WARNING/2) Title underline too short.
+
+SGC Regulatory Rules Pack
+========================
+2026-09-02 12:09:15,815 554 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/security/security.xml 
+2026-09-02 12:09:15,859 554 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/security/ir.model.access.csv 
+2026-09-02 12:09:15,877 554 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/data/regulatory_jurisdiction_data.xml 
+2026-09-02 12:09:15,897 554 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/data/regulatory_constant_dubai_aml_data.xml 
+2026-09-02 12:09:15,994 554 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/data/regulatory_constant_dubai_real_estate_data.xml 
+2026-09-02 12:09:16,125 554 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/data/regulatory_constant_einvoicing_data.xml 
+2026-09-02 12:09:16,175 554 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/data/regulatory_constant_uae_guidance_data.xml 
+2026-09-02 12:09:16,210 554 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/views/regulatory_jurisdiction_views.xml 
+2026-09-02 12:09:16,247 554 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/views/regulatory_constant_views.xml 
+2026-09-02 12:09:16,283 554 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/views/regulatory_constant_template_views.xml 
+2026-09-02 12:09:16,302 554 INFO sgc_install odoo.modules.loading: loading sgc_regulatory_rules_pack/views/regulatory_menu.xml 
+2026-09-02 12:09:16,396 554 INFO sgc_install odoo.modules.loading: Module sgc_regulatory_rules_pack loaded in 0.91s, 444 queries (+444 other) 
+2026-09-02 12:09:16,396 554 INFO sgc_install odoo.modules.loading: Loading module partner_autocomplete (27/30) 
+2026-09-02 12:09:16,432 554 INFO sgc_install odoo.registry: module partner_autocomplete: creating or updating database tables 
+2026-09-02 12:09:16,539 554 INFO sgc_install odoo.modules.loading: loading partner_autocomplete/views/res_company_views.xml 
+2026-09-02 12:09:16,562 554 INFO sgc_install odoo.modules.loading: loading partner_autocomplete/views/res_config_settings_views.xml 
+2026-09-02 12:09:16,581 554 INFO sgc_install odoo.modules.loading: loading partner_autocomplete/data/iap_service_data.xml 
+2026-09-02 12:09:16,597 554 INFO sgc_install odoo.modules.loading: Module partner_autocomplete loaded in 0.20s, 142 queries (+142 other) 
+2026-09-02 12:09:16,597 554 INFO sgc_install odoo.modules.loading: Loading module sgc_tenant_readiness (28/30) 
+2026-09-02 12:09:16,791 554 WARNING sgc_install odoo.fields: Field tenant.readiness.capability.code: unknown parameter 'unique', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:09:16,791 554 WARNING sgc_install odoo.fields: Field tenant.readiness.state.state_set_by_id: unknown parameter 'tracking', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:09:16,793 554 INFO sgc_install odoo.registry: module sgc_tenant_readiness: creating or updating database tables 
+2026-09-02 12:09:16,918 554 INFO sgc_install odoo.models: Prepare computation of res.company.data_residency_legal_regime_ref 
+2026-09-02 12:09:17,245 554 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/security/security.xml 
+2026-09-02 12:09:17,300 554 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/security/ir.model.access.csv 
+2026-09-02 12:09:17,325 554 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/security/ir_rule_tenant_isolation.xml 
+2026-09-02 12:09:17,377 554 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/data/tenant_readiness_capability_data.xml 
+2026-09-02 12:09:17,402 554 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/views/tenant_compliance_officer_views.xml 
+2026-09-02 12:09:17,446 554 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/views/tenant_readiness_state_views.xml 
+2026-09-02 12:09:17,471 554 WARNING sgc_install odoo.addons.base.models.ir_ui_view: action_mark_blocked on tenant.readiness.state has parameters and cannot be called from a button
+View error context:
+{'file': '/mnt/extra-addons/sgc_tenant_readiness/views/tenant_readiness_state_views.xml',
+ 'line': 10,
+ 'name': 'tenant.readiness.state.form',
+ 'view': ir.ui.view(452,),
+ 'view.model': 'tenant.readiness.state',
+ 'view.parent': ir.ui.view(),
+ 'xmlid': 'view_tenant_readiness_state_form'} 
+2026-09-02 12:09:17,479 554 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/views/tenant_high_risk_override_views.xml 
+2026-09-02 12:09:17,508 554 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/views/tenant_readiness_dashboard_views.xml 
+2026-09-02 12:09:17,524 554 INFO sgc_install odoo.modules.loading: loading sgc_tenant_readiness/views/tenant_menu.xml 
+2026-09-02 12:09:17,616 554 INFO sgc_install odoo.modules.loading: Module sgc_tenant_readiness loaded in 1.02s, 577 queries (+577 other) 
+2026-09-02 12:09:17,616 554 INFO sgc_install odoo.modules.loading: Loading module sms (29/30) 
+2026-09-02 12:09:17,724 554 WARNING sgc_install odoo.fields: Field tenant.readiness.capability.code: unknown parameter 'unique', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:09:17,725 554 WARNING sgc_install odoo.fields: Field tenant.readiness.state.state_set_by_id: unknown parameter 'tracking', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:09:17,739 554 INFO sgc_install odoo.registry: module sms: creating or updating database tables 
+2026-09-02 12:09:17,757 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.sms_template_id 
+2026-09-02 12:09:17,757 554 INFO sgc_install odoo.models: Prepare computation of ir.actions.server.sms_method 
+2026-09-02 12:09:18,602 554 WARNING sgc_install odoo.addons.base.models.ir_model: Two fields (jurisdiction_code, code) of regulatory.constant() have the same label: Code. [Modules: sgc_regulatory_rules_pack and sgc_regulatory_rules_pack] 
+2026-09-02 12:09:19,009 554 WARNING sgc_install odoo.schema: Index attribute on 'process.exception.summary' ignored, only trigram index is supported for translated fields 
+2026-09-02 12:09:19,010 554 WARNING sgc_install odoo.schema: Index attribute on 'regulatory.constant.name' ignored, only trigram index is supported for translated fields 
+2026-09-02 12:09:19,012 554 WARNING sgc_install odoo.schema: Index attribute on 'regulatory.jurisdiction.name' ignored, only trigram index is supported for translated fields 
+2026-09-02 12:09:19,134 554 INFO sgc_install odoo.modules.loading: loading sms/data/iap_service_data.xml 
+2026-09-02 12:09:19,139 554 INFO sgc_install odoo.modules.loading: loading sms/data/ir_cron_data.xml 
+2026-09-02 12:09:19,168 554 INFO sgc_install odoo.modules.loading: loading sms/wizard/sms_account_code_views.xml 
+2026-09-02 12:09:19,185 554 INFO sgc_install odoo.modules.loading: loading sms/wizard/sms_account_phone_views.xml 
+2026-09-02 12:09:19,194 554 INFO sgc_install odoo.modules.loading: loading sms/wizard/sms_account_sender_views.xml 
+2026-09-02 12:09:19,201 554 INFO sgc_install odoo.modules.loading: loading sms/wizard/sms_composer_views.xml 
+2026-09-02 12:09:19,213 554 INFO sgc_install odoo.modules.loading: loading sms/wizard/sms_template_preview_views.xml 
+2026-09-02 12:09:19,225 554 INFO sgc_install odoo.modules.loading: loading sms/wizard/sms_template_reset_views.xml 
+2026-09-02 12:09:19,235 554 INFO sgc_install odoo.modules.loading: loading sms/views/ir_actions_server_views.xml 
+2026-09-02 12:09:19,256 554 INFO sgc_install odoo.modules.loading: loading sms/views/mail_notification_views.xml 
+2026-09-02 12:09:19,276 554 INFO sgc_install odoo.modules.loading: loading sms/views/res_config_settings_views.xml 
+2026-09-02 12:09:19,300 554 INFO sgc_install odoo.modules.loading: loading sms/views/res_partner_views.xml 
+2026-09-02 12:09:19,326 554 INFO sgc_install odoo.modules.loading: loading sms/views/iap_account_views.xml 
+2026-09-02 12:09:19,344 554 INFO sgc_install odoo.modules.loading: loading sms/views/sms_sms_views.xml 
+2026-09-02 12:09:19,389 554 INFO sgc_install odoo.modules.loading: loading sms/views/sms_template_views.xml 
+2026-09-02 12:09:19,421 554 INFO sgc_install odoo.modules.loading: loading sms/security/ir.model.access.csv 
+2026-09-02 12:09:19,455 554 INFO sgc_install odoo.modules.loading: loading sms/security/sms_security.xml 
+2026-09-02 12:09:19,486 554 INFO sgc_install odoo.modules.loading: Module sms loaded in 1.87s, 2145 queries (+2145 other) 
+2026-09-02 12:09:19,486 554 INFO sgc_install odoo.modules.loading: Loading module snailmail (30/30) 
+2026-09-02 12:09:19,595 554 INFO sgc_install odoo.registry: module snailmail: creating or updating database tables 
+2026-09-02 12:09:19,726 554 WARNING sgc_install odoo.addons.base.models.ir_model: Two fields (jurisdiction_code, code) of regulatory.constant() have the same label: Code. [Modules: sgc_regulatory_rules_pack and sgc_regulatory_rules_pack] 
+2026-09-02 12:09:19,886 554 WARNING sgc_install odoo.schema: Index attribute on 'process.exception.summary' ignored, only trigram index is supported for translated fields 
+2026-09-02 12:09:19,887 554 WARNING sgc_install odoo.schema: Index attribute on 'regulatory.constant.name' ignored, only trigram index is supported for translated fields 
+2026-09-02 12:09:19,953 554 INFO sgc_install odoo.modules.loading: loading snailmail/data/iap_service_data.xml 
+2026-09-02 12:09:19,958 554 INFO sgc_install odoo.modules.loading: loading snailmail/data/snailmail_data.xml 
+2026-09-02 12:09:19,986 554 INFO sgc_install odoo.modules.loading: loading snailmail/views/report_assets.xml 
+2026-09-02 12:09:20,008 554 INFO sgc_install odoo.modules.loading: loading snailmail/views/snailmail_views.xml 
+2026-09-02 12:09:20,037 554 INFO sgc_install odoo.modules.loading: loading snailmail/security/ir.model.access.csv 
+2026-09-02 12:09:20,073 554 INFO sgc_install odoo.modules.loading: Module snailmail loaded in 0.59s, 461 queries (+461 other) 
+2026-09-02 12:09:20,073 554 INFO sgc_install odoo.modules.loading: 30 modules loaded in 22.60s, 16893 queries (+16894 extra) 
+2026-09-02 12:09:20,125 554 WARNING sgc_install odoo.fields: Field tenant.readiness.capability.code: unknown parameter 'unique', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:09:20,125 554 WARNING sgc_install odoo.fields: Field tenant.readiness.state.state_set_by_id: unknown parameter 'tracking', if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it 
+2026-09-02 12:09:20,607 554 INFO sgc_install odoo.modules.loading: Modules loaded. 
+2026-09-02 12:09:20,619 554 INFO sgc_install odoo.registry: Registry changed, signaling through the database 
+2026-09-02 12:09:20,622 554 INFO sgc_install odoo.registry: Registry loaded in 36.630s 
+2026-09-02 12:09:20,623 554 INFO sgc_install odoo.service.server: Initiating shutdown 
+2026-09-02 12:09:20,623 554 INFO sgc_install odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2026-09-02 12:09:20,624 554 INFO sgc_install odoo.sql_db: ConnectionPool(read/write;used=0/count=0/max=64): Closed 1 connections  

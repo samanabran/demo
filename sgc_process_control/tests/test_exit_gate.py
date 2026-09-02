@@ -31,6 +31,9 @@ class TestScreeningConsumer(models.AbstractModel):
 
     case_id = fields.Integer()
 
+    def _compliance_check_record_id(self):
+        return self.case_id
+
 
 class _FakeScreeningAdapter:
     """Always raises — emulates a screening-provider outage.

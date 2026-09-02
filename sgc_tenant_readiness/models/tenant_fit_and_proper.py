@@ -116,8 +116,17 @@ class TenantFitAndProper(models.Model):
                         "integrity and skills criteria to be attested."
                     ))
 
-    _sql_constraints = [
-        ("subject_date_uniq",
-         "UNIQUE(subject_user_id, assessment_date)",
-         "Only one fit-and-proper assessment per subject per date."),
-    ]
+    _subject_date_uniq = models.Constraint(
+        "UNIQUE(subject_user_id, assessment_date)",
+        "Only one fit-and-proper assessment per subject per date.",
+    )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        # Odoo only re-validates @api.constrains fields present in vals on
+        # create; a record created with the attestation booleans absent
+        # from vals (left at their False default) would otherwise pass
+        # silently even with outcome='pass'. Force the check explicitly.
+        records._check_required_attestations()
+        return records

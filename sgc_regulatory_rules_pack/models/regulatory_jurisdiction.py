@@ -82,6 +82,6 @@ class RegulatoryJurisdiction(models.Model):
         for rec in self:
             rec.constant_count = len(rec.constant_ids)
 
-    _sql_constraints = [
-        ("code_uniq", "UNIQUE(code)", "Jurisdiction code must be unique."),
-    ]
+    _code_uniq = models.Constraint(
+        "UNIQUE(code)", "Jurisdiction code must be unique.",
+    )

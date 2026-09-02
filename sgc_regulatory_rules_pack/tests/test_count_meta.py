@@ -19,6 +19,18 @@ import unittest
 from odoo.tests import TransactionCase, tagged
 
 
+def _discover_test_classes(test_pkg):
+    """Classes live on the submodules ``tests/__init__.py`` imports, not
+    directly on the ``tests`` package object — ``inspect.getmembers`` on
+    the package alone finds nothing.
+    """
+    discovered = []
+    for _, submodule in inspect.getmembers(test_pkg, inspect.ismodule):
+        for _, obj in inspect.getmembers(submodule, inspect.isclass):
+            discovered.append(obj)
+    return discovered
+
+
 @tagged("post_install", "-at_install", "sgc_install", "sgc_regulatory")
 class TestCountMeta(TransactionCase):
     # Ground truth as of this commit: TestCountMeta (this class),
@@ -34,13 +46,13 @@ class TestCountMeta(TransactionCase):
         number in the same commit. If a class is silently dropped
         (broken import), this test fails and the SHIP SET is BLOCKed.
         """
-        from sgc_regulatory_rules_pack import tests as test_pkg
+        from odoo.addons.sgc_regulatory_rules_pack import tests as test_pkg
 
-        discovered = []
-        for _, obj in inspect.getmembers(test_pkg, inspect.isclass):
-            if obj.__module__.startswith("sgc_regulatory_rules_pack.tests"):
-                if issubclass(obj, unittest.TestCase):
-                    discovered.append(obj.__name__)
+        discovered = [
+            obj.__name__ for obj in _discover_test_classes(test_pkg)
+            if obj.__module__.startswith("odoo.addons.sgc_regulatory_rules_pack.tests")
+            and issubclass(obj, unittest.TestCase)
+        ]
         self.assertEqual(
             len(discovered), self.EXPECTED_CLASS_COUNT,
             f"Expected {self.EXPECTED_CLASS_COUNT} test class(es) "

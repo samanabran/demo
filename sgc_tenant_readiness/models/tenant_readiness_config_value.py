@@ -60,11 +60,10 @@ class TenantReadinessConfigValue(models.Model):
              "the tenant has not actually signed off on.",
     )
 
-    _sql_constraints = [
-        ("tenant_key_uniq",
-         "UNIQUE(tenant_company_id, key)",
-         "One value per key per tenant."),
-    ]
+    _tenant_key_uniq = models.Constraint(
+        "UNIQUE(tenant_company_id, key)",
+        "One value per key per tenant.",
+    )
 
     @api.constrains("field_class", "value", "acknowledgement_id")
     def _check_decision_requires_acknowledgement(self):

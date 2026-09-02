@@ -80,7 +80,13 @@ class ProcessFailClosedMixin(models.AbstractModel):
         consumer = self._compliance_check_consumer_name()
         if not case_id:
             self._raise_indeterminate(consumer, reason="no compliance case linked")
-        case = self.env[self.compliance_case_model].browse(case_id).exists()
+        Case = self.env.get(self.compliance_case_model) if self.compliance_case_model else None
+        if not Case:
+            self._raise_indeterminate(consumer, reason=(
+                "compliance_case_model %r is not configured or not installed"
+                % (self.compliance_case_model,)
+            ))
+        case = Case.browse(case_id).exists()
         if not case:
             self._raise_indeterminate(consumer, reason="compliance case record missing")
         state = getattr(case, "state", None)
