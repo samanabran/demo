@@ -32,9 +32,9 @@ class CrmObjection(models.Model):
     active = fields.Boolean(default=True)
     sequence = fields.Integer(default=10)
 
-    _name_uniq = models.Constraint(
-        'unique (name)', 'Objection name must be unique!',
-    )
+    _sql_constraints = [
+        ('name_uniq', 'unique (name)', 'Objection name must be unique!'),
+    ]
 
     @api.constrains('name')
     def _check_name_short(self):
