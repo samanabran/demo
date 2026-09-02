@@ -32,5 +32,6 @@ Thumbs.db
 # Stray terminal scrollback captured by Claude Code sessions; not source.
 *-local-command-caveat*.txt
 .wave4_premigration/
+.wave4_regression_snapshot/
 tools/_wave4_runner.py
 tools/_closure_runner.py

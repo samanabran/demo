@@ -278,10 +278,110 @@ def check_test_tags_selectors():
     return findings
 
 
+_START_RE = re.compile(r"Starting ([A-Za-z0-9_]+)\.([A-Za-z0-9_]+)")
+_RESULT_RE = re.compile(
+    r"odoo\.tests\.result:\s*(\d+)\s*failed,\s*(\d+)\s*error\(s\)\s*of\s*(\d+)\s*tests"
+)
+
+
+def parse_run_log(log_text):
+    """Extract executed (ClassName, method) pairs and the final
+    testsRun/failed/error counts from a raw Odoo run log. This reads
+    what actually ran, not a static source count -- the log is the
+    only ground truth for what Odoo really executed."""
+    started = sorted({(c, m) for c, m in _START_RE.findall(log_text)})
+    result_matches = _RESULT_RE.findall(log_text)
+    if not result_matches:
+        return started, None
+    failed, errors, tests_run = (int(x) for x in result_matches[-1])
+    return started, {"failed": failed, "errors": errors, "testsRun": tests_run}
+
+
+def expected_ids_for_scope(module, scope):
+    """(class_name -> [method, ...]) expected for a given manifest
+    scope ('6.2', '6.3', or '6.4'), built from the same AST ground
+    truth check_manifest() uses -- never hand-typed."""
+    if scope == "6.2":
+        expected = {}
+        for name, _path, node in list_test_classes(module):
+            methods = [n.name for n in node.body
+                       if isinstance(n, ast.FunctionDef) and n.name.startswith("test_")]
+            expected[name] = methods
+        return expected
+    if scope == "6.3":
+        expected = {}
+        for name, _path, node in list_test_classes(module):
+            if not _has_post_install_tag(node):
+                continue
+            methods = [n.name for n in node.body
+                       if isinstance(n, ast.FunctionDef) and n.name.startswith("test_")]
+            expected[name] = methods
+        return expected
+    if scope == "6.4":
+        cls = MANIFEST[module]["section_64_class"]
+        _path, methods = find_class_methods(module, cls)
+        return {cls: methods} if methods else {}
+    raise ValueError(f"unknown scope {scope!r}")
+
+
+def verify_run_log(module, scope, log_path, exit_code=None):
+    """Exact test-identity gate against one real run log. Fails on:
+    a missing expected test ID, an unexpected test ID (not in the
+    scope's expected set), testsRun count mismatch, any failure/error
+    > 0, or a non-zero exit code when one is supplied. Never accepts
+    odoo.tests.stats and never treats a non-empty result line alone
+    as sufficient -- the enumerated Starting-test IDs are the gate."""
+    with open(log_path, encoding="utf-8") as fh:
+        text = fh.read()
+    started, summary = parse_run_log(text)
+    expected = expected_ids_for_scope(module, scope)
+    expected_pairs = {(c, m) for c, methods in expected.items() for m in methods}
+    started_pairs = set(started)
+
+    problems = []
+    if exit_code is not None and exit_code != 0:
+        problems.append(f"exit code {exit_code} != 0")
+    if summary is None:
+        problems.append("no odoo.tests.result summary line found in log")
+    else:
+        if summary["failed"] != 0:
+            problems.append(f"failed={summary['failed']} (expected 0)")
+        if summary["errors"] != 0:
+            problems.append(f"errors={summary['errors']} (expected 0)")
+        if summary["testsRun"] != len(expected_pairs):
+            problems.append(
+                f"testsRun={summary['testsRun']} != expected {len(expected_pairs)}"
+            )
+    missing = expected_pairs - started_pairs
+    if missing:
+        problems.append(f"missing expected test IDs: {sorted(missing)}")
+    unexpected = started_pairs - expected_pairs
+    if unexpected:
+        problems.append(f"unexpected test IDs not in manifest: {sorted(unexpected)}")
+
+    return {
+        "module": module, "scope": scope, "log_path": log_path,
+        "expected_count": len(expected_pairs), "started_count": len(started_pairs),
+        "summary": summary, "problems": problems,
+        "ok": not problems,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--json", action="store_true")
+    parser.add_argument(
+        "--check-run-log", nargs=4, metavar=("MODULE", "SCOPE", "LOG_PATH", "EXIT_CODE"),
+        help="Exact test-identity check against one real run log, e.g. "
+             "--check-run-log aml_compliance 6.2 docs/.../aml_compliance_6.2_final_v4.log 0",
+    )
     args = parser.parse_args()
+
+    if args.check_run_log:
+        module, scope, log_path, exit_code = args.check_run_log
+        res = verify_run_log(module, scope, log_path, exit_code=int(exit_code))
+        print(json.dumps(res, indent=2))
+        return 0 if res["ok"] else 1
 
     # Reuse the Rule 1 sync logic from the Wave 3 verifier.
     try:
