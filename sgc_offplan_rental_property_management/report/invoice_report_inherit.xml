@@ -18,7 +18,7 @@
                 </t>
                 <t t-if="o.sold_id">
                     <strong>Sold Contract</strong>
-                    <p t-esc="o.sold_id.sold_seq"/>
+                    <p t-esc="o.sold_id.name"/>
                 </t>
             </div>
         </xpath>

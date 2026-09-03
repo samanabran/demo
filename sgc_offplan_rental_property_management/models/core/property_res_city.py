@@ -12,3 +12,4 @@ class PropertyResCity(models.Model):
     region_id = fields.Many2one('property.region', string='Region')
     state_id = fields.Many2one('res.country.state', string='State')
     country_id = fields.Many2one('res.country', string='Country')
+    color = fields.Integer(string="Color")

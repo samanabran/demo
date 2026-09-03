@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
-from odoo.addons.http_routing.models.ir_http import ir_http
+from odoo.addons.base.models.ir_http import IrHttp
 
 
 class PropertyDetails(models.Model):
@@ -117,7 +117,7 @@ class PropertyDetails(models.Model):
         """Generate SEO-friendly URL for the property"""
         for record in self:
             if record.id:
-                record.website_url = f'/properties/{ir_http._slug(record)}'
+                record.website_url = f'/properties/{IrHttp._slug(record)}'
             else:
                 record.website_url = False
 
