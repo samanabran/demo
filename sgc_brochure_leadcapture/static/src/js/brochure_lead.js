@@ -66,11 +66,37 @@
         var triggerBtn = document.querySelector('.sgc_brochure_btn');
         var closeBtn = modal.querySelector('.sgc_brochure_close_btn');
 
+        // Without locking body scroll, the page behind this fixed-position
+        // overlay is still scrollable -- on mobile, focusing each field (or
+        // switching between the Name/Email/Phone keyboards) makes the browser
+        // auto-scroll that input into view, which scrolls the body underneath
+        // a fixed element and reads as the whole modal jumping/popping while
+        // typing.
+        //
+        // A plain `body.style.overflow = 'hidden'` blocks further scrolling
+        // but has its own well-known side effect: browsers snap the body's
+        // scroll offset to 0 the instant overflow becomes hidden, so opening
+        // the modal from partway down the page produces its own visible jump
+        // (and closing it can jump again). Pinning the body at its current
+        // offset with position:fixed + a negative top instead locks scroll
+        // without moving anything, and scrollTo() on close restores exactly
+        // where the visitor was.
+        var scrollLockY = 0;
         function openModal() {
+            scrollLockY = window.scrollY || document.documentElement.scrollTop || 0;
+            document.body.style.position = 'fixed';
+            document.body.style.top = (-scrollLockY) + 'px';
+            document.body.style.left = '0';
+            document.body.style.right = '0';
             modal.classList.add('sgc_brochure_open');
             modal.setAttribute('aria-hidden', 'false');
         }
         function closeModal() {
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.left = '';
+            document.body.style.right = '';
+            window.scrollTo(0, scrollLockY);
             modal.classList.remove('sgc_brochure_open');
             modal.setAttribute('aria-hidden', 'true');
         }

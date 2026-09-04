@@ -117,8 +117,30 @@ class OffplanWebsiteController(http.Controller):
             })
             property_rec.sudo().write({'website_inquiry_count': property_rec.website_inquiry_count + 1})
 
+            # property.website.inquiry only feeds this property's own smart
+            # button (action_view_website_inquiries) -- it never reached the
+            # CRM pipeline, so sales saw zero leads from this form even
+            # though visitors were submitting it. A crm.lead is what actually
+            # shows up in the leads pool.
+            request.env['crm.lead'].sudo().create({
+                'name': _('Property inquiry: %s') % (property_rec.name or _('Property #%s') % property_id),
+                'contact_name': kwargs.get('name'),
+                'email_from': kwargs.get('email'),
+                'phone': kwargs.get('phone', ''),
+                'description': kwargs.get('message') or _(
+                    'Website inquiry for "%s" (property.details id=%s).'
+                ) % (property_rec.name or '', property_id),
+            })
+
+            # Live-render the luxury brochure rather than pointing at the
+            # `brochure` binary field, which nothing in the codebase ever
+            # populates -- that field only ever holds a manually-uploaded
+            # override, so the download link was broken for every property
+            # unless staff had separately uploaded a PDF by hand.
             download_url = False
-            if property_rec.brochure:
+            if property_rec.is_published_website:
+                download_url = f'/offplan/property/{property_id}/brochure.pdf'
+            elif property_rec.brochure:
                 download_url = f'/web/content/property.details/{property_id}/brochure?download=true'
             elif property_rec.floor_plan:
                 download_url = f'/web/content/property.details/{property_id}/floor_plan?download=true'
@@ -131,6 +153,24 @@ class OffplanWebsiteController(http.Controller):
         except Exception as e:
             _logger.error("Property inquiry error: %s", str(e), exc_info=True)
             return {'success': False, 'error': str(e)}
+
+    @http.route('/offplan/property/<int:property_id>/brochure.pdf', type='http', auth='public', website=True)
+    def property_brochure_pdf(self, property_id, **kwargs):
+        """Live-render the luxury brochure PDF for public, gated download."""
+        property_rec = request.env['property.details'].sudo().browse(property_id)
+        if not property_rec.exists() or not property_rec.is_published_website:
+            return request.not_found()
+        try:
+            pdf_content, filename = property_rec.render_luxury_brochure_pdf()
+        except Exception:
+            _logger.exception('Failed to render property brochure PDF for property.details id=%s', property_id)
+            return request.not_found()
+        headers = [
+            ('Content-Type', 'application/pdf'),
+            ('Content-Length', len(pdf_content)),
+            ('Content-Disposition', 'attachment; filename="%s"' % filename),
+        ]
+        return request.make_response(pdf_content, headers=headers)
 
     @http.route(['/offplan/project/<int:project_id>'], type='http', auth='public', website=True, sitemap=True)
     def project_detail(self, project_id, **kwargs):

@@ -4,9 +4,10 @@
     'description': """
         Adds a "Download Brochure" button to the offplan property detail
         page. Clicking it opens a modal (Name/Email/Phone). Submitting the
-        form creates a crm.lead, then triggers the existing dynamically
-        generated PDF report (sgc_offplan_rental_property_management's own
-        action_report_property_brochure) for download.
+        form creates a crm.lead, then triggers the luxury brochure PDF
+        report (sgc_offplan_rental_property_management's
+        action_report_property_brochure_luxury, via
+        property.details.render_luxury_brochure_pdf()) for download.
 
         Button/modal are injected client-side (see static/src/js) rather
         than via QWeb inherit_id/xpath -- the vendor module's own files are

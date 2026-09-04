@@ -138,39 +138,89 @@
                         height: 100%;
                         display: block;
                     }
-                    /* Vignette overlay — stacked rgba bands for wkhtmltopdf.
-                       Sized generously (not to a measured content height,
-                       which wkhtmltopdf can't report back to CSS) so the
-                       full text block in .cover-content — monogram through
-                       tagline — always sits over a shaded band instead of
-                       the bare photo. */
+                    /* Vignette overlay — stacked rgba bands for wkhtmltopdf
+                       (QtWebKit does not reliably render CSS linear-gradient,
+                       so a real gradient is not an option here). The earlier
+                       4-band version had large opacity jumps between bands
+                       (0.35 -> 0.55 -> 0.85 -> solid), which read as two hard
+                       horizontal seams across the photo instead of a smooth
+                       scrim. 8 finer steps with a smoother opacity curve
+                       removes the visible banding while keeping the exact
+                       same wkhtmltopdf-safe technique. Sized generously (not
+                       to a measured content height, which wkhtmltopdf can't
+                       report back to CSS) so the full text block in
+                       .cover-content — monogram through tagline — always
+                       sits over a shaded band instead of the bare photo. */
                     .cover-vignette-1 {
                         position: absolute;
                         bottom: 0; left: 0; right: 0;
-                        height: 65%;
-                        background: rgba(10,22,40,0.35);
+                        height: 78%;
+                        background: rgba(10,22,40,0.10);
                         z-index: 2;
                     }
                     .cover-vignette-2 {
                         position: absolute;
                         bottom: 0; left: 0; right: 0;
-                        height: 45%;
-                        background: rgba(10,22,40,0.55);
+                        height: 68%;
+                        background: rgba(10,22,40,0.18);
                         z-index: 3;
                     }
                     .cover-vignette-3 {
                         position: absolute;
                         bottom: 0; left: 0; right: 0;
-                        height: 25%;
-                        background: rgba(10,22,40,0.85);
+                        height: 58%;
+                        background: rgba(10,22,40,0.28);
                         z-index: 4;
                     }
                     .cover-vignette-4 {
                         position: absolute;
                         bottom: 0; left: 0; right: 0;
-                        height: 10%;
-                        background: #0a1628;
+                        height: 48%;
+                        background: rgba(10,22,40,0.40);
                         z-index: 5;
+                    }
+                    .cover-vignette-5 {
+                        position: absolute;
+                        bottom: 0; left: 0; right: 0;
+                        height: 37%;
+                        background: rgba(10,22,40,0.54);
+                        z-index: 6;
+                    }
+                    .cover-vignette-6 {
+                        position: absolute;
+                        bottom: 0; left: 0; right: 0;
+                        height: 26%;
+                        background: rgba(10,22,40,0.70);
+                        z-index: 7;
+                    }
+                    .cover-vignette-7 {
+                        position: absolute;
+                        bottom: 0; left: 0; right: 0;
+                        height: 15%;
+                        background: rgba(10,22,40,0.87);
+                        z-index: 8;
+                    }
+                    .cover-vignette-8 {
+                        position: absolute;
+                        bottom: 0; left: 0; right: 0;
+                        height: 6%;
+                        background: #0a1628;
+                        z-index: 9;
+                    }
+                    /* Thin geometric accent marking the hero/content seam —
+                       a single hairline rather than another flat rectangle,
+                       so the transition itself reads as an intentional
+                       architectural line instead of a leftover overlay
+                       edge. */
+                    .cover-seam-line {
+                        position: absolute;
+                        left: 50%;
+                        bottom: 78%;
+                        width: 46mm;
+                        height: 1px;
+                        background: rgba(201,169,97,0.55);
+                        transform: translateX(-50%);
+                        z-index: 10;
                     }
 
                     /* Cover content overlay */
@@ -426,9 +476,16 @@
                         border-radius: 2px;
                     }
                     .gallery-main img {
+                        /* No object-fit here on purpose -- wkhtmltopdf's
+                           QtWebKit ignores it, which used to stretch this
+                           photo into the banner shape (up to ~270% aspect
+                           distortion measured against the source). The
+                           image arriving here is now pre-cropped by
+                           crop_fit_uri() to this exact box's aspect ratio,
+                           so a plain 100%/100% fit is lossless. */
                         width: 100%;
                         height: 100%;
-                        object-fit: cover;
+                        display: block;
                     }
                     .gallery-sub-row {
                         display: table;
@@ -445,9 +502,13 @@
                         border-radius: 2px;
                     }
                     .gallery-sub img {
+                        /* Same rationale as .gallery-main img above -- these
+                           thumbnails hit up to ~560% aspect distortion under
+                           the ignored object-fit before crop_fit_uri()
+                           pre-cropped them server-side. */
                         width: 100%;
                         height: 100%;
-                        object-fit: cover;
+                        display: block;
                     }
 
                     /* Section divider */
@@ -702,6 +763,11 @@
                         <div class="cover-vignette-2"></div>
                         <div class="cover-vignette-3"></div>
                         <div class="cover-vignette-4"></div>
+                        <div class="cover-vignette-5"></div>
+                        <div class="cover-vignette-6"></div>
+                        <div class="cover-vignette-7"></div>
+                        <div class="cover-vignette-8"></div>
+                        <div class="cover-seam-line"></div>
                     </div>
 
                     <div class="cover-content">
@@ -815,24 +881,30 @@
                         <div class="gallery-block">
                             <div class="gallery-main">
                                 <t t-set="first_img" t-value="images[0]"/>
-                                <t t-if="first_img.image_512">
-                                    <img t-att-src="image_data_uri(convert_image(first_img.image_512))" t-att-alt="first_img.name or 'Property View'"/>
+                                <!-- 533.2pt x 96.0pt box -> 2222x400px at 300dpi.
+                                     crop_fit_uri crops from image_1920 (the
+                                     full-resolution source, not the 512px
+                                     thumbnail) so the banner is both
+                                     un-stretched and print-sharp. -->
+                                <t t-if="first_img.image_1920">
+                                    <img t-att-src="crop_fit_uri(first_img.image_1920, 2222, 400)" t-att-alt="first_img.name or 'Property View'"/>
                                 </t>
                             </div>
                             <div class="gallery-sub-row">
                                 <t t-if="len(images) > 1">
                                     <t t-set="second_img" t-value="images[1]"/>
                                     <div class="gallery-sub">
-                                        <t t-if="second_img.image_512">
-                                            <img t-att-src="image_data_uri(convert_image(second_img.image_512))" t-att-alt="second_img.name or 'Property View'"/>
+                                        <!-- ~256.5pt x 58.5pt -> 1069x244px at 300dpi. -->
+                                        <t t-if="second_img.image_1920">
+                                            <img t-att-src="crop_fit_uri(second_img.image_1920, 1069, 244)" t-att-alt="second_img.name or 'Property View'"/>
                                         </t>
                                     </div>
                                 </t>
                                 <t t-if="len(images) > 2">
                                     <t t-set="third_img" t-value="images[2]"/>
                                     <div class="gallery-sub">
-                                        <t t-if="third_img.image_512">
-                                            <img t-att-src="image_data_uri(convert_image(third_img.image_512))" t-att-alt="third_img.name or 'Property View'"/>
+                                        <t t-if="third_img.image_1920">
+                                            <img t-att-src="crop_fit_uri(third_img.image_1920, 1069, 244)" t-att-alt="third_img.name or 'Property View'"/>
                                         </t>
                                     </div>
                                 </t>
@@ -975,8 +1047,17 @@
                             <div class="clearfix" style="width:100%;">
                                 <t t-foreach="page_images" t-as="img">
                                     <div class="gallery-grid-cell">
-                                        <t t-if="img.image_512">
-                                            <img t-att-src="image_data_uri(convert_image(img.image_512))" t-att-alt="img.name or &apos;Gallery Image&apos;"/>
+                                        <!-- image_1920 downsized to 1200px (not image_512, and not
+                                             passed through at full resolution either): these cells
+                                             are ~278pt x 235pt (~3.9in x 3.3in), needing ~1160x980px
+                                             for a real 300dpi print. image_512 only gave ~130dpi;
+                                             embedding the full 1920px source unresized gave 2-4x more
+                                             pixels than the print box could ever use and was the
+                                             main cost behind ~26s brochure renders (visitors were
+                                             abandoning the download before it finished; see
+                                             render_luxury_brochure_pdf's docstring on property.details). -->
+                                        <t t-if="img.image_1920">
+                                            <img t-att-src="image_data_uri(resize_image(img.image_1920, 1200))" t-att-alt="img.name or &apos;Gallery Image&apos;"/>
                                         </t>
                                     </div>
                                 </t>

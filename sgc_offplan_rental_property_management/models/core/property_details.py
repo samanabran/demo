@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import base64
 import logging
 
 from odoo import _, api, fields, models
@@ -413,6 +414,45 @@ class PropertyDetails(models.Model):
         return self.env.ref(
             'sgc_offplan_rental_property_management.action_report_property_brochure_luxury'
         ).report_action(self)
+
+    def render_luxury_brochure_pdf(self):
+        """Return (pdf_bytes, filename) for the luxury brochure report.
+
+        Single source of truth for every website/controller download path so
+        they can't drift onto the older, plain action_report_property_brochure
+        report again -- that mismatch (website button live-rendering the non-
+        luxury report while the backend Print button used the luxury one) is
+        exactly the bug this method replaces call sites for.
+
+        Caches the result into the existing `brochure` binary field (already
+        documented as "brochure PDF for lead-gated download") and serves that
+        on later calls instead of re-rendering. This isn't just a speed nicety:
+        a full-gallery brochure at print resolution takes ~20-30s to render
+        (PIL cropping/resizing plus wkhtmltopdf embedding tens of megabytes of
+        photos), and visitors were abandoning the download mid-request before
+        it finished (nginx logs those as HTTP 499). Caching means only the
+        first request for a given property pays that cost. If staff has
+        manually uploaded a `brochure` override, that takes precedence and is
+        never replaced here -- matches the field's original purpose.
+        Note: the cache does not auto-invalidate if photos/details change
+        later; clear the Brochure (PDF) field on the property to force a
+        fresh render.
+        """
+        self.ensure_one()
+        if self.brochure:
+            return base64.b64decode(self.brochure), (self.brochure_filename or 'brochure.pdf')
+        report = self.env.ref(
+            'sgc_offplan_rental_property_management.action_report_property_brochure_luxury'
+        ).sudo()
+        pdf_content, _content_type = self.env['ir.actions.report'].sudo()._render_qweb_pdf(
+            report, [self.id]
+        )
+        filename = '%s-brochure.pdf' % (self.name or 'property').replace('/', '-')
+        self.sudo().write({
+            'brochure': base64.b64encode(pdf_content),
+            'brochure_filename': filename,
+        })
+        return pdf_content, filename
 
     def action_create_sale_contract(self):
         self.ensure_one()

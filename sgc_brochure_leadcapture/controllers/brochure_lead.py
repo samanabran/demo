@@ -62,18 +62,12 @@ class BrochureLeadController(http.Controller):
         if not property_rec.exists() or not property_rec.is_published_website:
             return request.not_found()
 
-        report = request.env.ref(
-            'sgc_offplan_rental_property_management.action_report_property_brochure'
-        ).sudo()
         try:
-            pdf_content, _content_type = request.env['ir.actions.report'].sudo()._render_qweb_pdf(
-                report, [property_rec.id]
-            )
+            pdf_content, filename = property_rec.render_luxury_brochure_pdf()
         except Exception:
             _logger.exception('Failed to render property brochure PDF for property.details id=%s', property_id)
             return request.not_found()
 
-        filename = '%s-brochure.pdf' % (property_rec.name or 'property').replace('/', '-')
         headers = [
             ('Content-Type', 'application/pdf'),
             ('Content-Length', len(pdf_content)),
