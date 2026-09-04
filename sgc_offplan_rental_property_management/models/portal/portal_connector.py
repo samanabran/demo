@@ -70,6 +70,17 @@ class PortalConnector(models.Model):
         help="RapidAPI key (x-rapidapi-key) used by the 'Test RapidAPI Connection' button.",
     )
     api_secret = fields.Char(groups="sgc_offplan_rental_property_management.group_portal_admin")
+
+    webhook_secret = fields.Char(
+        default=lambda self: secrets.token_urlsafe(32),
+        copy=False,
+        tracking=False,  # SECURITY: Never track secrets in chatter
+        groups="sgc_offplan_rental_property_management.group_portal_admin",
+        help="Shared secret used to verify the HMAC-SHA256 X-Signature header on inbound "
+             "/portal-webhook/<code> requests. Only enforced once the webhook kill-switch "
+             "(ir.config_parameter 'sgc_offplan_rental_property_management.portal_webhook_enabled') "
+             "is turned on.",
+    )
     api_endpoint = fields.Char(
         help="RapidAPI host (x-rapidapi-host), e.g. uae-real-estate3.p.rapidapi.com. "
              "Leave blank to use the default host for this portal's code.",
