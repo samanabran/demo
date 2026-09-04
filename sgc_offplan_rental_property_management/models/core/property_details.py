@@ -24,6 +24,13 @@ class PropertyImages(models.Model):
         required=True,
         ondelete='cascade',
     )
+    company_id = fields.Many2one(
+        'res.company',
+        string='Company',
+        related='property_id.company_id',
+        store=True,
+        index=True,
+    )
 
 
 class PropertyDetails(models.Model):
