@@ -4,7 +4,7 @@
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, _
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 
 
 class RentContract(models.Model):
@@ -224,12 +224,116 @@ class RentContract(models.Model):
             if not contract.name or contract.name == _('New'):
                 contract.name = self.env['ir.sequence'].next_by_code('rent.contract') or _('New')
 
+    @staticmethod
+    def _check_end_date_present(vals):
+        # end_date is required=True at the field level, but the ORM's own
+        # required-field check does not intercept every create()/write() path
+        # before the value reaches PostgreSQL's NOT NULL column constraint
+        # (PROP-D2/PROP-D1 test_11 reproduced a raw NotNullViolation instead
+        # of a friendly error). Guard explicitly, before super(), so every
+        # entry vector (UI, RPC, import, batch) gets the same ValidationError.
+        if 'end_date' in vals and not vals['end_date']:
+            raise ValidationError(_(
+                "An end date is required. This module does not support "
+                "open-ended rent contracts."))
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
             if not vals.get('name') or vals.get('name') == _('New'):
                 vals['name'] = self.env['ir.sequence'].next_by_code('rent.contract') or _('New')
+            if not vals.get('end_date'):
+                raise ValidationError(_(
+                    "An end date is required. This module does not support "
+                    "open-ended rent contracts."))
         return super(RentContract, self).create(vals_list)
+
+    def write(self, vals):
+        self._check_end_date_present(vals)
+        return super(RentContract, self).write(vals)
+
+    @api.constrains('company_id', 'property_id', 'state')
+    def _check_company_consistency(self):
+        # PROP-D4: a contract's company must equal its property's company,
+        # with no special-casing of a False company_id on either side.
+        # 'state' is included as a trigger so activating a contract that was
+        # made inconsistent by a means other than the normal create/write
+        # chokepoints (e.g. direct SQL) is still caught.
+        for contract in self:
+            if not contract.property_id:
+                continue
+            if contract.company_id != contract.property_id.company_id:
+                raise ValidationError(_(
+                    "This contract's company (%(contract_company)s) does not "
+                    "match its property's company (%(property_company)s)."
+                ) % {
+                    "contract_company": contract.company_id.name or _("None"),
+                    "property_company": contract.property_id.company_id.name or _("None"),
+                })
+
+    @api.constrains('property_id', 'start_date', 'end_date', 'state')
+    def _check_no_overlap(self):
+        # PROP-D1 Rule B: a property may carry multiple active contracts as
+        # long as their occupancy date ranges (inclusive of both bounds) do
+        # not overlap. Application-level backstop for the PostgreSQL
+        # EXCLUDE USING gist constraint added in init() below.
+        for contract in self:
+            if contract.state != 'active' or not contract.property_id:
+                continue
+            if not contract.start_date or not contract.end_date:
+                continue
+            overlapping = self.search_count([
+                ('id', '!=', contract.id),
+                ('property_id', '=', contract.property_id.id),
+                ('state', '=', 'active'),
+                ('start_date', '<=', contract.end_date),
+                ('end_date', '>=', contract.start_date),
+            ])
+            if overlapping:
+                raise ValidationError(_(
+                    "This property already has another active contract whose "
+                    "occupancy dates overlap with %(name)s (%(start)s to %(end)s)."
+                ) % {
+                    "name": contract.name,
+                    "start": contract.start_date,
+                    "end": contract.end_date,
+                })
+
+    def init(self):
+        # Real, DB-level backstop for Rule B (PROP-D1 test_09): application
+        # code alone is bypassable via raw SQL, so the exclusion constraint
+        # must exist as an actual PostgreSQL constraint. Idempotent across
+        # repeated module upgrades. daterange(..., '[]') treats end_date as
+        # the last occupied day, so adjacent/touching ranges do not overlap.
+        self.env.cr.execute("CREATE EXTENSION IF NOT EXISTS btree_gist")
+        self.env.cr.execute(
+            "SELECT 1 FROM pg_constraint WHERE conname = 'rent_contract_no_overlap'"
+        )
+        if not self.env.cr.fetchone():
+            self.env.cr.execute("""
+                ALTER TABLE rent_contract
+                ADD CONSTRAINT rent_contract_no_overlap
+                EXCLUDE USING gist (
+                    property_id WITH =,
+                    daterange(start_date, end_date, '[]') WITH &&
+                )
+                WHERE (state = 'active')
+            """)
+
+    def _release_property_if_unoccupied(self):
+        self.ensure_one()
+        if not self.property_id:
+            return
+        today = fields.Date.context_today(self)
+        still_occupied = self.search_count([
+            ('id', '!=', self.id),
+            ('property_id', '=', self.property_id.id),
+            ('state', '=', 'active'),
+            ('start_date', '<=', today),
+            ('end_date', '>=', today),
+        ])
+        if not still_occupied:
+            self.property_id.write({"state": "available"})
 
     # State transitions
     def action_activate(self):
@@ -243,15 +347,13 @@ class RentContract(models.Model):
     def action_expire(self):
         self.ensure_one()
         self.write({"state": "expired"})
-        if self.property_id:
-            self.property_id.write({"state": "available"})
+        self._release_property_if_unoccupied()
         self.message_post(body=_("Contract expired. Property is now available."))
 
     def action_cancel(self):
         self.ensure_one()
         self.write({"state": "cancelled"})
-        if self.property_id:
-            self.property_id.write({"state": "available"})
+        self._release_property_if_unoccupied()
         self.message_post(body=_("Contract cancelled. Property is now available."))
 
     def action_request_renewal(self):
