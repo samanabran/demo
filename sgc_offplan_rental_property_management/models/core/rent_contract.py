@@ -237,6 +237,40 @@ class RentContract(models.Model):
                 "An end date is required. This module does not support "
                 "open-ended rent contracts."))
 
+    def _find_overlap_conflict(self, property_id, start_date, end_date, exclude_id=None):
+        if not property_id or not start_date or not end_date:
+            return False
+        domain = [
+            ('property_id', '=', property_id),
+            ('state', '=', 'active'),
+            ('start_date', '<=', end_date),
+            ('end_date', '>=', start_date),
+        ]
+        if exclude_id:
+            domain.append(('id', '!=', exclude_id))
+        return bool(self.search_count(domain))
+
+    def _check_no_overlap_before_write(self, vals):
+        # Rule B, checked BEFORE super().write() flushes to PostgreSQL:
+        # the real EXCLUDE USING gist constraint (see init() below) fires
+        # during flush, ahead of any @api.constrains method, which would
+        # otherwise surface as a raw ExclusionViolation instead of a
+        # friendly ValidationError on the ordinary create/write/activate path.
+        if not ({'property_id', 'start_date', 'end_date', 'state'} & vals.keys()):
+            return
+        for contract in self:
+            new_state = vals.get('state', contract.state)
+            if new_state != 'active':
+                continue
+            new_property = vals['property_id'] if 'property_id' in vals else contract.property_id.id
+            new_start = vals.get('start_date', contract.start_date)
+            new_end = vals.get('end_date', contract.end_date)
+            if self._find_overlap_conflict(new_property, new_start, new_end, exclude_id=contract.id):
+                raise ValidationError(_(
+                    "This property already has another active contract whose "
+                    "occupancy dates overlap with %(name)s (%(start)s to %(end)s)."
+                ) % {"name": contract.name, "start": new_start, "end": new_end})
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -246,10 +280,16 @@ class RentContract(models.Model):
                 raise ValidationError(_(
                     "An end date is required. This module does not support "
                     "open-ended rent contracts."))
+            if vals.get('state') == 'active' and self._find_overlap_conflict(
+                    vals.get('property_id'), vals.get('start_date'), vals.get('end_date')):
+                raise ValidationError(_(
+                    "This property already has another active contract whose "
+                    "occupancy dates overlap with the dates given."))
         return super(RentContract, self).create(vals_list)
 
     def write(self, vals):
         self._check_end_date_present(vals)
+        self._check_no_overlap_before_write(vals)
         return super(RentContract, self).write(vals)
 
     @api.constrains('company_id', 'property_id', 'state')
@@ -269,34 +309,6 @@ class RentContract(models.Model):
                 ) % {
                     "contract_company": contract.company_id.name or _("None"),
                     "property_company": contract.property_id.company_id.name or _("None"),
-                })
-
-    @api.constrains('property_id', 'start_date', 'end_date', 'state')
-    def _check_no_overlap(self):
-        # PROP-D1 Rule B: a property may carry multiple active contracts as
-        # long as their occupancy date ranges (inclusive of both bounds) do
-        # not overlap. Application-level backstop for the PostgreSQL
-        # EXCLUDE USING gist constraint added in init() below.
-        for contract in self:
-            if contract.state != 'active' or not contract.property_id:
-                continue
-            if not contract.start_date or not contract.end_date:
-                continue
-            overlapping = self.search_count([
-                ('id', '!=', contract.id),
-                ('property_id', '=', contract.property_id.id),
-                ('state', '=', 'active'),
-                ('start_date', '<=', contract.end_date),
-                ('end_date', '>=', contract.start_date),
-            ])
-            if overlapping:
-                raise ValidationError(_(
-                    "This property already has another active contract whose "
-                    "occupancy dates overlap with %(name)s (%(start)s to %(end)s)."
-                ) % {
-                    "name": contract.name,
-                    "start": contract.start_date,
-                    "end": contract.end_date,
                 })
 
     def init(self):
