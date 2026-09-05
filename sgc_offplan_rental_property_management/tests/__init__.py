@@ -4,3 +4,4 @@ from . import test_smoke
 from . import test_prop_d1_double_booking
 from . import test_prop_d4_company_consistency
 from . import test_prop_d7_currency_resolution
+from . import test_prop_d8_booking_reference_default

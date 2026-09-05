@@ -9,7 +9,7 @@ class PropertyVendor(models.Model):
     _order = 'id desc'
 
     name = fields.Char(string='Vendor Reference', required=True, tracking=True,
-                       default=lambda self: _('New'))
+                       default=lambda self: _('New'), copy=False)
     property_id = fields.Many2one('property.details', string='Property')
     vendor_id = fields.Many2one('res.partner', string='Vendor', required=True)
     customer_id = fields.Many2one('res.partner', string='Customer')
