@@ -73,7 +73,7 @@ class TestSmoke(AccountTestInvoicingCommon):
             bills.rent_amount, 3000.0,
             "Quarterly rent_amount should be rent_amount * 3"
         )
-        move = self.env["account.move"].browse(bills.rent_bill_id)
+        move = bills.rent_bill_id
         self.assertTrue(move.exists())
         self.assertEqual(
             move.invoice_line_ids[0].price_unit, 3000.0,
@@ -97,11 +97,16 @@ class TestSmoke(AccountTestInvoicingCommon):
         property_record = self.env["property.details"].create({
             "name": "Test Property for Maintenance Bill",
         })
+        # maintenance_team_id is required at the base maintenance.request
+        # level; the demo team it would otherwise default to isn't loaded
+        # under --without-demo=all.
+        team = self.env["maintenance.team"].create({"name": "Test Maintenance Team"})
         maintenance = self.env["maintenance.request"].create({
             "name": "Leaky tap",
             "property_id": property_record.id,
             "payment_from": "vendor",
             "vendor_id": vendor.id,
+            "maintenance_team_id": team.id,
         })
         product = self.env["product.product"].create({
             "name": "Maintenance Service",

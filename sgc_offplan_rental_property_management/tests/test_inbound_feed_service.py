@@ -111,12 +111,16 @@ class TestHappyPath(TransactionCase):
                 cls.env["property.project"].create({
                     "name": project_name,
                 })
-        # Currency AED — Odoo's base currency data should include it;
-        # fallback to creating one with a sensible rate if missing.
-        cls.currency_aed = cls.env["res.currency"].search([
-            ("name", "=", "AED"),
-        ], limit=1)
-        if not cls.currency_aed:
+        # Currency AED — Odoo's base currency data includes it but inactive
+        # by default, so the search must bypass the active_test to find it;
+        # otherwise create() collides with the existing (inactive) row on
+        # the name unique constraint instead of reactivating it.
+        cls.currency_aed = cls.env["res.currency"].with_context(
+            active_test=False).search([("name", "=", "AED")], limit=1)
+        if cls.currency_aed:
+            if not cls.currency_aed.active:
+                cls.currency_aed.active = True
+        else:
             cls.currency_aed = cls.env["res.currency"].create({
                 "name": "AED",
                 "symbol": "AED",
