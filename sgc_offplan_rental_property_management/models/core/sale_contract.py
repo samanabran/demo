@@ -17,6 +17,8 @@ class SaleContract(models.Model):
         string='Contract Reference',
         required=True,
         tracking=True,
+        default=lambda self: _('New'),
+        copy=False,
     )
     property_id = fields.Many2one(
         'property.details',

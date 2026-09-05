@@ -15,7 +15,8 @@ class RentContract(models.Model):
 
     # Identity
     name = fields.Char(
-        string="Contract Reference", required=True, tracking=True)
+        string="Contract Reference", required=True, tracking=True,
+        default=lambda self: _("New"), copy=False)
     company_id = fields.Many2one(
         "res.company", string="Company",
         default=lambda self: self.env.company)
