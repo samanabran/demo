@@ -410,6 +410,17 @@ def resolve_related_records(env, vals):
         # False rather than silently inherit it, the same as the other
         # unmatched location fields below.
         vals["currency_id"] = currency_rec.id if currency_rec else False
+        if not currency_rec:
+            # PROP-D7: silent substitution of the company currency for an
+            # unrecognized feed currency code would misrepresent price data
+            # financially. currency_id is left unset (see above); this log
+            # is the review signal an operator needs to catch and correct
+            # the source feed's currency code.
+            _logger.warning(
+                "Unrecognized currency code %r on feed property %s -- "
+                "currency_id left unset instead of defaulting.",
+                currency_text, vals.get("reference_number"),
+            )
 
     country_text = vals.pop("country_text", None)
     if country_text:
