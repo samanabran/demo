@@ -101,7 +101,11 @@ class TestSmoke(AccountTestInvoicingCommon):
         # level; the demo team it would otherwise default to isn't loaded
         # under --without-demo=all.
         team = self.env["maintenance.team"].sudo().create({"name": "Test Maintenance Team"})
-        maintenance = self.env["maintenance.request"].create({
+        # This test exercises the vendor-bill partner_id data shape, not
+        # maintenance.request's own ACL (a separate group from Property
+        # Management), so create it via sudo like the module's own
+        # action_crete_bill()/action_crete_invoice() already do for bills.
+        maintenance = self.env["maintenance.request"].sudo().create({
             "name": "Leaky tap",
             "property_id": property_record.id,
             "payment_from": "vendor",
