@@ -41,6 +41,12 @@ class TestPortalRoutes(HttpCase):
 
         portal_group = cls.env.ref("base.group_portal")
         admin_user = cls.env.ref("base.user_admin")
+        # base.user_admin is the Administrator, not the ORM superuser -- it
+        # still goes through ordinary ACL checks and does not automatically
+        # carry this module's custom Property Management group, which
+        # property.details.create() below requires.
+        admin_user.write({"group_ids": [(4, cls.env.ref(
+            "sgc_offplan_rental_property_management.property_rental_manager").id)]})
         # Run user-creation under admin so portal group assignment is allowed.
         admin_env = cls.env(user=admin_user.id)
         cls.user_alice = admin_env["res.users"].with_context(

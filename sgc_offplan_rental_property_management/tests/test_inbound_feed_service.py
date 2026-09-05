@@ -110,7 +110,6 @@ class TestHappyPath(TransactionCase):
             if not existing:
                 cls.env["property.project"].create({
                     "name": project_name,
-                    "owner_id": cls.partner.id,
                 })
         # Currency AED — Odoo's base currency data should include it;
         # fallback to creating one with a sensible rate if missing.

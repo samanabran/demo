@@ -23,6 +23,10 @@ class TestSmoke(AccountTestInvoicingCommon):
         # - receivable/payable accounts for partners
         # - default sales/purchase taxes
         # No manual journal/account creation needed.
+        # Its default test user only carries accounting groups, so grant the
+        # Property Management group needed for property.details.create() below.
+        cls.env.user.write({'group_ids': [(4, cls.env.ref(
+            'sgc_offplan_rental_property_management.property_rental_manager').id)]})
 
     def test_get_property_stats_returns_dict(self):
         stats = self.env["property.details"].get_property_stats()
