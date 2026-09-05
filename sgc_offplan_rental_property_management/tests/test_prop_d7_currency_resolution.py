@@ -36,7 +36,7 @@ class TestPropD7CurrencyResolution(TransactionCase):
         super().setUpClass()
         cls.portal = cls.env["portal.connector"].create({
             "name": "PROP-D7 Portal Test",
-            "code": "propd7",
+            "code": "custom",
             "company_id": cls.env.company.id,
         })
         cls.currency_aed = cls.env["res.currency"].with_context(
