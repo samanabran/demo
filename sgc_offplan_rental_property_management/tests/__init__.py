@@ -7,3 +7,5 @@ from . import test_prop_d7_currency_resolution
 from . import test_prop_d8_booking_reference_default
 from . import test_prop_d9_sale_contract_reference_default
 from . import test_prop_d10_rent_contract_reference_default
+from . import test_prop_d11_booking_state_transitions
+from . import test_prop_d12_property_fee_autocalc

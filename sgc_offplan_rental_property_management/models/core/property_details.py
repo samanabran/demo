@@ -132,6 +132,28 @@ class PropertyDetails(models.Model):
     document_count = fields.Integer(string='Documents', compute='_compute_document_count')
 
     # ------------------------------------------------------------------
+    # Pricing & Fees tab -- auto-suggest, not enforced
+    # dld_fee/admin_fee/total_customer_obligation stay plain, manually
+    # overridable Monetary fields (not compute=/readonly): an operator can
+    # still set a genuinely non-standard fee on a specific property. This
+    # onchange only auto-fills/refreshes them live while a form is open,
+    # so it never touches already-saved values on records nobody re-opens.
+    # ------------------------------------------------------------------
+    @api.onchange('price', 'dld_fee_percentage', 'admin_fee_percentage',
+                   'is_maintenance_service', 'total_maintenance',
+                   'is_extra_service', 'extra_service_cost')
+    def _onchange_recompute_fees(self):
+        for rec in self:
+            rec.dld_fee = rec.price * rec.dld_fee_percentage / 100.0
+            rec.admin_fee = rec.price * rec.admin_fee_percentage / 100.0
+            total = rec.price + rec.dld_fee + rec.admin_fee
+            if rec.is_maintenance_service:
+                total += rec.total_maintenance
+            if rec.is_extra_service:
+                total += rec.extra_service_cost
+            rec.total_customer_obligation = total
+
+    # ------------------------------------------------------------------
     # Main image (hero / form avatar)
     # ------------------------------------------------------------------
     image_1920 = fields.Binary(string='Image (1920px)', attachment=True)

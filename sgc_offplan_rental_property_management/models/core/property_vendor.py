@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class PropertyVendor(models.Model):
@@ -113,3 +114,16 @@ class PropertyVendor(models.Model):
             rec.state = 'cancelled'
             if rec.property_id:
                 rec.property_id.state = 'available'
+
+    def action_draft(self):
+        # Reset a cancelled booking back to draft. Confirmed bookings are
+        # not reachable here directly -- action_cancel() must be used
+        # first, so un-booking the property (already handled there) always
+        # happens before a return to draft, keeping the audit trail
+        # explicit rather than silently skipping the cancel step. Guarded
+        # server-side too, not just by hiding the button, so an RPC call
+        # can't bypass the cancel-first rule.
+        for rec in self:
+            if rec.state != 'cancelled':
+                raise UserError(_('Only cancelled bookings can be set back to draft. Cancel it first.'))
+            rec.state = 'draft'

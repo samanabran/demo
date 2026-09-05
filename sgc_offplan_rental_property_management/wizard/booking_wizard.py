@@ -91,6 +91,13 @@ class BookingWizard(models.TransientModel):
             res['ask_price'] = property_id_rec.total_customer_obligation or property_id_rec.price
         else:
             res['ask_price'] = property_id_rec.price
+        # Auto-suggest the booking advance from the property's own booking
+        # rate, same "auto-suggest, stays editable" treatment as the
+        # Pricing & Fees tab -- book_price remains a plain, overridable
+        # field; this only pre-fills it when the property defines a
+        # percentage-based booking rate.
+        if property_id_rec.booking_type == 'percentage' and property_id_rec.booking_percentage:
+            res['book_price'] = property_id_rec.price * property_id_rec.booking_percentage / 100.0
         res['booking_item_id'] = int(default_deposit_item) if default_deposit_item else self.env.ref(
             'sgc_offplan_rental_property_management.property_product_2').id
         res['broker_item_id'] = int(default_broker_item) if default_broker_item else self.env.ref(
