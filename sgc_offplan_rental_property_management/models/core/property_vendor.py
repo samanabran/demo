@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 
 
 class PropertyVendor(models.Model):
@@ -8,7 +8,7 @@ class PropertyVendor(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _order = 'id desc'
 
-    name = fields.Char(string='Vendor Reference', required=True)
+    name = fields.Char(string='Vendor Reference', required=True, tracking=True)
     property_id = fields.Many2one('property.details', string='Property')
     vendor_id = fields.Many2one('res.partner', string='Vendor', required=True)
     customer_id = fields.Many2one('res.partner', string='Customer')
@@ -71,6 +71,13 @@ class PropertyVendor(models.Model):
     amount_total = fields.Monetary(
         string='Total w/ Tax', currency_field='currency_id',
         compute='_compute_commission', store=True)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if not vals.get('name') or vals.get('name') == _('New'):
+                vals['name'] = self.env['ir.sequence'].next_by_code('property.vendor') or _('New')
+        return super(PropertyVendor, self).create(vals_list)
 
     @api.depends('commission_line_ids.commission_amount', 'commission_line_ids.category',
                  'commission_line_ids.amount_tax', 'commission_line_ids.amount_total')

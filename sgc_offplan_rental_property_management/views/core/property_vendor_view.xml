@@ -44,7 +44,7 @@
                             bg_color="text-bg-danger" invisible="state != 'cancelled'"/>
                     <div class="oe_title">
                         <label for="name"/>
-                        <h1><field name="name" placeholder="e.g. BKG/2025/0001"/></h1>
+                        <h1><field name="name" placeholder="e.g. PS/2026/09/00001"/></h1>
                     </div>
                     <group>
                         <group string="Parties">
