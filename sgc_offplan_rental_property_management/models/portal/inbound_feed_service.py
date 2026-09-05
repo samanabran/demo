@@ -375,7 +375,7 @@ def _parse_datetime(text):
         return fields.Datetime.from_string(text)
     except ValueError:
         pass
-    for fmt in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d", "%d/%m/%Y %H:%M:%S"):
+    for fmt in ("%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d", "%d/%m/%Y %H:%M:%S"):
         try:
             return datetime.strptime(text, fmt)
         except ValueError:
@@ -405,8 +405,11 @@ def resolve_related_records(env, vals):
             ("name", "=ilike", currency_text),
             ("active", "=", True),
         ], limit=1)
-        if currency_rec:
-            vals["currency_id"] = currency_rec.id
+        # currency_id has a create-time default (company currency); an
+        # unresolved-but-given currency code must override that default to
+        # False rather than silently inherit it, the same as the other
+        # unmatched location fields below.
+        vals["currency_id"] = currency_rec.id if currency_rec else False
 
     country_text = vals.pop("country_text", None)
     if country_text:
