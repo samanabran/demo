@@ -100,7 +100,7 @@ class TestSmoke(AccountTestInvoicingCommon):
         # maintenance_team_id is required at the base maintenance.request
         # level; the demo team it would otherwise default to isn't loaded
         # under --without-demo=all.
-        team = self.env["maintenance.team"].create({"name": "Test Maintenance Team"})
+        team = self.env["maintenance.team"].sudo().create({"name": "Test Maintenance Team"})
         maintenance = self.env["maintenance.request"].create({
             "name": "Leaky tap",
             "property_id": property_record.id,
